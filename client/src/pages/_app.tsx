@@ -12,14 +12,15 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <title>Safe talk</title>
         <meta charSet="utf-8" />
-        <link rel="icon" href="static/images/appLogo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#6a1b9a" />
+        <meta name="theme-color" content="rgb(101, 41, 138, 0.90)" />
         <meta
           name="description"
           content="Chat to talk with confidentiality, all messages are missed after close the app."
         />
+        <link rel="icon" href="static/images/appLogo.png" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
