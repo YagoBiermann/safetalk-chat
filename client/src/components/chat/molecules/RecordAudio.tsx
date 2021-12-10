@@ -5,14 +5,13 @@ import OutlinedButton from '../../global/Button.Outlined'
 import Check from '@material-ui/icons/Check'
 import Close from '@material-ui/icons/Close'
 import defaultText from '../../../assets/styles/default.Text'
-import { useAppDispatch } from '../../../store'
-import { sendMessage } from '../../../services/messages'
-import { MESSAGE_TYPE } from '../../../lib/enums'
+import useTimer from '../../../lib/hooks/useTimer'
 
 const MainBox = styled(Box)`
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  margin-left: 10px;
+  margin-left: 25px;
+  width: 230px;
 `
 
 const InnerBox = styled(Box)`
@@ -21,31 +20,33 @@ const InnerBox = styled(Box)`
 
 const Timer = styled.span`
   ${defaultText}
+  font-weight: bold;
 `
 
 function RecordAudio(props: any) {
-  const dispatch = useAppDispatch()
-
-  const sendAudioMessage = () => {
-    dispatch(sendMessage({ data: props.data, type: MESSAGE_TYPE.AUDIO }))
-  }
+  const { second, minute, initTimer, stopTimer } = useTimer()
 
   useEffect(() => {
-    console.log(props.data)
-  })
+    initTimer()
+    return () => {
+      stopTimer()
+    }
+  }, [])
 
   return (
     <MainBox direction="row">
       <OutlinedButton onClick={props.cancel}>
-        <Close color="error" />
+        <Close />
       </OutlinedButton>
 
       <InnerBox direction="row">
-        <Timer>00:45</Timer>
+        <Timer>
+          {minute}:{second}
+        </Timer>
       </InnerBox>
 
       <OutlinedButton onClick={props.finish}>
-        <Check color="success" />
+        <Check />
       </OutlinedButton>
     </MainBox>
   )
