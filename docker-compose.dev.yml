@@ -1,0 +1,62 @@
+version: '3.8'
+services:
+
+  mongodb:
+    container_name: safetalk_db
+    image: mongo:5.0
+    restart: always
+    networks:
+      - server
+    ports:
+      - ${DB_PORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      
+  server:
+    container_name: safetalk_server
+    restart: always
+    command: yarn run dev
+    depends_on: 
+      - mongodb
+    build: ./server
+    networks:
+      - server
+      - client
+    volumes:
+      - ./server:/usr/src/app
+
+  client:
+    container_name: safetalk_client
+    restart: always
+    command: yarn run dev
+    depends_on: 
+      - server
+    build: ./client
+    networks:
+      - client
+    volumes:
+      - ./client:/usr/src/app
+
+  nginx:
+    container_name: safetalk_nginx
+    restart: always
+    build: ./nginx
+    networks:
+      - client
+      - server
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - client
+
+      
+networks:
+  server:
+    driver: bridge
+  client:
+    driver: bridge
