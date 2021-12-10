@@ -1,0 +1,3 @@
+.vscode
+.docker.dev.env
+docker-entrypoint-initdb.d/mongo-init.js
