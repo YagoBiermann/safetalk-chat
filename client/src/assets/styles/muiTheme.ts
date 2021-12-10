@@ -1,3 +1,4 @@
+import { green, red } from '@mui/material/colors'
 import { createTheme } from '@mui/material/styles'
 import { Palette } from './theme'
 
@@ -12,6 +13,12 @@ const muiTheme = createTheme({
       main: Palette.colors.secondaryMain,
       light: Palette.colors.secondaryLight,
       dark: Palette.colors.secondaryDark
+    },
+    error: {
+      main: red[500]
+    },
+    success: {
+      main: green[500]
     }
   }
 })
