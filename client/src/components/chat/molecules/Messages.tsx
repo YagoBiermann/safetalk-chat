@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Box from '../../global/Box'
 import Dropzone from './Dropzone'
-import DarkenBackground from '../../global/DarkenBackground'
 import Preview from './Dropzone.Preview'
 import { DropFile } from '../../../lib/interfaces'
 
@@ -19,6 +18,10 @@ function MessagesBox() {
   const [isDragOver, setDragOver] = useState(false)
   const dropzoneRef = useRef<HTMLDivElement | null>(null)
 
+  const closeDropzone = () => {
+    setDragOver(false)
+  }
+
   return (
     <OuterBox
       onDragEnter={e => {
@@ -30,15 +33,7 @@ function MessagesBox() {
         }
       }}
     >
-      {isDragOver ? (
-        <Dropzone
-          open={setDragOver}
-          render={(files: DropFile[]) => (
-            <Preview open={setDragOver} files={files} />
-          )}
-          ref={dropzoneRef}
-        />
-      ) : null}
+      {isDragOver ? <Dropzone close={closeDropzone} ref={dropzoneRef} /> : null}
     </OuterBox>
   )
 }
