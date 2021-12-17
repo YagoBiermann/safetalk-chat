@@ -1,22 +1,23 @@
 import React, { ForwardedRef } from 'react'
 import PrimaryInput from '../../global/Input.Primary'
-import styled from 'styled-components'
 
-const StyledInput = styled(PrimaryInput)`
-  width: 100%;
-`
+interface propTypes {
+  width?: string
+  height?: string
+  props?: any
+}
 
 const InputMessage = React.forwardRef(
-  (props: any, ref: ForwardedRef<HTMLInputElement>) => {
+  (props: propTypes, ref: ForwardedRef<HTMLInputElement>) => {
     return (
-      <StyledInput
+      <PrimaryInput
         ref={ref}
         {...props}
+        width={'100%'}
         placeholder="Type a message"
         autoComplete="off"
         maxLength={400}
       />
-      
     )
   }
 )
