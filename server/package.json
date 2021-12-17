@@ -4,7 +4,7 @@
   "description": "Backend of safetalk application",
   "main": "index.ts",
   "author": "Yago Biermann T.",
-  "license": "GNU GENERAL PUBLIC LICENSE Version 3",
+  "license": "GNU GENERAL PUBLIC LICENSE V3",
   "private": false,
   "type": "module",
   "scripts": {
