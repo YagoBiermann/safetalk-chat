@@ -12,6 +12,9 @@ const StyledButton = styled(IconButton)(
       opacity: 0.8;
       transform: scale(1.2);
     }
+    > .MuiTouchRipple-root span {
+      transform: scale(1.2);
+    }
     & > svg {
       color: whitesmoke;
     }
