@@ -3,12 +3,12 @@ import { DropFile } from '../../../lib/interfaces'
 
 interface AppState {
   error: string | null
-  file: Array<DropFile>
+  files: Array<DropFile>
 }
 
 const initialState: AppState = {
   error: null,
-  file: []
+  files: []
 }
 
 const appSlice = createSlice({
@@ -20,9 +20,15 @@ const appSlice = createSlice({
     },
     resetError: state => {
       state.error = null
+    },
+    addFiles: (state, action: PayloadAction<DropFile>) => {
+      state.files.push(action.payload)
+    },
+    clearFiles: state => {
+      state.files = []
     }
   }
 })
 
-export const { setError, resetError } = appSlice.actions
+export const { setError, resetError, addFiles, clearFiles } = appSlice.actions
 export { appSlice }
