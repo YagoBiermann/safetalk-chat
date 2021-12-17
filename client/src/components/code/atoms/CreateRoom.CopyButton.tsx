@@ -8,7 +8,7 @@ const StyledPopover = styled(Popover)`
   .MuiPopover-paper {
     padding: 10px;
     border: none;
-    background-color: ${props => props.theme.colors.primaryMain};
+    background-color: ${props => props.theme.colors.primary.main.elevation_4};
     color: whitesmoke;
     font-weight: 500;
     font-size: ${props => props.theme.fontSizes.medium};
@@ -16,7 +16,7 @@ const StyledPopover = styled(Popover)`
 `
 
 const StyledButton = styled.button`
-  background-color: ${props => props.theme.colors.primaryMain};
+  background-color: ${props => props.theme.colors.primary.main.elevation_4};
   border: none;
   width: 45px;
   height: 45px;
@@ -24,11 +24,12 @@ const StyledButton = styled.button`
   margin-left: 10px;
   transition: background-color 0.5s;
   &:hover {
-    background-color: ${props => props.theme.colors.primaryLight};
+    background-color: ${props => props.theme.colors.primary.light.elevation_4};
     cursor: pointer;
   }
   &:active {
-    background-color: ${props => props.theme.colors.secondaryLight};
+    background-color: ${props =>
+      props.theme.colors.secondary.light.elevation_4};
   }
 `
 
