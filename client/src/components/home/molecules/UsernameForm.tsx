@@ -16,7 +16,6 @@ import { setError } from '../../../store/ducks/app'
 
 const FormBox = styled(Box)`
   ${defaultBox}
-  /* background-color: ${({ theme }) => theme.colors.primaryDark}; */
 
   @media (max-width: ${({ theme }) => theme.mediaWidthSizes.medium}) {
     min-width: fit-content;
