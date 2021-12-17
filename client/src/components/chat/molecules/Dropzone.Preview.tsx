@@ -51,13 +51,13 @@ const PreviewInput = styled(PrimaryInput)`
   border-radius: 0px 0px 0px 10px;
 `
 
-function Preview(props: {
-  files: DropFile[]
-  open: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+function Preview(props: { files: DropFile[]; close: any }) {
   const file = props.files[0]
-  
-  const handleClick = () => {}
+
+  const handleClose = () => {
+    URL.revokeObjectURL(file.preview)
+    props.close()
+  }
 
   useEffect(() => {
     console.log(file)
@@ -65,7 +65,7 @@ function Preview(props: {
 
   return (
     <PreviewBox>
-      <CloseButton onClick={() => props.open(false)}>
+      <CloseButton onClick={handleClose}>
         <Close fontSize="large" />
       </CloseButton>
       <PreviewThumbnail>
