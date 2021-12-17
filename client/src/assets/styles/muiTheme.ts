@@ -5,14 +5,14 @@ import { Palette } from './theme'
 const muiTheme = createTheme({
   palette: {
     primary: {
-      main: Palette.colors.primaryMain,
-      light: Palette.colors.primaryLight,
-      dark: Palette.colors.primaryDark
+      main: Palette.colors.primary.main.elevation_4,
+      light: Palette.colors.primary.light.elevation_4,
+      dark: Palette.colors.primary.dark.elevation_4
     },
     secondary: {
-      main: Palette.colors.secondaryMain,
-      light: Palette.colors.secondaryLight,
-      dark: Palette.colors.secondaryDark
+      main: Palette.colors.secondary.main.elevation_4,
+      light: Palette.colors.secondary.light.elevation_4,
+      dark: Palette.colors.secondary.dark.elevation_4
     },
     error: {
       main: red[500]
