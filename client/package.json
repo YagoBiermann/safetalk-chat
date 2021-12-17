@@ -4,7 +4,7 @@
   "private": false,
   "description": "frontend of safe-talk application",
   "author": "Yago Biermann T.",
-  "license": "GNU GENERAL PUBLIC LICENSE Version 3",
+  "license": "GNU GENERAL PUBLIC LICENSE V3",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
