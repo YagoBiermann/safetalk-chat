@@ -25,17 +25,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${Palette.colors.secondaryMain};
+    background: ${Palette.colors.secondary.main.elevation_4};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${Palette.colors.primaryMain};
+    background-color: ${Palette.colors.primary.main.elevation_4};
     border-radius: 20px;
   }
 
   * {
-    scrollbar-color: ${Palette.colors.secondaryMain} ${
-  Palette.colors.primaryMain
+    scrollbar-color: ${Palette.colors.secondary.main.elevation_4} ${
+  Palette.colors.primary.main.elevation_4
 };
     scrollbar-width: thin;
   }

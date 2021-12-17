@@ -1,7 +1,7 @@
 import { css } from 'styled-components'
 
 const defaultText = css`
-  color: whitesmoke;
+  color: ${({ theme }) => theme.fontColor.secondary};
   font-size: medium;
   font-weight: normal;
   line-height: 1.5;
