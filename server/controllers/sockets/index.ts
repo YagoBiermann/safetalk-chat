@@ -2,13 +2,25 @@ import { Socket } from 'socket.io'
 import { userRepository } from '../../database/index'
 import { roomValidator, userValidator } from '../../services/validators/index'
 import { roomRepository } from '../../database/index'
-import { IMessage } from '../../services/sockets/interfaces'
+import {
+  Message,
+  AudioMessage,
+  FileMessage
+} from '../../services/sockets/interfaces'
 
 class SocketEvents {
   constructor(private socket: Socket) {}
   public sendMessage() {
-    this.socket.on('message', (message: IMessage) => {
-      this.socket.to(message.roomCode).emit('message', message)
+    this.socket.on('message:text', (message: Message) => {
+      this.socket.to(message.roomCode).emit('message:text', message)
+    })
+
+    this.socket.on('message:audio', (message: AudioMessage) => {
+      this.socket.to(message.roomCode).emit('message:audio', message)
+    })
+
+    this.socket.on('message:file', (message: FileMessage) => {
+      this.socket.to(message.roomCode).emit('message:file', message)
     })
   }
 
