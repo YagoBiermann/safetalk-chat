@@ -1,32 +1,68 @@
 import socket from '../sockets'
-import { createAsyncThunk } from '@reduxjs/toolkit'
 import { v4 as uuidv4 } from 'uuid'
-import { Message } from '../../lib/interfaces'
-import { RootState, AppDispatch } from '../../lib/interfaces'
+import { Message, AudioMessage, FileMessage } from '../../lib/interfaces'
 import { MESSAGE_TYPE } from '../../lib/enums'
-import { addMessage } from '../../store/ducks/messages'
+import {
+  addAudioMessage,
+  addFileMessage,
+  addTextMessage
+} from '../../store/ducks/messages'
 import store from '../../store'
 
-socket.on('message', (message: Message) => {
-  store.dispatch(addMessage(message))
+socket.on('message:text', (message: Message) => {
+  store.dispatch(addTextMessage(message))
 })
 
-const sendMessage = createAsyncThunk<
-  void,
-  { data: string | Blob; type: MESSAGE_TYPE },
-  { state: RootState; dispatch: AppDispatch }
->('messages/sendMessage', (message, thunkAPI) => {
-  const roomCode = thunkAPI.getState().user.roomCode
-  const username = thunkAPI.getState().user.username
+socket.on('message:audio', (message: AudioMessage) => {
+  store.dispatch(addAudioMessage(message))
+})
+
+socket.on('message:file', (message: FileMessage) => {
+  store.dispatch(addFileMessage(message))
+})
+
+const roomCode = store.getState().user.roomCode
+const username = store.getState().user.username
+
+const sendTextMessage = (message: string) => {
   const assembledMessage: Message = {
     id: uuidv4(),
     roomCode,
     username,
-    type: message.type,
-    data: message.data
+    type: MESSAGE_TYPE.TEXT,
+    message
   }
-  socket.emit('message', assembledMessage)
-  thunkAPI.dispatch(addMessage(assembledMessage))
-})
+  socket.emit('message:text', assembledMessage)
+  store.dispatch(addTextMessage(assembledMessage))
+}
 
-export { sendMessage }
+const sendAudioMessage = (audio: string | Buffer | Blob) => {
+  const assembledMessage: AudioMessage = {
+    id: uuidv4(),
+    roomCode,
+    username,
+    type: MESSAGE_TYPE.AUDIO,
+    audio
+  }
+  socket.emit('message:audio', assembledMessage)
+  store.dispatch(addAudioMessage(assembledMessage))
+}
+
+const sendFileMessage = (
+  file: string | Buffer | Blob,
+  message: string,
+  type: MESSAGE_TYPE.FILE | MESSAGE_TYPE.IMAGE | MESSAGE_TYPE.VIDEO
+) => {
+  const assembledMessage: FileMessage = {
+    id: uuidv4(),
+    roomCode,
+    username,
+    type: MESSAGE_TYPE.FILE,
+    file,
+    message: message || ''
+  }
+  socket.emit('message:file', assembledMessage)
+  store.dispatch(addFileMessage(assembledMessage))
+}
+
+export { sendTextMessage, sendAudioMessage, sendFileMessage }
