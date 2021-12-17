@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Box from '../../global/Box'
 import styled from 'styled-components'
 import EmojiButton from '../atoms/Buttons.Emoji'
