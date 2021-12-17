@@ -2,12 +2,13 @@ import React from 'react'
 import RoundedButton from '../../global/Button.Rounded'
 import EmojiEmotions from '@material-ui/icons/EmojiEmotions'
 
-function EmojiButton(props: any) {
-  return (
-    <RoundedButton {...props}>
-      <EmojiEmotions />
-    </RoundedButton>
-  )
-}
+const EmojiButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> =
+  () => {
+    return (
+      <RoundedButton>
+        <EmojiEmotions />
+      </RoundedButton>
+    )
+  }
 
 export default EmojiButton
