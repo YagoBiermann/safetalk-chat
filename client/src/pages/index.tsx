@@ -25,7 +25,7 @@ const HomeContainer = styled(Container)`
 `
 
 const Home: NextPage = () => {
-  const error = useAppSelector(state => state.error.error)
+  const error = useAppSelector(state => state.app.error)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -35,12 +35,14 @@ const Home: NextPage = () => {
   }, [])
 
   return (
-    <HomeContainer>
-      <Header />
-      <UsernameForm />
-      {error && <ErrorAlert error={error} />}
-      <Footer />
-    </HomeContainer>
+    <>
+      <HomeContainer>
+        <Header />
+        <UsernameForm />
+        <Footer />
+      </HomeContainer>
+      {error ? <ErrorAlert error={error} /> : null}
+    </>
   )
 }
 

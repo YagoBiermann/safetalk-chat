@@ -30,7 +30,7 @@ const Code: NextPage = () => {
   const router = useRouter()
   const username = useAppSelector(state => state.user.username)
   const socketID = useAppSelector(state => state.user.socketID)
-  const error = useAppSelector(state => state.error.error)
+  const error = useAppSelector(state => state.app.error)
 
   // Redirect to home if username or socketID is not set
   useEffect(() => {
@@ -50,11 +50,13 @@ const Code: NextPage = () => {
   }, [])
 
   return (
-    <CodeContainer>
-      {error && <ErrorAlert error={error} />}
-      <CreateRoom />
-      <JoinRoom />
-    </CodeContainer>
+    <>
+      <CodeContainer>
+        <CreateRoom />
+        <JoinRoom />
+      </CodeContainer>
+      {error ? <ErrorAlert error={error} /> : null}
+    </>
   )
 }
 

@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAppSelector } from '../../store'
 import Container from '../../components/global/Container'
@@ -7,6 +6,7 @@ import styled from 'styled-components'
 import MessagesBox from '../../components/chat/molecules/Messages'
 import SendMessage from '../../components/chat/molecules/SendMessage'
 import Box from '../../components/global/Box'
+import ErrorAlert from '../../components/global/ErrorAlert'
 
 const ChatContainer = styled(Container)`
   flex-direction: column;
@@ -23,6 +23,7 @@ const Chat: NextPage = props => {
   const roomCode = useAppSelector(state => state.user.roomCode)
   const socketID = useAppSelector(state => state.user.socketID)
   const username = useAppSelector(state => state.user.username)
+  const error = useAppSelector(state => state.app.error)
 
   useEffect(() => {
     if (!username || !socketID || !roomCode) {
@@ -31,12 +32,15 @@ const Chat: NextPage = props => {
   }, [])
 
   return (
-    <ChatContainer>
-      <ChatBox>
-        <MessagesBox />
-        <SendMessage />
-      </ChatBox>
-    </ChatContainer>
+    <>
+      <ChatContainer>
+        <ChatBox>
+          <MessagesBox />
+          <SendMessage />
+        </ChatBox>
+      </ChatContainer>
+      {error ? <ErrorAlert error={error} /> : null}
+    </>
   )
 }
 

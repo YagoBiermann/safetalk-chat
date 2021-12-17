@@ -12,7 +12,7 @@ import ButtonState from '../../global/ButtonState'
 import { Username } from '../../../lib/interfaces'
 import { useCreateUserMutation } from '../../../services/api'
 import { setUsername } from '../../../store/ducks/users'
-import { setError } from '../../../store/ducks/error'
+import { setError } from '../../../store/ducks/app'
 
 const FormBox = styled(Box)`
   ${defaultBox}
