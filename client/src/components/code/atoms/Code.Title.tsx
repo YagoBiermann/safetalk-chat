@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledTitle = styled.h3`
-  color: whitesmoke;
+  color: ${props => props.theme.fontColor.secondary};
   margin-bottom: 25px;
   text-align: center;
   @media (max-width: ${({ theme }) => theme.mediaWidthSizes.small}) {
