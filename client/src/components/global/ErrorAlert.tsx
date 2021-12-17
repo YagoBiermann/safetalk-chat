@@ -3,7 +3,7 @@ import Alert from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
 import { styled } from '@mui/material/styles'
 import store from '../../store'
-import { resetError } from '../../store/ducks/error'
+import { resetError } from '../../store/ducks/app'
 
 const Error = styled(Alert)`
   border-radius: 25px;
