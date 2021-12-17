@@ -22,7 +22,9 @@ const StyledButton = styled(IconButton)(
   `
 )
 
-function OutlinedButton(props: any) {
+const OutlinedButton: React.FC<React.HTMLAttributes<HTMLButtonElement>> = (
+  props: any
+) => {
   return <StyledButton {...props}>{props.children}</StyledButton>
 }
 

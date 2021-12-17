@@ -17,7 +17,9 @@ const StyledButton = styled(IconButton)(
 `
 )
 
-function RoundedButton(props: any) {
+const RoundedButton: React.FC<React.HTMLAttributes<HTMLButtonElement>> = (
+  props: any
+) => {
   return <StyledButton {...props}>{props.children}</StyledButton>
 }
 
