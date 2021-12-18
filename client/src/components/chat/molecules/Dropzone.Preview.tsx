@@ -18,17 +18,20 @@ import PreviewSendButton from '../atoms/Preview.SendButton'
 const PreviewBox = styled.div`
   position: relative;
   display: flex;
-  align-self: center;
   flex-direction: column;
+  justify-content: flex-end;
+  border-radius: 10px 10px 10px 10px;
   background-color: ${props => props.theme.colors.grey.elevation_0};
-  border-radius: 10px 10px 25px 10px;
-  max-width: 70%;
-  max-height: auto;
+  overflow: hidden;
+  z-index: 999;
+  width: 30vw;
+  min-height: 40vh;
+  height: auto;
 `
 
 const PreviewThumbnail = styled.div`
-  width: 100%;
-  height: 100%;
+  max-width: 60vw;
+  max-height: 60vh;
 `
 
 const CloseButton = styled(OutlinedButton)`
@@ -44,11 +47,18 @@ const CloseButton = styled(OutlinedButton)`
 const InputBox = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  height: 48px;
+  width: inherit;
 `
 
 const PreviewInput = styled(PrimaryInput)`
   border-radius: 0px 0px 0px 10px;
+  background-color: ${props => props.theme.colors.primary.main.elevation_4};
+  height: inherit;
+  width: 100%;
+  &::placeholder{
+    color: ${props => props.theme.fontColor.tertiary};
+  }
 `
 
 function Preview(props: { files: DropFile[]; close: any }) {
@@ -59,10 +69,6 @@ function Preview(props: { files: DropFile[]; close: any }) {
     props.close()
   }
 
-  useEffect(() => {
-    console.log(file)
-  })
-
   return (
     <PreviewBox>
       <CloseButton onClick={handleClose}>
@@ -72,7 +78,7 @@ function Preview(props: { files: DropFile[]; close: any }) {
         <PreviewImage src={file.preview} />
       </PreviewThumbnail>
       <InputBox>
-        <PreviewInput width={'100%'} />
+        <PreviewInput placeholder="say something about it" />
         <PreviewSendButton />
       </InputBox>
     </PreviewBox>

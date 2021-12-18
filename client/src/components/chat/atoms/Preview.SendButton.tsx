@@ -8,8 +8,8 @@ const SendButton = styled(IconButton)(
   border-radius: 0px 0px 10px 0;
   background-color: ${theme.palette.primary.main};
   transition: background-color 0.2s ease-in-out;
-  height: 100%;
-  padding-left: 12px;
+  height: inherit;
+  width: 82px;
   &:hover {
     background-color: ${theme.palette.primary.light};
   }
@@ -17,7 +17,7 @@ const SendButton = styled(IconButton)(
     transform: scale(1.5);
   }
   & > svg {
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: whitesmoke;
   }
 `

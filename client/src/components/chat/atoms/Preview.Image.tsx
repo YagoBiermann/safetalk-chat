@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Image = styled.img`
-  border-radius: 10px 10px 0px 0;
-  width: 100%;
-  height: 100%;
+  max-width: inherit;
+  max-height: inherit;
+  overflow: hidden;
 `
 
 function PreviewImage(props: { src: string }) {
