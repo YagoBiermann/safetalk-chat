@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import OutlinedButton from '../../global/Button.Outlined'
 import Check from '@material-ui/icons/Check'
 import Close from '@material-ui/icons/Close'
-import defaultText from '../../../assets/styles/default.Text'
 import useTimer from '../../../lib/hooks/useTimer'
 
 const MainBox = styled(Box)`
@@ -19,7 +18,6 @@ const InnerBox = styled(Box)`
 `
 
 const Timer = styled.span`
-  ${defaultText}
   font-weight: bold;
 `
 
