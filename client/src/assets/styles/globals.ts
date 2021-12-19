@@ -10,10 +10,68 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     width: 100vw;
     background-color: #0f0912;
+    font-family: 'Roboto', sans-serif;
+    color: ${Palette.fontColor.secondary};
   }
 
-  * {
-    font-family: ${(Palette.fonts.primary, Palette.fonts.secondary)};
+  h1 {
+    font-size: 54px;
+    margin: 10px 0 10px 0;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 48px;
+    }
+  }
+
+  h2 {
+    font-size: 46px;
+    margin: 10px 0 10px 0;
+    font-weight: 500;
+
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 36px;
+    }
+  }
+
+  h3 {
+    font-size: 34px;
+    margin: 5px 0 5px 0;
+    font-weight: 400;
+
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 26px;
+    }
+  }
+
+  h4 {
+    font-size: 26px;
+    margin: 5px 0 5px 0;
+    font-weight: 400;
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 22px;
+    }
+  }
+
+  h5 {
+    font-size: 24px;
+    margin: 5px 0 5px 0;
+    font-weight: 300;
+
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 18px;
+    }
+  }
+
+  h6 {
+    font-size: 20px;
+    margin: 5px 0 5px 0;
+    font-weight: 300;
+
+    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+      font-size: 16px;
+    }
   }
 
   *::-webkit-scrollbar {
@@ -34,9 +92,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   * {
-    scrollbar-color: ${Palette.colors.secondary.main.elevation_4} ${
-  Palette.colors.primary.main.elevation_4
-};
+    scrollbar-color: ${Palette.colors.secondary.main.elevation_4} ${Palette.colors.primary.main.elevation_4};
     scrollbar-width: thin;
   }
 
