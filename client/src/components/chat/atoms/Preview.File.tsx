@@ -1,38 +1,47 @@
 import React from 'react'
 import styled from 'styled-components'
 import ArticleIcon from '@mui/icons-material/Article'
+import { DropFile } from '../../../lib/interfaces'
+import RegularText from '../../global/Text'
 
 const IconBox = styled.div`
-  width: inherit;
-  height: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 360px;
+  height: 460px;
+`
+const FileName = styled.h3`
+  margin-bottom: 5px;
+`
+
+const FileProps = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  & > span {
+    margin-bottom: 10px;
+  }
 `
 
 const Icon = styled(ArticleIcon)`
   color: ${props => props.theme.fontColor.primary};
   font-size: 148px;
 `
-const HeaderText = styled.h2`
-  color: ${props => props.theme.fontColor.primary};
-`
 
-const FileData = styled.li`
-  color: ${props => props.theme.fontColor.secondary};
-`
-
-const PreviewFile = function PreviewFile(props: { name: string }) {
+const PreviewFile = function PreviewFile(
+  props: Omit<DropFile, 'preview' | 'lastModified'>
+) {
   return (
     <IconBox>
-      <HeaderText>Unable to show preview</HeaderText>
+      <FileName>{props.name}</FileName>
       <Icon />
-      <ul>
-        <FileData>{`File: ${props.name}`}</FileData>
-        <FileData>{`Size: ${props.name}`}</FileData>
-        <FileData>{`Type: ${props.name}`}</FileData>
-      </ul>
+      <FileProps>
+        <RegularText text={`Size: ${props.size / 1000000} Mb's`} />
+        <RegularText text={`Type: ${props.type}`} />
+      </FileProps>
     </IconBox>
   )
 }
