@@ -7,8 +7,9 @@ const Image = styled.img`
   overflow: hidden;
 `
 
-function PreviewImage(props: { src: string }) {
-  return <Image src={props.src} />
-}
+const PreviewImage: React.FC<React.ImgHTMLAttributes<HTMLImageElement>> =
+  (props: { src?: string }) => {
+    return <Image src={props.src} />
+  }
 
 export default PreviewImage
