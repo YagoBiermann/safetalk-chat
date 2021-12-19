@@ -7,8 +7,9 @@ const PrimaryInput = styled.input`
   width: ${props => props.width || '400px'};
   height: ${props => props.height || '45px'};
   color: ${props => props.theme.fontColor.secondary};
-  font-size: medium;
-  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  font-size: ${props => props.theme.fontSizes.medium};
+  font-weight: 500;
   padding-left: 15px;
   transition-property: background-color;
   transition-duration: 0.5s;

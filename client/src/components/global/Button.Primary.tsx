@@ -9,9 +9,9 @@ const PrimaryButton = styled.button<{ width?: string }>`
   color: ${props => props.theme.fontColor.secondary};
   border: none;
   text-transform: uppercase;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
+  font-size: ${props => props.theme.fontSizes.small};
+  font-weight: 600;
+  letter-spacing: 1.2px;
   position: relative;
   overflow: hidden;
   z-index: 1;
