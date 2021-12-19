@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledSubTitle = styled.h4`
-  color: ${props => props.theme.fontColor.secondary};
   margin-top: 15px;
-  font-size: ${props => props.theme.fontSizes.large};
 
   @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
     order: 3;

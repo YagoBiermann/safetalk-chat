@@ -17,13 +17,11 @@ const MainBox = styled(Box)`
 function SendMessageButtons(props: any) {
   return (
     <>
-      (
       <MainBox>
         {props.children}
         <EmojiButton />
         <UploadButton />
       </MainBox>
-      )
     </>
   )
 }

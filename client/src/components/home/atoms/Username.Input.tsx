@@ -4,7 +4,6 @@ import PrimaryInput from '../../global/Input.Primary'
 
 const StyledPrimaryInput = styled(PrimaryInput)`
   text-align: center;
-  font-size: ${props => props.theme.fontSizes.medium};
 `
 
 const UsernameInput = React.forwardRef(
