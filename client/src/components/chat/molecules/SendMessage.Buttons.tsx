@@ -3,6 +3,8 @@ import Box from '../../global/Box'
 import styled from 'styled-components'
 import EmojiButton from '../atoms/Buttons.Emoji'
 import UploadButton from '../atoms/Buttons.Upload'
+import SendButton from '../atoms/Buttons.Send'
+import RecordButton from '../atoms/Buttons.Record'
 
 const MainBox = styled(Box)`
   flex-direction: row;
@@ -14,11 +16,18 @@ const MainBox = styled(Box)`
   }
 `
 
-function SendMessageButtons(props: any) {
+function SendMessageButtons(props: {
+  hasMessage: boolean
+  startRecord: () => void
+}) {
   return (
     <>
       <MainBox>
-        {props.children}
+        {props.hasMessage ? (
+          <SendButton type="submit" />
+        ) : (
+          <RecordButton onClick={props.startRecord} />
+        )}
         <EmojiButton />
         <UploadButton />
       </MainBox>

@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { sendAudioMessage, sendTextMessage } from '../../../services/messages'
 import { MESSAGE_TYPE } from '../../../lib/enums'
-import SendButton from '../atoms/Buttons.Send'
-import RecordButton from '../atoms/Buttons.Record'
 import useRecorder from '../../../lib/hooks/useRecorder'
 import RecordAudio from './RecordAudio'
 
@@ -26,13 +24,13 @@ function SendMessage() {
     useForm<{ message: string }>()
   const message = watch('message', '')
 
-  //Send text message
+  // Send text message
   const handleSubmitMessage = (message: string) => {
     resetField('message')
     sendTextMessage(message)
   }
 
-  //send audio message
+  // Send audio message
   useEffect(() => {
     if (recorder.audio) {
       sendAudioMessage(recorder.audio)
@@ -48,13 +46,10 @@ function SendMessage() {
       {recorder.isRecording ? (
         <RecordAudio finish={finishRecord} cancel={cancelRecord} />
       ) : (
-        <SendMessageButtons>
-          {message ? (
-            <SendButton type="submit" />
-          ) : (
-            <RecordButton onClick={startRecord} />
-          )}
-        </SendMessageButtons>
+        <SendMessageButtons
+          hasMessage={Boolean(message)}
+          startRecord={startRecord}
+        />
       )}
     </MessageForm>
   )

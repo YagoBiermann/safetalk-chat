@@ -21,7 +21,7 @@ const Timer = styled.span`
   font-weight: bold;
 `
 
-function RecordAudio(props: any) {
+function RecordAudio(props: { cancel: () => void; finish: () => void }) {
   const { second, minute, initTimer, stopTimer } = useTimer()
 
   useEffect(() => {
