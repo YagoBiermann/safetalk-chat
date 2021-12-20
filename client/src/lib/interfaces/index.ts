@@ -44,7 +44,7 @@ export type Recorder = {
   isRecording: boolean
   mediaStream: MediaStream | null
   mediaRecorder: MediaRecorder | null
-  audio: string | null
+  audio: Blob | null
 }
 
 export type UseRecorder = {

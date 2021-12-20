@@ -41,7 +41,7 @@ const useRecorder = () => {
           if (prevState.mediaRecorder)
             return {
               ...initialState,
-              audio: window.URL.createObjectURL(blob)
+              audio: blob
             }
           else return initialState
         })
