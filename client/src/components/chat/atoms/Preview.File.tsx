@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import ArticleIcon from '@mui/icons-material/Article'
 import { DropFile } from '../../../lib/interfaces'
 import RegularText from '../../global/Text'
+import { convertFileSize } from '../../../lib/helpers/convertFileSize'
+import { getFileExtension } from '../../../lib/helpers/getFileExtension'
 
 const IconBox = styled.div`
   display: flex;
@@ -12,15 +14,23 @@ const IconBox = styled.div`
   width: 360px;
   height: 460px;
 `
-const FileName = styled.h3`
+const FileOverflow = styled.div`
+  overflow: hidden;
+  height: 165px;
+  margin: 25px 25px 0 25px;
+`
+
+const FileName = styled.h4`
   margin-bottom: 5px;
+  text-align: center;
+  white-space: pre-line;
+  text-overflow: ellipsis;
 `
 
 const FileProps = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 10px;
   & > span {
     margin-bottom: 10px;
   }
@@ -31,16 +41,17 @@ const Icon = styled(ArticleIcon)`
   font-size: 148px;
 `
 
-const PreviewFile = function PreviewFile(
-  props: Omit<DropFile, 'preview' | 'lastModified'>
-) {
+const PreviewFile = function PreviewFile(props: { file: DropFile }) {
+  const { file } = props
   return (
     <IconBox>
-      <FileName>{props.name}</FileName>
+      <FileOverflow>
+        <FileName>{file.name}</FileName>
+      </FileOverflow>
       <Icon />
       <FileProps>
-        <RegularText text={`Size: ${props.size / 1000000} Mb's`} />
-        <RegularText text={`Type: ${props.type}`} />
+        <RegularText text={`Size: ${convertFileSize(file.size)}`} />
+        <RegularText text={`Extension: ${getFileExtension(file.name)}`} />
       </FileProps>
     </IconBox>
   )
