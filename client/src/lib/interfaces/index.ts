@@ -55,8 +55,7 @@ export type UseRecorder = {
 }
 
 // Dropzone file
-export interface DropFile
-  extends Pick<File, 'name' | 'type' | 'size' | 'lastModified'> {
+export interface DropFile extends File {
   preview: string
 }
 
