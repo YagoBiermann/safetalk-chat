@@ -20,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
           name="description"
           content="Chat to talk with confidentiality, all messages are missed after close the app."
         />
+        <link rel="shortcut icon" href="/static/images/appLogo.png" />
         <link rel="icon" href="/static/images/appLogo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
