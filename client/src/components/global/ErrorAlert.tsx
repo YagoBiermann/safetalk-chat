@@ -8,6 +8,7 @@ import { resetError } from '../../store/ducks/app'
 const Error = styled(Alert)`
   border-radius: 25px;
   background-color: #990000dd;
+  font-weight: 400;
 `
 
 export default function ErrorAlert(props: { error: string }) {
