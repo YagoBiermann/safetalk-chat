@@ -24,7 +24,7 @@ function SendMessageButtons(props: {
     <>
       <MainBox>
         {props.hasMessage ? (
-          <SendButton type="submit" />
+          <SendButton form="messageForm" type="submit" />
         ) : (
           <RecordButton onClick={props.startRecord} />
         )}

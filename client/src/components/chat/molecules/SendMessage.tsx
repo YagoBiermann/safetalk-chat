@@ -33,7 +33,7 @@ function SendMessage() {
   // Send audio message
   useEffect(() => {
     if (recorder.audio) {
-      sendAudioMessage(recorder.audio)
+      console.log(recorder.audio)
     }
   }, [recorder.audio])
 
