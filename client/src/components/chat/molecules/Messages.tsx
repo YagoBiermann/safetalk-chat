@@ -2,8 +2,6 @@ import React, { useRef, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Box from '../../global/Box'
 import Dropzone from './Dropzone'
-import Preview from './Dropzone.Preview'
-import { DropFile } from '../../../lib/interfaces'
 
 const OuterBox = styled(Box)`
   align-items: flex-start;

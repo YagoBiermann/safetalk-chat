@@ -1,11 +1,11 @@
-import React, { ForwardedRef, useEffect, useMemo, useState } from 'react'
+import React, { ForwardedRef, useContext, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
-import serializeFile from '../../../lib/helpers/serializeFile'
-import { DropFile } from '../../../lib/interfaces'
+import { fileContext } from '../../../lib/context/fileContext'
+import createFilePreview from '../../../lib/helpers/createFilePreview'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import { addFiles, clearFiles } from '../../../store/ducks/app'
+import { acceptedTypes } from '../../../lib/enums'
 
 const OuterBox = styled.div`
   display: flex;
@@ -34,27 +34,26 @@ const activeStyle = {
   borderColor: 'rgb(101, 41, 138, 0.65)'
 }
 
-const DropText = styled.h2`
-  font-family: ${props => props.theme.fonts.primary};
+const DropText = styled.h4`
   color: ${props => props.theme.fontColor.tertiary};
 `
 
 const Dropzone = React.forwardRef(
   (props: any, ref: ForwardedRef<HTMLDivElement>) => {
     const dispatch = useAppDispatch()
+    const { files, setFiles } = useContext(fileContext)
     const { isDragActive, getRootProps, getInputProps } = useDropzone({
       noDragEventsBubbling: true,
       multiple: false,
       noClick: true,
       noKeyboard: true,
-      accept:
-        'image/png, image/jpeg, video/mp4, video/mov, video/wmv, video/avi',
-      onDrop: acceptedFiles => {
+      accept: acceptedTypes,
+      onDropAccepted: acceptedFiles => {
+        console.log(acceptedFiles)
         acceptedFiles.forEach(file => {
-          const serializedFile = serializeFile(file)
-          dispatch(addFiles(serializedFile))
-        })
-        props.close()
+          setFiles([...files, createFilePreview(file)])
+        }),
+          props.close()
       },
       onDropRejected: () => {
         dispatch(setError('File type not supported'))
