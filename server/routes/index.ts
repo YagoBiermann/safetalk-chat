@@ -5,12 +5,14 @@ import { getRooms } from '../controllers/apis/getRooms'
 import { createUser } from '../controllers/apis/createUser'
 import { createRoom } from '../controllers/apis/createRoom'
 import { joinRoom } from '../controllers/apis/joinRoom'
+import { uploadFile } from '../controllers/apis/uploadFile'
 
 import { validateBeforeGetUsers } from '../middlewares/getUsersByRoom'
 import { validateBeforeGetRooms } from '../middlewares/getRooms'
 import { validateBeforeCreateRoom } from '../middlewares/createRoom'
 import { validateBeforeJoinRoom } from '../middlewares/joinRoom'
 import { validateBeforeCreateUser } from '../middlewares/createUser'
+import { upload } from '../middlewares/uploadFile'
 
 import { errorHandler } from '../services/errors/errorHandler'
 
@@ -19,6 +21,8 @@ const router = express.Router()
 router.get('/api/v2/rooms', validateBeforeGetRooms, getRooms)
 
 router.get('/api/v2/users/:roomCode', validateBeforeGetUsers, getUsersByRoom)
+
+router.post('/api/v2/rooms/:roomCode/files', upload.single('file'), uploadFile)
 
 router.post('/api/v2/users/create', validateBeforeCreateUser, createUser)
 
