@@ -20,7 +20,9 @@ const router = express.Router()
 
 router.get('/api/v2/rooms', validateBeforeGetRooms, getRooms)
 
-router.get('/api/v2/users/:roomCode', validateBeforeGetUsers, getUsersByRoom)
+router.get('/api/v2/rooms/:roomCode/users', validateBeforeGetUsers, getUsersByRoom)
+
+router.get('/api/v2/rooms/:roomCode/files/:file')
 
 router.post('/api/v2/rooms/:roomCode/files', upload.single('file'), uploadFile)
 
