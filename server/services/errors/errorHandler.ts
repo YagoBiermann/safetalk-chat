@@ -1,11 +1,7 @@
-import { IErrorMessage } from './interfaces/IErrorMessage'
 import { Request, Response, NextFunction } from 'express'
-import { ERR_DEFAULT } from './constants'
+import { errorMessages } from './constants'
 import multer from 'multer'
-
-const isAppError = (object: any): object is IErrorMessage => {
-  return object && object.status && object.message
-}
+import AppError from './AppError'
 
 const errorHandler = (
   err: any,
@@ -13,7 +9,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  if (isAppError(err) && !(err instanceof Error)) {
+  if (err instanceof AppError) {
     return res.status(err.status).json({
       message: err.message
     })
@@ -24,8 +20,7 @@ const errorHandler = (
       message: err.message
     })
   }
-  console.log(err)
-  return res.status(500).json(ERR_DEFAULT)
+  return res.status(500).json(errorMessages.ERR_DEFAULT)
 }
 
 export { errorHandler }
