@@ -1,6 +1,6 @@
 import { IRoomRepository } from '../../../database/interfaces'
 import { IUserRepository } from '../../../database/interfaces'
-import { ERR_ROOM_NOT_FOUND, ERR_ROOM_TAKEN, ERR_ROOM_NOT_EMPTY } from '../../errors/constants'
+import AppError from '../../errors/AppError'
 
 class RoomValidator {
   constructor(
@@ -11,14 +11,14 @@ class RoomValidator {
   public async checkIfRoomAlreadyExists(roomCode: string): Promise<any> {
     const room = await this.roomRepository.getRoomByCode(roomCode)
     if (room) {
-      throw ERR_ROOM_TAKEN
+      throw new AppError('ERR_ROOM_TAKEN')
     }
   }
 
   public async checkIfRoomDoesNotExists(roomCode: string): Promise<any> {
     const room = await this.roomRepository.getRoomByCode(roomCode)
     if (!room) {
-      throw ERR_ROOM_NOT_FOUND
+      throw new AppError('ERR_ROOM_NOT_FOUND')
     }
   }
 
@@ -26,7 +26,7 @@ class RoomValidator {
     const room = await this.roomRepository.getRoomByCode(roomCode)
     const usersInRoom = await this.userRepository.getUsersByRoomID(room.id)
     if (usersInRoom.length > 0) {
-      throw ERR_ROOM_NOT_EMPTY
+      throw new AppError('ERR_ROOM_NOT_EMPTY')
     }
   }
 }
