@@ -6,12 +6,16 @@ import { createUser } from '../controllers/apis/createUser'
 import { createRoom } from '../controllers/apis/createRoom'
 import { joinRoom } from '../controllers/apis/joinRoom'
 import { uploadFile } from '../controllers/apis/uploadFile'
+import { getFile } from '../controllers/apis/getFile'
+import { streamMedia } from '../controllers/apis/streamMedia'
 
 import { validateBeforeGetUsers } from '../middlewares/getUsersByRoom'
 import { validateBeforeGetRooms } from '../middlewares/getRooms'
 import { validateBeforeCreateRoom } from '../middlewares/createRoom'
 import { validateBeforeJoinRoom } from '../middlewares/joinRoom'
 import { validateBeforeCreateUser } from '../middlewares/createUser'
+import { validateStream } from '../middlewares/streamMedia'
+import { validateBeforeGetFile } from '../middlewares/getFile'
 import { upload } from '../middlewares/uploadFile'
 
 import { errorHandler } from '../services/errors/errorHandler'
@@ -22,7 +26,9 @@ router.get('/api/v2/rooms', validateBeforeGetRooms, getRooms)
 
 router.get('/api/v2/rooms/:roomCode/users', validateBeforeGetUsers, getUsersByRoom)
 
-router.get('/api/v2/rooms/:roomCode/files/:file')
+router.get('/api/v2/rooms/:roomCode/files/stream/:media', validateStream, streamMedia)
+
+router.get('/api/v2/rooms/:roomCode/files/:file', validateBeforeGetFile ,getFile)
 
 router.post('/api/v2/rooms/:roomCode/files', upload.single('file'), uploadFile)
 
