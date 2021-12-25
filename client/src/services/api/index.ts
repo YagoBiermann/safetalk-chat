@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { SuccessMessage, User } from '../../lib/interfaces'
+import { SuccessMessage, User, RoomCode, FileName } from '../../lib/interfaces'
 import { ROUTES, ENDPOINTS } from '../../lib/enums'
 
 export const roomApi = createApi({
@@ -35,6 +35,14 @@ export const roomApi = createApi({
         method: 'POST',
         url: ROUTES.JOIN_ROOM,
         body: user
+      })
+    }),
+    uploadFile: builder.mutation<FileName, { file: File; roomCode: RoomCode }>({
+      query: ({ file, roomCode }) => ({
+        method: 'POST',
+        url: `rooms/${roomCode}/files`,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        body: { file }
       })
     })
   })
