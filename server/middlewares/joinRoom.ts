@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { IRoomBody } from '../routes/interfaces'
 import { roomValidator } from '../services/validators/index'
-import { userValidator } from '../services/validators/index'
 import {
   validateRequestBody,
   validateRoomCode,

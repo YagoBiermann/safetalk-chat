@@ -1,8 +1,10 @@
 import multer from 'multer'
+import { MulterError } from 'multer'
 import { randomUUID } from 'crypto'
 import fs from 'fs'
-import { MulterError } from 'multer'
 import path from 'path'
+import { validMimeTypes } from '../config'
+import AppError from '../services/errors/AppError'
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -17,8 +19,12 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const fileExt = path.extname(file.originalname)
 
+    if (!validMimeTypes.includes(file.mimetype)) {
+      cb(new AppError('ERR_FILE_NOT_ALLOWED'), null)
+    }
+
     if (!fileExt) {
-      cb(new MulterError('LIMIT_UNEXPECTED_FILE'), null)
+      cb(new AppError('ERR_FILE_NOT_ALLOWED'), null)
     }
 
     cb(null, randomUUID() + fileExt)
