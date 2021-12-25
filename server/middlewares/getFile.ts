@@ -12,10 +12,10 @@ const validateBeforeGetFile = async (
   const { roomCode, file } = req.params
   try {
     headerValidator.checkContentType(req.headers['content-type'])
-    fileValidator.checkFilePath(file)
+    fileValidator.checkFilePath(file, roomCode)
     fileValidator.checkFileExtension(file)
     validateRoomCode(roomCode)
-    roomValidator.checkIfRoomDoesNotExists(roomCode)
+    await roomValidator.checkIfRoomDoesNotExists(roomCode)
     next()
   } catch (error) {
     next(error)
