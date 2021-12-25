@@ -9,30 +9,30 @@ const ERR_INVALID_CHARACTERS: IErrorMessage = {
   status: 400
 }
 const ERR_INVALID_ROOM_CODE: IErrorMessage = {
-  message: 'Invalid room code!',
+  message: 'Invalid room code',
   status: 400
 }
 const ERR_MISSING_FIELDS: IErrorMessage = {
-  message: 'One or more fields is missing!',
+  message: 'One or more fields is missing',
   status: 400
 }
 const ERR_MISSING_BODY: IErrorMessage = {
-  message: 'Missing body!',
+  message: 'Missing body',
   status: 400
 }
 
 const ERR_TOO_MANY_FIELDS: IErrorMessage = {
-  message: 'Too many fields!',
+  message: 'Too many fields',
   status: 400
 }
 
 const ERR_INVALID_SOCKET_ID: IErrorMessage = {
-  message: 'Invalid socket ID!',
+  message: 'Invalid socket ID',
 
   status: 400
 }
 const ERR_USERNAME_TAKEN: IErrorMessage = {
-  message: 'Username already in use!',
+  message: 'Username already in use',
   status: 403
 }
 const ERR_ROOM_NOT_FOUND: IErrorMessage = {
@@ -40,20 +40,50 @@ const ERR_ROOM_NOT_FOUND: IErrorMessage = {
   status: 404
 }
 const ERR_ROOM_TAKEN: IErrorMessage = {
-  message: 'Room code already in use!',
+  message: 'Room code already in use',
   status: 403
 }
 const ERR_DB_VALIDATION: IErrorMessage = {
-  message: 'Error on saving data!',
+  message: 'Error on saving data',
   status: 500
 }
 const ERR_ROOM_NOT_EMPTY: IErrorMessage = {
-  message: 'Room is not empty!',
+  message: 'Room is not empty',
   status: 403
 }
 const ERR_USER_NOT_FOUND: IErrorMessage = {
-  message: 'User not found!',
+  message: 'User not found',
   status: 404
+}
+
+const ERR_INVALID_RANGE: IErrorMessage = {
+  message: 'Range is not valid',
+  status: 400
+}
+
+const ERR_RANGE_NOT_FOUND: IErrorMessage = {
+  message: 'Range not found',
+  status: 400
+}
+
+const ERR_MISSING_CONTENT_TYPE: IErrorMessage = {
+  message: 'Missing content type',
+  status: 400
+}
+
+const ERR_CONTENT_TYPE_NOT_ALLOWED: IErrorMessage = {
+  message: 'content type not allowed',
+  status: 406
+}
+
+const ERR_FILE_NOT_FOUND: IErrorMessage = {
+  message: 'File not found',
+  status: 404
+}
+
+const ERR_FILE_NOT_ALLOWED: IErrorMessage = {
+  message: 'File not allowed',
+  status: 406
 }
 
 const ERR_DEFAULT: IErrorMessage = {
@@ -75,5 +105,11 @@ export {
   ERR_DB_VALIDATION,
   ERR_ROOM_NOT_EMPTY,
   ERR_USER_NOT_FOUND,
+  ERR_INVALID_RANGE,
+  ERR_RANGE_NOT_FOUND,
+  ERR_MISSING_CONTENT_TYPE,
+  ERR_CONTENT_TYPE_NOT_ALLOWED,
+  ERR_FILE_NOT_FOUND,
+  ERR_FILE_NOT_ALLOWED,
   ERR_DEFAULT
 }
