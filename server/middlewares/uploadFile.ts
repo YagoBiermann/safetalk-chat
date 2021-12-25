@@ -2,6 +2,7 @@ import multer from 'multer'
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 import { MulterError } from 'multer'
+import path from 'path'
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -14,7 +15,13 @@ const storage = multer.diskStorage({
     cb(null, `./temp/${roomCode}/files`)
   },
   filename: (req, file, cb) => {
-    cb(null, randomUUID())
+    const fileExt = path.extname(file.originalname)
+
+    if (!fileExt) {
+      cb(new MulterError('LIMIT_UNEXPECTED_FILE'), null)
+    }
+
+    cb(null, randomUUID() + fileExt)
   }
 })
 
