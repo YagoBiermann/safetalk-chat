@@ -44,7 +44,16 @@ export const roomApi = createApi({
         headers: { 'Content-Type': 'multipart/form-data' },
         body: { file }
       })
-    })
+    }),
+    fetchFile: builder.query<File, { fileName: FileName; mimeType: string; roomCode: RoomCode }>(
+      {
+        query: ({ fileName, mimeType, roomCode }) => ({
+          method: 'GET',
+          url: `rooms/${roomCode}/files/${fileName}`,
+          headers: { 'Content-Type': mimeType }
+        })
+      }
+    )
   })
 })
 export const {
