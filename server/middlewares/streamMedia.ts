@@ -13,7 +13,7 @@ const validateStream = async (
   const range = req.headers.range
   try {
     validateRoomCode(roomCode)
-    roomValidator.checkIfRoomDoesNotExists(roomCode)
+    await roomValidator.checkIfRoomDoesNotExists(roomCode)
     headerValidator.checkContentType(req.headers['content-type'])
     headerValidator.checkRange(range, media, roomCode)
     fileValidator.checkFilePath(media, roomCode)
