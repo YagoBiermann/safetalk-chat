@@ -1,9 +1,19 @@
 import { validMimeTypes } from '../../../config'
 import AppError from '../../errors/AppError'
+import fs from 'fs'
 
 class HeaderValidator {
-  checkRange(n: string) {
+  checkRange(n: string, media: string, roomCode: string) {
+    const mediaSize = fs.statSync(`./temp/${roomCode}/files/${media}`).size
     const range = Number(n)
+
+    if (!range) {
+      throw new AppError('ERR_RANGE_NOT_FOUND')
+    }
+    
+    if (range > mediaSize) {
+      throw new AppError('ERR_INVALID_RANGE')
+    }
 
     if (isNaN(range)) {
       throw new AppError('ERR_INVALID_RANGE')
@@ -13,9 +23,6 @@ class HeaderValidator {
       throw new AppError('ERR_INVALID_RANGE')
     }
 
-    if (!range) {
-      throw new AppError('ERR_RANGE_NOT_FOUND')
-    }
   }
 
   checkContentType(contentType: string) {
