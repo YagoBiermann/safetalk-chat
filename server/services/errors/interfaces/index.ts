@@ -1,0 +1,30 @@
+interface IErrorMessage {
+  [key: string]: {
+    message: string
+    status?: number
+  }
+}
+
+type IAppError =
+  | 'ERR_USERNAME_MAX_LENGTH'
+  | 'ERR_INVALID_CHARACTERS'
+  | 'ERR_INVALID_ROOM_CODE'
+  | 'ERR_MISSING_FIELDS'
+  | 'ERR_MISSING_BODY'
+  | 'ERR_TOO_MANY_FIELDS'
+  | 'ERR_INVALID_SOCKET_ID'
+  | 'ERR_USERNAME_TAKEN'
+  | 'ERR_ROOM_NOT_FOUND'
+  | 'ERR_ROOM_TAKEN'
+  | 'ERR_DB_VALIDATION'
+  | 'ERR_ROOM_NOT_EMPTY'
+  | 'ERR_USER_NOT_FOUND'
+  | 'ERR_INVALID_RANGE'
+  | 'ERR_RANGE_NOT_FOUND'
+  | 'ERR_MISSING_CONTENT_TYPE'
+  | 'ERR_CONTENT_TYPE_NOT_ALLOWED'
+  | 'ERR_FILE_NOT_FOUND'
+  | 'ERR_FILE_NOT_ALLOWED'
+  | 'ERR_DEFAULT'
+
+export { IErrorMessage, IAppError }
