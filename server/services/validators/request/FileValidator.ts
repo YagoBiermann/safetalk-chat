@@ -5,8 +5,8 @@ import AppError from '../../errors/AppError'
 class FileValidator {
   constructor() {}
 
-  checkFilePath(filePath: string): void {
-    if (!fs.existsSync(filePath)) {
+  checkFilePath(filePath: string, roomCode: string): void {
+    if (!fs.existsSync(`./temp/${roomCode}/files/${filePath}`)) {
       throw new AppError('ERR_FILE_NOT_FOUND')
     }
   }
