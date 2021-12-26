@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import InputMessage from '../atoms/SendMessage.Input'
 import SendMessageButtons from './SendMessage.Buttons'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { sendAudioMessage, sendTextMessage } from '../../../services/messages'
 import { MESSAGE_TYPE } from '../../../lib/enums'
@@ -17,17 +17,20 @@ const MessageForm = styled.form`
   margin-top: 30px;
 `
 
+type FormValues = {
+  message: string
+}
+
 function SendMessage() {
   const dispatch = useAppDispatch()
   const { cancelRecord, finishRecord, recorder, startRecord } = useRecorder()
-  const { register, handleSubmit, watch, resetField } =
-    useForm<{ message: string }>()
+  const { register, handleSubmit, watch, resetField } = useForm<FormValues>()
   const message = watch('message', '')
 
   // Send text message
-  const handleSubmitMessage = (message: string) => {
+  const handleSubmitMessage: SubmitHandler<FormValues> = data => {
     resetField('message')
-    sendTextMessage(message)
+    sendTextMessage(data.message)
   }
 
   // Send audio message
@@ -40,9 +43,9 @@ function SendMessage() {
   return (
     <MessageForm
       id="messageForm"
-      onSubmit={handleSubmit(data => handleSubmitMessage(data.message))}
+      onSubmit={handleSubmit(handleSubmitMessage)}
     >
-      <InputMessage {...register('message')} />
+      <InputMessage height="48px" {...register('message')} />
       {recorder.isRecording ? (
         <RecordAudio finish={finishRecord} cancel={cancelRecord} />
       ) : (

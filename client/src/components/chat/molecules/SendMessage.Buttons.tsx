@@ -9,7 +9,6 @@ import RecordButton from '../atoms/Buttons.Record'
 const MainBox = styled(Box)`
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
   margin-left: 10px;
   & > button {
     margin-left: 15px;

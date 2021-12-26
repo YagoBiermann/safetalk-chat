@@ -8,7 +8,6 @@ import useTimer from '../../../lib/hooks/useTimer'
 
 const MainBox = styled(Box)`
   justify-content: space-around;
-  align-items: center;
   margin-left: 25px;
   width: 230px;
 `
