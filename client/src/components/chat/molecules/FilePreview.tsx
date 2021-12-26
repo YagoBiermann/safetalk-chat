@@ -19,19 +19,20 @@ const PreviewBox = styled.div`
   min-height: 30vh;
 `
 
-type previewTypes = {
+type PreviewTypes = {
   files: DropFile[]
   close: () => void
+  closeWithoutSave: () => void
 }
 
-function FilePreview(props: previewTypes) {
-  const { files, close } = props
+function FilePreview(props: PreviewTypes) {
+  const { files, close, closeWithoutSave } = props
 
   return (
     <PreviewBox>
-      <PreviewCloseButton onClick={close} />
+      <PreviewCloseButton onClick={closeWithoutSave} />
       <PreviewItems file={files[0]} />
-      <PreviewSend />
+      <PreviewSend file={files[0]} close={close}/>
     </PreviewBox>
   )
 }

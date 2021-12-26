@@ -25,18 +25,34 @@ const ChatBox = styled(Box)`
 
 const Chat: NextPage = props => {
   const [files, setFiles] = useState<Array<DropFile>>([])
+  const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
   const roomCode = useAppSelector(state => state.user.roomCode)
   const socketID = useAppSelector(state => state.user.socketID)
   const username = useAppSelector(state => state.user.username)
   const error = useAppSelector(state => state.app.error)
 
-  const closePreview = () => {
+  const clearPreview = () => {
     files.forEach(file => {
       URL.revokeObjectURL(file.preview)
     })
     setFiles([])
   }
+
+  const closeWithoutSave = () => {
+    clearPreview()
+    setPreview(false)
+  }
+
+  const closePreview = () => {
+    setPreview(false)
+  }
+
+  useEffect(() => {
+    if (files.length > 0) {
+      setPreview(true)
+    }
+  }, [files])
 
   useEffect(() => {
     if (!username || !socketID || !roomCode) {
@@ -54,9 +70,13 @@ const Chat: NextPage = props => {
           </ChatBox>
         </ChatContainer>
       </fileContext.Provider>
-      {files.length > 0 ? (
+      {showPreview ? (
         <DarkenBackground>
-          <FilePreview files={files} close={closePreview} />
+          <FilePreview
+            files={files}
+            close={closePreview}
+            closeWithoutSave={closeWithoutSave}
+          />
         </DarkenBackground>
       ) : null}
       {error ? <ErrorAlert error={error} /> : null}
