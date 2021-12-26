@@ -45,15 +45,26 @@ export const roomApi = createApi({
         body: { file }
       })
     }),
-    fetchFile: builder.query<File, { fileName: FileName; mimeType: string; roomCode: RoomCode }>(
-      {
-        query: ({ fileName, mimeType, roomCode }) => ({
-          method: 'GET',
-          url: `rooms/${roomCode}/files/${fileName}`,
-          headers: { 'Content-Type': mimeType }
-        })
-      }
-    )
+    fetchFile: builder.query<
+      File,
+      { fileName: FileName; mimeType: string; roomCode: RoomCode }
+    >({
+      query: ({ fileName, mimeType, roomCode }) => ({
+        method: 'GET',
+        url: `rooms/${roomCode}/files/${fileName}`,
+        headers: { 'Content-Type': mimeType }
+      })
+    }),
+    streamMedia: builder.query<
+      MediaStream,
+      { media: string; range: string; mimeType: string; roomCode: RoomCode }
+    >({
+      query: ({ media, range, roomCode, mimeType }) => ({
+        method: 'GET',
+        url: `rooms/${roomCode}/files/stream/${media}`,
+        headers: { Range: range, 'Content-Type': mimeType }
+      })
+    })
   })
 })
 export const {
