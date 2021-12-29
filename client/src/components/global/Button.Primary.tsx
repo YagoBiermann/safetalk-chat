@@ -4,12 +4,12 @@ const PrimaryButton = styled.button<{ width?: string }>`
   padding: 12px 15px;
   margin: 25px 0 0 0;
   border-radius: 100px;
-  background-color: ${props => props.theme.colors.primary.main.elevation_4};
+  background-color: ${props => props.theme.colors.primary.main.elevation_2};
   width: ${props => props.width || '200px'};
   color: ${props => props.theme.fontColor.secondary};
   border: none;
   text-transform: uppercase;
-  font-size: ${props => props.theme.fontSizes.small};
+  font-size: ${props => props.theme.fontSizes.medium};
   font-weight: 600;
   letter-spacing: 1.2px;
   position: relative;
@@ -24,7 +24,7 @@ const PrimaryButton = styled.button<{ width?: string }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${props => props.theme.colors.primary.main.elevation_4};
+    background-color: ${props => props.theme.colors.primary.main.elevation_2};
     border-radius: 100px;
     z-index: -1;
   }

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const PrimaryInput = styled.input`
-  background-color: ${props => props.theme.colors.primary.main.elevation_4};
+  background-color: ${props => props.theme.colors.primary.main.elevation_2};
   border-radius: 10px;
   border: none;
   width: ${props => props.width || '400px'};
