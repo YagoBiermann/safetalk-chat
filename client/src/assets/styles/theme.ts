@@ -50,6 +50,7 @@ declare module 'styled-components' {
       secondary: string
     }
     fontSizes: {
+      xsmall: string
       small: string
       medium: string
       large: string
@@ -115,10 +116,11 @@ const Palette: DefaultTheme = {
   fonts: { primary: 'Roboto', secondary: 'sans-serif' },
   fontColor: { primary: '#f5f5f5', secondary: '#dcdcdc', tertiary: '#939393' },
   fontSizes: {
-    small: '16px',
-    medium: '18px',
-    large: '20px',
-    xLarge: '24px'
+    xsmall: '12px',
+    small: '14px',
+    medium: '16px',
+    large: '18px',
+    xLarge: '20px'
   },
   mediaWidthSizes: {
     xsmall: '360px',

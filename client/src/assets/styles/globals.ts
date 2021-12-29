@@ -83,11 +83,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${Palette.colors.secondary.main.elevation_4};
+    background: ${Palette.colors.grey.elevation_0};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${Palette.colors.primary.main.elevation_4};
+    background-color: ${Palette.colors.secondary.main.elevation_0};
     border-radius: 20px;
   }
 
