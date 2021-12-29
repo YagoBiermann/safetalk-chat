@@ -7,8 +7,8 @@ const Text = styled.span`
   font-weight: 400;
 `
 
-const RegularText: React.FC<{ text: string }> = (props: { text: string }) => {
-  return <Text>{props.text}</Text>
+const RegularText = (props: { children: string }) => {
+  return <Text>{props.children}</Text>
 }
 
 export default RegularText

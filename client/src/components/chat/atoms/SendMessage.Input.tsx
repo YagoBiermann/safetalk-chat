@@ -13,7 +13,7 @@ const InputMessage = React.forwardRef(
       <PrimaryInput
         ref={ref}
         {...props}
-        width={'100%'}
+        width={props.width}
         placeholder="Type a message"
         autoComplete="off"
         maxLength={400}

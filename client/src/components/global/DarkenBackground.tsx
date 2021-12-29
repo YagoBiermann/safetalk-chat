@@ -13,8 +13,11 @@ const Background = styled.div`
   z-index: 999;
   background: rgba(13, 13, 13, 0.4);
 `
+type DarkenBackgroundProps = {
+  children: JSX.Element | JSX.Element[]
+}
 
-function DarkenBackground(props: any) {
+function DarkenBackground(props: DarkenBackgroundProps) {
   return <Background>{props.children}</Background>
 }
 

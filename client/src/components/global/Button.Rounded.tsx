@@ -1,6 +1,7 @@
 import React from 'react'
-import IconButton from '@mui/material/IconButton'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { styled } from '@mui/material/styles'
+import { SvgIconProps } from '@mui/material'
 
 const StyledButton = styled(IconButton)(
   ({ theme }) => `
@@ -17,10 +18,12 @@ const StyledButton = styled(IconButton)(
 `
 )
 
-const RoundedButton: React.FC<React.HTMLAttributes<HTMLButtonElement>> = (
-  props: any
-) => {
-  return <StyledButton {...props}>{props.children}</StyledButton>
+export type RoundeButtonProps = IconButtonProps & {
+  children: SvgIconProps
+}
+
+const RoundedButton = ({ children, ...props }: RoundeButtonProps) => {
+  return <StyledButton {...props}>{children}</StyledButton>
 }
 
 export default RoundedButton

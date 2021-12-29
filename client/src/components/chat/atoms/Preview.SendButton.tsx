@@ -1,6 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { IconButton } from '@mui/material'
+import { IconButton, IconButtonProps } from '@mui/material'
 import Send from '@material-ui/icons/Send'
 
 const SendButton = styled(IconButton)(
@@ -23,11 +23,9 @@ const SendButton = styled(IconButton)(
 `
 )
 
-const PreviewSendButton: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = () => {
+const PreviewSendButton = ({ ...props }: IconButtonProps) => {
   return (
-    <SendButton>
+    <SendButton {...props}>
       <Send fontSize="medium" />
     </SendButton>
   )

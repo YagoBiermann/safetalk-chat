@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import ArticleIcon from '@mui/icons-material/Article'
 import { DropFile } from '../../../lib/interfaces'
-import RegularText from '../../global/Text'
+import RegularText from '../../global/RegularText'
 import { convertFileSize } from '../../../lib/helpers/convertFileSize'
 import { getFileExtension } from '../../../lib/helpers/getFileExtension'
 
@@ -50,8 +50,8 @@ const PreviewFile = function PreviewFile(props: { file: DropFile }) {
       </FileOverflow>
       <Icon />
       <FileProps>
-        <RegularText text={`Size: ${convertFileSize(file.size)}`} />
-        <RegularText text={`Extension: ${getFileExtension(file.name)}`} />
+        <RegularText>{`Size: ${convertFileSize(file.size)}`}</RegularText>
+        <RegularText>{`Extension: ${getFileExtension(file.name)}`}</RegularText>
       </FileProps>
     </IconBox>
   )

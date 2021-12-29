@@ -1,5 +1,6 @@
 import React from 'react'
-import IconButton from '@mui/material/IconButton'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'
+import { SvgIconProps } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 const StyledButton = styled(IconButton)(
@@ -22,10 +23,12 @@ const StyledButton = styled(IconButton)(
   `
 )
 
-const OutlinedButton: React.FC<React.HTMLAttributes<HTMLButtonElement>> = (
-  props: any
-) => {
-  return <StyledButton {...props}>{props.children}</StyledButton>
+type OutlinedButtonProps = IconButtonProps & {
+  children: SvgIconProps
+}
+
+const OutlinedButton = ({ children, ...props }: OutlinedButtonProps) => {
+  return <StyledButton {...props}>{children}</StyledButton>
 }
 
 export default OutlinedButton
