@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 const StyledImage = styled.img`
   width: auto;
-  height: 200px;
+  height: 180px;
   @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
-    height: 150px;
+    height: 140px;
   }
   @media (max-width: ${props => props.theme.mediaWidthSizes.small}) {
     height: 100px;
