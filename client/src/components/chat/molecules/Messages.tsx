@@ -20,6 +20,20 @@ function MessagesBox() {
     setDragOver(false)
   }
 
+  // close dropzone with escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeDropzone()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown, false)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown, false)
+    }
+  }, [isDragOver])
+
   return (
     <OuterBox
       onDragEnter={e => {
