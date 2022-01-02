@@ -1,6 +1,8 @@
 import AppError from '../../errors/AppError'
+import { IBodyValidator } from '../interfaces'
 
-class BodyValidator {
+class BodyValidator implements IBodyValidator {
+  
   public checkMissingBody(body: Object): void {
     const bodyLength = Object.keys(body).length
     if (bodyLength === 0) {

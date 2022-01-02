@@ -1,6 +1,7 @@
 import AppError from '../../errors/AppError'
+import { IRoomCodeValidator } from '../interfaces'
 
-class RoomCodeValidator {
+class RoomCodeValidator implements IRoomCodeValidator {
   public checkEmptyField(roomCode: string): void {
     if (!roomCode) {
       throw new AppError('ERR_MISSING_FIELDS')

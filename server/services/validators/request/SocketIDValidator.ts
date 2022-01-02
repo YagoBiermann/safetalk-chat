@@ -1,5 +1,6 @@
 import AppError from "../../errors/AppError"
-class SocketIDValidator {
+import { ISocketIDValidator } from "../interfaces"
+class SocketIDValidator implements ISocketIDValidator {
   public checkMaxLength(socketID: string): void {
     if (socketID.length > 25) {
       throw new AppError('ERR_INVALID_SOCKET_ID')

@@ -1,29 +1,26 @@
-import { BodyValidator } from './BodyValidator'
-import { RoomCodeValidator } from './RoomCodeValidator'
-import { SocketIDValidator } from './SocketIDValidator'
-import { UsernameValidator } from './UsernameValidator'
+import { ValidatorFactory } from '../index'
 
 const validateRequestBody = (req: Object) => {
-  const validator = new BodyValidator()
+  const validator = new ValidatorFactory().createBodyValidator()
   validator.checkMissingBody(req)
   validator.checkTooManyFields(req)
 }
 
 const validateRoomCode = (roomCode: string) => {
-  const validator = new RoomCodeValidator()
+  const validator = new ValidatorFactory().createRoomCodeValidator()
   validator.checkEmptyField(roomCode)
   validator.checkInvalid(roomCode)
 }
 
 const validateUsername = (username: string) => {
-  const validator = new UsernameValidator()
+  const validator = new ValidatorFactory().createUsernameValidator()
   validator.checkEmptyField(username)
   validator.checkInvalid(username)
   validator.checkMaxLength(username)
 }
 
 const validateSocketID = (socketID: string) => {
-  const validator = new SocketIDValidator()
+  const validator = new ValidatorFactory().createSocketIDValidator()
   validator.checkEmptyField(socketID)
   validator.checkMaxLength(socketID)
 }

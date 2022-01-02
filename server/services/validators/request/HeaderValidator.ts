@@ -1,8 +1,9 @@
+import fs from 'fs'
 import { validMimeTypes } from '../../../config'
 import AppError from '../../errors/AppError'
-import fs from 'fs'
+import { IHeaderValidator } from '../interfaces'
 
-class HeaderValidator {
+class HeaderValidator implements IHeaderValidator {
   checkRange(n: string, media: string, roomCode: string) {
     const mediaSize = fs.statSync(`./temp/${roomCode}/files/${media}`).size
     const range = Number(n)

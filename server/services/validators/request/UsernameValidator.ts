@@ -1,5 +1,6 @@
 import AppError from '../../errors/AppError'
-class UsernameValidator {
+import { IUsernameValidator } from '../interfaces'
+class UsernameValidator implements IUsernameValidator {
   public checkEmptyField(username: string): void {
     if (!username) {
       throw new AppError('ERR_MISSING_FIELDS')
