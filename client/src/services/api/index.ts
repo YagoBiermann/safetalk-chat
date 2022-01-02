@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { SuccessMessage, User, RoomCode, FileName } from '../../lib/interfaces'
+import {
+  SuccessMessage,
+  User,
+  RoomCode,
+  FileName,
+  FetchUsers
+} from '../../lib/interfaces'
 import { ROUTES, ENDPOINTS } from '../../lib/enums'
 
 export const roomApi = createApi({
@@ -21,7 +27,13 @@ export const roomApi = createApi({
       })
     }),
     fetchRooms: builder.query<Array<string>, void>({
-      query: () => ROUTES.GET_ROOMS
+      query: () => ({ url: `${ROUTES.GET_ROOMS}`, method: 'GET' })
+    }),
+    fetchUsers: builder.query<FetchUsers, string>({
+      query: (roomCode: string) => ({
+        url: `rooms/${roomCode}/users`,
+        method: 'GET'
+      })
     }),
     createRoom: builder.mutation<SuccessMessage, User>({
       query: (user: User) => ({
@@ -71,5 +83,6 @@ export const {
   useCreateUserMutation,
   useCreateRoomMutation,
   useFetchRoomsQuery,
+  useLazyFetchUsersQuery,
   useJoinRoomMutation
 } = roomApi
