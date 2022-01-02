@@ -26,5 +26,5 @@ type IAppError =
   | 'ERR_FILE_NOT_FOUND'
   | 'ERR_FILE_NOT_ALLOWED'
   | 'ERR_DEFAULT'
-
+    
 export { IErrorMessage, IAppError }
