@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     if (!fileExt) {
       cb(new AppError('ERR_FILE_NOT_ALLOWED'), null)
     }
-
+    
     cb(null, randomUUID() + fileExt)
   }
 })

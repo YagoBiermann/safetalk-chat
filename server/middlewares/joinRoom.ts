@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { IRoomBody } from '../routes/interfaces'
-import { roomValidator } from '../services/validators/index'
+import { ValidatorFactory } from '../services/validators/index'
 import {
   validateRequestBody,
   validateRoomCode,
@@ -13,13 +13,17 @@ const validateBeforeJoinRoom = async (
   res: Response,
   next: NextFunction
 ) => {
+
+  const { socketID, username, roomCode } = req.body
+  const roomValidator = new ValidatorFactory().createRoomValidator()
+
   try {
-    const { socketID, username, roomCode } = req.body
+    console.log('validating before join room')
     validateRequestBody(req.body)
     validateSocketID(socketID)
     validateUsername(username)
     validateRoomCode(roomCode)
-    await roomValidator.checkIfRoomDoesNotExists(roomCode)
+    await roomValidator.checkIfRoomExists(roomCode)
     next()
   } catch (error) {
     next(error)

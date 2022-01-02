@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { IRoomCode } from '../routes/interfaces'
-import { roomValidator } from '../services/validators/index'
+import { ValidatorFactory } from '../services/validators/index'
 import { validateRoomCode } from '../services/validators/request/'
 
 const validateBeforeGetUsers = async (
@@ -8,10 +8,14 @@ const validateBeforeGetUsers = async (
   res: Response,
   next: NextFunction
 ) => {
+
+  const { roomCode } = req.params
+  const roomValidator = new ValidatorFactory().createRoomValidator()
+
   try {
-    const { roomCode } = req.params
+    console.log('validating before get users')
     validateRoomCode(roomCode)
-    await roomValidator.checkIfRoomDoesNotExists(roomCode)
+    await roomValidator.checkIfRoomExists(roomCode)
     next()
   } catch (error) {
     next(error)

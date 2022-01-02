@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { IUsername } from '../routes/interfaces'
-import { userValidator } from '../services/validators/index'
+import { ValidatorFactory } from '../services/validators/index'
 import {
   validateUsername,
   validateRequestBody,
@@ -12,8 +12,11 @@ const validateBeforeCreateUser = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { username, socketID } = req.body
+  const userValidator = new ValidatorFactory().createUserValidator()
+
   try {
-    const { username, socketID } = req.body
+    console.log('validating before create user')
     validateRequestBody(req.body)
     validateSocketID(socketID)
     validateUsername(username)
