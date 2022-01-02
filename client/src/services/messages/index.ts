@@ -13,14 +13,6 @@ socket.on('message:text', (message: Message) => {
   store.dispatch(addTextMessage(message))
 })
 
-socket.on('message:audio', (message: AudioMessage) => {
-  store.dispatch(addAudioMessage(message))
-})
-
-socket.on('message:file', (message: FileMessage) => {
-  store.dispatch(addFileMessage(message))
-})
-
 const roomCode = store.getState().user.roomCode
 const username = store.getState().user.username
 
@@ -36,7 +28,7 @@ const sendTextMessage = (message: string) => {
   store.dispatch(addTextMessage(assembledMessage))
 }
 
-const sendAudioMessage = (audio: string | Buffer | Blob) => {
+const sendAudioMessage = (audio: string) => {
   const assembledMessage: AudioMessage = {
     id: uuidv4(),
     roomCode,
@@ -49,19 +41,18 @@ const sendAudioMessage = (audio: string | Buffer | Blob) => {
 }
 
 const sendFileMessage = (
-  file: string | Buffer | Blob,
-  message: string,
-  type: MESSAGE_TYPE.FILE | MESSAGE_TYPE.IMAGE | MESSAGE_TYPE.VIDEO
+  filePreview: string,
+  type: MESSAGE_TYPE.FILE | MESSAGE_TYPE.IMAGE | MESSAGE_TYPE.VIDEO,
+  message?: string
 ) => {
   const assembledMessage: FileMessage = {
     id: uuidv4(),
     roomCode,
     username,
-    type: MESSAGE_TYPE.FILE,
-    file,
-    message: message || ''
+    type,
+    filePreview,
+    message
   }
-  socket.emit('message:file', assembledMessage)
   store.dispatch(addFileMessage(assembledMessage))
 }
 

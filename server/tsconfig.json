@@ -2,11 +2,11 @@
   "compilerOptions": {
     "target": "es2017",
     "esModuleInterop": true,
-    "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./",
     "outDir": "./build",
     "resolveJsonModule": true,
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "sourceMap": true
   }
 }
