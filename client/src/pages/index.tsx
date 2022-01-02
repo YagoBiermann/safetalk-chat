@@ -1,15 +1,14 @@
 import type { NextPage } from 'next'
-import { useContext } from 'react'
-import UsernameForm from '../components/home/molecules/UsernameForm'
-import Container from '../components/global/Container'
-import Header from '../components/home/molecules/Header'
-import Footer from '../components/home/molecules/Footer'
+import { useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import { useAppDispatch, useAppSelector } from '../store'
+import Container from '../components/global/Container'
 import ErrorAlert from '../components/global/ErrorAlert'
-import { useEffect } from 'react'
-import { setSocketID } from '../store/ducks/users'
+import Footer from '../components/home/footer/Footer'
+import Header from '../components/home/header/Header'
+import UsernameForm from '../components/home/usernameForm/UsernameForm'
 import { socketContext } from '../lib/context/socketContext'
+import { useAppDispatch, useAppSelector } from '../store'
+import { setSocketID } from '../store/ducks/users'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
