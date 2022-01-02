@@ -6,6 +6,8 @@ interface IRoomRepository {
   createRoom(roomCode: string): Promise<IRoom>
   deleteRoom(roomCode: string): Promise<object>
   getRoomByCode(roomCode: string): Promise<IRoom>
+  getRoomByID(id: ObjectId): Promise<IRoom>
+  getRooms(): Promise<IRoom[]>
 }
 
 interface IUserRepository {
@@ -14,6 +16,13 @@ interface IUserRepository {
   getUsersByRoomID(roomID: ObjectId): Promise<IUser[]>
   getUserBySocketID(socketID: string): Promise<IUser>
   getUserByUsername(username: string): Promise<IUser>
+  setAsAdmin(socketID: string): Promise<IUser>
+  updateUser(user: IUser): Promise<IUser>
 }
 
-export { IRoomRepository, IUserRepository }
+interface IRepositoryFactory {
+  createRoomRepository(): IRoomRepository
+  createUserRepository(): IUserRepository
+}
+
+export { IRepositoryFactory, IRoomRepository, IUserRepository }
