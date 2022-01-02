@@ -23,34 +23,54 @@ class SocketEvents {
 
   public joinRoom() {
     this.socket.on('room:join', ({ roomCode }) => {
+      console.log(`user: ${this.socket.id} joined room: ${roomCode}`)
       this.socket.join(roomCode)
     })
   }
 
-  public deleteRoom() {
-    this.socket.on('disconnecting', async () => {
-      const roomCode = [...this.socket.rooms][1]
-
-      if (!roomCode) return
-
-      try {
-        await roomValidator.checkIfRoomDoesNotExists(roomCode)
-        await roomValidator.checkIfRoomIsNotEmpty(roomCode)
-        await roomRepository.deleteRoom(roomCode)
-        if (fs.existsSync(`./temp/${roomCode}`)) {
-          fs.rmdirSync(`./temp/${roomCode}/`, { recursive: true })
-        }
-      } catch (error) {
-        console.error(error.message)
-      }
+  public fetchUsers() {
+    this.socket.on('room:users', async ({ roomCode }) => {
+      console.log(
+        `user: ${this.socket.id} requested users in room: ${roomCode}`
+      )
+      this.io.to(roomCode).emit('room:users')
     })
   }
 
+  private async deleteRoom(roomCode: string) {
+    if (!roomCode) return
+
+    try {
+      await this.roomValidator.checkIfRoomExists(roomCode)
+      await this.roomValidator.checkIfRoomIsNotEmpty(roomCode)
+      await this.roomRepository.deleteRoom(roomCode)
+
+      if (fs.existsSync(`./temp/${roomCode}`)) {
+        console.log('deleting room temp folder')
+        fs.rmdirSync(`./temp/${roomCode}/`, { recursive: true })
+      }
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
+
   public deleteUser() {
-    this.socket.on('disconnect', async () => {
+    this.socket.on('disconnecting', async () => {
+      console.log(`user: ${this.socket.id} disconnected`)
+
       try {
-        await userValidator.checkIfUserExists(this.socket.id)
-        await userRepository.deleteUser(this.socket.id)
+        const user = await this.userRepository.getUserBySocketID(this.socket.id)
+        await this.userValidator.checkIfUserExists(this.socket.id)
+
+        await this.userRepository.deleteUser(this.socket.id)
+
+        if (user.room) {
+          const roomCode = (await this.roomRepository.getRoomByID(user.room))
+            .roomCode
+
+          this.socket.to(roomCode).emit('room:users')
+          this.deleteRoom(roomCode)
+        }
       } catch (error) {
         console.error(error)
       }
