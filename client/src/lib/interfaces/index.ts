@@ -12,6 +12,14 @@ export interface SuccessMessage {
   message: string
 }
 
+export interface FetchUsers {
+  users: Array<{ username: string; id: string }>
+}
+
+export interface FileName {
+  fileName: string
+}
+
 export interface Username {
   username: string
 }
@@ -33,10 +41,10 @@ export interface Message {
 }
 
 export interface AudioMessage extends Omit<Message, 'message'> {
-  audio: Blob | string | Buffer
+  audio: string
 }
 export interface FileMessage extends Omit<Message, 'message'> {
-  file: Blob | Buffer | string
+  filePreview: string
   message?: string
 }
 
