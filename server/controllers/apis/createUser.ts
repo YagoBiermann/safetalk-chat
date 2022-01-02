@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { userRepository } from '../../database/index'
+import { RepositoryFactory } from '../../database/index'
 import { IRoomBody } from '../../routes/interfaces'
 
 const createUser = async (
@@ -7,9 +7,10 @@ const createUser = async (
   res: Response,
   next: NextFunction
 ): Promise<Response> => {
-  try {
-    const { socketID, username } = req.body
+  const { socketID, username } = req.body
+  const userRepository = new RepositoryFactory().createUserRepository()
 
+  try {
     await userRepository.createUser({
       username,
       socketID,

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { userRepository } from '../../database/index'
-import { roomRepository } from '../../database/index'
+import { RepositoryFactory } from '../../database/index'
 import { IRoom } from '../../database/models/rooms'
 import { IRoomBody } from '../../routes/interfaces'
 
@@ -9,10 +8,13 @@ const joinRoom = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { socketID, username, roomCode } = req.body
+  const roomRepository = new RepositoryFactory().createRoomRepository()
+  const userRepository = new RepositoryFactory().createUserRepository()
+
   try {
-    const { socketID, username, roomCode } = req.body
     let room: IRoom = await roomRepository.getRoomByCode(roomCode)
-    userRepository.updateUser({
+    await userRepository.updateUser({
       socketID,
       username,
       room: room.id,
