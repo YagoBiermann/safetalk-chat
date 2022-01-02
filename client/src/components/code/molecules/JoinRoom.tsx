@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
-import { useAppSelector, useAppDispatch } from '../../../store'
 import { useRouter } from 'next/router'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { setRoomCode } from '../../../store/ducks/users'
+import styled from 'styled-components'
+import BoxStyle from '../../../assets/styles/default.Box'
+import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
+import { socketContext } from '../../../lib/context/socketContext'
+import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
 import { RoomCode } from '../../../lib/interfaces'
 import { useJoinRoomMutation } from '../../../services/api'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import ButtonState from '../../global/ButtonState'
-import CodeTitle from '../atoms/Code.Title'
-import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
-import JoinRoomInput from '../atoms/JoinRoom.Input'
-import CodeButton from '../atoms/Code.Button'
+import { setRoomCode } from '../../../store/ducks/users'
 import Box from '../../global/Box'
-import BoxStyle from '../../../assets/styles/default.Box'
-import socket from '../../../services/sockets'
+import ButtonState from '../../global/ButtonState'
+import CodeButton from '../atoms/Code.Button'
+import CodeTitle from '../atoms/Code.Title'
+import JoinRoomInput from '../atoms/JoinRoom.Input'
 
 const JoinRoomForm = styled(Box)`
   ${BoxStyle}
@@ -39,7 +39,7 @@ function JoinRoom() {
     joinRoom({ socketID, username, roomCode })
       .unwrap()
       .then(
-        response => {
+        () => {
           dispatch(setRoomCode(roomCode))
           socket.emit('room:join', { roomCode })
           router.replace(`/chat/${roomCode}`)

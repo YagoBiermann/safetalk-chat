@@ -45,7 +45,7 @@ function SendMessage() {
       id="messageForm"
       onSubmit={handleSubmit(handleSubmitMessage)}
     >
-      <InputMessage height="48px" {...register('message')} />
+      <InputMessage width='100%' height="48px" {...register('message')} />
       {recorder.isRecording ? (
         <RecordAudio finish={finishRecord} cancel={cancelRecord} />
       ) : (

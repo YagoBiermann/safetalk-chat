@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import socket from '../../../services/sockets'
+import { socketContext } from '../../../lib/context/socketContext'
 import { useAppSelector, useAppDispatch } from '../../../store'
 import { useRouter } from 'next/router'
 import { useCreateRoomMutation } from '../../../services/api'
@@ -28,7 +28,7 @@ function CreateRoom() {
   const roomCode = useAppSelector(state => state.user.roomCode)
   const socketID = useAppSelector(state => state.user.socketID)
   const isPending = useAppSelector(state => state.room.pending)
-  
+
   const handleCreateRoom = () => {
     createRoom({ socketID, username, roomCode })
       .unwrap()

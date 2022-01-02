@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAppSelector } from '../../store'
 import { setRoomCode } from '../../store/ducks/users'
@@ -27,7 +26,6 @@ const CodeContainer = styled(Container)`
 
 const Code: NextPage = () => {
   const dispatch = useAppDispatch()
-  const router = useRouter()
   const username = useAppSelector(state => state.user.username)
   const socketID = useAppSelector(state => state.user.socketID)
   const error = useAppSelector(state => state.app.error)

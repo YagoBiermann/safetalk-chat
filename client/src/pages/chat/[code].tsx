@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
 import Container from '../../components/global/Container'
 import styled from 'styled-components'
@@ -11,6 +11,8 @@ import { fileContext } from '../../lib/context/fileContext'
 import { DropFile } from '../../lib/interfaces'
 import FilePreview from '../../components/chat/molecules/FilePreview'
 import DarkenBackground from '../../components/global/DarkenBackground'
+import ChatSideBar from '../../components/chat/molecules/Chat.SideBar'
+
 
 const ChatContainer = styled(Container)`
   flex-direction: column;
@@ -19,7 +21,7 @@ const ChatContainer = styled(Container)`
 
 const ChatBox = styled(Box)`
   flex-direction: column;
-  width: 55vw;
+  width: 65vw;
   margin-top: 30px;
 `
 
@@ -63,11 +65,12 @@ const Chat: NextPage = props => {
   return (
     <>
       <fileContext.Provider value={{ files, setFiles }}>
-        <ChatContainer>
+        <ChatContainer id="chatContainer">
           <ChatBox>
             <MessagesBox />
             <SendMessage />
           </ChatBox>
+          <ChatSideBar />
         </ChatContainer>
       </fileContext.Provider>
       {showPreview ? (

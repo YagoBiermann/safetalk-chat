@@ -6,7 +6,7 @@ export enum ROUTES {
   DELETE_USER = 'users/', //:socketID
   GET_USERS = 'users/', //:roomCode
   GET_ROOMS = 'rooms/',
-  CREATE_USER = 'users/create'
+  CREATE_USER = 'users/create',
 }
 
 export enum MESSAGE_TYPE {
@@ -30,6 +30,7 @@ export const acceptedTypes = `
   image/png, 
   video/webm, 
   video/ogg, 
+  video/quicktime,
   video/mp4, 
   video/wmv, 
   video/avi, 
