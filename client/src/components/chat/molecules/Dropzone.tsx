@@ -1,4 +1,4 @@
-import React, { ForwardedRef, useContext, useMemo } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { fileContext } from '../../../lib/context/fileContext'
@@ -6,6 +6,13 @@ import createFilePreview from '../../../lib/helpers/createFilePreview'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { acceptedTypes } from '../../../lib/enums'
+
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 12, 12, 0.2);
+  position: absolute;
+`
 
 const OuterBox = styled.div`
   display: flex;
@@ -38,45 +45,48 @@ const DropText = styled.h4`
   color: ${props => props.theme.fontColor.tertiary};
 `
 
-const Dropzone = React.forwardRef(
-  (props: any, ref: ForwardedRef<HTMLDivElement>) => {
-    const dispatch = useAppDispatch()
-    const { files, setFiles } = useContext(fileContext)
-    const { isDragActive, getRootProps, getInputProps } = useDropzone({
-      noDragEventsBubbling: true,
-      multiple: false,
-      noClick: true,
-      noKeyboard: true,
-      accept: acceptedTypes,
-      onDropAccepted: acceptedFiles => {
-        console.log(acceptedFiles)
-        acceptedFiles.forEach(file => {
-          setFiles([...files, createFilePreview(file)])
-        }),
-          props.close()
-      },
-      onDropRejected: () => {
-        dispatch(setError('File type not supported'))
-        props.close()
-      }
-    })
+type DropzoneProps = {
+  close: () => void
+}
 
-    const style = useMemo(
-      () => ({
-        ...(isDragActive ? activeStyle : {})
+const Dropzone = (props: DropzoneProps) => {
+  const dispatch = useAppDispatch()
+  const { files, setFiles } = useContext(fileContext)
+  const { isDragActive, getRootProps, getInputProps } = useDropzone({
+    noDragEventsBubbling: true,
+    multiple: false,
+    noClick: true,
+    noKeyboard: true,
+    accept: acceptedTypes,
+    onDropAccepted: acceptedFiles => {
+      acceptedFiles.forEach(file => {
+        setFiles([...files, createFilePreview(file)])
       }),
-      [isDragActive]
-    )
+      props.close()
+    },
+    onDropRejected: () => {
+      dispatch(setError('File type not supported'))
+      props.close()
+    }
+  })
 
-    return (
-      <OuterBox {...getRootProps({ ref })}>
+  const style = useMemo(
+    () => ({
+      ...(isDragActive ? activeStyle : {})
+    }),
+    [isDragActive]
+  )
+
+  return (
+    <Background>
+      <OuterBox>
         <InnerBox {...getRootProps({ style })}>
           <input {...getInputProps()} />
           <DropText>Drop your file here</DropText>
         </InnerBox>
       </OuterBox>
-    )
-  }
-)
+    </Background>
+  )
+}
 
 export default Dropzone
