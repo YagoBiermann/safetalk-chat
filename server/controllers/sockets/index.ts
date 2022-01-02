@@ -1,28 +1,24 @@
 import fs from 'fs'
-import { Socket } from 'socket.io'
-import { userRepository } from '../../database/index'
-import { roomValidator, userValidator } from '../../services/validators/index'
-import { roomRepository } from '../../database/index'
+import { Server, Socket } from 'socket.io'
+import { RepositoryFactory } from '../../database'
+import { IRoomRepository, IUserRepository } from '../../database/interfaces'
+import { ValidatorFactory } from '../../services/validators/index'
 import {
-  Message,
-  AudioMessage,
-  FileMessage
-} from '../../services/sockets/interfaces'
+  IRoomValidator,
+  IUserValidator
+} from '../../services/validators/interfaces'
 
 class SocketEvents {
-  constructor(private socket: Socket) {}
-  public sendMessage() {
-    this.socket.on('message:text', (message: Message) => {
-      this.socket.to(message.roomCode).emit('message:text', message)
-    })
+  private userRepository: IUserRepository
+  private roomRepository: IRoomRepository
+  private roomValidator: IRoomValidator
+  private userValidator: IUserValidator
 
-    this.socket.on('message:audio', (message: AudioMessage) => {
-      this.socket.to(message.roomCode).emit('message:audio', message)
-    })
-
-    this.socket.on('message:file', (message: FileMessage) => {
-      this.socket.to(message.roomCode).emit('message:file', message)
-    })
+  constructor(private socket: Socket, private io: Server) {
+    this.roomRepository = new RepositoryFactory().createRoomRepository()
+    this.userRepository = new RepositoryFactory().createUserRepository()
+    this.roomValidator = new ValidatorFactory().createRoomValidator()
+    this.userValidator = new ValidatorFactory().createUserValidator()
   }
 
   public joinRoom() {
