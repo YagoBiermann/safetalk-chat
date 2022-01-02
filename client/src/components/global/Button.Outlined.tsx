@@ -23,7 +23,7 @@ const StyledButton = styled(IconButton)(
   `
 )
 
-type OutlinedButtonProps = IconButtonProps & {
+export type OutlinedButtonProps = IconButtonProps & {
   children: SvgIconProps
 }
 
