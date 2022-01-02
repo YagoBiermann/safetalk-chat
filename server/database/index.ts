@@ -1,7 +1,15 @@
 import { UserRepository } from './repositories/UserRepository'
 import { RoomRepository } from './repositories/RoomRepository'
+import { IRepositoryFactory } from './interfaces'
 
-const userRepository = new UserRepository()
-const roomRepository = new RoomRepository()
+class RepositoryFactory implements IRepositoryFactory {
+  public createRoomRepository(): RoomRepository {
+    return new RoomRepository()
+  }
 
-export { userRepository, roomRepository }
+  public createUserRepository(): UserRepository {
+    return new UserRepository()
+  }
+}
+
+export { RepositoryFactory }
