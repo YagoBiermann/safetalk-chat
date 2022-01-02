@@ -1,12 +1,14 @@
-import { AppProps } from 'next/dist/shared/lib/router/router'
-import { GlobalStyle } from '../assets/styles/globals'
-import { Palette } from '../assets/styles/theme'
-import muiTheme from '../assets/styles/muiTheme'
-import { ThemeProvider } from 'styled-components'
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { AppProps } from 'next/dist/shared/lib/router/router'
 import Head from 'next/head'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
+import { GlobalStyle } from '../assets/styles/globals'
+import muiTheme from '../assets/styles/muiTheme'
+import { Palette } from '../assets/styles/theme'
 import store from '../store'
+import { socketContext } from '../lib/context/socketContext'
+import socket from '../services/sockets'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -37,7 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <MuiThemeProvider theme={muiTheme}>
         <ThemeProvider theme={Palette}>
           <Provider store={store}>
-            <Component {...pageProps} />
+            <socketContext.Provider value={socket}>
+              <Component {...pageProps} />
+            </socketContext.Provider>
           </Provider>
         </ThemeProvider>
       </MuiThemeProvider>

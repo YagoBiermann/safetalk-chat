@@ -22,6 +22,7 @@ const MainBox = styled(Box)`
 function CreateRoom() {
   const [createRoom, result] = useCreateRoomMutation()
   const dispatch = useAppDispatch()
+  const socket = useContext(socketContext)
   const router = useRouter()
   const username = useAppSelector(state => state.user.username)
   const roomCode = useAppSelector(state => state.user.roomCode)

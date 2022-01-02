@@ -26,6 +26,7 @@ function JoinRoom() {
   const { register, handleSubmit, setValue, resetField, watch } =
     useForm<RoomCode>({ defaultValues: { roomCode: '' } })
   const [joinRoom, result] = useJoinRoomMutation()
+  const socket = useContext(socketContext)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')

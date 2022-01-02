@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { useContext } from 'react'
 import UsernameForm from '../components/home/molecules/UsernameForm'
 import Container from '../components/global/Container'
 import Header from '../components/home/molecules/Header'
@@ -6,9 +7,9 @@ import Footer from '../components/home/molecules/Footer'
 import styled from 'styled-components'
 import { useAppDispatch, useAppSelector } from '../store'
 import ErrorAlert from '../components/global/ErrorAlert'
-import socket from '../services/sockets'
 import { useEffect } from 'react'
 import { setSocketID } from '../store/ducks/users'
+import { socketContext } from '../lib/context/socketContext'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
@@ -25,6 +26,7 @@ const HomeContainer = styled(Container)`
 `
 
 const Home: NextPage = () => {
+  const socket = useContext(socketContext)
   const error = useAppSelector(state => state.app.error)
   const dispatch = useAppDispatch()
 

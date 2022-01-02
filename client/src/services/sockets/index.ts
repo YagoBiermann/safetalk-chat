@@ -6,8 +6,4 @@ const socket = io(`${ENDPOINTS.FRONTEND_URL}`, {
   path: '/socket.io'
 })
 
-socket.on('connect', () => {
-  console.log('connected')
-})
-
 export default socket
