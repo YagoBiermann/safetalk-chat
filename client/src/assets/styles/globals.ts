@@ -76,6 +76,10 @@ const GlobalStyle = createGlobalStyle`
 
   *::-webkit-scrollbar {
   width: 14px;
+
+  @media (max-width: ${Palette.mediaWidthSizes.medium}) {
+    width: 0px;
+  }
   }
 
   *::-webkit-scrollbar-track {

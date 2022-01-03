@@ -7,6 +7,12 @@ import { badgeVariants } from './SideBar.Animations'
 
 const BadgeBox = styled.div`
   margin: 15px;
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
 `
 
 const StyledBadge = styled(Badge)`
@@ -17,6 +23,14 @@ const StyledBadge = styled(Badge)`
     background-color: ${props => props.theme.colors.grey.elevation_0};
     font-size: ${props => props.theme.fontSizes.medium};
     font-weight: 400;
+
+    @media screen and (max-width: ${props =>
+        props.theme.mediaWidthSizes.medium}) {
+      border-radius: 15px;
+      padding: 10px;
+      width: 0px;
+      height: 0px;
+    }
   }
 
   & .MuiSvgIcon-root {
@@ -38,7 +52,6 @@ function BadgeWrapper(props: BadgeWrapperProps) {
   const { users } = props
   return (
     <BadgeBox
- 
       variants={badgeVariants}
       animate="closed"
       initial="closed"

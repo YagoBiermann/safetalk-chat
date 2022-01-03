@@ -13,8 +13,22 @@ const MessageForm = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: inherit;
+  width: 100%;
   margin-top: 30px;
+  & > input {
+    padding: 0;
+    text-indent: 10px;
+  }
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    flex-direction: column-reverse;
+    width: 100vw;
+    margin-top: 15px;
+    & > input {
+      border-radius: 0;
+    }
+  }
 `
 
 type FormValues = {
@@ -41,11 +55,8 @@ function SendMessage() {
   }, [recorder.audio])
 
   return (
-    <MessageForm
-      id="messageForm"
-      onSubmit={handleSubmit(handleSubmitMessage)}
-    >
-      <InputMessage width='100%' height="48px" {...register('message')} />
+    <MessageForm id="messageForm" onSubmit={handleSubmit(handleSubmitMessage)}>
+      <InputMessage width="100%" height="48px" {...register('message')} />
       {recorder.isRecording ? (
         <RecordAudio finish={finishRecord} cancel={cancelRecord} />
       ) : (

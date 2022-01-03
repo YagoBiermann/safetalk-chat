@@ -13,6 +13,14 @@ const MainBox = styled(Box)`
   & > button {
     margin-left: 15px;
   }
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    margin: 0 0 15px 0;
+    width: 100%;
+    justify-content: center;
+    flex-direction: row-reverse;
+  }
 `
 
 function SendMessageButtons(props: {
