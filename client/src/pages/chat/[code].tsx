@@ -18,6 +18,11 @@ const ChatContainer = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.xlarge}) {
+    align-items: flex-start;
+  }
 `
 
 const ChatBox = styled(Box)`
@@ -25,14 +30,15 @@ const ChatBox = styled(Box)`
   height: 90%;
   margin-top: 30px;
 
-  @media screen and (max-width: ${props =>
+  @media screen and (min-width: ${props =>
       props.theme.mediaWidthSizes.xlarge}) {
-    width: 80vw;
+    width: 65vw;
   }
 
-  @media screen and (max-width: ${props => props.theme.mediaWidthSizes.large}) {
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.xlarge}) {
     margin-left: 30px;
-    width: 85vw;
+    width: 80vw;
   }
 
   @media screen and (max-width: ${props =>
@@ -95,7 +101,7 @@ const Chat: NextPage = props => {
     <>
       <fileContext.Provider value={{ files, setFiles }}>
         <>
-          <ChatContainer>
+          <ChatContainer id="chatContainer">
             <ChatBox>
               <ChatHeader />
               <MessagesBox />

@@ -4,13 +4,13 @@ import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
 
 const Content = styled.div`
-  width: 350px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  width: 350px;
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
     justify-content: flex-start;
     width: 300px;
   }
@@ -24,13 +24,14 @@ const SliderWrapper = styled.div`
 
 const VolumeWrapper = styled.div`
   width: 84px;
+  
 `
 
 const TimeWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
     margin: 0 15px 0 5px;
   }
 `
@@ -49,8 +50,7 @@ function AudioPlayer(props: AudioPlayerProps) {
     MediaDuration,
     PlayerButton,
     PlayerSlider,
-    PlayerVolume,
-    mediaRef
+    PlayerVolume
   } = props
   return (
     <>

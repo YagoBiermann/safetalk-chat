@@ -2,7 +2,7 @@ import { Palette } from '../../../assets/styles/theme'
 
 const sideBarVariants = {
   open: {
-    width: '220px',
+    width: '250px',
     height: '50vh',
     backgroundColor: Palette.colors.grey.elevation_0,
     transition: {

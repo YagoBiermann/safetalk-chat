@@ -9,6 +9,10 @@ const ImageTemplate = styled.img`
   max-height: 400px;
   object-fit: cover;
   cursor: pointer;
+
+  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
+    max-height: 250px;
+  }
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`

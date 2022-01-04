@@ -18,6 +18,7 @@ const OuterBox = styled.div`
   display: flex;
   position: absolute;
   background-color: ${props => props.theme.colors.grey.elevation_0};
+  border: 2px solid ${props => props.theme.colors.primary.main.elevation_4};
   justify-content: center;
   align-items: center;
   border-radius: 15px;
@@ -62,7 +63,7 @@ const Dropzone = (props: DropzoneProps) => {
       acceptedFiles.forEach(file => {
         setFiles([...files, createFilePreview(file)])
       }),
-      props.close()
+        props.close()
     },
     onDropRejected: () => {
       dispatch(setError('File type not supported'))

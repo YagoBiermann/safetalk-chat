@@ -6,12 +6,8 @@ import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 
 const MessageContainer = styled.div<{ myMessage?: boolean }>`
   display: flex;
+  width: 100%;
   justify-content: ${props => (props.myMessage ? 'flex-end' : 'flex-start')};
-  padding: 30px;
-
-  @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
-    padding: 10px;
-  }
 `
 
 const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
@@ -20,19 +16,20 @@ const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
   border-radius: 15px;
   box-shadow: ${props =>
     props.myMessage ? '0px 12px 10px 4px rgba(0, 0, 0, 0.35)' : null};
-  max-width: ${props => props.maxWidth || '40%'};
+  max-width: 40%;
+  margin: 15px 30px 15px 30px;
   min-width: 20%;
   max-height: auto;
   background-color: #212121;
 
-  @media (min-width: ${props =>
-      props.theme.mediaWidthSizes.large}) and (max-width: ${props =>
+  @media screen and (max-width: ${props =>
       props.theme.mediaWidthSizes.xlarge}) {
     max-width: 45%;
   }
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
-    max-width: 55%;
+  @media screen and (max-width: ${props => props.theme.mediaWidthSizes.large}) {
+    margin: 20px;
+    max-width: 60%;
   }
 
   @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
@@ -44,6 +41,7 @@ const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
         ? `1px solid ${props.theme.colors.primary.light.elevation_0}`
         : null};
     box-shadow: none;
+    margin: 10px;
   }
 `
 
@@ -56,15 +54,11 @@ const Header = styled.div<{ myMessage?: boolean }>`
   & ${Text} {
     color: ${props => (props.myMessage ? '#b294c5' : null)};
   }
-
-
 `
 
 const Footer = styled.div`
   margin: 10px 10px 10px 0;
   align-self: flex-end;
-
-
 `
 
 type MessageProps = {
