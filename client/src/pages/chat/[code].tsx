@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../store'
-import Container from '../../components/global/Container'
 import styled from 'styled-components'
 import MessagesBox from '../../components/chat/messages/Messages'
 import SendMessage from '../../components/chat/sendMessage/SendMessage'
@@ -13,16 +12,52 @@ import FilePreview from '../../components/chat/filePreview/FilePreview'
 import DarkenBackground from '../../components/global/DarkenBackground'
 import ChatSideBar from '../../components/chat/sidebar/SideBar'
 
-
-const ChatContainer = styled(Container)`
+const ChatContainer = styled.div`
+  display: flex;
+  align-items: center;
   flex-direction: column;
-  justify-content: flex-start;
+  width: 100vw;
+  height: 100vh;
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.xlarge}) {
+    align-items: flex-start;
+  }
 `
 
 const ChatBox = styled(Box)`
-  flex-direction: column;
-  width: 65vw;
+  width: 70%;
+  height: 90%;
   margin-top: 30px;
+
+  @media screen and (min-width: ${props =>
+      props.theme.mediaWidthSizes.xlarge}) {
+    width: 65vw;
+  }
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.xlarge}) {
+    margin-left: 30px;
+    width: 80vw;
+  }
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    justify-content: flex-end;
+  }
+`
+
+const ChatHeader = styled.div`
+  display: none;
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    display: flex;
+    width: 100vw;
+    height: 74px;
+  }
 `
 
 const Chat: NextPage = props => {
@@ -65,13 +100,16 @@ const Chat: NextPage = props => {
   return (
     <>
       <fileContext.Provider value={{ files, setFiles }}>
-        <ChatContainer id="chatContainer">
-          <ChatBox>
-            <MessagesBox />
-            <SendMessage />
-          </ChatBox>
+        <>
+          <ChatContainer id="chatContainer">
+            <ChatBox>
+              <ChatHeader />
+              <MessagesBox />
+              <SendMessage />
+            </ChatBox>
+          </ChatContainer>
           <ChatSideBar />
-        </ChatContainer>
+        </>
       </fileContext.Provider>
       {showPreview ? (
         <DarkenBackground>

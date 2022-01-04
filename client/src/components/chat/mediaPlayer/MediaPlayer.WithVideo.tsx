@@ -34,6 +34,14 @@ const SliderWrapper = styled.div`
   width: 60%;
 `
 
+const ResizeBox = styled.div`
+  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
+    & button:last-child {
+      display: none;
+    }
+  }
+`
+
 type VideoPlayerProps = MediaPlayerRenderProps & {
   mediaRef: React.RefObject<HTMLVideoElement | null>
 }
@@ -62,14 +70,14 @@ function VideoPlayer(props: VideoPlayerProps) {
           {PlayerButton}
           {PlayerVolume}
         </VolumeContainer>
-        <div>
+        <ResizeBox>
           <VideoButton onClick={() => mediaRef.current?.requestFullscreen()}>
             <FullscreenIcon />
           </VideoButton>
           <VideoButton onClick={togglePiP}>
             <PictureInPictureIcon />
           </VideoButton>
-        </div>
+        </ResizeBox>
       </PlayerBox>
       <SliderBox>
         {MediaCurrentTime}

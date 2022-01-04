@@ -10,7 +10,7 @@ const PrimaryInput = styled.input`
   font-family: 'Roboto', sans-serif;
   font-size: ${props => props.theme.fontSizes.medium};
   font-weight: 500;
-  padding-left: 15px;
+  text-indent: 15px
   transition-property: background-color;
   transition-duration: 0.5s;
   &:hover {

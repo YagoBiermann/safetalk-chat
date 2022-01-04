@@ -19,6 +19,10 @@ const MainBox = styled(Box)`
   ${CodeBoxStyle}
 `
 
+const CodeBox = styled(Box)`
+  width: 100%;
+`
+
 function CreateRoom() {
   const [createRoom, result] = useCreateRoomMutation()
   const dispatch = useAppDispatch()
@@ -48,10 +52,10 @@ function CreateRoom() {
       <Box>
         <CodeTitle text={'Invite the code to someone and create the room'} />
       </Box>
-      <Box direction="row">
+      <CodeBox direction="row">
         <CodeInput roomCode={roomCode}></CodeInput>
         <CopyButton roomCode={roomCode}></CopyButton>
-      </Box>
+      </CodeBox>
       <CodeButton
         disabled={isPending}
         onClick={() => {
