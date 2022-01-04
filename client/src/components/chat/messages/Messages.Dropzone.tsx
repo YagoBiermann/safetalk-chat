@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { HTMLAttributes, useContext, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { fileContext } from '../../../lib/context/fileContext'
@@ -7,11 +7,13 @@ import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { acceptedTypes } from '../../../lib/enums'
 
-const Background = styled.div`
+const Background = styled.div<{ position: number }>`
   width: 100%;
   height: 100%;
+  top: ${props => props.position}px;
   background: rgba(12, 12, 12, 0.2);
   position: absolute;
+  z-index: 999;
 `
 
 const OuterBox = styled.div`
@@ -46,8 +48,9 @@ const DropText = styled.h4`
   color: ${props => props.theme.fontColor.tertiary};
 `
 
-type DropzoneProps = {
+type DropzoneProps = HTMLAttributes<HTMLDivElement> & {
   close: () => void
+  position: number
 }
 
 const Dropzone = (props: DropzoneProps) => {
@@ -79,7 +82,7 @@ const Dropzone = (props: DropzoneProps) => {
   )
 
   return (
-    <Background>
+    <Background position={props.position}>
       <OuterBox>
         <InnerBox {...getRootProps({ style })}>
           <input {...getInputProps()} />

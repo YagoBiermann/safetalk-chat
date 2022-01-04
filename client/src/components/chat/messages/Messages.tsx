@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Dropzone from './Messages.Dropzone'
 import { MessageCard } from '../messageCard/MessageCard'
@@ -7,14 +7,14 @@ import { TextMessage } from '../messageCard/Message.Text'
 import { VideoMessage } from '../messageCard/Message.Video'
 import { AudioMessage } from '../messageCard/Message.Audio'
 
-const OuterBox = styled.div`
+const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: ${props => props.theme.colors.secondary.dark.elevation_0};
   border-radius: 25px 5px 5px 5px;
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: ${props => (props.isDragOver ? 'hidden' : 'scroll')};
   position: relative;
 
   @media screen and (max-width: ${props =>
@@ -25,6 +25,8 @@ const OuterBox = styled.div`
 
 function MessagesBox() {
   const [isDragOver, setDragOver] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const messagesRef = useRef<HTMLDivElement>(null)
 
   const closeDropzone = () => {
     setDragOver(false)
@@ -44,8 +46,15 @@ function MessagesBox() {
     }
   }, [isDragOver])
 
+  // scroll to bottom of messages box
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
   return (
     <OuterBox
+      ref={messagesRef}
+      isDragOver={isDragOver}
       onDragEnter={e => {
         setDragOver(true)
       }}
@@ -77,7 +86,14 @@ function MessagesBox() {
       <MessageCard myMessage username="Yago biermann">
         <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
       </MessageCard>
-      {isDragOver ? <Dropzone close={closeDropzone} /> : null}
+      <div ref={scrollRef} />
+      {isDragOver ? (
+        <Dropzone
+          position={messagesRef.current!.scrollTop}
+          id="dropzone"
+          close={closeDropzone}
+        />
+      ) : null}
     </OuterBox>
   )
 }

@@ -75,7 +75,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-  width: 14px;
+  width: 10px;
 
   @media (max-width: ${Palette.mediaWidthSizes.medium}) {
     width: 0px;
@@ -91,7 +91,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${Palette.colors.secondary.main.elevation_0};
+    background-color: ${Palette.colors.primary.main.elevation_4};
     border-radius: 20px;
   }
 
