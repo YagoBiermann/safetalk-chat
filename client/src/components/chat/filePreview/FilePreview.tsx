@@ -32,7 +32,7 @@ function FilePreview(props: PreviewTypes) {
     <PreviewBox>
       <PreviewCloseButton onClick={closeWithoutSave} />
       <PreviewItems file={files[0]} />
-      <PreviewSend file={files[0]} close={close}/>
+      <PreviewSend file={files[0]} close={close} />
     </PreviewBox>
   )
 }

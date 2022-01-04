@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TimeAgo, { TDate } from 'timeago-react'
-import { Palette } from '../../../assets/styles/theme'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import { Palette } from '../../../assets/styles/theme'
+import {
+  MessageCardDesktop,
+  MessageCardMobile,
+  MessageCardTablet
+} from './Message.MediaQueries'
 
 const MessageContainer = styled.div<{ myMessage?: boolean }>`
   display: flex;
@@ -22,27 +27,11 @@ const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
   max-height: auto;
   background-color: #212121;
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.xlarge}) {
-    max-width: 45%;
-  }
+  ${MessageCardDesktop}
+  
+  ${MessageCardTablet}
 
-  @media screen and (max-width: ${props => props.theme.mediaWidthSizes.large}) {
-    margin: 20px;
-    max-width: 60%;
-  }
-
-  @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
-    max-width: 100%;
-    border-radius: 10px;
-    background-color: #161616;
-    border: ${props =>
-      props.myMessage
-        ? `1px solid ${props.theme.colors.primary.light.elevation_0}`
-        : null};
-    box-shadow: none;
-    margin: 10px;
-  }
+  ${MessageCardMobile}
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`

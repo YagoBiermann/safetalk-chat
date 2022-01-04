@@ -11,6 +11,12 @@ import { DropFile } from '../../lib/interfaces'
 import FilePreview from '../../components/chat/filePreview/FilePreview'
 import DarkenBackground from '../../components/global/DarkenBackground'
 import ChatSideBar from '../../components/chat/sidebar/SideBar'
+import {
+  ChatBoxDesktop,
+  ChatBoxMobile,
+  ChatContainerDesktop,
+  ChatHeaderMobile
+} from './_chat.MediaQueries'
 
 const ChatContainer = styled.div`
   display: flex;
@@ -19,10 +25,7 @@ const ChatContainer = styled.div`
   width: 100vw;
   height: 100vh;
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.xlarge}) {
-    align-items: flex-start;
-  }
+  ${ChatContainerDesktop}
 `
 
 const ChatBox = styled(Box)`
@@ -30,34 +33,14 @@ const ChatBox = styled(Box)`
   height: 90%;
   margin-top: 30px;
 
-  @media screen and (min-width: ${props =>
-      props.theme.mediaWidthSizes.xlarge}) {
-    width: 65vw;
-  }
+  ${ChatBoxDesktop}
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.xlarge}) {
-    margin-left: 30px;
-    width: 80vw;
-  }
-
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    justify-content: flex-end;
-  }
+  ${ChatBoxMobile}
 `
 
 const ChatHeader = styled.div`
   display: none;
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    display: flex;
-    width: 100vw;
-    height: 74px;
-  }
+  ${ChatHeaderMobile}
 `
 
 const Chat: NextPage = props => {

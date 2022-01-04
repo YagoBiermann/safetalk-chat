@@ -4,15 +4,11 @@ import GroupIcon from '@mui/icons-material/Group'
 import Badge from '@mui/material/Badge'
 import { motion } from 'framer-motion'
 import { badgeVariants } from './SideBar.Animations'
+import { badgeBoxMobile, badgeMobile } from './SideBar.MediaQueries'
 
 const BadgeBox = styled.div`
   margin: 15px;
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-  }
+  ${badgeBoxMobile}
 `
 
 const StyledBadge = styled(Badge)`
@@ -24,13 +20,7 @@ const StyledBadge = styled(Badge)`
     font-size: ${props => props.theme.fontSizes.medium};
     font-weight: 400;
 
-    @media screen and (max-width: ${props =>
-        props.theme.mediaWidthSizes.medium}) {
-      border-radius: 15px;
-      padding: 10px;
-      width: 0px;
-      height: 0px;
-    }
+    ${badgeMobile}
   }
 
   & .MuiSvgIcon-root {

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
+import { AudioPlayerContentTablet, AudioPlayerTimeTablet } from './MediaPlayer.MediaQueries'
 
 const Content = styled.div`
   display: flex;
@@ -10,10 +11,7 @@ const Content = styled.div`
   justify-content: space-evenly;
   width: 350px;
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
-    justify-content: flex-start;
-    width: 300px;
-  }
+  ${AudioPlayerContentTablet}
 `
 
 const SliderWrapper = styled.div`
@@ -24,16 +22,13 @@ const SliderWrapper = styled.div`
 
 const VolumeWrapper = styled.div`
   width: 84px;
-  
 `
 
 const TimeWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
-    margin: 0 15px 0 5px;
-  }
+  ${AudioPlayerTimeTablet}
 `
 
 const Text = styled.p`

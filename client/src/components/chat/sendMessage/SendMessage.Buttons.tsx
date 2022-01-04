@@ -5,6 +5,7 @@ import EmojiButton from './Buttons.Emoji'
 import UploadButton from './Buttons.Upload'
 import SendButton from './Buttons.Send'
 import RecordButton from './Buttons.Record'
+import { SendMessageButtonsMobile } from './SendMessage.MediaQueries'
 
 const MainBox = styled(Box)`
   flex-direction: row;
@@ -14,13 +15,7 @@ const MainBox = styled(Box)`
     margin-left: 15px;
   }
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    margin: 0 0 15px 0;
-    width: 100%;
-    justify-content: center;
-    flex-direction: row-reverse;
-  }
+  ${SendMessageButtonsMobile}
 `
 
 function SendMessageButtons(props: {

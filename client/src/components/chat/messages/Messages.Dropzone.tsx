@@ -6,6 +6,10 @@ import createFilePreview from '../../../lib/helpers/createFilePreview'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { acceptedTypes } from '../../../lib/enums'
+import {
+  dropzoneOuterBoxMobile,
+  dropzoneInnerBoxMobile
+} from './Messages.MediaQueries'
 
 const Background = styled.div<{ position: number }>`
   width: 100%;
@@ -28,6 +32,8 @@ const OuterBox = styled.div`
   left: 25%;
   width: 50%;
   height: 50%;
+
+  ${dropzoneOuterBoxMobile}
 `
 
 const InnerBox = styled.div`
@@ -38,6 +44,8 @@ const InnerBox = styled.div`
   height: 70%;
   border-radius: 12px;
   border: 5px dashed ${props => props.theme.colors.grey.elevation_2};
+
+  ${dropzoneInnerBoxMobile}
 `
 
 const activeStyle = {

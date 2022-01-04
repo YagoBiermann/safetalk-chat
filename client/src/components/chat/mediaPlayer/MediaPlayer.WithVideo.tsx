@@ -4,6 +4,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import PictureInPictureIcon from '@mui/icons-material/PictureInPicture'
 import styled from 'styled-components'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
+import { FullScreenMobile } from './MediaPlayer.MediaQueries'
 
 const PlayerBox = styled.div`
   display: flex;
@@ -34,12 +35,8 @@ const SliderWrapper = styled.div`
   width: 60%;
 `
 
-const ResizeBox = styled.div`
-  @media (max-width: ${props => props.theme.mediaWidthSizes.large}) {
-    & button:last-child {
-      display: none;
-    }
-  }
+const FullscreenBox = styled.div`
+  ${FullScreenMobile}
 `
 
 type VideoPlayerProps = MediaPlayerRenderProps & {
@@ -70,14 +67,14 @@ function VideoPlayer(props: VideoPlayerProps) {
           {PlayerButton}
           {PlayerVolume}
         </VolumeContainer>
-        <ResizeBox>
+        <FullscreenBox>
           <VideoButton onClick={() => mediaRef.current?.requestFullscreen()}>
             <FullscreenIcon />
           </VideoButton>
           <VideoButton onClick={togglePiP}>
             <PictureInPictureIcon />
           </VideoButton>
-        </ResizeBox>
+        </FullscreenBox>
       </PlayerBox>
       <SliderBox>
         {MediaCurrentTime}

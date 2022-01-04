@@ -11,6 +11,7 @@ import FetchError from './SideBar.FetchError'
 import UserSkeleton from './Sidebar.Skeleton'
 import Users from './SideBar.Users'
 import useWindowSize from '../../../lib/hooks/useWindowSize'
+import { sideBarMobile } from './SideBar.MediaQueries'
 
 const SideBar = styled.div`
   position: absolute;
@@ -24,14 +25,7 @@ const SideBar = styled.div`
   transform: translateY(-50%);
   cursor: pointer;
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    transform: translateX(-50%);
-    top: 0;
-    left: 50%;
-    border-radius: 0 0 10px 10px;
-    padding: 0;
-  }
+  ${sideBarMobile}
 `
 
 const UserList = styled.div<{ error: boolean }>`
@@ -50,7 +44,7 @@ function ChatSideBar() {
     { username: '', id: '' }
   ])
   const [isOpen, setOpen] = useState(false)
-  const { width, height } = useWindowSize()
+  const { width } = useWindowSize()
   const roomCode = useAppSelector(state => state.user.roomCode)
   const [fetchUsers, result] = useLazyFetchUsersQuery()
   const socket = useContext(socketContext)

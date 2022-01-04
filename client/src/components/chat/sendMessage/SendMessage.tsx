@@ -8,6 +8,7 @@ import { sendAudioMessage, sendTextMessage } from '../../../services/messages'
 import { MESSAGE_TYPE } from '../../../lib/enums'
 import useRecorder from '../../../lib/hooks/useRecorder'
 import RecordAudio from './SendMessage.Recorder'
+import { MessageFormMobile } from './SendMessage.MediaQueries'
 
 const MessageForm = styled.form`
   display: flex;
@@ -20,15 +21,7 @@ const MessageForm = styled.form`
     text-indent: 10px;
   }
 
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    flex-direction: column-reverse;
-    width: 100vw;
-    margin-top: 15px;
-    & > input {
-      border-radius: 0;
-    }
-  }
+  ${MessageFormMobile}
 `
 
 type FormValues = {

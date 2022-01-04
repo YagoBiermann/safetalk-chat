@@ -5,26 +5,37 @@ import { DropFile } from '../../../lib/interfaces'
 import RegularText from '../../global/RegularText'
 import { convertFileSize } from '../../../lib/helpers/convertFileSize'
 import { getFileExtension } from '../../../lib/helpers/getFileExtension'
+import {
+  FileOverflowMobile,
+  IconBoxMobile,
+  IconMobile
+} from './FilePreview.MediaQueries'
 
 const IconBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 360px;
-  height: 460px;
+  height: 360px;
+
+  ${IconBoxMobile}
 `
 const FileOverflow = styled.div`
+  display: block;
   overflow: hidden;
-  height: 165px;
+  max-width: 300px;
   margin: 25px 25px 0 25px;
+
+  ${FileOverflowMobile}
 `
 
 const FileName = styled.h4`
-  margin-bottom: 5px;
-  text-align: center;
-  white-space: pre-line;
   text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap
+  margin-bottom: 5px;
+  overflow: hidden;
 `
 
 const FileProps = styled.div`
@@ -39,6 +50,8 @@ const FileProps = styled.div`
 const Icon = styled(ArticleIcon)`
   color: ${props => props.theme.fontColor.primary};
   font-size: 148px;
+
+  ${IconMobile}
 `
 
 const PreviewFile = function PreviewFile(props: { file: DropFile }) {
