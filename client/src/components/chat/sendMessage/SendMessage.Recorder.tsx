@@ -5,15 +5,18 @@ import OutlinedButton from '../../global/Button.Outlined'
 import Check from '@material-ui/icons/Check'
 import Close from '@material-ui/icons/Close'
 import useTimer from '../../../lib/hooks/useTimer'
+import { RecorderMobile } from './SendMessage.MediaQueries'
+
+const InnerBox = styled(Box)`
+  margin: 0 10px 0 10px;
+`
 
 const MainBox = styled(Box)`
   justify-content: space-around;
   margin-left: 25px;
   width: 230px;
-`
 
-const InnerBox = styled(Box)`
-  margin: 0 10px 0 10px;
+  ${RecorderMobile}
 `
 
 const Timer = styled.span`
@@ -41,7 +44,7 @@ function RecordAudio(props: RecordAudioProps) {
         <Close />
       </OutlinedButton>
 
-      <InnerBox direction="row">
+      <InnerBox id="recordTimerBox" direction="row">
         <Timer>
           {minute}:{second}
         </Timer>
@@ -54,4 +57,5 @@ function RecordAudio(props: RecordAudioProps) {
   )
 }
 
+export { InnerBox }
 export default RecordAudio

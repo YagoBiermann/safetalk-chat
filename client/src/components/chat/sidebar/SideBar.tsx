@@ -4,12 +4,14 @@ import styled from 'styled-components'
 import { socketContext } from '../../../lib/context/socketContext'
 import { useLazyFetchUsersQuery } from '../../../services/api'
 import { useAppSelector } from '../../../store'
-import { sideBarVariants } from './SideBar.Animations'
+import { sideBarVariants, sideBarMobileVariants } from './SideBar.Animations'
 import { BadgeWrapper } from './SideBar.BadgeWrapper'
 import SideBarContent from './SideBar.Content'
 import FetchError from './SideBar.FetchError'
 import UserSkeleton from './Sidebar.Skeleton'
 import Users from './SideBar.Users'
+import useWindowSize from '../../../lib/hooks/useWindowSize'
+import { sideBarMobile } from './SideBar.MediaQueries'
 
 const SideBar = styled.div`
   position: absolute;
@@ -22,6 +24,8 @@ const SideBar = styled.div`
   border-radius: 10px 0 0 10px;
   transform: translateY(-50%);
   cursor: pointer;
+
+  ${sideBarMobile}
 `
 
 const UserList = styled.div<{ error: boolean }>`
@@ -36,10 +40,11 @@ const UserList = styled.div<{ error: boolean }>`
 `
 
 function ChatSideBar() {
-  const [isOpen, setOpen] = useState(false)
   const [users, setUsers] = useState<Array<{ username: string; id: string }>>([
     { username: '', id: '' }
   ])
+  const [isOpen, setOpen] = useState(false)
+  const { width } = useWindowSize()
   const roomCode = useAppSelector(state => state.user.roomCode)
   const [fetchUsers, result] = useLazyFetchUsersQuery()
   const socket = useContext(socketContext)
@@ -71,7 +76,7 @@ function ChatSideBar() {
 
   return (
     <SideBar
-      variants={sideBarVariants}
+      variants={width! < 600 ? sideBarMobileVariants : sideBarVariants}
       animate={isOpen ? 'open' : 'closed'}
       as={motion.div}
       onClick={toggleSideBar}

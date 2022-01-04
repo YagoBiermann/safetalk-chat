@@ -4,9 +4,11 @@ import GroupIcon from '@mui/icons-material/Group'
 import Badge from '@mui/material/Badge'
 import { motion } from 'framer-motion'
 import { badgeVariants } from './SideBar.Animations'
+import { badgeBoxMobile, badgeMobile } from './SideBar.MediaQueries'
 
 const BadgeBox = styled.div`
   margin: 15px;
+  ${badgeBoxMobile}
 `
 
 const StyledBadge = styled(Badge)`
@@ -17,6 +19,8 @@ const StyledBadge = styled(Badge)`
     background-color: ${props => props.theme.colors.grey.elevation_0};
     font-size: ${props => props.theme.fontSizes.medium};
     font-weight: 400;
+
+    ${badgeMobile}
   }
 
   & .MuiSvgIcon-root {
@@ -38,7 +42,6 @@ function BadgeWrapper(props: BadgeWrapperProps) {
   const { users } = props
   return (
     <BadgeBox
- 
       variants={badgeVariants}
       animate="closed"
       initial="closed"

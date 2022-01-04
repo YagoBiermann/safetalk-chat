@@ -4,11 +4,14 @@ import PreviewImage from './Items.Image'
 import PreviewFile from './Items.File'
 import PreviewVideo from './Items.Video'
 import { DropFile } from '../../../lib/interfaces'
+import { PreviewThumbnailMobile } from './FilePreview.MediaQueries'
 
 const PreviewThumbnail = styled.div`
   display: flex;
   max-width: 70vw;
   max-height: 70vh;
+
+  ${PreviewThumbnailMobile}
 `
 
 const previewItems = (type: string, file: DropFile) => {
@@ -21,7 +24,7 @@ const previewItems = (type: string, file: DropFile) => {
 
     case type.includes('application') || type.includes('text/plain'):
       return <PreviewFile file={file} />
-      
+
     default:
       break
   }

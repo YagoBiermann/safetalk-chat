@@ -5,6 +5,7 @@ import EmojiButton from './Buttons.Emoji'
 import UploadButton from './Buttons.Upload'
 import SendButton from './Buttons.Send'
 import RecordButton from './Buttons.Record'
+import { SendMessageButtonsMobile } from './SendMessage.MediaQueries'
 
 const MainBox = styled(Box)`
   flex-direction: row;
@@ -13,6 +14,8 @@ const MainBox = styled(Box)`
   & > button {
     margin-left: 15px;
   }
+
+  ${SendMessageButtonsMobile}
 `
 
 function SendMessageButtons(props: {

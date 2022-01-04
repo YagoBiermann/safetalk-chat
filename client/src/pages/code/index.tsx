@@ -9,19 +9,14 @@ import ErrorAlert from '../../components/global/ErrorAlert'
 import JoinRoom from '../../components/code/joinRoom/JoinRoom'
 import Container from '../../components/global/Container'
 import { ENDPOINTS } from '../../lib/enums'
+import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
 
 const CodeContainer = styled(Container)`
   justify-content: space-around;
 
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.xlarge}) {
-    min-width: 100vw;
-    min-height: 100vh;
-  }
+  ${CodeContainerDesktop}
 
-  @media (max-height: ${({ theme }) => theme.mediaWidthSizes.small}) {
-    justify-content: space-between;
-    min-height: 130%;
-  }
+  ${CodeContainerMobile}
 `
 
 const Code: NextPage = () => {

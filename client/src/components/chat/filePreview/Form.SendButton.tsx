@@ -20,6 +20,12 @@ const SendButton = styled(IconButton)(
     font-size: 1.3em;
     color: whitesmoke;
   }
+
+  @media screen and (max-width: 600px) {
+    & > svg {
+      font-size: 1.2em;
+    }
+  }
 `
 )
 

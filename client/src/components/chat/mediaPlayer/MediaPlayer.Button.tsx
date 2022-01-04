@@ -1,11 +1,6 @@
-import {
-  ExtendButtonBase,
-  IconButton,
-  IconButtonProps,
-  IconButtonTypeMap
-} from '@mui/material'
+import { IconButton, IconButtonProps } from '@mui/material'
 import React from 'react'
-import styled, { DefaultTheme, StyledComponent } from 'styled-components'
+import styled from 'styled-components'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import ReplayIcon from '@mui/icons-material/Replay'
 import PauseIcon from '@mui/icons-material/Pause'

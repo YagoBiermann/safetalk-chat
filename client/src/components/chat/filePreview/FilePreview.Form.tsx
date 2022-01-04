@@ -19,6 +19,7 @@ const PreviewInput = styled(PrimaryInput)`
   background-color: ${props => props.theme.colors.primary.main.elevation_4};
   height: inherit;
   width: 100%;
+  text-indent: 10px;
   &::placeholder {
     color: ${props => props.theme.fontColor.secondary};
   }

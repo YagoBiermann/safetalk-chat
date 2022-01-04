@@ -2,18 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
+import { AudioPlayerContentTablet, AudioPlayerTimeTablet } from './MediaPlayer.MediaQueries'
 
 const Content = styled.div`
-  width: 500px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-evenly;
+  width: 350px;
+
+  ${AudioPlayerContentTablet}
 `
 
 const SliderWrapper = styled.div`
   display: flex;
-  width: 180px;
-  margin: 0 20px 0 20px;
+  width: 85%;
+  align-self: center;
 `
 
 const VolumeWrapper = styled.div`
@@ -23,7 +27,8 @@ const VolumeWrapper = styled.div`
 const TimeWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 0 10px 0 5px;
+
+  ${AudioPlayerTimeTablet}
 `
 
 const Text = styled.p`
@@ -40,18 +45,19 @@ function AudioPlayer(props: AudioPlayerProps) {
     MediaDuration,
     PlayerButton,
     PlayerSlider,
-    PlayerVolume,
-    mediaRef
+    PlayerVolume
   } = props
   return (
-    <Content>
-      {PlayerButton}
-      <TimeWrapper>
-        {MediaCurrentTime} <Text bold> / </Text> {MediaDuration}
-      </TimeWrapper>
+    <>
+      <Content>
+        {PlayerButton}
+        <TimeWrapper>
+          {MediaCurrentTime} <Text bold> / </Text> {MediaDuration}
+        </TimeWrapper>
+        <VolumeWrapper>{PlayerVolume}</VolumeWrapper>
+      </Content>
       <SliderWrapper>{PlayerSlider}</SliderWrapper>
-      <VolumeWrapper>{PlayerVolume}</VolumeWrapper>
-    </Content>
+    </>
   )
 }
 

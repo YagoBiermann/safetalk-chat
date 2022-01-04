@@ -9,19 +9,14 @@ import UsernameForm from '../components/home/usernameForm/UsernameForm'
 import { socketContext } from '../lib/context/socketContext'
 import { useAppDispatch, useAppSelector } from '../store'
 import { setSocketID } from '../store/ducks/users'
+import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
-  @media (max-width: ${props => props.theme.mediaWidthSizes.xlarge}) {
-    min-width: 90vw;
-  }
-  @media (max-width: ${props => props.theme.mediaWidthSizes.xsmall}) {
-    min-width: 320px;
-  }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
-    margin-top: 5px;
-  }
+  ${HomeContainerDesktop}
+
+  ${HomeContainerMobile}
 `
 
 const Home: NextPage = () => {

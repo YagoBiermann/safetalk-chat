@@ -1,30 +1,32 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import Box from '../../global/Box'
 import Dropzone from './Messages.Dropzone'
-import { MessageTemplate } from '../messageCard/MessageCard'
+import { MessageCard } from '../messageCard/MessageCard'
 import { ImageMessage } from '../messageCard/Message.Image'
 import { TextMessage } from '../messageCard/Message.Text'
 import { VideoMessage } from '../messageCard/Message.Video'
 import { AudioMessage } from '../messageCard/Message.Audio'
 
-const OuterBox = styled(Box)`
-  background-color: ${props => props.theme.colors.secondary.dark.elevation_0};
-  border-radius: 25px 5px 5px 5px;
-  height: 80vh;
-  width: inherit;
-  position: relative;
-`
-const InnerBox = styled.div`
-  overflow-y: auto;
+const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background-color: ${props => props.theme.colors.secondary.dark.elevation_0};
+  border-radius: 25px 5px 5px 5px;
   width: 100%;
+  height: 100%;
+  overflow-y: ${props => (props.isDragOver ? 'hidden' : 'scroll')};
+  position: relative;
+
+  @media screen and (max-width: ${props =>
+      props.theme.mediaWidthSizes.medium}) {
+    border-radius: 0;
+  }
 `
 
 function MessagesBox() {
   const [isDragOver, setDragOver] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const messagesRef = useRef<HTMLDivElement>(null)
 
   const closeDropzone = () => {
     setDragOver(false)
@@ -44,8 +46,15 @@ function MessagesBox() {
     }
   }, [isDragOver])
 
+  // scroll to bottom of messages box
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
   return (
     <OuterBox
+      ref={messagesRef}
+      isDragOver={isDragOver}
       onDragEnter={e => {
         setDragOver(true)
       }}
@@ -56,27 +65,35 @@ function MessagesBox() {
         }
       }}
     >
-      <InnerBox>
-        <MessageTemplate myMessage username="Yago biermann">
-          <ImageMessage
-            imageURL="https://picsum.photos/id/237/800/600"
-            message="This is a test message"
-          />
-        </MessageTemplate>
-        <MessageTemplate username="Yago biermann">
-          <TextMessage message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet " />
-        </MessageTemplate>
-        <MessageTemplate username="Yago biermann">
-          <VideoMessage
-            message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet "
-            videoURL={'/static/images/video.mp4'}
-          />
-        </MessageTemplate>
-        <MessageTemplate username="Yago biermann">
-          <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
-        </MessageTemplate>
-      </InnerBox>
-      {isDragOver ? <Dropzone close={closeDropzone} /> : null}
+      <MessageCard username="Yago biermann">
+        <ImageMessage
+          imageURL="https://picsum.photos/id/237/800/600"
+          message="This is a test message"
+        />
+      </MessageCard>
+
+      <MessageCard myMessage username="Yago biermann">
+        <TextMessage message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet " />
+      </MessageCard>
+
+      <MessageCard username="Yago biermann">
+        <VideoMessage
+          message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet "
+          videoURL={'/static/images/video.mp4'}
+        />
+      </MessageCard>
+
+      <MessageCard myMessage username="Yago biermann">
+        <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
+      </MessageCard>
+      <div ref={scrollRef} />
+      {isDragOver ? (
+        <Dropzone
+          position={messagesRef.current!.scrollTop}
+          id="dropzone"
+          close={closeDropzone}
+        />
+      ) : null}
     </OuterBox>
   )
 }

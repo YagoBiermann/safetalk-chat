@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import { ImageMessageMobile } from './Message.MediaQueries'
 
 const ImageTemplate = styled.img`
   align-self: center;
@@ -9,6 +10,8 @@ const ImageTemplate = styled.img`
   max-height: 400px;
   object-fit: cover;
   cursor: pointer;
+
+  ${ImageMessageMobile}
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`

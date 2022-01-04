@@ -8,13 +8,20 @@ import { sendAudioMessage, sendTextMessage } from '../../../services/messages'
 import { MESSAGE_TYPE } from '../../../lib/enums'
 import useRecorder from '../../../lib/hooks/useRecorder'
 import RecordAudio from './SendMessage.Recorder'
+import { MessageFormMobile } from './SendMessage.MediaQueries'
 
 const MessageForm = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: inherit;
+  width: 100%;
   margin-top: 30px;
+  & > input {
+    padding: 0;
+    text-indent: 10px;
+  }
+
+  ${MessageFormMobile}
 `
 
 type FormValues = {
@@ -41,11 +48,8 @@ function SendMessage() {
   }, [recorder.audio])
 
   return (
-    <MessageForm
-      id="messageForm"
-      onSubmit={handleSubmit(handleSubmitMessage)}
-    >
-      <InputMessage width='100%' height="48px" {...register('message')} />
+    <MessageForm id="messageForm" onSubmit={handleSubmit(handleSubmitMessage)}>
+      <InputMessage width="100%" height="48px" {...register('message')} />
       {recorder.isRecording ? (
         <RecordAudio finish={finishRecord} cancel={cancelRecord} />
       ) : (

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { HTMLAttributes, useContext, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components'
 import { fileContext } from '../../../lib/context/fileContext'
@@ -6,18 +6,25 @@ import createFilePreview from '../../../lib/helpers/createFilePreview'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { acceptedTypes } from '../../../lib/enums'
+import {
+  dropzoneOuterBoxMobile,
+  dropzoneInnerBoxMobile
+} from './Messages.MediaQueries'
 
-const Background = styled.div`
+const Background = styled.div<{ position: number }>`
   width: 100%;
   height: 100%;
+  top: ${props => props.position}px;
   background: rgba(12, 12, 12, 0.2);
   position: absolute;
+  z-index: 999;
 `
 
 const OuterBox = styled.div`
   display: flex;
   position: absolute;
   background-color: ${props => props.theme.colors.grey.elevation_0};
+  border: 2px solid ${props => props.theme.colors.primary.main.elevation_4};
   justify-content: center;
   align-items: center;
   border-radius: 15px;
@@ -25,6 +32,8 @@ const OuterBox = styled.div`
   left: 25%;
   width: 50%;
   height: 50%;
+
+  ${dropzoneOuterBoxMobile}
 `
 
 const InnerBox = styled.div`
@@ -35,6 +44,8 @@ const InnerBox = styled.div`
   height: 70%;
   border-radius: 12px;
   border: 5px dashed ${props => props.theme.colors.grey.elevation_2};
+
+  ${dropzoneInnerBoxMobile}
 `
 
 const activeStyle = {
@@ -45,8 +56,9 @@ const DropText = styled.h4`
   color: ${props => props.theme.fontColor.tertiary};
 `
 
-type DropzoneProps = {
+type DropzoneProps = HTMLAttributes<HTMLDivElement> & {
   close: () => void
+  position: number
 }
 
 const Dropzone = (props: DropzoneProps) => {
@@ -62,7 +74,7 @@ const Dropzone = (props: DropzoneProps) => {
       acceptedFiles.forEach(file => {
         setFiles([...files, createFilePreview(file)])
       }),
-      props.close()
+        props.close()
     },
     onDropRejected: () => {
       dispatch(setError('File type not supported'))
@@ -78,7 +90,7 @@ const Dropzone = (props: DropzoneProps) => {
   )
 
   return (
-    <Background>
+    <Background position={props.position}>
       <OuterBox>
         <InnerBox {...getRootProps({ style })}>
           <input {...getInputProps()} />
