@@ -4,16 +4,16 @@ import styled from 'styled-components'
 import { socketContext } from '../../../lib/context/socketContext'
 import { useLazyFetchUsersQuery } from '../../../services/api'
 import { useAppSelector } from '../../../store'
-import { sideBarVariants, sideBarMobileVariants } from './SideBar.Animations'
-import { BadgeWrapper } from './SideBar.BadgeWrapper'
-import SideBarContent from './SideBar.Content'
-import FetchError from './SideBar.FetchError'
+import { sidebarAnimation } from './Sidebar.Animations'
+import { BadgeWrapper } from './Sidebar.BadgeWrapper'
+import SideBarContent from './Sidebar.Content'
+import FetchError from './Sidebar.FetchError'
 import UserSkeleton from './Sidebar.Skeleton'
-import Users from './SideBar.Users'
+import Users from './Sidebar.Users'
 import useWindowSize from '../../../lib/hooks/useWindowSize'
-import { sideBarMobile } from './SideBar.MediaQueries'
+import { sidebarMobile } from './Sidebar.MediaQueries'
 
-const SideBar = styled.div`
+const Sidebar = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@ const SideBar = styled.div`
   transform: translateY(-50%);
   cursor: pointer;
 
-  ${sideBarMobile}
+  ${sidebarMobile}
 `
 
 const UserList = styled.div<{ error: boolean }>`
@@ -39,7 +39,7 @@ const UserList = styled.div<{ error: boolean }>`
   }
 `
 
-function ChatSideBar() {
+function ChatSidebar() {
   const [users, setUsers] = useState<Array<{ username: string; id: string }>>([
     { username: '', id: '' }
   ])
@@ -59,9 +59,11 @@ function ChatSideBar() {
 
   useEffect(() => {
     socket.on('room:users', () => {
+      console.log('signal received')
       fetchUsers(roomCode)
         .unwrap()
         .then(res => {
+          console.log(res.users)
           setUsers(res.users)
         })
         .catch(err => {
@@ -75,8 +77,9 @@ function ChatSideBar() {
   }
 
   return (
-    <SideBar
-      variants={width! < 600 ? sideBarMobileVariants : sideBarVariants}
+    <Sidebar
+      variants={sidebarAnimation}
+      custom={width}
       animate={isOpen ? 'open' : 'closed'}
       as={motion.div}
       onClick={toggleSideBar}
@@ -95,8 +98,8 @@ function ChatSideBar() {
           <BadgeWrapper key="badgeWrapper" users={users} />
         )}
       </AnimatePresence>
-    </SideBar>
+    </Sidebar>
   )
 }
 
-export default ChatSideBar
+export default ChatSidebar

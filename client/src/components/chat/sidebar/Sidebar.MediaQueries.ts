@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 
-const sideBarMobile = css`
+const sidebarMobile = css`
   @media screen and (max-width: ${props =>
       props.theme.mediaWidthSizes.medium}) {
     transform: translateX(-50%);
@@ -30,4 +30,4 @@ const badgeMobile = css`
   }
 `
 
-export { sideBarMobile, badgeBoxMobile, badgeMobile }
+export { sidebarMobile, badgeBoxMobile, badgeMobile }

@@ -3,8 +3,10 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import PersonIcon from '@mui/icons-material/Person'
+import { motion } from 'framer-motion'
+import { userAnimation } from './Sidebar.Animations'
 
-const User = styled.div`
+const User = styled(motion.div)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -31,8 +33,8 @@ function Users(props: userListProps) {
   return (
     <>
       {useMemo(() => {
-        return users.map(user => (
-          <User key={user.id}>
+        return users.map((user, index) => (
+          <User key={user.id} animate={userAnimation(index)}>
             <UserAvatar>
               <PersonIcon fontSize="small" />
             </UserAvatar>
