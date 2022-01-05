@@ -15,6 +15,7 @@ const VolumeBox = styled.div`
   width: 0px;
   height: max-content;
   position: relative;
+  transition: width 0.1s ease-in;
 
   &:hover,
   &:active {
