@@ -2,6 +2,7 @@ import React from 'react'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { styled } from '@mui/material/styles'
 import { SvgIconProps } from '@mui/material'
+import { HTMLMotionProps } from 'framer-motion'
 
 const StyledButton = styled(IconButton)(
   ({ theme }) => `
@@ -18,9 +19,10 @@ const StyledButton = styled(IconButton)(
 `
 )
 
-export type RoundeButtonProps = IconButtonProps & {
-  children: SvgIconProps
-}
+export type RoundeButtonProps = IconButtonProps &
+  HTMLMotionProps<'button'> & {
+    children: SvgIconProps
+  }
 
 const RoundedButton = ({ children, ...props }: RoundeButtonProps) => {
   return <StyledButton {...props}>{children}</StyledButton>
