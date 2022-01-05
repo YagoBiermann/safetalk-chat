@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #0f0912;
     font-family: 'Roboto', sans-serif;
     color: ${Palette.fontColor.secondary};
+    overflow: hidden;
   }
 
   h1 {
