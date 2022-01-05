@@ -10,13 +10,14 @@ import { fileContext } from '../../lib/context/fileContext'
 import { DropFile } from '../../lib/interfaces'
 import FilePreview from '../../components/chat/filePreview/FilePreview'
 import DarkenBackground from '../../components/global/DarkenBackground'
-import ChatSideBar from '../../components/chat/sidebar/SideBar'
+import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import {
   ChatBoxDesktop,
   ChatBoxMobile,
   ChatContainerDesktop,
   ChatHeaderMobile
 } from './_chat.MediaQueries'
+import { AnimatePresence } from 'framer-motion'
 
 const ChatContainer = styled.div`
   display: flex;
@@ -24,7 +25,6 @@ const ChatContainer = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-
   ${ChatContainerDesktop}
 `
 
@@ -91,19 +91,23 @@ const Chat: NextPage = props => {
               <SendMessage />
             </ChatBox>
           </ChatContainer>
-          <ChatSideBar />
+          <ChatSidebar />
         </>
       </fileContext.Provider>
-      {showPreview ? (
-        <DarkenBackground>
-          <FilePreview
-            files={files}
-            close={closePreview}
-            closeWithoutSave={closeWithoutSave}
-          />
-        </DarkenBackground>
-      ) : null}
-      {error ? <ErrorAlert error={error} /> : null}
+      <AnimatePresence>
+        {showPreview ? (
+          <DarkenBackground>
+            <FilePreview
+              files={files}
+              close={closePreview}
+              closeWithoutSave={closeWithoutSave}
+            />
+          </DarkenBackground>
+        ) : null}
+      </AnimatePresence>
+      <AnimatePresence>
+        {error ? <ErrorAlert error={error} /> : null}
+      </AnimatePresence>
     </>
   )
 }
