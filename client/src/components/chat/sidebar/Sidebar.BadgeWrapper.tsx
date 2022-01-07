@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { badgeAnimation } from './Sidebar.Animations'
 import { badgeBoxMobile, badgeMobile } from './Sidebar.MediaQueries'
 
-const BadgeBox = styled.div`
+const BadgeBox = styled(motion.div)`
   margin-left: 18px;
   ${badgeBoxMobile}
 `
@@ -21,7 +21,6 @@ const StyledBadge = styled(Badge)`
     font-weight: 400;
     ${badgeMobile}
   }
-
   & .MuiSvgIcon-root {
     font-size: 32px;
     color: ${props => props.theme.colors.secondary};
@@ -45,7 +44,6 @@ function BadgeWrapper(props: BadgeWrapperProps) {
       animate="closed"
       initial="closed"
       exit="open"
-      as={motion.div}
     >
       <StyledBadge badgeContent={users.length}>
         <StyledGroupIcon />

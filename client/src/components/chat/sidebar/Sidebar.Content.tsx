@@ -12,11 +12,11 @@ const Content = styled(motion.div)`
   height: 100%;
 `
 
-type SidebarContentProps = {
+type SideBarContentProps = {
   children: JSX.Element
 }
 
-function SidebarContent(props: SidebarContentProps) {
+function SideBarContent(props: SideBarContentProps) {
   return (
     <Content
       variants={contentAnimation}
@@ -31,4 +31,4 @@ function SidebarContent(props: SidebarContentProps) {
   )
 }
 
-export default SidebarContent
+export default SideBarContent

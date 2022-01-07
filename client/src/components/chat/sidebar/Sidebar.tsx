@@ -6,7 +6,7 @@ import { useLazyFetchUsersQuery } from '../../../services/api'
 import { useAppSelector } from '../../../store'
 import { sidebarAnimation } from './Sidebar.Animations'
 import { BadgeWrapper } from './Sidebar.BadgeWrapper'
-import SideBarContent from './Sidebar.Content'
+import SidebarContent from './Sidebar.Content'
 import FetchError from './Sidebar.FetchError'
 import UserSkeleton from './Sidebar.Skeleton'
 import Users from './Sidebar.Users'
@@ -24,7 +24,6 @@ const Sidebar = styled.div`
   border-radius: 10px 0 0 10px;
   transform: translateY(-50%);
   cursor: pointer;
-
   ${sidebarMobile}
 `
 
@@ -39,7 +38,7 @@ const UserList = styled.div<{ error: boolean }>`
   }
 `
 
-function ChatSidebar() {
+function Chatsidebar() {
   const [users, setUsers] = useState<Array<{ username: string; id: string }>>([
     { username: '', id: '' }
   ])
@@ -59,11 +58,9 @@ function ChatSidebar() {
 
   useEffect(() => {
     socket.on('room:users', () => {
-      console.log('signal received')
       fetchUsers(roomCode)
         .unwrap()
         .then(res => {
-          console.log(res.users)
           setUsers(res.users)
         })
         .catch(err => {
@@ -72,7 +69,7 @@ function ChatSidebar() {
     })
   }, [roomCode, socket])
 
-  const toggleSideBar = () => {
+  const togglesidebar = () => {
     setOpen(!isOpen)
   }
 
@@ -82,18 +79,18 @@ function ChatSidebar() {
       custom={width}
       animate={isOpen ? 'open' : 'closed'}
       as={motion.div}
-      onClick={toggleSideBar}
+      onClick={togglesidebar}
       initial="closed"
     >
       <AnimatePresence exitBeforeEnter>
         {isOpen ? (
-          <SideBarContent key="sidebarContent">
+          <SidebarContent key="sidebarContent">
             <UserList error={Boolean(result.error)}>
               {result.isFetching && !result.data ? <UserSkeleton /> : null}
               {result.data ? <Users users={users} /> : null}
               {result.error ? <FetchError /> : null}
             </UserList>
-          </SideBarContent>
+          </SidebarContent>
         ) : (
           <BadgeWrapper key="badgeWrapper" users={users} />
         )}
@@ -102,4 +99,4 @@ function ChatSidebar() {
   )
 }
 
-export default ChatSidebar
+export default Chatsidebar

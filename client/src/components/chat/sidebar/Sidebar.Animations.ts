@@ -1,31 +1,33 @@
 import { Palette } from '../../../assets/styles/theme'
 
 const sidebarAnimation = {
-  open: (screenSize: number) => ({
-    width: screenSize <= 600 ? '220px' : '250px',
+  open: (screenWidth: number) => ({
+    width: screenWidth <= 600 ? '220px' : '250px',
     height: '50vh',
     backgroundColor: Palette.colors.grey.elevation_0,
     transition: {
-      height: { delay: 0.5 },
-      backgroundColor: { delay: 0.2 },
+      height: { delay: 0.6 },
+      backgroundColor: { delay: 0.3 },
       type: 'spring',
-      damping: 20,
       stiffness: 150,
-      mass: 1
+      damping: 25,
+      mass: 1,
+      bounce: 5
     }
   }),
-  closed: (screenSize: number) => ({
-    width: screenSize <= 600 ? '64px' : '70px',
-    height: screenSize <= 600 ? '48px' : '85px',
+  closed: (screenWidth: number) => ({
+    width: screenWidth <= 600 ? '64px' : '70px',
+    height: screenWidth <= 600 ? '48px' : '85px',
     backgroundColor: Palette.colors.secondary.dark.elevation_4,
     transition: {
-      width: { delay: 0.5 },
-      height: { delay: 0.2 },
+      width: { delay: 0.6 },
+      height: { delay: 0.3 },
       backgroundColor: { delay: 0.2 },
       type: 'spring',
-      damping: 20,
       stiffness: 150,
-      mass: 1
+      damping: 25,
+      mass: 1,
+      bounce: 5
     }
   })
 }
