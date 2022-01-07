@@ -44,7 +44,7 @@ function SendMessageButtons(props: SendMessageButtonsProps) {
 
   return (
     <MainBox
-      initial={'false'}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
@@ -53,7 +53,7 @@ function SendMessageButtons(props: SendMessageButtonsProps) {
           <SendButton form="messageForm" type="submit" />
         </motion.div>
       ) : (
-        <motion.div animate={controls} custom={1} variants={buttonsAnimation}>
+        <motion.div custom={1} variants={buttonsAnimation} animate={controls}>
           <RecordButton
             onClick={async () => {
               await controls.start('click')
