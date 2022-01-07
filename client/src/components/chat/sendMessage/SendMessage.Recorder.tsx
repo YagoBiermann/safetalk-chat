@@ -6,15 +6,20 @@ import Check from '@material-ui/icons/Check'
 import Close from '@material-ui/icons/Close'
 import useTimer from '../../../lib/hooks/useTimer'
 import { RecorderMobile } from './SendMessage.MediaQueries'
+import { HTMLMotionProps } from 'framer-motion/types/render/html/types'
+import { motion } from 'framer-motion'
 
 const InnerBox = styled(Box)`
-  margin: 0 10px 0 10px;
+  margin: 0 20px 0 20px;
 `
 
-const MainBox = styled(Box)`
-  justify-content: space-around;
-  margin-left: 25px;
-  width: 230px;
+const MainBox = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  width: 250px;
+  height: 50px;
 
   ${RecorderMobile}
 `
@@ -23,9 +28,25 @@ const Timer = styled.span`
   font-weight: bold;
 `
 
-type RecordAudioProps = {
-  cancel: () => void
-  finish: () => void
+type RecordAudioProps = React.HTMLAttributes<HTMLDivElement> &
+  HTMLMotionProps<'div'> & {
+    cancel: () => void
+    finish: () => void
+  }
+
+const recorderAnimation = {
+  visible: {
+    scale: [1, 1.1, 1],
+    transition: {
+      duration: 0.3
+    }
+  },
+  hidden: {
+    scale: [1, 1.1, 1],
+    transition: {
+      duration: 0.25
+    }
+  }
 }
 
 function RecordAudio(props: RecordAudioProps) {
@@ -39,7 +60,7 @@ function RecordAudio(props: RecordAudioProps) {
   }, [])
 
   return (
-    <MainBox direction="row">
+    <MainBox variants={recorderAnimation} animate={'visible'} exit={'hidden'}>
       <OutlinedButton onClick={props.cancel}>
         <Close />
       </OutlinedButton>
@@ -57,5 +78,4 @@ function RecordAudio(props: RecordAudioProps) {
   )
 }
 
-export { InnerBox }
 export default RecordAudio

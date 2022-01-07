@@ -10,12 +10,12 @@ import JoinRoom from '../../components/code/joinRoom/JoinRoom'
 import Container from '../../components/global/Container'
 import { ENDPOINTS } from '../../lib/enums'
 import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
+import { motion } from 'framer-motion'
+import { PageAnimation } from '../_Animations'
 
 const CodeContainer = styled(Container)`
   justify-content: space-around;
-
   ${CodeContainerDesktop}
-
   ${CodeContainerMobile}
 `
 
@@ -44,7 +44,13 @@ const Code: NextPage = () => {
 
   return (
     <>
-      <CodeContainer>
+      <CodeContainer
+        variants={PageAnimation}
+        initial="initial"
+        as={motion.div}
+        animate="animate"
+        exit="exit"
+      >
         <CreateRoom />
         <JoinRoom />
       </CodeContainer>

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TimeAgo, { TDate } from 'timeago-react'
 import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import { motion } from 'framer-motion'
+import { messageCardAnimation } from './Message.Animations'
 import { Palette } from '../../../assets/styles/theme'
 import {
   MessageCardDesktop,
@@ -15,7 +17,7 @@ const MessageContainer = styled.div<{ myMessage?: boolean }>`
   justify-content: ${props => (props.myMessage ? 'flex-end' : 'flex-start')};
 `
 
-const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
+const Message = styled(motion.div)<{ maxWidth?: string; myMessage?: boolean }>`
   display: flex;
   flex-direction: column;
   border-radius: 15px;
@@ -26,11 +28,8 @@ const Message = styled.div<{ maxWidth?: string; myMessage?: boolean }>`
   min-width: 20%;
   max-height: auto;
   background-color: #212121;
-
   ${MessageCardDesktop}
-  
   ${MessageCardTablet}
-
   ${MessageCardMobile}
 `
 
@@ -67,10 +66,10 @@ function MessageCard(props: MessageProps) {
 
   return (
     <MessageContainer myMessage={myMessage}>
-      <Message myMessage={myMessage}>
+      <Message animate={messageCardAnimation} >
         <Header myMessage={myMessage}>
           <Text bold fontSize={Palette.fontSizes.medium}>
-            {props.myMessage ? 'You' : username}
+            {myMessage ? 'You' : username}
           </Text>
         </Header>
         {children}

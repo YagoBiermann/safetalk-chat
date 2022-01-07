@@ -1,16 +1,45 @@
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
+import { AnimatePresence, motion } from 'framer-motion'
 import { AppProps } from 'next/dist/shared/lib/router/router'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../assets/styles/globals'
 import muiTheme from '../assets/styles/muiTheme'
 import { Palette } from '../assets/styles/theme'
-import store from '../store'
 import { socketContext } from '../lib/context/socketContext'
 import socket from '../services/sockets'
+import store from '../store'
+import AnimatedLogo from '../components/global/AnimatedLogo'
+import styled from 'styled-components'
+
+const Loading = styled(motion.div)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', () => setIsLoading(true))
+    router.events.on('routeChangeComplete', () => {
+      setIsLoading(false)
+    })
+
+    return () => {
+      router.events.off('routeChangeStart', () => setIsLoading(true))
+      router.events.off('routeChangeComplete', () => {
+        setIsLoading(false)
+      })
+    }
+  }, [])
+
   return (
     <>
       <Head>
@@ -40,7 +69,20 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={Palette}>
           <Provider store={store}>
             <socketContext.Provider value={socket}>
-              <Component {...pageProps} />
+              <AnimatePresence exitBeforeEnter>
+                {isLoading ? (
+                  <Loading
+                    key={'loading'}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    <AnimatedLogo width={256} height={256} />
+                  </Loading>
+                ) : (
+                  <Component {...pageProps} key={router.route} />
+                )}
+              </AnimatePresence>
             </socketContext.Provider>
           </Provider>
         </ThemeProvider>

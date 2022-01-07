@@ -50,7 +50,7 @@ function PreviewSend(props: PreviewSendTypes) {
       <PreviewInput
         {...register('message')}
         placeholder="say something about it"
-        autoComplete='off'
+        autoComplete="off"
       />
       <PreviewSendButton type="submit" />
     </InputBox>

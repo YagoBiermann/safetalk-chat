@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import styled from 'styled-components'
-import { contentVariants } from './SideBar.Animations'
+import { contentAnimation } from './Sidebar.Animations'
 import { Divider } from '@mui/material'
-import ContentHeader from './SideBar.ContentHeader'
+import ContentHeader from './Sidebar.ContentHeader'
 
-const Content = styled.div`
+const Content = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,11 +19,10 @@ type SideBarContentProps = {
 function SideBarContent(props: SideBarContentProps) {
   return (
     <Content
-      variants={contentVariants}
+      variants={contentAnimation}
       animate="open"
       initial="closed"
       exit="closed"
-      as={motion.div}
     >
       <ContentHeader />
       <Divider color="#424242" />

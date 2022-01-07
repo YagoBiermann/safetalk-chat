@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import type { NextPage } from 'next'
-import { useContext, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Container from '../components/global/Container'
 import ErrorAlert from '../components/global/ErrorAlert'
@@ -10,16 +12,16 @@ import { socketContext } from '../lib/context/socketContext'
 import { useAppDispatch, useAppSelector } from '../store'
 import { setSocketID } from '../store/ducks/users'
 import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
+import { PageAnimation } from './_Animations'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
-
   ${HomeContainerDesktop}
-
   ${HomeContainerMobile}
 `
 
 const Home: NextPage = () => {
+  const router = useRouter()
   const socket = useContext(socketContext)
   const error = useAppSelector(state => state.app.error)
   const dispatch = useAppDispatch()
@@ -32,7 +34,13 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <HomeContainer>
+      <HomeContainer
+        as={motion.div}
+        variants={PageAnimation}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
         <Header />
         <UsernameForm />
         <Footer />

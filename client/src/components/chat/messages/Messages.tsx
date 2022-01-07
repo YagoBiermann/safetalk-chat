@@ -6,6 +6,7 @@ import { ImageMessage } from '../messageCard/Message.Image'
 import { TextMessage } from '../messageCard/Message.Text'
 import { VideoMessage } from '../messageCard/Message.Video'
 import { AudioMessage } from '../messageCard/Message.Audio'
+import { AnimatePresence } from 'framer-motion'
 
 const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
@@ -72,7 +73,14 @@ function MessagesBox() {
         />
       </MessageCard>
 
-      <MessageCard myMessage username="Yago biermann">
+      <MessageCard myMessage={true} username="Yago biermann">
+        <ImageMessage
+          imageURL="https://picsum.photos/id/237/800/600"
+          message="This is a test message"
+        />
+      </MessageCard>
+
+      <MessageCard myMessage={true} username="Yago biermann">
         <TextMessage message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet " />
       </MessageCard>
 
@@ -83,17 +91,19 @@ function MessagesBox() {
         />
       </MessageCard>
 
-      <MessageCard myMessage username="Yago biermann">
+      <MessageCard myMessage={true} username="Yago biermann">
         <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
       </MessageCard>
+      <AnimatePresence>
+        {isDragOver ? (
+          <Dropzone
+            position={messagesRef.current!.scrollTop}
+            id="dropzone"
+            close={closeDropzone}
+          />
+        ) : null}
+      </AnimatePresence>
       <div ref={scrollRef} />
-      {isDragOver ? (
-        <Dropzone
-          position={messagesRef.current!.scrollTop}
-          id="dropzone"
-          close={closeDropzone}
-        />
-      ) : null}
     </OuterBox>
   )
 }

@@ -4,16 +4,16 @@ import styled from 'styled-components'
 import { socketContext } from '../../../lib/context/socketContext'
 import { useLazyFetchUsersQuery } from '../../../services/api'
 import { useAppSelector } from '../../../store'
-import { sideBarVariants, sideBarMobileVariants } from './SideBar.Animations'
-import { BadgeWrapper } from './SideBar.BadgeWrapper'
-import SideBarContent from './SideBar.Content'
-import FetchError from './SideBar.FetchError'
+import { sidebarAnimation } from './Sidebar.Animations'
+import { BadgeWrapper } from './Sidebar.BadgeWrapper'
+import SidebarContent from './Sidebar.Content'
+import FetchError from './Sidebar.FetchError'
 import UserSkeleton from './Sidebar.Skeleton'
-import Users from './SideBar.Users'
+import Users from './Sidebar.Users'
 import useWindowSize from '../../../lib/hooks/useWindowSize'
-import { sideBarMobile } from './SideBar.MediaQueries'
+import { sidebarMobile } from './Sidebar.MediaQueries'
 
-const SideBar = styled.div`
+const Sidebar = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -24,8 +24,7 @@ const SideBar = styled.div`
   border-radius: 10px 0 0 10px;
   transform: translateY(-50%);
   cursor: pointer;
-
-  ${sideBarMobile}
+  ${sidebarMobile}
 `
 
 const UserList = styled.div<{ error: boolean }>`
@@ -39,7 +38,7 @@ const UserList = styled.div<{ error: boolean }>`
   }
 `
 
-function ChatSideBar() {
+function Chatsidebar() {
   const [users, setUsers] = useState<Array<{ username: string; id: string }>>([
     { username: '', id: '' }
   ])
@@ -70,33 +69,34 @@ function ChatSideBar() {
     })
   }, [roomCode, socket])
 
-  const toggleSideBar = () => {
+  const togglesidebar = () => {
     setOpen(!isOpen)
   }
 
   return (
-    <SideBar
-      variants={width! < 600 ? sideBarMobileVariants : sideBarVariants}
+    <Sidebar
+      variants={sidebarAnimation}
+      custom={width}
       animate={isOpen ? 'open' : 'closed'}
       as={motion.div}
-      onClick={toggleSideBar}
+      onClick={togglesidebar}
       initial="closed"
     >
       <AnimatePresence exitBeforeEnter>
         {isOpen ? (
-          <SideBarContent key="sidebarContent">
+          <SidebarContent key="sidebarContent">
             <UserList error={Boolean(result.error)}>
               {result.isFetching && !result.data ? <UserSkeleton /> : null}
               {result.data ? <Users users={users} /> : null}
               {result.error ? <FetchError /> : null}
             </UserList>
-          </SideBarContent>
+          </SidebarContent>
         ) : (
           <BadgeWrapper key="badgeWrapper" users={users} />
         )}
       </AnimatePresence>
-    </SideBar>
+    </Sidebar>
   )
 }
 
-export default ChatSideBar
+export default Chatsidebar

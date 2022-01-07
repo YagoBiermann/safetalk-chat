@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import PreviewCloseButton from './FilePreview.CloseButton'
 import PreviewSend from './FilePreview.Form'
 import PreviewItems from './FilePreview.Items'
 import { DropFile } from '../../../lib/interfaces'
+import { motion } from 'framer-motion'
+import DarkenBackground from '../../global/DarkenBackground'
+import { filePreviewAnimations } from './FilePreview.Animations'
 
-const PreviewBox = styled.div`
+const PreviewBox = styled(motion.div)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -29,11 +32,18 @@ function FilePreview(props: PreviewTypes) {
   const { files, close, closeWithoutSave } = props
 
   return (
-    <PreviewBox>
-      <PreviewCloseButton onClick={closeWithoutSave} />
-      <PreviewItems file={files[0]} />
-      <PreviewSend file={files[0]} close={close} />
-    </PreviewBox>
+    <DarkenBackground onClick={closeWithoutSave}>
+      <PreviewBox
+        variants={filePreviewAnimations}
+        animate="animate"
+        initial="initial"
+        exit="exit"
+      >
+        <PreviewCloseButton onClick={closeWithoutSave} />
+        <PreviewItems file={files[0]} />
+        <PreviewSend file={files[0]} close={close} />
+      </PreviewBox>
+    </DarkenBackground>
   )
 }
 

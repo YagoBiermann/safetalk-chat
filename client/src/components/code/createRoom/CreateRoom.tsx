@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
@@ -32,6 +32,10 @@ function CreateRoom() {
   const roomCode = useAppSelector(state => state.user.roomCode)
   const socketID = useAppSelector(state => state.user.socketID)
   const isPending = useAppSelector(state => state.room.pending)
+
+  useEffect(() => {
+    router.prefetch(`/chat/${roomCode}`)
+  }, [])
 
   const handleCreateRoom = () => {
     createRoom({ socketID, username, roomCode })

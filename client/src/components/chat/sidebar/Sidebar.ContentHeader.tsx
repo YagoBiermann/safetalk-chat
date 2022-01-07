@@ -7,7 +7,7 @@ const StyledGroupIcon = styled(GroupIcon)`
   color: ${props => props.theme.colors.secondary};
 `
 
-const SideBarHeader = styled.div`
+const SidebarHeader = styled.div`
   margin: 5px 0 10px 0;
   display: flex;
   flex-direction: row;
@@ -22,10 +22,10 @@ const UserTitle = styled.h5`
 
 function ContentHeader() {
   return (
-    <SideBarHeader>
+    <SidebarHeader>
       <StyledGroupIcon />
       <UserTitle>Users</UserTitle>
-    </SideBarHeader>
+    </SidebarHeader>
   )
 }
 

@@ -6,10 +6,6 @@ const StyledButton = styled(PrimaryButton)`
   @media (max-width: ${({ theme }) => theme.mediaWidthSizes.medium}) {
     width: 60%;
   }
-
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.small}) {
-    width: fit-content;
-  }
 `
 
 function CodeButton(props: any) {

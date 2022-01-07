@@ -67,7 +67,6 @@ class SocketEvents {
         if (user.room) {
           const roomCode = (await this.roomRepository.getRoomByID(user.room))
             .roomCode
-
           this.socket.to(roomCode).emit('room:users')
           this.deleteRoom(roomCode)
         }

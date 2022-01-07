@@ -10,6 +10,7 @@ import {
   dropzoneOuterBoxMobile,
   dropzoneInnerBoxMobile
 } from './Messages.MediaQueries'
+import { motion } from 'framer-motion'
 
 const Background = styled.div<{ position: number }>`
   width: 100%;
@@ -20,7 +21,7 @@ const Background = styled.div<{ position: number }>`
   z-index: 999;
 `
 
-const OuterBox = styled.div`
+const OuterBox = styled(motion.div)`
   display: flex;
   position: absolute;
   background-color: ${props => props.theme.colors.grey.elevation_0};
@@ -91,7 +92,19 @@ const Dropzone = (props: DropzoneProps) => {
 
   return (
     <Background position={props.position}>
-      <OuterBox>
+      <OuterBox
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{
+          scale: 1,
+          opacity: 1,
+          transition: { duration: 0.25, ease: 'easeInOut' }
+        }}
+        exit={{
+          scale: 0,
+          opacity: 0,
+          transition: { duration: 0.2, ease: 'easeInOut' }
+        }}
+      >
         <InnerBox {...getRootProps({ style })}>
           <input {...getInputProps()} />
           <DropText>Drop your file here</DropText>
