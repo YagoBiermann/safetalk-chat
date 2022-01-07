@@ -32,9 +32,7 @@ const ChatBox = styled(Box)`
   width: 70%;
   height: 90%;
   margin-top: 30px;
-
   ${ChatBoxDesktop}
-
   ${ChatBoxMobile}
 `
 
@@ -95,19 +93,15 @@ const Chat: NextPage = props => {
         </>
       </fileContext.Provider>
       <AnimatePresence>
-        {showPreview ? (
-          <DarkenBackground>
-            <FilePreview
-              files={files}
-              close={closePreview}
-              closeWithoutSave={closeWithoutSave}
-            />
-          </DarkenBackground>
-        ) : null}
+        {showPreview && (
+          <FilePreview
+            files={files}
+            close={closePreview}
+            closeWithoutSave={closeWithoutSave}
+          />
+        )}
       </AnimatePresence>
-      <AnimatePresence>
-        {error ? <ErrorAlert error={error} /> : null}
-      </AnimatePresence>
+      <AnimatePresence>{error && <ErrorAlert error={error} />}</AnimatePresence>
     </>
   )
 }
