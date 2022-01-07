@@ -9,7 +9,7 @@ import { MESSAGE_TYPE } from '../../../lib/enums'
 import useRecorder from '../../../lib/hooks/useRecorder'
 import RecordAudio from './SendMessage.Recorder'
 import { MessageFormMobile } from './SendMessage.MediaQueries'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 
 const MessageForm = styled.form`
   display: flex;
@@ -51,21 +51,17 @@ function SendMessage() {
   return (
     <MessageForm id="messageForm" onSubmit={handleSubmit(handleSubmitMessage)}>
       <InputMessage width="100%" height="48px" {...register('message')} />
-      <AnimatePresence exitBeforeEnter>
+      <LayoutGroup>
         {recorder.isRecording ? (
-          <RecordAudio
-            key="recordAudio"
-            finish={finishRecord}
-            cancel={cancelRecord}
-          />
+          <RecordAudio layout finish={finishRecord} cancel={cancelRecord} />
         ) : (
           <SendMessageButtons
-            key="sendMessageButtons"
+            layout
             hasMessage={Boolean(message)}
             startRecord={startRecord}
           />
         )}
-      </AnimatePresence>
+      </LayoutGroup>
     </MessageForm>
   )
 }
