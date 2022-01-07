@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledImage = styled.img`
+const StyledLogo = styled.img`
   width: auto;
   height: 180px;
   @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
@@ -11,22 +11,18 @@ const StyledImage = styled.img`
     height: 100px;
   }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.medium}){
+  @media (max-height: ${props => props.theme.mediaWidthSizes.medium}) {
     height: 120px;
   }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}){
+  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
     height: 64px;
     order: 1;
   }
 `
 
 function Logo() {
-  return (
-    <>
-      <StyledImage src={'/static/images/appLogo.png'} alt="Safe Talk logo" />
-    </>
-  )
+  return <StyledLogo src={'/static/images/appLogo.svg'} />
 }
 
 export default Logo
