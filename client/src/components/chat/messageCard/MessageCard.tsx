@@ -28,11 +28,8 @@ const Message = styled(motion.div)<{ maxWidth?: string; myMessage?: boolean }>`
   min-width: 20%;
   max-height: auto;
   background-color: #212121;
-
   ${MessageCardDesktop}
-
   ${MessageCardTablet}
-
   ${MessageCardMobile}
 `
 
@@ -69,10 +66,10 @@ function MessageCard(props: MessageProps) {
 
   return (
     <MessageContainer myMessage={myMessage}>
-      <Message animate={messageCardAnimation} myMessage={myMessage}>
+      <Message animate={messageCardAnimation} >
         <Header myMessage={myMessage}>
           <Text bold fontSize={Palette.fontSizes.medium}>
-            {props.myMessage ? 'You' : username}
+            {myMessage ? 'You' : username}
           </Text>
         </Header>
         {children}
