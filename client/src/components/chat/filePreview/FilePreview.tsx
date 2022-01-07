@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import PreviewCloseButton from './FilePreview.CloseButton'
 import PreviewSend from './FilePreview.Form'
 import PreviewItems from './FilePreview.Items'
 import { DropFile } from '../../../lib/interfaces'
 import { motion } from 'framer-motion'
+import DarkenBackground from '../../global/DarkenBackground'
+import { filePreviewAnimations } from './FilePreview.Animations'
 
 const PreviewBox = styled(motion.div)`
   position: relative;
@@ -28,42 +30,20 @@ type PreviewTypes = {
 
 function FilePreview(props: PreviewTypes) {
   const { files, close, closeWithoutSave } = props
-  const [submitted, setSubmitted] = useState(false)
 
   return (
-    <PreviewBox
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        scale: [0, 1.1, 1],
-        opacity: [0, 0.5, 1],
-        transition: {
-          ease: 'easeInOut',
-          duration: 1
-        }
-      }}
-      exit={
-        submitted
-          ? {
-              y: -30,
-              scale: 0,
-              transition: {
-                ease: 'easeInOut',
-                repeat: 2,
-                repeatType: 'reverse',
-                scale: { delay: 0.5 }
-              }
-            }
-          : {
-              x: 1000,
-              opacity: 0,
-              transition: { ease: 'linear', duration: 0.1 }
-            }
-      }
-    >
-      <PreviewCloseButton onClick={closeWithoutSave} />
-      <PreviewItems file={files[0]} />
-      <PreviewSend file={files[0]} submitted={setSubmitted} close={close} />
-    </PreviewBox>
+    <DarkenBackground onClick={closeWithoutSave}>
+      <PreviewBox
+        variants={filePreviewAnimations}
+        animate="animate"
+        initial="initial"
+        exit="exit"
+      >
+        <PreviewCloseButton onClick={closeWithoutSave} />
+        <PreviewItems file={files[0]} />
+        <PreviewSend file={files[0]} close={close} />
+      </PreviewBox>
+    </DarkenBackground>
   )
 }
 

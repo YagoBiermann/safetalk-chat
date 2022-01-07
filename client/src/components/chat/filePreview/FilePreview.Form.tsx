@@ -31,11 +31,10 @@ type FormValues = {
 type PreviewSendTypes = {
   file: DropFile
   close: () => void
-  submitted: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function PreviewSend(props: PreviewSendTypes) {
-  const { file, close, submitted } = props
+  const { file, close } = props
   const { resetField, register, handleSubmit } = useForm<FormValues>({
     defaultValues: { message: '' }
   })
@@ -43,7 +42,6 @@ function PreviewSend(props: PreviewSendTypes) {
   const submitMessage: SubmitHandler<FormValues> = data => {
     sendFileMessage(file.preview, MESSAGE_TYPE.FILE, data.message)
     resetField('message')
-    submitted(true)
     close()
   }
 
