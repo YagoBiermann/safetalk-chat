@@ -94,8 +94,16 @@ const Dropzone = (props: DropzoneProps) => {
     <Background position={props.position}>
       <OuterBox
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0, opacity: 0 }}
+        animate={{
+          scale: 1,
+          opacity: 1,
+          transition: { duration: 0.25, ease: 'easeInOut' }
+        }}
+        exit={{
+          scale: 0,
+          opacity: 0,
+          transition: { duration: 0.2, ease: 'easeInOut' }
+        }}
       >
         <InnerBox {...getRootProps({ style })}>
           <input {...getInputProps()} />

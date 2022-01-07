@@ -73,7 +73,14 @@ function MessagesBox() {
         />
       </MessageCard>
 
-      <MessageCard myMessage username="Yago biermann">
+      <MessageCard myMessage={true} username="Yago biermann">
+        <ImageMessage
+          imageURL="https://picsum.photos/id/237/800/600"
+          message="This is a test message"
+        />
+      </MessageCard>
+
+      <MessageCard myMessage={true} username="Yago biermann">
         <TextMessage message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet " />
       </MessageCard>
 
@@ -84,7 +91,7 @@ function MessagesBox() {
         />
       </MessageCard>
 
-      <MessageCard myMessage username="Yago biermann">
+      <MessageCard myMessage={true} username="Yago biermann">
         <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
       </MessageCard>
       <AnimatePresence>
