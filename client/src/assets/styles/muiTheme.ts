@@ -52,11 +52,15 @@ declare module '@mui/material/Badge' {
 }
 
 const muiTheme = createTheme({
+  shape: {
+    borderRadius: 25
+  },
   palette: {
+    mode: 'dark',
     primary: {
       main: Palette.colors.primary.main.elevation_4,
-      light: Palette.colors.primary.light.elevation_4,
-      dark: Palette.colors.primary.dark.elevation_4
+      light: Palette.colors.primary.dark.elevation_4,
+      dark: Palette.colors.primary.light.elevation_4
     },
     secondary: {
       main: Palette.colors.secondary.main.elevation_4,
@@ -117,27 +121,46 @@ const muiTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          height: 'min-content'
+          padding: 0,
+          minWidth: 'auto',
+          width: 48,
+          height: 48,
+          transition: 'all 0.1s ease-in-out',
+        },
+        containedPrimary: {
+          color: Palette.colors.primary.light.elevation_4
         }
       },
       variants: [
         {
           props: { variant: 'confirm' },
           style: {
-            border: `1px solid ${green[200]}`,
+            border: `1px solid ${green[500]}`,
             ':hover': {
-              backgroundColor: green[200],
-              transform: 'scale(1.1)'
+              backgroundColor: alpha(green[500], 0.3),
+              transform: 'scale(1.2)'
             }
           }
         },
         {
           props: { variant: 'cancel' },
           style: {
-            border: `1px solid ${red[200]}`,
+            border: `1px solid ${red[500]}`,
             ':hover': {
-              backgroundColor: red[200],
-              transform: 'scale(1.1)'
+              backgroundColor: alpha(red[500], 0.3),
+              transform: 'scale(1.2)'
+            }
+          }
+        },
+        {
+          props: { variant: 'outlined' },
+          style: {
+            border: `1px solid ${Palette.colors.primary.main.elevation_0}`,
+            height: 'min-content',
+            transition: 'ease-in-out 0.2s',
+            ':hover': {
+              backgroundColor: Palette.colors.primary.light.elevation_0,
+              transform: 'scale(1.2)'
             }
           }
         }
@@ -161,7 +184,7 @@ const muiTheme = createTheme({
             borderRadius: '25px',
             backgroundColor: Palette.colors.grey.elevation_4,
             width: '25px',
-            height: '25px',
+            height: '25px'
           }
         }
       ]

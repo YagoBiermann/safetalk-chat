@@ -44,11 +44,6 @@ declare module 'styled-components' {
         elevation_4: string
       }
     }
-
-    fonts: {
-      primary: string
-      secondary: string
-    }
     fontSizes: {
       xsmall: string
       small: string
@@ -75,14 +70,14 @@ const Palette: DefaultTheme = {
   colors: {
     primary: {
       main: {
-        elevation_0: 'rgb(101, 41, 138, 0.45)',
-        elevation_2: 'rgb(101, 41, 138, 0.55)',
-        elevation_4: 'rgb(101, 41, 138, 0.65)'
+        elevation_0: 'rgb(100, 40, 140, 0.3)',
+        elevation_2: 'rgb(100, 40, 140, 0.4)',
+        elevation_4: 'rgb(100, 40, 140, 0.5)'
       },
       light: {
-        elevation_0: 'rgba(150, 58, 166, 0.45)',
-        elevation_2: 'rgba(150, 58, 166, 0.55)',
-        elevation_4: 'rgba(150, 58, 166, 0.65)'
+        elevation_0: 'rgba(150, 60, 160, 0.3)',
+        elevation_2: 'rgba(150, 60, 160, 0.4)',
+        elevation_4: 'rgba(150, 60, 160, 0.5)'
       },
       dark: {
         elevation_0: 'rgb(63, 20, 102, 0.45)',
@@ -92,14 +87,14 @@ const Palette: DefaultTheme = {
     },
     secondary: {
       main: {
-        elevation_0: 'rgb(129, 53, 150, 0.45)',
-        elevation_2: 'rgb(129, 53, 150, 0.55)',
-        elevation_4: 'rgb(129, 53, 150, 0.65)'
+        elevation_0: 'rgb(130, 55, 150, 0.3)',
+        elevation_2: 'rgb(130, 55, 150, 0.4)',
+        elevation_4: 'rgb(130, 55, 150, 0.5)'
       },
       light: {
-        elevation_0: 'rgb(191, 87, 217, 0.45)',
-        elevation_2: 'rgb(191, 87, 217, 0.55)',
-        elevation_4: 'rgb(191, 87, 217, 0.65)'
+        elevation_0: 'rgb(190, 90, 220, 0.3)',
+        elevation_2: 'rgb(190, 90, 220, 0.4)',
+        elevation_4: 'rgb(190, 90, 220, 0.5)'
       },
       dark: {
         elevation_0: 'rgb(87, 31, 122, 0.45)',
@@ -113,7 +108,6 @@ const Palette: DefaultTheme = {
       elevation_4: '#424242'
     }
   },
-  fonts: { primary: 'Roboto', secondary: 'sans-serif' },
   fontColor: { primary: '#f5f5f5', secondary: '#dcdcdc', tertiary: '#939393' },
   fontSizes: {
     xsmall: '12px',

@@ -1,16 +1,18 @@
 import React from 'react'
-import RoundedButton, { RoundeButtonProps } from '../../global/Button.Rounded'
 import AttachFile from '@material-ui/icons/AttachFile'
 import { motion } from 'framer-motion'
+import { Button, ButtonProps } from '@mui/material'
+import { ButtonAnimation } from './SendMessage.Animations'
 
-const UploadButton = (props: Omit<RoundeButtonProps, 'children'>) => {
+const UploadButton = (props: ButtonProps) => {
   return (
-    <RoundedButton {...props}>
+    <Button variant="contained" color="primary" {...props}>
       <AttachFile
         component={motion.svg}
-        whileHover={{ y: -3, transition: { duration: 0.1 } }}
+        whileHover={ButtonAnimation.animate}
+        whileTap={ButtonAnimation.animate}
       />
-    </RoundedButton>
+    </Button>
   )
 }
 

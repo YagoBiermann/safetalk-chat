@@ -1,16 +1,18 @@
 import React from 'react'
-import RoundedButton, { RoundeButtonProps } from '../../global/Button.Rounded'
+import { Button, ButtonProps } from '@mui/material'
 import EmojiEmotions from '@material-ui/icons/EmojiEmotions'
 import { motion } from 'framer-motion'
+import { ButtonAnimation } from './SendMessage.Animations'
 
-const EmojiButton = (props: Omit<RoundeButtonProps, 'children'>) => {
+const EmojiButton = (props: ButtonProps) => {
   return (
-    <RoundedButton {...props}>
+    <Button variant="contained" color="primary" {...props}>
       <EmojiEmotions
         component={motion.svg}
-        whileHover={{ y: -3, transition: { duration: 0.1 } }}
+        whileHover={ButtonAnimation.animate}
+        whileTap={ButtonAnimation.animate}
       />
-    </RoundedButton>
+    </Button>
   )
 }
 
