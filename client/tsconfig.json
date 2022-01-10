@@ -16,10 +16,7 @@
     "incremental": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true,
-    "paths": {
-      "@material-ui/styled-engine": ["./node_modules/@material-ui/styled-engine-sc"]
-    }
+    "strictNullChecks": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
