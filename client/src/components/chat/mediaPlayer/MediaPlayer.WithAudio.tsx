@@ -10,7 +10,6 @@ const Content = styled.div`
   align-items: center;
   justify-content: space-evenly;
   width: 350px;
-
   ${AudioPlayerContentTablet}
 `
 

@@ -1,17 +1,5 @@
 import { Slider } from '@mui/material'
 import React from 'react'
-import styled from 'styled-components'
-
-const StyledSlider = styled(Slider)`
-  & > .MuiSlider-track,
-  .MuiSlider-rail {
-    background-color: rgba(150, 58, 166, 0.85);
-  }
-  & > .MuiSlider-thumb {
-    box-shadow: none;
-    background-color: ${props => props.theme.fontColor.secondary};
-  }
-`
 
 type PlayerSliderProps = {
   currentTime: number
@@ -30,7 +18,7 @@ function PlayerSlider(props: PlayerSliderProps) {
     handleSeekMouseUp
   } = props
   return (
-    <StyledSlider
+    <Slider
       onMouseUp={handleSeekMouseUp}
       onMouseDown={handleSeekMouseDown}
       onChange={handleSeekChange}
