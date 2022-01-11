@@ -38,10 +38,13 @@ declare module 'styled-components' {
           elevation_4: string
         }
       }
-      grey: {
+      dark: {
         elevation_0: string
         elevation_2: string
         elevation_4: string
+        elevation_6: string
+        elevation_8: string
+        elevation_10: string
       }
     }
     fontSizes: {
@@ -102,10 +105,13 @@ const Palette: DefaultTheme = {
         elevation_4: 'rgb(87, 31, 122, 0.65)'
       }
     },
-    grey: {
-      elevation_0: '#212121',
-      elevation_2: '#303030',
-      elevation_4: '#424242'
+    dark: {
+      elevation_0: '#121212',
+      elevation_2: '#222222',
+      elevation_4: '#272727',
+      elevation_6: '#323232',
+      elevation_8: '#383838',
+      elevation_10: '#424242'
     }
   },
   fontColor: { primary: '#f5f5f5', secondary: '#dcdcdc', tertiary: '#939393' },
