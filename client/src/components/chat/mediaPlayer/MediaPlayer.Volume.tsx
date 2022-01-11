@@ -1,6 +1,7 @@
 import { IconButton, Slider } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
+import { styled as muiStyled } from '@mui/material/styles'
 import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 import VolumeOffIcon from '@mui/icons-material/VolumeOff'
 import VolumeDownIcon from '@mui/icons-material/VolumeDown'
@@ -10,7 +11,7 @@ const VolumeBox = styled.div`
   align-items: center;
   justify-content: flex-start;
   border-radius: 15px;
-  background-color: ${props => props.theme.colors.grey.elevation_2};
+  background-color: ${props => props.theme.colors.dark.elevation_2};
   flex-direction: row;
   width: 0px;
   height: max-content;
@@ -28,15 +29,7 @@ const VolumeBox = styled.div`
   }
 `
 
-const VolumeButton = styled(IconButton)`
-  height: min-content;
-  position: relative;
-  & > svg {
-    color: whitesmoke;
-  }
-`
-
-const VolumeSlider = styled(Slider)`
+const VolumeSlider = muiStyled(Slider)`
   position: absolute;
   overflow: hidden;
   left: 45px;
@@ -45,14 +38,6 @@ const VolumeSlider = styled(Slider)`
   &:active {
     width: 64px;
     overflow: visible;
-  }
-  & > .MuiSlider-thumb {
-    box-shadow: none;
-    background-color: ${props => props.theme.fontColor.secondary};
-  }
-  & > .MuiSlider-track,
-  .MuiSlider-rail {
-    background-color: rgb(129, 53, 150, 1);
   }
 `
 
@@ -74,9 +59,9 @@ function MediaPlayerVolume(props: MediaPlayerVolumeProps) {
   return (
     <>
       <VolumeBox>
-        <VolumeButton onClick={handleMute} size="small">
+        <IconButton color="primary" size="small" onClick={handleMute}>
           {volumeIcon(volume)}
-        </VolumeButton>
+        </IconButton>
         <VolumeSlider
           onChange={(e: any) => {
             handleVolume(e.target.value as number)

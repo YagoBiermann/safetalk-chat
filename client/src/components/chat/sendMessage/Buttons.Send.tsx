@@ -1,17 +1,19 @@
 import React from 'react'
 import Send from '@material-ui/icons/Send'
-import RoundedButton, { RoundeButtonProps } from '../../global/Button.Rounded'
 import { motion } from 'framer-motion'
+import { Button, ButtonProps } from '@mui/material'
+import { ButtonAnimation } from './SendMessage.Animations'
 
-const SendButton = (props: Omit<RoundeButtonProps, 'children'>) => {
+const SendButton = (props: ButtonProps) => {
   return (
-    <RoundedButton {...props}>
+    <Button variant="contained" color="primary" {...props}>
       <Send
         fontSize="medium"
         component={motion.svg}
-        whileHover={{ rotateZ: '-35deg', transition: { duration: 0.1 } }}
+        whileHover={ButtonAnimation.animate}
+        whileTap={ButtonAnimation.animate}
       />
-    </RoundedButton>
+    </Button>
   )
 }
 

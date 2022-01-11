@@ -51,17 +51,12 @@ export default function App({ Component, pageProps }: AppProps) {
           name="description"
           content="Chat to talk with confidentiality, all messages are missed after close the app."
         />
-        <link rel="shortcut icon" href="/static/images/appLogo.png" />
-        <link rel="icon" href="/static/images/appLogo.png" />
+        <link rel="shortcut icon" href="/static/images/appLogo.svg" />
+        <link rel="icon" href="/static/images/appLogo.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin={'anonymous'}
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
           rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
       </Head>
       <GlobalStyle />
@@ -77,7 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                   >
-                    <AnimatedLogo width={256} height={256} />
+                    <AnimatedLogo width={156} height={156} />
                   </Loading>
                 ) : (
                   <Component {...pageProps} key={router.route} />

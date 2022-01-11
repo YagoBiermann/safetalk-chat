@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { contentAnimation } from './Sidebar.Animations'
 import { Divider } from '@mui/material'
 import ContentHeader from './Sidebar.ContentHeader'
+import { useTheme } from '@mui/material/styles/'
 
 const Content = styled(motion.div)`
   display: flex;
@@ -17,6 +18,7 @@ type SideBarContentProps = {
 }
 
 function SideBarContent(props: SideBarContentProps) {
+  const { dark} = useTheme()
   return (
     <Content
       variants={contentAnimation}
@@ -25,7 +27,7 @@ function SideBarContent(props: SideBarContentProps) {
       exit="closed"
     >
       <ContentHeader />
-      <Divider color="#424242" />
+      <Divider color={dark.elevation_4} />
       {props.children}
     </Content>
   )

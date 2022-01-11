@@ -4,7 +4,7 @@ const sidebarAnimation = {
   open: (screenWidth: number) => ({
     width: screenWidth <= 600 ? '220px' : '250px',
     height: '50vh',
-    backgroundColor: Palette.colors.grey.elevation_0,
+    backgroundColor: Palette.colors.dark.elevation_4,
     transition: {
       height: { delay: 0.6 },
       backgroundColor: { delay: 0.3 },

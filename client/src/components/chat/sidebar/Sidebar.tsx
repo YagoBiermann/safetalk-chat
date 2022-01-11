@@ -18,7 +18,6 @@ const Sidebar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 5px;
   top: 50%;
   right: 0;
   border-radius: 10px 0 0 10px;

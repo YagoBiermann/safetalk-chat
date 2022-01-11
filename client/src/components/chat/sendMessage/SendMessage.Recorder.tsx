@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import Box from '../../global/Box'
 import styled from 'styled-components'
-import OutlinedButton from '../../global/Button.Outlined'
 import Check from '@material-ui/icons/Check'
 import Close from '@material-ui/icons/Close'
 import useTimer from '../../../lib/hooks/useTimer'
 import { RecorderMobile } from './SendMessage.MediaQueries'
 import { HTMLMotionProps } from 'framer-motion/types/render/html/types'
 import { motion } from 'framer-motion'
+import { Button } from '@mui/material'
 
 const InnerBox = styled(Box)`
   margin: 0 20px 0 20px;
@@ -20,7 +20,6 @@ const MainBox = styled(motion.div)`
   flex-direction: row;
   width: 250px;
   height: 50px;
-
   ${RecorderMobile}
 `
 
@@ -61,9 +60,9 @@ function RecordAudio(props: RecordAudioProps) {
 
   return (
     <MainBox variants={recorderAnimation} animate={'visible'} exit={'hidden'}>
-      <OutlinedButton onClick={props.cancel}>
+      <Button variant="cancel" onClick={props.cancel}>
         <Close />
-      </OutlinedButton>
+      </Button>
 
       <InnerBox id="recordTimerBox" direction="row">
         <Timer>
@@ -71,9 +70,9 @@ function RecordAudio(props: RecordAudioProps) {
         </Timer>
       </InnerBox>
 
-      <OutlinedButton onClick={props.finish}>
+      <Button variant="confirm" onClick={props.finish}>
         <Check />
-      </OutlinedButton>
+      </Button>
     </MainBox>
   )
 }

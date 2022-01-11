@@ -1,16 +1,19 @@
 import React from 'react'
-import RoundedButton, { RoundeButtonProps } from '../../global/Button.Rounded'
 import KeyboardVoice from '@material-ui/icons/KeyboardVoice'
 import { motion } from 'framer-motion'
+import { Button, ButtonProps } from '@mui/material'
+import { ButtonAnimation } from './SendMessage.Animations'
 
-const RecordButton = (props: Omit<RoundeButtonProps, 'children'>) => {
+const RecordButton = (props: ButtonProps) => {
   return (
-    <RoundedButton {...props}>
+    <Button variant="contained" color="primary" {...props}>
       <KeyboardVoice
         component={motion.svg}
-        whileHover={{ y: -3, transition: { duration: 0.1 } }}
+        fontSize="medium"
+        whileHover={ButtonAnimation.animate}
+        whileTap={ButtonAnimation.animate}
       />
-    </RoundedButton>
+    </Button>
   )
 }
 

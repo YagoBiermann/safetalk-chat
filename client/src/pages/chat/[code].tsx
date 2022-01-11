@@ -11,13 +11,13 @@ import { DropFile } from '../../lib/interfaces'
 import FilePreview from '../../components/chat/filePreview/FilePreview'
 import DarkenBackground from '../../components/global/DarkenBackground'
 import ChatSidebar from '../../components/chat/sidebar/Sidebar'
+import { AnimatePresence } from 'framer-motion'
 import {
   ChatBoxDesktop,
   ChatBoxMobile,
   ChatContainerDesktop,
   ChatHeaderMobile
 } from './_chat.MediaQueries'
-import { AnimatePresence } from 'framer-motion'
 
 const ChatContainer = styled.div`
   display: flex;
@@ -101,7 +101,9 @@ const Chat: NextPage = props => {
           />
         )}
       </AnimatePresence>
-      <AnimatePresence>{error && <ErrorAlert error={error} />}</AnimatePresence>
+      <AnimatePresence>
+        {error && <ErrorAlert error={error} key={'chatPageError'} />}
+      </AnimatePresence>
     </>
   )
 }

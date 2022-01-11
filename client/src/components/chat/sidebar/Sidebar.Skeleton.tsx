@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Skeleton from '@mui/material/Skeleton'
 
 const StyledSkeleton = styled(Skeleton)`
-  background-color: ${props => props.theme.colors.grey.elevation_4};
+  background-color: ${props => props.theme.colors.dark.elevation_6};
 `
 const User = styled.div`
   display: flex;
