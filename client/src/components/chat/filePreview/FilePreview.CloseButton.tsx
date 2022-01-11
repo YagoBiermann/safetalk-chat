@@ -1,6 +1,6 @@
 import React from 'react'
 import Close from '@material-ui/icons/Close'
-import styled from 'styled-components'
+import { styled } from '@mui/material/styles'
 import { Button, ButtonProps } from '@mui/material'
 
 const CloseButton = styled(Button)`
@@ -9,6 +9,9 @@ const CloseButton = styled(Button)`
   right: 10px;
   border: none;
   z-index: 9999;
+  &:hover {
+    background: ${({ theme }) => theme.palette.primary.dark};
+  }
 `
 
 const PreviewCloseButton = (props: ButtonProps) => {

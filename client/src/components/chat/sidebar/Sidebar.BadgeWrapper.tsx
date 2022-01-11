@@ -15,7 +15,6 @@ const BadgeBox = styled(motion.div)`
 const StyledBadge = muiStyled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: theme.dark.elevation_0,
-    right: 5,
     borderRadius: '25px',
     width: '25px',
     height: '25px',

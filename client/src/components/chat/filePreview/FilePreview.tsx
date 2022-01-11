@@ -15,7 +15,7 @@ const PreviewBox = styled(motion.div)`
   align-items: center;
   justify-content: flex-end;
   border-radius: 10px 10px 10px 10px;
-  background-color: ${props => props.theme.colors.grey.elevation_0};
+  background-color: ${props => props.theme.colors.dark.elevation_4};
   overflow: hidden;
   z-index: 999;
   min-width: 15vw;

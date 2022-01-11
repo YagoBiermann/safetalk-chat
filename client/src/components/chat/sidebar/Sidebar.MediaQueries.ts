@@ -23,7 +23,6 @@ const badgeBoxMobile = css`
 
 const badgeMobile = mcss({
   borderRadius: '15px',
-  top: '5px',
   padding: '10px',
   width: '0px',
   height: '0px'
