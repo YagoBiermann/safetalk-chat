@@ -9,6 +9,7 @@ const RecordButton = (props: ButtonProps) => {
     <Button variant="contained" color="primary" {...props}>
       <KeyboardVoice
         component={motion.svg}
+        fontSize="medium"
         whileHover={ButtonAnimation.animate}
         whileTap={ButtonAnimation.animate}
       />

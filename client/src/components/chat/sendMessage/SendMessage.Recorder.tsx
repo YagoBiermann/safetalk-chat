@@ -20,7 +20,6 @@ const MainBox = styled(motion.div)`
   flex-direction: row;
   width: 250px;
   height: 50px;
-
   ${RecorderMobile}
 `
 
@@ -61,7 +60,7 @@ function RecordAudio(props: RecordAudioProps) {
 
   return (
     <MainBox variants={recorderAnimation} animate={'visible'} exit={'hidden'}>
-      <Button variant='cancel' onClick={props.cancel}>
+      <Button variant="cancel" onClick={props.cancel}>
         <Close />
       </Button>
 
@@ -71,7 +70,7 @@ function RecordAudio(props: RecordAudioProps) {
         </Timer>
       </InnerBox>
 
-      <Button variant='confirm' onClick={props.finish}>
+      <Button variant="confirm" onClick={props.finish}>
         <Check />
       </Button>
     </MainBox>

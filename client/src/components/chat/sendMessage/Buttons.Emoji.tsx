@@ -9,6 +9,7 @@ const EmojiButton = (props: ButtonProps) => {
     <Button variant="contained" color="primary" {...props}>
       <EmojiEmotions
         component={motion.svg}
+        fontSize="medium"
         whileHover={ButtonAnimation.animate}
         whileTap={ButtonAnimation.animate}
       />
