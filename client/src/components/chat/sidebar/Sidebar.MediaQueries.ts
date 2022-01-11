@@ -1,4 +1,5 @@
 import { css } from 'styled-components'
+import { css as mcss, Theme } from '@mui/material/styles'
 
 const sidebarMobile = css`
   @media screen and (max-width: ${props =>
@@ -20,14 +21,12 @@ const badgeBoxMobile = css`
   }
 `
 
-const badgeMobile = css`
-  @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
-    border-radius: 15px;
-    padding: 10px;
-    width: 0px;
-    height: 0px;
-  }
-`
+const badgeMobile = mcss({
+  borderRadius: '15px',
+  top: '5px',
+  padding: '10px',
+  width: '0px',
+  height: '0px'
+})
 
 export { sidebarMobile, badgeBoxMobile, badgeMobile }

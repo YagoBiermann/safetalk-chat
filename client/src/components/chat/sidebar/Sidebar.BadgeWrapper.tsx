@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { styled as muiStyled } from '@mui/material/styles'
 import GroupIcon from '@mui/icons-material/Group'
-import Badge from '@mui/material/Badge'
+import Badge, { BadgeProps } from '@mui/material/Badge'
 import { motion } from 'framer-motion'
 import { badgeAnimation } from './Sidebar.Animations'
 import { badgeBoxMobile, badgeMobile } from './Sidebar.MediaQueries'
@@ -11,26 +12,18 @@ const BadgeBox = styled(motion.div)`
   ${badgeBoxMobile}
 `
 
-const StyledBadge = styled(Badge)`
-  & .MuiBadge-badge {
-    border-radius: 25px;
-    width: 25px;
-    height: 25px;
-    background-color: ${props => props.theme.colors.grey.elevation_0};
-    font-size: ${props => props.theme.fontSizes.medium};
-    font-weight: 400;
-    ${badgeMobile}
+const StyledBadge = muiStyled(Badge)<BadgeProps>(({ theme }) => ({
+  '& .MuiBadge-badge': {
+    backgroundColor: theme.dark.elevation_0,
+    right: 5,
+    borderRadius: '25px',
+    width: '25px',
+    height: '25px',
+    fontWeight: 'bold',
+    fontSize: '14px',
+    [theme.breakpoints.down('tablet')]: badgeMobile
   }
-  & .MuiSvgIcon-root {
-    font-size: 32px;
-    color: ${props => props.theme.colors.secondary};
-  }
-`
-
-const StyledGroupIcon = styled(GroupIcon)`
-  font-size: 32px;
-  color: ${props => props.theme.colors.secondary};
-`
+}))
 
 type BadgeWrapperProps = {
   users: Array<{ username: string; id: string }>
@@ -45,8 +38,14 @@ function BadgeWrapper(props: BadgeWrapperProps) {
       initial="closed"
       exit="open"
     >
-      <StyledBadge badgeContent={users.length}>
-        <StyledGroupIcon />
+      <StyledBadge
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        badgeContent={users.length}
+      >
+        <GroupIcon sx={{ fontSize: '32px' }} />
       </StyledBadge>
     </BadgeBox>
   )
