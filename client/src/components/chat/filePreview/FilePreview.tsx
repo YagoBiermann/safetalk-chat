@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import PreviewCloseButton from './FilePreview.CloseButton'
 import PreviewSend from './FilePreview.Form'
@@ -30,9 +30,16 @@ type PreviewTypes = {
 
 function FilePreview(props: PreviewTypes) {
   const { files, close, closeWithoutSave } = props
+  const backgroundRef = useRef<HTMLDivElement>(null)
+
+  const handleClickOutside = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      closeWithoutSave()
+    }
+  }
 
   return (
-    <DarkenBackground onClick={closeWithoutSave}>
+    <DarkenBackground onClick={handleClickOutside}>
       <PreviewBox
         variants={filePreviewAnimations}
         animate="animate"
