@@ -24,7 +24,7 @@ const Background = styled.div<{ position: number }>`
 const OuterBox = styled(motion.div)`
   display: flex;
   position: absolute;
-  background-color: ${props => props.theme.colors.grey.elevation_0};
+  background-color: ${props => props.theme.colors.dark.elevation_2};
   border: 2px solid ${props => props.theme.colors.primary.main.elevation_4};
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@ const InnerBox = styled.div`
   width: 70%;
   height: 70%;
   border-radius: 12px;
-  border: 5px dashed ${props => props.theme.colors.grey.elevation_2};
+  border: 5px dashed ${props => props.theme.colors.dark.elevation_6};
 
   ${dropzoneInnerBoxMobile}
 `

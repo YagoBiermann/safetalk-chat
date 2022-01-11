@@ -45,7 +45,9 @@ const Home: NextPage = () => {
         <UsernameForm />
         <Footer />
       </HomeContainer>
-      {error ? <ErrorAlert error={error} /> : null}
+      <AnimatePresence>
+        {error && <ErrorAlert error={error} key={'homePageError'} />}
+      </AnimatePresence>
     </>
   )
 }

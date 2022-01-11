@@ -1,18 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { styled as muiStyled } from '@mui/material/styles'
 import GroupIcon from '@mui/icons-material/Group'
 
-const StyledGroupIcon = styled(GroupIcon)`
-  font-size: 32px;
-  color: ${props => props.theme.colors.secondary};
-`
-
 const SidebarHeader = styled.div`
-  margin: 5px 0 10px 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin: 5px 0 10px 0;
 `
 
 const UserTitle = styled.h5`
@@ -23,7 +19,7 @@ const UserTitle = styled.h5`
 function ContentHeader() {
   return (
     <SidebarHeader>
-      <StyledGroupIcon />
+      <GroupIcon sx={{ fontSize: '32px' }} />
       <UserTitle>Users</UserTitle>
     </SidebarHeader>
   )

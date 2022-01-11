@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     width: 100vw;
     background-color: #0f0912;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', 'Helvetica', sans-serif;
     color: ${Palette.fontColor.secondary};
     overflow: hidden;
   }
@@ -88,7 +88,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${Palette.colors.grey.elevation_0};
+    background: ${Palette.colors.dark.elevation_4};
   }
 
   *::-webkit-scrollbar-thumb {

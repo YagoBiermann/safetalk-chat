@@ -1,21 +1,13 @@
-import { IconButton, IconButtonProps } from '@mui/material'
+import { IconButtonProps, IconButton } from '@mui/material'
+import { styled as muiStyled } from '@mui/material/styles'
 import React from 'react'
-import styled from 'styled-components'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import ReplayIcon from '@mui/icons-material/Replay'
 import PauseIcon from '@mui/icons-material/Pause'
 import { SvgIconProps } from '@material-ui/core'
 
-const StyledButton = styled(IconButton)`
-  height: min-content;
-  margin: 5px;
-  transition: background-color 0.2s ease-in-out;
-  &:hover {
-    background-color: ${props => props.theme.colors.primary.main.elevation_2};
-  }
-  & > svg {
-    color: whitesmoke;
-  }
+const MediaButton = muiStyled(IconButton)`
+  margin: 0 5px 0 5px;
 `
 
 type PlayerButtonProps = IconButtonProps & {
@@ -34,9 +26,17 @@ const PlayerButton = ({
     return <PlayArrowIcon />
   }
   if (mediaState) {
-    return <StyledButton {...props}>{playIcon(mediaState)}</StyledButton>
+    return (
+      <MediaButton color="primary" size="small" {...props}>
+        {playIcon(mediaState)}
+      </MediaButton>
+    )
   }
-  return <StyledButton {...props}>{children}</StyledButton>
+  return (
+    <MediaButton color="primary" size="small" {...props}>
+      {children}
+    </MediaButton>
+  )
 }
 
 export default PlayerButton

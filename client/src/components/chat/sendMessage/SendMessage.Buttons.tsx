@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '../../global/Box'
 import styled from 'styled-components'
 import EmojiButton from './Buttons.Emoji'
 import UploadButton from './Buttons.Upload'
@@ -8,6 +7,7 @@ import RecordButton from './Buttons.Record'
 import { SendMessageButtonsMobile } from './SendMessage.MediaQueries'
 import { HTMLMotionProps } from 'framer-motion/types/render/html/types'
 import { motion, useAnimation } from 'framer-motion'
+import { syncButtonsAnimation } from './SendMessage.Animations'
 
 const MainBox = styled(motion.div)`
   display: flex;
@@ -18,20 +18,8 @@ const MainBox = styled(motion.div)`
   & > div {
     margin-left: 15px;
   }
-
   ${SendMessageButtonsMobile}
 `
-
-const buttonsAnimation = {
-  click: (i: number) => ({
-    y: [0, -10, 0],
-    scale: [1, 1.1, 1],
-    transition: {
-      delay: i * 0.1,
-      duration: 0.3
-    }
-  })
-}
 
 type SendMessageButtonsProps = React.HTMLAttributes<HTMLDivElement> &
   HTMLMotionProps<'div'> & {
@@ -53,7 +41,11 @@ function SendMessageButtons(props: SendMessageButtonsProps) {
           <SendButton form="messageForm" type="submit" />
         </motion.div>
       ) : (
-        <motion.div custom={1} variants={buttonsAnimation} animate={controls}>
+        <motion.div
+          custom={1}
+          variants={syncButtonsAnimation}
+          animate={controls}
+        >
           <RecordButton
             onClick={async () => {
               await controls.start('click')
@@ -62,10 +54,10 @@ function SendMessageButtons(props: SendMessageButtonsProps) {
           />
         </motion.div>
       )}
-      <motion.div custom={2} variants={buttonsAnimation} animate={controls}>
+      <motion.div custom={2} variants={syncButtonsAnimation} animate={controls}>
         <EmojiButton />
       </motion.div>
-      <motion.div custom={3} variants={buttonsAnimation} animate={controls}>
+      <motion.div custom={3} variants={syncButtonsAnimation} animate={controls}>
         <UploadButton />
       </motion.div>
     </MainBox>

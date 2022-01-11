@@ -10,7 +10,7 @@ import JoinRoom from '../../components/code/joinRoom/JoinRoom'
 import Container from '../../components/global/Container'
 import { ENDPOINTS } from '../../lib/enums'
 import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../_Animations'
 
 const CodeContainer = styled(Container)`
@@ -54,7 +54,9 @@ const Code: NextPage = () => {
         <CreateRoom />
         <JoinRoom />
       </CodeContainer>
-      {error ? <ErrorAlert error={error} /> : null}
+      <AnimatePresence>
+        {error && <ErrorAlert error={error} key={'codePageError'} />}
+      </AnimatePresence>
     </>
   )
 }
