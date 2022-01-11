@@ -88,7 +88,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${Palette.colors.grey.elevation_0};
+    background: ${Palette.colors.dark.elevation_4};
   }
 
   *::-webkit-scrollbar-thumb {
