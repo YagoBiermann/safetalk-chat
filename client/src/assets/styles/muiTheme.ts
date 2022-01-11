@@ -59,8 +59,8 @@ const muiTheme = createTheme({
     mode: 'dark',
     primary: {
       main: Palette.colors.primary.main.elevation_4,
-      light: Palette.colors.primary.dark.elevation_4,
-      dark: Palette.colors.primary.light.elevation_4
+      light: Palette.colors.primary.light.elevation_4,
+      dark: Palette.colors.primary.dark.elevation_4
     },
     secondary: {
       main: Palette.colors.secondary.main.elevation_4,
@@ -78,8 +78,9 @@ const muiTheme = createTheme({
     elevation_0: '#121212',
     elevation_2: '#222222',
     elevation_4: '#272727',
-    elevation_8: '#333333',
-    elevation_10: '#383838'
+    elevation_6: '#323232',
+    elevation_8: '#383838',
+    elevation_10: '#424242'
   },
   breakpoints: {
     values: {
@@ -113,29 +114,38 @@ const muiTheme = createTheme({
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          color: Palette.fontColor.secondary,
-          padding: '5px'
+          color: Palette.fontColor.secondary
         }
       }
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          padding: 0,
           minWidth: 'auto',
+          minHeight: 'auto',
           width: 48,
           height: 48,
-          transition: 'all 0.1s ease-in-out',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            backgroundColor: Palette.colors.primary.main.elevation_4
+          }
         },
         containedPrimary: {
-          color: Palette.colors.primary.light.elevation_4
+          backgroundColor: Palette.colors.primary.main.elevation_4,
+          color: alpha(Palette.colors.dark.elevation_2, 1),
+          '&:hover': {
+            backgroundColor: Palette.colors.primary.light.elevation_4
+          }
         }
       },
       variants: [
         {
           props: { variant: 'confirm' },
           style: {
+            width: '42px',
+            height: '42px',
             border: `1px solid ${green[500]}`,
+            color: green[500],
             ':hover': {
               backgroundColor: alpha(green[500], 0.3),
               transform: 'scale(1.2)'
@@ -146,6 +156,9 @@ const muiTheme = createTheme({
           props: { variant: 'cancel' },
           style: {
             border: `1px solid ${red[500]}`,
+            width: '42px',
+            height: '42px',
+            color: red[500],
             ':hover': {
               backgroundColor: alpha(red[500], 0.3),
               transform: 'scale(1.2)'
@@ -156,7 +169,6 @@ const muiTheme = createTheme({
           props: { variant: 'outlined' },
           style: {
             border: `1px solid ${Palette.colors.primary.main.elevation_0}`,
-            height: 'min-content',
             transition: 'ease-in-out 0.2s',
             ':hover': {
               backgroundColor: Palette.colors.primary.light.elevation_0,
@@ -165,6 +177,17 @@ const muiTheme = createTheme({
           }
         }
       ]
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        colorPrimary: {
+          color: alpha(Palette.colors.primary.main.elevation_4, 1),
+          transition: 'ease-in-out 0.2s',
+          ':hover': {
+            backgroundColor: Palette.colors.primary.main.elevation_0
+          }
+        }
+      }
     },
     MuiAlert: {
       styleOverrides: {
@@ -175,19 +198,6 @@ const muiTheme = createTheme({
           backgroundColor: red[200]
         }
       }
-    },
-    MuiBadge: {
-      variants: [
-        {
-          props: { variant: 'sidebar' },
-          style: {
-            borderRadius: '25px',
-            backgroundColor: Palette.colors.grey.elevation_4,
-            width: '25px',
-            height: '25px'
-          }
-        }
-      ]
     }
   }
 })
