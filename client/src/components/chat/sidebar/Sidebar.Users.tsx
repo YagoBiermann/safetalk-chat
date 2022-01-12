@@ -6,6 +6,7 @@ import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import PersonIcon from '@mui/icons-material/Person'
 import { motion } from 'framer-motion'
 import { userAnimation } from './Sidebar.Animations'
+import RegularText from '../../global/RegularText'
 
 const User = styled(motion.div)`
   display: flex;
@@ -15,9 +16,7 @@ const User = styled(motion.div)`
   margin: 10px 0 10px 0;
 `
 
-const Username = styled.p`
-  ${RegularTextStyle}
-`
+const Username = styled(RegularText)``
 
 const UserAvatar = muiStyled(Avatar)`
   margin: 0 10px 0 0;

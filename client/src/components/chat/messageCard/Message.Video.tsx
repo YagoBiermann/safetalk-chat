@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import RegularTextStyle from '../../../assets/styles/default.RegularText'
+import RegularText, { RegularTextProps } from '../../global/RegularText'
 import MediaPlayer from '../mediaPlayer/MediaPlayer'
 import VideoPlayer from '../mediaPlayer/MediaPlayer.WithVideo'
 
@@ -11,8 +11,7 @@ const VideoTemplate = styled.video`
   height: auto;
 `
 
-const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${RegularTextStyle};
+const Text = styled(RegularText)<RegularTextProps>`
   margin: 10px 10px 0 10px;
 `
 
@@ -48,7 +47,7 @@ function VideoMessage(props: { videoURL: string; message?: string }) {
         )}
       />
       <Divider color="#424242" />
-      {message ? <Text>{message}</Text> : null}
+      {message ? <Text children={message} /> : null}
     </Content>
   )
 }

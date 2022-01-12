@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
     overflow: hidden;
   }
 
+  span {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
+  }
+
   h1 {
     font-size: 54px;
     margin: 10px 0 10px 0;

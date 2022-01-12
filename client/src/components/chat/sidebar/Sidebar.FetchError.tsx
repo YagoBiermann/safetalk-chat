@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import RegularText from '../../global/RegularText'
 
 const ErrorBox = styled.div`
   display: flex;
@@ -9,8 +9,7 @@ const ErrorBox = styled.div`
   align-items: center;
 `
 
-const ErrorMessage = styled.p`
-  ${RegularTextStyle}
+const ErrorMessage = styled(RegularText)`
   margin-top: 10px;
 `
 

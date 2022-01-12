@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { ImageMessageMobile } from './Message.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import DarkenBackground from '../../global/DarkenBackground'
+import RegularText, { RegularTextProps } from '../../global/RegularText'
 
 const ImageTemplate = styled(motion.img)`
   align-self: center;
@@ -36,8 +36,7 @@ const ExpandedImage = styled(motion.img)`
   }
 `
 
-const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${RegularTextStyle};
+const Text = styled(RegularText)<RegularTextProps>`
   margin: 10px 10px 0 10px;
 `
 
