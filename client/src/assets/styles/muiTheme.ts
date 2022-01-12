@@ -198,6 +198,18 @@ const muiTheme = createTheme({
           backgroundColor: red[200]
         }
       }
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          padding: '10px',
+          borderRadius: '5px',
+          border: 'none',
+          color: Palette.fontColor.secondary,
+          fontSize: Palette.fontSizes.medium,
+          fontWeight: 500
+        }
+      }
     }
   }
 })
