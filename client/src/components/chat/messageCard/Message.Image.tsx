@@ -12,7 +12,6 @@ const ImageTemplate = styled(motion.img)`
   max-height: 400px;
   object-fit: cover;
   cursor: pointer;
-
   ${ImageMessageMobile}
 `
 

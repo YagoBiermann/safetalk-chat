@@ -18,7 +18,7 @@ type SideBarContentProps = {
 }
 
 function SideBarContent(props: SideBarContentProps) {
-  const { dark} = useTheme()
+  const { dark } = useTheme()
   return (
     <Content
       variants={contentAnimation}

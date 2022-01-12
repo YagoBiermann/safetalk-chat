@@ -66,7 +66,7 @@ function MessageCard(props: MessageProps) {
 
   return (
     <MessageContainer myMessage={myMessage}>
-      <Message animate={messageCardAnimation} >
+      <Message animate={messageCardAnimation}>
         <Header myMessage={myMessage}>
           <Text bold fontSize={Palette.fontSizes.medium}>
             {myMessage ? 'You' : username}
