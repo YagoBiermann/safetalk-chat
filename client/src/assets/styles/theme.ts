@@ -69,7 +69,7 @@ declare module 'styled-components' {
   }
 }
 
-const Palette: DefaultTheme = {
+const appTheme: DefaultTheme = {
   colors: {
     primary: {
       main: {
@@ -131,4 +131,4 @@ const Palette: DefaultTheme = {
   }
 }
 
-export { Palette }
+export { appTheme }

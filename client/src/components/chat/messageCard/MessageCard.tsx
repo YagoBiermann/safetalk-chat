@@ -4,7 +4,7 @@ import TimeAgo, { TDate } from 'timeago-react'
 import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { motion } from 'framer-motion'
 import { messageCardAnimation } from './Message.Animations'
-import { Palette } from '../../../assets/styles/theme'
+import { appTheme } from '../../../assets/styles/theme'
 import {
   MessageCardDesktop,
   MessageCardMobile,
@@ -68,13 +68,13 @@ function MessageCard(props: MessageProps) {
     <MessageContainer myMessage={myMessage}>
       <Message animate={messageCardAnimation}>
         <Header myMessage={myMessage}>
-          <Text bold fontSize={Palette.fontSizes.medium}>
+          <Text bold fontSize={appTheme.fontSizes.medium}>
             {myMessage ? 'You' : username}
           </Text>
         </Header>
         {children}
         <Footer>
-          <Text bold fontSize={Palette.fontSizes.xsmall}>
+          <Text bold fontSize={appTheme.fontSizes.xsmall}>
             <TimeAgo datetime={time} opts={timeAgoOpts} />
           </Text>
         </Footer>

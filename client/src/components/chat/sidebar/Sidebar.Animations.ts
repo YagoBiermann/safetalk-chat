@@ -1,10 +1,10 @@
-import { Palette } from '../../../assets/styles/theme'
+import { appTheme } from '../../../assets/styles/theme'
 
 const sidebarAnimation = {
   open: (screenWidth: number) => ({
     width: screenWidth <= 600 ? '220px' : '250px',
     height: '50vh',
-    backgroundColor: Palette.colors.dark.elevation_4,
+    backgroundColor: appTheme.colors.dark.elevation_4,
     transition: {
       height: { delay: 0.6 },
       backgroundColor: { delay: 0.3 },
@@ -18,7 +18,7 @@ const sidebarAnimation = {
   closed: (screenWidth: number) => ({
     width: screenWidth <= 600 ? '64px' : '70px',
     height: screenWidth <= 600 ? '48px' : '85px',
-    backgroundColor: Palette.colors.secondary.dark.elevation_4,
+    backgroundColor: appTheme.colors.secondary.dark.elevation_4,
     transition: {
       width: { delay: 0.6 },
       height: { delay: 0.3 },
