@@ -2,7 +2,6 @@ import { Avatar } from '@mui/material'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { styled as muiStyled } from '@mui/material/styles'
-import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import PersonIcon from '@mui/icons-material/Person'
 import { motion } from 'framer-motion'
 import { userAnimation } from './Sidebar.Animations'
@@ -15,8 +14,6 @@ const User = styled(motion.div)`
   justify-content: center;
   margin: 10px 0 10px 0;
 `
-
-const Username = styled(RegularText)``
 
 const UserAvatar = muiStyled(Avatar)`
   margin: 0 10px 0 0;
@@ -38,7 +35,7 @@ function Users(props: userListProps) {
             <UserAvatar>
               <PersonIcon fontSize="small" />
             </UserAvatar>
-            <Username bold>{user.username}</Username>
+            <RegularText bold>{user.username}</RegularText>
           </User>
         ))
       }, [users])}
