@@ -14,15 +14,10 @@ const ErrorMessage = styled.p`
   margin-top: 10px;
 `
 
-const ErrorIcon = styled(ErrorOutlineIcon)`
-  font-size: 32px;
-  color: #990000dd;
-`
-
 function FetchError() {
   return (
     <ErrorBox>
-      <ErrorIcon />
+      <ErrorOutlineIcon sx={{ fontSize: 32, color: 'error.main' }} />
       <ErrorMessage bold>Unable to fetch users list</ErrorMessage>
     </ErrorBox>
   )
