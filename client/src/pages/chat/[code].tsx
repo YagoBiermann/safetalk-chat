@@ -1,17 +1,16 @@
+import { AnimatePresence } from 'framer-motion'
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../store'
 import styled from 'styled-components'
+import CenterColumn from '../../assets/styles/default.FlexColumn'
+import FilePreview from '../../components/chat/filePreview/FilePreview'
 import MessagesBox from '../../components/chat/messages/Messages'
 import SendMessage from '../../components/chat/sendMessage/SendMessage'
-import Box from '../../components/global/Box'
+import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
 import { DropFile } from '../../lib/interfaces'
-import FilePreview from '../../components/chat/filePreview/FilePreview'
-import DarkenBackground from '../../components/global/DarkenBackground'
-import ChatSidebar from '../../components/chat/sidebar/Sidebar'
-import { AnimatePresence } from 'framer-motion'
+import { useAppDispatch, useAppSelector } from '../../store'
 import {
   ChatBoxDesktop,
   ChatBoxMobile,
@@ -20,15 +19,15 @@ import {
 } from './_chat.MediaQueries'
 
 const ChatContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  ${CenterColumn}
+  justify-content: flex-start;
   width: 100vw;
   height: 100vh;
   ${ChatContainerDesktop}
 `
 
-const ChatBox = styled(Box)`
+const ChatBox = styled.div`
+  ${CenterColumn}
   width: 70%;
   height: 90%;
   margin-top: 30px;
