@@ -1,30 +1,36 @@
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
+import CenterColumn from '../../../assets/styles/default.FlexColumn'
+import CenterRow from '../../../assets/styles/default.FlexRow'
 import { socketContext } from '../../../lib/context/socketContext'
 import { useCreateRoomMutation } from '../../../services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import Box from '../../global/Box'
 import ButtonState from '../../global/ButtonState'
 import CodeButton from '../shared/Code.Button'
-import CodeTitle from '../shared/Code.Title'
 import CodeInput from './CreateRoom.CodeInput'
 import CopyButton from './CreateRoom.CopyButton'
+import usePopover from '../../../lib/hooks/usePopover'
+import { AnimatePresence } from 'framer-motion'
+import CodePopper from '../shared/Code.Popper'
 
-const MainBox = styled(Box)`
+const MainBox = styled.div`
+  ${CenterColumn}
   ${BoxStyle}
   ${CodeBoxStyle}
 `
 
-const CodeBox = styled(Box)`
+const CodeBox = styled.div`
+  ${CenterRow}
   width: 100%;
 `
 
 function CreateRoom() {
   const [createRoom, result] = useCreateRoomMutation()
+  const { anchorEl, handleClose, open, showPopover } = usePopover()
   const dispatch = useAppDispatch()
   const socket = useContext(socketContext)
   const router = useRouter()
@@ -52,11 +58,23 @@ function CreateRoom() {
   }
 
   return (
-    <MainBox>
-      <Box>
-        <CodeTitle text={'Invite the code to someone and create the room'} />
-      </Box>
-      <CodeBox direction="row">
+    <MainBox
+      onPointerDown={showPopover}
+      onPointerLeave={handleClose}
+      onMouseEnter={showPopover}
+      onMouseLeave={handleClose}
+    >
+      <AnimatePresence exitBeforeEnter>
+        {open && (
+          <CodePopper
+            anchorEl={anchorEl}
+            open={open}
+            key="createRoomPopper"
+            message="Send the code to your friends and create the room"
+          />
+        )}
+      </AnimatePresence>
+      <CodeBox>
         <CodeInput roomCode={roomCode}></CodeInput>
         <CopyButton roomCode={roomCode}></CopyButton>
       </CodeBox>

@@ -3,17 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import copyToClipboard from '../../../lib/helpers/copy'
 import usePopover from '../../../lib/hooks/usePopover'
-
-const StyledPopover = styled(Popover)`
-  .MuiPopover-paper {
-    padding: 10px;
-    border: none;
-    background-color: ${props => props.theme.colors.primary.main.elevation_4};
-    color: whitesmoke;
-    font-weight: 500;
-    font-size: ${props => props.theme.fontSizes.medium};
-  }
-`
+import { ContentCopy } from '@mui/icons-material'
 
 const StyledButton = styled.button`
   background-color: ${props => props.theme.colors.primary.main.elevation_4};
@@ -33,13 +23,8 @@ const StyledButton = styled.button`
   }
 `
 
-const StyledIcon = styled.img`
-  height: 70%;
-  vertical-align: middle;
-`
-
 function CopyButton(props: { roomCode: string }) {
-  const { showPopover, handleClose, id, open, anchorEl } = usePopover()
+  const { showPopover, handleClose, open, anchorEl } = usePopover()
 
   const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
     showPopover(e)
@@ -48,9 +33,8 @@ function CopyButton(props: { roomCode: string }) {
   }
 
   return (
-    <StyledButton aria-describedby={id} onClick={handleCopy}>
-      <StyledPopover
-        id={id}
+    <StyledButton onClick={handleCopy}>
+      <Popover
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -64,8 +48,8 @@ function CopyButton(props: { roomCode: string }) {
         }}
       >
         Copied
-      </StyledPopover>
-      <StyledIcon src="/static/images/copy.png" />
+      </Popover>
+      <ContentCopy sx={{ height: '70%', verticalAlign: 'middle' }} />
     </StyledButton>
   )
 }
