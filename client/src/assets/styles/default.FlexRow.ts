@@ -1,10 +1,10 @@
 import { css } from 'styled-components'
 
-const CenteredRow = css`
+const CenterRow = css`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 `
 
-export default CenteredRow
+export default CenterRow
