@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 
-const TextMessageStyle = css<{ bold?: boolean; fontSize?: string }>`
+const RegularTextStyle = css<{ bold?: boolean; fontSize?: string }>`
   color: ${props => props.theme.fontColor.secondary};
   font-size: ${props => props.fontSize || props.theme.fontSizes.small};
   font-weight: ${props => (props.bold ? 500 : 300)};
@@ -9,4 +9,4 @@ const TextMessageStyle = css<{ bold?: boolean; fontSize?: string }>`
   white-space: pre-wrap;
   line-height: 1.25;
 `
-export default TextMessageStyle
+export default RegularTextStyle

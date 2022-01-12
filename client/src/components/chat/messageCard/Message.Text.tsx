@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 
 const Content = styled.div`
   margin: 0 10px 0 10px;
 `
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle}
+  ${RegularTextStyle}
 `
 
 function TextMessage(props: { message?: string; width?: number }) {

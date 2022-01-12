@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 
 const ErrorBox = styled.div`
@@ -10,7 +10,7 @@ const ErrorBox = styled.div`
 `
 
 const ErrorMessage = styled.p`
-  ${TextMessageStyle}
+  ${RegularTextStyle}
   margin-top: 10px;
 `
 

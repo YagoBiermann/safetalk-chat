@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
 import { AudioPlayerContentTablet, AudioPlayerTimeTablet } from './MediaPlayer.MediaQueries'
 
@@ -31,7 +31,7 @@ const TimeWrapper = styled.div`
 `
 
 const Text = styled.p`
-  ${TextMessageStyle};
+  ${RegularTextStyle};
 `
 
 type AudioPlayerProps = MediaPlayerRenderProps & {

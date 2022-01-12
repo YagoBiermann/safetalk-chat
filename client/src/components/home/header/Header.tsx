@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import CenterColumn from '../../../assets/styles/default.FlexColumn'
+import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import Logo from '../header/Header.Logo'
 import SubTitle from './Header.SubTitle'
 import Title from './Header.Title'

@@ -4,7 +4,7 @@ import MediaPlayerVolume from './MediaPlayer.Volume'
 import PlayerSlider from './MediaPlayer.Slider'
 import PlayerButton from './MediaPlayer.Button'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { calculateTime } from '../../../lib/helpers/calculateTime'
 
 export type MediaPlayerRenderProps = {
@@ -27,7 +27,7 @@ type MediaPlayerProps = {
 }
 
 const Text = styled.p`
-  ${TextMessageStyle}
+  ${RegularTextStyle}
 `
 
 function MediaPlayer(props: MediaPlayerProps) {

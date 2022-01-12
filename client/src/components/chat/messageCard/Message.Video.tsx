@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import MediaPlayer from '../mediaPlayer/MediaPlayer'
 import VideoPlayer from '../mediaPlayer/MediaPlayer.WithVideo'
 
@@ -12,7 +12,7 @@ const VideoTemplate = styled.video`
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle};
+  ${RegularTextStyle};
   margin: 10px 10px 0 10px;
 `
 

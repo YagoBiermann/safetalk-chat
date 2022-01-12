@@ -2,7 +2,7 @@ import { Avatar } from '@mui/material'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { styled as muiStyled } from '@mui/material/styles'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import PersonIcon from '@mui/icons-material/Person'
 import { motion } from 'framer-motion'
 import { userAnimation } from './Sidebar.Animations'
@@ -16,7 +16,7 @@ const User = styled(motion.div)`
 `
 
 const Username = styled.p`
-  ${TextMessageStyle}
+  ${RegularTextStyle}
 `
 
 const UserAvatar = muiStyled(Avatar)`

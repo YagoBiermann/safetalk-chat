@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TimeAgo, { TDate } from 'timeago-react'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { motion } from 'framer-motion'
 import { messageCardAnimation } from './Message.Animations'
 import { Palette } from '../../../assets/styles/theme'
@@ -34,7 +34,7 @@ const Message = styled(motion.div)<{ maxWidth?: string; myMessage?: boolean }>`
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle};
+  ${RegularTextStyle};
 `
 
 const Header = styled.div<{ myMessage?: boolean }>`

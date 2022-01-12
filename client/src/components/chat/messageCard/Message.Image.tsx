@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularTextStyle from '../../../assets/styles/default.RegularText'
 import { ImageMessageMobile } from './Message.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import DarkenBackground from '../../global/DarkenBackground'
@@ -37,7 +37,7 @@ const ExpandedImage = styled(motion.img)`
 `
 
 const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle};
+  ${RegularTextStyle};
   margin: 10px 10px 0 10px;
 `
 

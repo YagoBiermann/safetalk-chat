@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import CenterColumn from '../../../assets/styles/default.FlexColumn'
+import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import Icon from '../footer/Footer.Icon'
 
 const FooterBox = styled.div`
