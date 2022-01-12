@@ -1,37 +1,26 @@
 import React from 'react'
 import { styled } from '@mui/material/styles'
-import { IconButton, IconButtonProps } from '@mui/material'
+import { Button, ButtonProps } from '@mui/material'
 import Send from '@material-ui/icons/Send'
 
-const SendButton = styled(IconButton)(
+const SendButton = styled(Button)(
   ({ theme }) => `
   border-radius: 0px 0px 10px 0;
-  background-color: ${theme.palette.primary.main};
-  transition: background-color 0.2s ease-in-out;
   height: inherit;
   width: 82px;
-  &:hover {
-    background-color: ${theme.palette.primary.light};
-  }
-  > .MuiTouchRipple-root span {
-    transform: scale(1.5);
-  }
-  & > svg {
-    font-size: 1.3em;
-    color: whitesmoke;
-  }
+  box-shadow: none;
 
   @media screen and (max-width: 600px) {
     & > svg {
-      font-size: 1.2em;
+      font-size: 1.6em;
     }
   }
 `
 )
 
-const PreviewSendButton = ({ ...props }: IconButtonProps) => {
+const PreviewSendButton = ({ ...props }: ButtonProps) => {
   return (
-    <SendButton {...props}>
+    <SendButton color="primary" variant="contained" {...props}>
       <Send fontSize="medium" />
     </SendButton>
   )
