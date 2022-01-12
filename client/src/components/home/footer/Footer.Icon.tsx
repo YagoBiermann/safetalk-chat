@@ -13,7 +13,7 @@ const StyledIcon = styled.img`
     transform: scale(0.9);
   }
 
-  @media (max-width: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-width: ${props => props.theme.appBreakpoints.mobile}) {
     height: 42px;
   }
 `

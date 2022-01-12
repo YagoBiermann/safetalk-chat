@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 600;
     letter-spacing: -0.5px;
 
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 48px;
     }
   }
@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 10px 0 10px 0;
     font-weight: 500;
 
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 36px;
     }
   }
@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 400;
 
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 26px;
     }
   }
@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 26px;
     margin: 5px 0 5px 0;
     font-weight: 400;
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 22px;
     }
   }
@@ -60,7 +60,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 300;
 
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 18px;
     }
   }
@@ -70,7 +70,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 300;
 
-    @media (max-width: ${appTheme.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 16px;
     }
   }
@@ -78,7 +78,7 @@ const GlobalStyle = createGlobalStyle`
   *::-webkit-scrollbar {
   width: 10px;
 
-  @media (max-width: ${appTheme.mediaWidthSizes.medium}) {
+  @media (max-width: ${appTheme.appBreakpoints.tablet}) {
     width: 0px;
   }
   }

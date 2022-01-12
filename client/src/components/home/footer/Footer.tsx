@@ -7,7 +7,7 @@ const FooterBox = styled.div`
   ${CenterColumn}
   margin: 0 25px 0 25px;
   align-self: flex-end;
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
   }
 `
 

@@ -7,7 +7,7 @@ import Title from './Header.Title'
 
 const HeaderBox = styled.div`
   ${CenterColumn}
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;

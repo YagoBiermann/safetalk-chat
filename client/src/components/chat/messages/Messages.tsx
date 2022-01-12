@@ -19,7 +19,7 @@ const OuterBox = styled.div<{ isDragOver: boolean }>`
   position: relative;
 
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     border-radius: 0;
   }
 `

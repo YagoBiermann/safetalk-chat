@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PrimaryButton from '../../global/Button.Primary'
 
 const StyledButton = styled(PrimaryButton)`
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${({ theme }) => theme.appBreakpoints.tablet}) {
     width: 60%;
   }
 `

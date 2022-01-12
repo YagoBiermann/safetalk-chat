@@ -9,10 +9,10 @@ const CodeBoxStyle = css`
   &:hover {
     transform: scale(1.05);
   }
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${({ theme }) => theme.appBreakpoints.tablet}) {
     width: 80vw;
   }
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.small}) {
+  @media (max-width: ${({ theme }) => theme.appBreakpoints.mobile}) {
     width: 75vw;
   }
 `

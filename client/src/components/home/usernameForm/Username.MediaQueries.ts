@@ -1,7 +1,7 @@
 import { css } from 'styled-components'
 
 const FormBoxMobile = css`
-  @media (max-width: ${({ theme }) => theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${({ theme }) => theme.appBreakpoints.tablet}) {
     min-width: fit-content;
     width: 75vw;
     border-radius: 20px;
@@ -10,7 +10,7 @@ const FormBoxMobile = css`
     }
   }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
     max-width: 280px;
     padding: 20px;
 
