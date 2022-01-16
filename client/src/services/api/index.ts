@@ -12,6 +12,7 @@ export const roomApi = createApi({
   reducerPath: 'roomApi',
   baseQuery: fetchBaseQuery({
     baseUrl: ENDPOINTS.BACKEND_URL,
+    credentials: 'include',
     prepareHeaders: (headers: Headers) => {
       headers.set('Content-Type', 'application/json')
       headers.set('Accept', 'application/json')
@@ -32,6 +33,12 @@ export const roomApi = createApi({
     fetchUsers: builder.query<FetchUsers, string>({
       query: (roomCode: string) => ({
         url: `rooms/${roomCode}/users`,
+        method: 'GET'
+      })
+    }),
+    fetchCurrentUser: builder.query<User & { isAdmin: boolean }, string>({
+      query: (username: string) => ({
+        url: `users/${username}`,
         method: 'GET'
       })
     }),
@@ -84,5 +91,6 @@ export const {
   useCreateRoomMutation,
   useFetchRoomsQuery,
   useLazyFetchUsersQuery,
-  useJoinRoomMutation
+  useJoinRoomMutation,
+  useFetchCurrentUserQuery
 } = roomApi
