@@ -11,6 +11,7 @@ interface IFileValidator {
 interface IHeaderValidator {
   checkRange(n: string, media: string, roomCode: string): void
   checkContentType(contentType: string): void
+  checkAuthorization(authorization: string): void
 }
 
 interface IRoomCodeValidator {
@@ -39,6 +40,7 @@ interface IRoomValidator {
 interface IUserValidator {
   checkIfUsernameIsTaken(username: string): Promise<void>
   checkIfUserExists(socketID: string): Promise<void>
+  checkIfMatch(username: string): Promise<void>
 }
 
 interface IValidatorFactory {
