@@ -5,7 +5,8 @@ import {
   validateRequestBody,
   validateRoomCode,
   validateUsername,
-  validateSocketID
+  validateSocketID,
+  validateToken
 } from '../services/validators/request/'
 
 const validateBeforeCreateRoom = async (
@@ -14,10 +15,12 @@ const validateBeforeCreateRoom = async (
   next: NextFunction
 ) => {
   const { socketID, username, roomCode } = req.body
+  const token = req.cookies.token
   const roomValidator = new ValidatorFactory().createRoomValidator()
-  
+
   try {
     console.log('validating before create room')
+    validateToken(token, process.env.JWT_SECRET)
     validateRequestBody(req.body)
     validateSocketID(socketID)
     validateUsername(username)
