@@ -4,7 +4,6 @@ import { MESSAGE_TYPE } from '../enums'
 // Error messages from backend
 export interface ErrorMessage {
   message: string
-  code?: number
 }
 
 // Success response from backend
@@ -68,7 +67,7 @@ export interface DropFile extends File {
 }
 
 // User data
-export interface User extends Username, RoomCode, SocketID {}
+export interface User extends Username, RoomCode {}
 
 // Dispatch
 export type AppDispatch = typeof store.dispatch

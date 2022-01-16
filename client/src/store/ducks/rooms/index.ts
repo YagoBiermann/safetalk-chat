@@ -6,13 +6,11 @@ import {
 import { roomApi } from '../../../services/api'
 
 interface Room {
-  rooms: string[]
   usersByRoom: string[]
   pending: boolean
 }
 
 const initialState: Room = {
-  rooms: [],
   usersByRoom: [],
   pending: false
 }
@@ -21,9 +19,6 @@ export const roomSlice = createSlice({
   name: 'room',
   initialState,
   reducers: {
-    setRooms: (state, action: PayloadAction<string[]>) => {
-      state.rooms = action.payload
-    },
     setUsersByRoom: (state, action: PayloadAction<string[]>) => {
       state.usersByRoom = action.payload
     },
@@ -58,5 +53,5 @@ export const roomSlice = createSlice({
   }
 })
 
-export const { setRooms, setUsersByRoom, resetPending, setPending } =
+export const { setUsersByRoom, resetPending, setPending } =
   roomSlice.actions

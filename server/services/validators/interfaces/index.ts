@@ -11,17 +11,13 @@ interface IFileValidator {
 interface IHeaderValidator {
   checkRange(n: string, media: string, roomCode: string): void
   checkContentType(contentType: string): void
+  checkAuthorization(authorization: string): void
 }
 
 interface IRoomCodeValidator {
   checkEmptyField(roomCode: string): void
   checkInvalid(roomCode: string): void
   checkMaxLength(roomCode: string): void
-}
-
-interface ISocketIDValidator {
-  checkMaxLength(socketID: string): void
-  checkEmptyField(socketID: string): void
 }
 
 interface IUsernameValidator {
@@ -38,7 +34,7 @@ interface IRoomValidator {
 
 interface IUserValidator {
   checkIfUsernameIsTaken(username: string): Promise<void>
-  checkIfUserExists(socketID: string): Promise<void>
+  checkIfUserExists(username: string): Promise<void>
 }
 
 interface IValidatorFactory {
@@ -46,7 +42,6 @@ interface IValidatorFactory {
   createFileValidator(): IFileValidator
   createHeaderValidator(): IHeaderValidator
   createRoomCodeValidator(): IRoomCodeValidator
-  createSocketIDValidator(): ISocketIDValidator
   createUsernameValidator(): IUsernameValidator
   createRoomValidator(): IRoomValidator
   createUserValidator(): IUserValidator
@@ -57,7 +52,6 @@ export {
   IFileValidator,
   IHeaderValidator,
   IRoomCodeValidator,
-  ISocketIDValidator,
   IUsernameValidator,
   IRoomValidator,
   IUserValidator,

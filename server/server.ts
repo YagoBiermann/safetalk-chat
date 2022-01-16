@@ -7,7 +7,7 @@ import * as http from 'http'
 import { Database } from './database/connection/index'
 import { Server } from 'socket.io'
 import { SocketService } from './services/sockets/index'
-
+import cookieParser from 'cookie-parser'
 class AppServer {
   public app: Application
   public port: number | string
@@ -44,6 +44,7 @@ class AppServer {
     this.app.set('trust proxy', 'loopback')
     this.app.use(helmet())
     this.app.use(json())
+    this.app.use(cookieParser())
     this.app.use(urlencoded({ extended: false }))
   }
 

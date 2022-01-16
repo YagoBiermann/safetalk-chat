@@ -5,35 +5,31 @@ import { IUserRepository } from '../interfaces'
 class UserRepository implements IUserRepository {
   public async updateUser(user: IUser): Promise<IUser> {
     return User.findOneAndUpdate(
-      { socketID: user.socketID },
+      { username: user.username },
       { username: user.username, room: user.room, isAdmin: user.isAdmin }
     )
   }
 
-  public async setAsAdmin(socketID: string): Promise<IUser> {
-    return User.findOneAndUpdate({ socketID }, { isAdmin: true }).exec()
+  public async setAsAdmin(id: string): Promise<IUser> {
+    return User.findByIdAndUpdate({ id }, { isAdmin: true }).exec()
   }
 
-  public async createUser(user: IUser): Promise<IUser> {
-    console.info(`creating user: ${user.socketID}`)
+  public async createUser(user: Omit<IUser, '_id'>): Promise<IUser> {
+    console.info(`creating user: ${user.username}`)
     return User.create(user)
   }
 
-  public async deleteUser(socketID: string): Promise<object> {
-    console.info(`deleting user: ${socketID}`)
-    return User.deleteOne({ socketID }).exec()
+  public async deleteUser(id: string): Promise<object> {
+    console.info(`deleting user: ${id}`)
+    return User.deleteOne({ id }).exec()
   }
 
-  public async getUsersByRoomID(roomID: ObjectId): Promise<IUser[]> {
+  public async getAllUsers(roomID: ObjectId): Promise<IUser[]> {
     return User.find({ room: roomID }).exec()
   }
 
-  public async getUserBySocketID(socketID: string): Promise<IUser> {
-    return User.findOne({ socketID }).exec()
-  }
-
-  public async getUserByUsername(username: string): Promise<IUser> {
-    return User.findOne({ username }).exec()
+  public async getUserBy(value: string): Promise<IUser> {
+    return User.findOne({ $text: { $search: value } }).exec()
   }
 }
 

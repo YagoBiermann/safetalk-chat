@@ -36,7 +36,6 @@ function CreateRoom() {
   const router = useRouter()
   const username = useAppSelector(state => state.user.username)
   const roomCode = useAppSelector(state => state.user.roomCode)
-  const socketID = useAppSelector(state => state.user.socketID)
   const isPending = useAppSelector(state => state.room.pending)
 
   useEffect(() => {
@@ -44,7 +43,7 @@ function CreateRoom() {
   }, [])
 
   const handleCreateRoom = () => {
-    createRoom({ socketID, username, roomCode })
+    createRoom({ username, roomCode })
       .unwrap()
       .then(
         () => {

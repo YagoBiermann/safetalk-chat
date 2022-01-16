@@ -5,6 +5,7 @@ import fs from 'fs'
 import path from 'path'
 import { validMimeTypes } from '../config'
 import AppError from '../services/errors/AppError'
+import { validateToken } from '../services/validators/request'
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -26,7 +27,7 @@ const storage = multer.diskStorage({
     if (!fileExt) {
       cb(new AppError('ERR_FILE_NOT_ALLOWED'), null)
     }
-    
+
     cb(null, randomUUID() + fileExt)
   }
 })
@@ -35,6 +36,9 @@ const upload = multer({
   storage,
   fileFilter: function (req, file, cb) {
     const fileSize = Number(req.headers['content-length'])
+    const token = req.cookies.token
+    validateToken(token, process.env.JWT_ROOM_SECRET)
+
     if (file.mimetype.includes('image') && fileSize > 16777216) {
       cb(new MulterError('LIMIT_FILE_SIZE'))
     }
