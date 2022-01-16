@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { errorMessages } from './constants'
 import multer from 'multer'
 import AppError from './AppError'
+import { JsonWebTokenError } from 'jsonwebtoken'
 
 const errorHandler = (
   err: any,
@@ -17,6 +18,12 @@ const errorHandler = (
 
   if (err instanceof multer.MulterError) {
     return res.status(400).json({
+      message: err.message
+    })
+  }
+
+  if (err instanceof JsonWebTokenError) {
+    return res.status(401).json({
       message: err.message
     })
   }

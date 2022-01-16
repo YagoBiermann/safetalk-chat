@@ -25,6 +25,9 @@ type IAppError =
   | 'ERR_CONTENT_TYPE_NOT_ALLOWED'
   | 'ERR_FILE_NOT_FOUND'
   | 'ERR_FILE_NOT_ALLOWED'
+  | 'ERR_MISSING_TOKEN'
+  | 'ERR_INVALID_TOKEN'
+  | 'ERR_MALFORMED_TOKEN'
   | 'ERR_DEFAULT'
     
 export { IErrorMessage, IAppError }
