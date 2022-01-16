@@ -5,7 +5,7 @@ class SocketService {
   constructor(public io: Server) {}
 
   public connect() {
-    this.io.on('connection', async (socket: Socket) => {
+    this.io.of('/chat').on('connection', async (socket: Socket) => {
       console.log(`user: ${socket.id} connected`)
       this.handleEvents = new SocketEvents(socket, this.io)
       this.handleEvents.joinRoom()
