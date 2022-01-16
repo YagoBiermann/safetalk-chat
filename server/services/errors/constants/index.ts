@@ -77,6 +77,18 @@ export const errorMessages: IErrorMessage = {
     message: 'File not allowed',
     status: 406
   },
+  ERR_MISSING_TOKEN: {
+    message: 'Missing token',
+    status: 400
+  },
+  ERR_INVALID_TOKEN: {
+    message: 'Invalid token',
+    status: 401
+  },
+  ERR_MALFORMED_TOKEN: {
+    message: 'Malformed token',
+    status: 401
+  },
   ERR_DEFAULT: {
     message: 'something went wrong',
     status: 500
