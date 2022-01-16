@@ -11,7 +11,7 @@ class HeaderValidator implements IHeaderValidator {
     if (!range) {
       throw new AppError('ERR_RANGE_NOT_FOUND')
     }
-    
+
     if (range > mediaSize) {
       throw new AppError('ERR_INVALID_RANGE')
     }
@@ -23,7 +23,6 @@ class HeaderValidator implements IHeaderValidator {
     if (range < 0) {
       throw new AppError('ERR_INVALID_RANGE')
     }
-
   }
 
   checkContentType(contentType: string) {
@@ -35,6 +34,27 @@ class HeaderValidator implements IHeaderValidator {
 
     if (!validMimeTypes.includes(mimeType)) {
       throw new AppError('ERR_CONTENT_TYPE_NOT_ALLOWED')
+    }
+  }
+
+  checkAuthorization(authorization: string | undefined) {
+    if (!authorization) {
+      throw new AppError('ERR_MISSING_TOKEN')
+    }
+    const [header, token] = authorization.split(' ')
+    const validToken =
+      /^([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-\+\/=]*)/.test(token)
+      
+    if (!token || !header) {
+      throw new AppError('ERR_MALFORMED_TOKEN')
+    }
+
+    if (header !== 'Bearer') {
+      throw new AppError('ERR_MALFORMED_TOKEN')
+    }
+
+    if (!validToken) {
+      throw new AppError('ERR_INVALID_TOKEN')
     }
   }
 }
