@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import { useEffect } from 'react'
 import { useAppSelector } from '../../store'
 import { setRoomCode } from '../../store/ducks/users'
@@ -12,28 +12,53 @@ import { ENDPOINTS } from '../../lib/enums'
 import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../_Animations'
+import nookies from 'nookies'
 
 const CodeContainer = styled(Container)`
   justify-content: space-around;
   ${CodeContainerDesktop}
   ${CodeContainerMobile}
 `
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = nookies.get(ctx)
+  const user = await fetch(
+    `http://safetalk_nginx:80/api/v2/users/${cookies.username}`,
+    {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        token: cookies.token
+      }
+    }
+  ).then(res => (res.ok ? res.json() : null))
 
-const Code: NextPage = () => {
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      user
+    }
+  }
+}
+
+const Code: NextPage = (props: any) => {
   const dispatch = useAppDispatch()
   const username = useAppSelector(state => state.user.username)
   const socketID = useAppSelector(state => state.user.socketID)
   const error = useAppSelector(state => state.app.error)
 
-  // Redirect to home if username or socketID is not set
-  useEffect(() => {
-    if (!username || !socketID) {
-      window.location.href = '/'
-    }
-  }, [])
-
   // Set room code
   useEffect(() => {
+    console.log(props.user)
     async function getRoomCode() {
       const response = await fetch(`${ENDPOINTS.FRONTEND_URL}api/generateCode`)
       const roomCode = await response.json().then(data => data.code)
