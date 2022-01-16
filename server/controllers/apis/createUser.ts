@@ -8,21 +8,19 @@ const createUser = async (
   res: Response,
   next: NextFunction
 ): Promise<Response> => {
-  const { socketID, username } = req.body
+  const { username } = req.body
   const userRepository = new RepositoryFactory().createUserRepository()
 
   try {
     const user = await userRepository.createUser({
       username,
-      socketID,
       isAdmin: false,
       room: null
     })
-
     const token = jwt.sign({}, process.env.JWT_SECRET, {
       algorithm: 'HS256',
       expiresIn: 600,
-      subject: user.socketID
+      subject: String(user._id)
     })
     const expirationTime = new Date(Date.now() + 1000 * 60 * 10) // 10 minutes
 

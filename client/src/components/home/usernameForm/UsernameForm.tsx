@@ -26,12 +26,11 @@ function UsernameForm() {
   const [createUser, result] = useCreateUserMutation()
   const sanitizedUsername = watch('username', '')
   const dispatch = useAppDispatch()
-  const socketID = useAppSelector(state => state.user.socketID)
   const router = useRouter()
 
   const handleValidation = async (username: string) => {
     resetField('username')
-    createUser({ username, socketID, roomCode: '' })
+    createUser({ username, roomCode: '' })
       .unwrap()
       .then(
         async response => {

@@ -25,7 +25,7 @@ class RoomValidator implements IRoomValidator {
 
   public async checkIfRoomIsNotEmpty(roomCode: string): Promise<void> {
     const room = await this.roomRepository.getRoomByCode(roomCode)
-    const usersInRoom = await this.userRepository.getUsersByRoomID(room.id)
+    const usersInRoom = await this.userRepository.getAllUsers(room._id)
     if (usersInRoom.length > 0) {
       throw new AppError('ERR_ROOM_NOT_EMPTY')
     }

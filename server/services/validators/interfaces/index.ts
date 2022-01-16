@@ -20,11 +20,6 @@ interface IRoomCodeValidator {
   checkMaxLength(roomCode: string): void
 }
 
-interface ISocketIDValidator {
-  checkMaxLength(socketID: string): void
-  checkEmptyField(socketID: string): void
-}
-
 interface IUsernameValidator {
   checkEmptyField(username: string): void
   checkMaxLength(username: string): void
@@ -39,8 +34,7 @@ interface IRoomValidator {
 
 interface IUserValidator {
   checkIfUsernameIsTaken(username: string): Promise<void>
-  checkIfUserExists(socketID: string): Promise<void>
-  checkIfMatch(username: string): Promise<void>
+  checkIfUserExists(username: string): Promise<void>
 }
 
 interface IValidatorFactory {
@@ -48,7 +42,6 @@ interface IValidatorFactory {
   createFileValidator(): IFileValidator
   createHeaderValidator(): IHeaderValidator
   createRoomCodeValidator(): IRoomCodeValidator
-  createSocketIDValidator(): ISocketIDValidator
   createUsernameValidator(): IUsernameValidator
   createRoomValidator(): IRoomValidator
   createUserValidator(): IUserValidator
@@ -59,7 +52,6 @@ export {
   IFileValidator,
   IHeaderValidator,
   IRoomCodeValidator,
-  ISocketIDValidator,
   IUsernameValidator,
   IRoomValidator,
   IUserValidator,
