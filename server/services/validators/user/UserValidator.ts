@@ -1,4 +1,5 @@
 import { IUserRepository } from '../../../database/interfaces/index'
+import { IUser } from '../../../database/models/users'
 import AppError from '../../errors/AppError'
 import { IUserValidator } from '../interfaces'
 class UserValidator implements IUserValidator {
@@ -13,6 +14,13 @@ class UserValidator implements IUserValidator {
 
   public async checkIfUserExists(socketID: string): Promise<void> {
     const user = await this.userRepository.getUserBySocketID(socketID)
+    if (!user) {
+      throw new AppError('ERR_USER_NOT_FOUND')
+    }
+  }
+
+  public async checkIfMatch(username: string): Promise<void> {
+    const user = await this.userRepository.getUserByUsername(username)
     if (!user) {
       throw new AppError('ERR_USER_NOT_FOUND')
     }
