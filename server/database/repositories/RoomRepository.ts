@@ -18,7 +18,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   public async getRoomByID(id: ObjectId): Promise<IRoom> {
-    return Room.findOne({ id }).exec()
+    return Room.findById({ id }).exec()
   }
 
   public async getRooms(): Promise<IRoom[]> {

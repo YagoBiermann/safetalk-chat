@@ -7,13 +7,13 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const {
+      _id,
       username: user,
-      socketID,
       room,
       isAdmin
-    } = await userRepository.getUserByUsername(username)
+    } = await userRepository.getUserBy(username)
 
-    return res.status(200).json({ user, socketID, room, isAdmin })
+    return res.status(200).json({ _id, user, room, isAdmin })
   } catch (error) {
     next(error)
   }

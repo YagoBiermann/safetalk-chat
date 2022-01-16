@@ -20,12 +20,6 @@ const validateUsername = (username: string) => {
   validator.checkMaxLength(username)
 }
 
-const validateSocketID = (socketID: string) => {
-  const validator = new ValidatorFactory().createSocketIDValidator()
-  validator.checkEmptyField(socketID)
-  validator.checkMaxLength(socketID)
-}
-
 const validateToken = (header: string, secret: string) => {
   const validator = new ValidatorFactory().createHeaderValidator()
   validator.checkAuthorization(header)
@@ -37,6 +31,5 @@ export {
   validateRequestBody,
   validateRoomCode,
   validateUsername,
-  validateSocketID,
   validateToken
 }

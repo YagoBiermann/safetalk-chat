@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        token: cookies.token
+        Cookie: `token=${cookies.token}; HttpOnly`
       }
     }
   ).then(res => (res.ok ? res.json() : null))
@@ -53,7 +53,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 const Code: NextPage = (props: any) => {
   const dispatch = useAppDispatch()
   const username = useAppSelector(state => state.user.username)
-  const socketID = useAppSelector(state => state.user.socketID)
   const error = useAppSelector(state => state.app.error)
 
   // Set room code

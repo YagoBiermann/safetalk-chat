@@ -45,7 +45,6 @@ const Chat: NextPage = props => {
   const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
   const roomCode = useAppSelector(state => state.user.roomCode)
-  const socketID = useAppSelector(state => state.user.socketID)
   const username = useAppSelector(state => state.user.username)
   const error = useAppSelector(state => state.app.error)
 
@@ -72,7 +71,7 @@ const Chat: NextPage = props => {
   }, [files])
 
   useEffect(() => {
-    if (!username || !socketID || !roomCode) {
+    if (!username || !roomCode) {
       window.location.href = '/'
     }
   }, [])

@@ -23,7 +23,7 @@ class SocketEvents {
 
   public joinRoom() {
     this.socket.on('room:join', ({ roomCode }) => {
-      console.log(`user: ${this.socket.id} joined room: ${roomCode}`)
+      console.log(`user: ${this.socket.data.username} joined room: ${roomCode}`)
       this.socket.join(roomCode)
     })
   }
@@ -31,7 +31,7 @@ class SocketEvents {
   public fetchUsers() {
     this.socket.on('room:users', async ({ roomCode }) => {
       console.log(
-        `user: ${this.socket.id} requested users in room: ${roomCode}`
+        `user: ${this.socket.data.username} requested users in room: ${roomCode}`
       )
       this.io.to(roomCode).emit('room:users')
     })
@@ -56,13 +56,13 @@ class SocketEvents {
 
   public deleteUser() {
     this.socket.on('disconnecting', async () => {
-      console.log(`user: ${this.socket.id} disconnected`)
-
+      console.log(`user: ${this.socket.data.username} disconnected`)
+      const username = this.socket.data.username
       try {
-        const user = await this.userRepository.getUserBySocketID(this.socket.id)
-        await this.userValidator.checkIfUserExists(this.socket.id)
+        const user = await this.userRepository.getUserBy(username)
+        await this.userValidator.checkIfUserExists(username)
 
-        await this.userRepository.deleteUser(this.socket.id)
+        await this.userRepository.deleteUser(username)
 
         if (user.room) {
           const roomCode = (await this.roomRepository.getRoomByID(user.room))

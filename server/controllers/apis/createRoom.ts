@@ -2,26 +2,24 @@ import { Request, Response, NextFunction } from 'express'
 import { RepositoryFactory } from '../../database/index'
 import { IRoomBody } from '../../routes/interfaces'
 import jwt from 'jsonwebtoken'
-import { Schema } from 'mongoose'
 
 const createRoom = async (
   req: Request<IRoomBody>,
   res: Response,
   next: NextFunction
 ): Promise<Response> => {
-  const { socketID, username, roomCode } = req.body
+  const { username, roomCode } = req.body
   const roomRepository = new RepositoryFactory().createRoomRepository()
   const userRepository = new RepositoryFactory().createUserRepository()
-  let roomId: Schema.Types.ObjectId
+
   try {
-    await roomRepository.createRoom(roomCode).then(room => {
+    const roomId = await roomRepository.createRoom(roomCode).then(room => {
       userRepository.updateUser({
-        socketID,
         username,
-        room: room.id,
+        room: room._id,
         isAdmin: true
       })
-      roomId = room.id
+      return room._id
     })
 
     const token = jwt.sign({}, process.env.JWT_ROOM_SECRET, {

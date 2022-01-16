@@ -3,8 +3,7 @@ import { IUsername } from '../routes/interfaces'
 import { ValidatorFactory } from '../services/validators/index'
 import {
   validateUsername,
-  validateRequestBody,
-  validateSocketID
+  validateRequestBody
 } from '../services/validators/request'
 
 const validateBeforeCreateUser = async (
@@ -12,13 +11,12 @@ const validateBeforeCreateUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { username, socketID } = req.body
+  const { username } = req.body
   const userValidator = new ValidatorFactory().createUserValidator()
 
   try {
     console.log('validating before create user')
     validateRequestBody(req.body)
-    validateSocketID(socketID)
     validateUsername(username)
     await userValidator.checkIfUsernameIsTaken(username)
     next()

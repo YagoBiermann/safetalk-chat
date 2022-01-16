@@ -9,23 +9,22 @@ const joinRoom = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { socketID, username, roomCode } = req.body
+  const { username, roomCode } = req.body
   const roomRepository = new RepositoryFactory().createRoomRepository()
   const userRepository = new RepositoryFactory().createUserRepository()
 
   try {
     let room: IRoom = await roomRepository.getRoomByCode(roomCode)
     await userRepository.updateUser({
-      socketID,
       username,
-      room: room.id,
+      room: room._id,
       isAdmin: false
     })
 
     const token = jwt.sign({}, process.env.JWT_ROOM_SECRET, {
       algorithm: 'HS256',
       expiresIn: '3h',
-      subject: String(room.id)
+      subject: String(room._id)
     })
     const expirationTime = new Date(Date.now() + 1000 * 60 * 60 * 3) // 3 hours
     res.cookie('token', `Bearer ${token}`, { httpOnly: true, expires: expirationTime })

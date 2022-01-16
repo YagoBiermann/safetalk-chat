@@ -35,12 +35,11 @@ function JoinRoom() {
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')
   const username = useAppSelector(state => state.user.username)
-  const socketID = useAppSelector(state => state.user.socketID)
   const isPending = useAppSelector(state => state.room.pending)
 
   const handleJoinRoom = (roomCode: string) => {
     resetField('roomCode')
-    joinRoom({ socketID, username, roomCode })
+    joinRoom({ username, roomCode })
       .unwrap()
       .then(
         () => {

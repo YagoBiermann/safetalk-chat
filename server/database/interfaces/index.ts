@@ -11,13 +11,12 @@ interface IRoomRepository {
 }
 
 interface IUserRepository {
-  createUser(user: IUser): Promise<IUser>
-  deleteUser(socketID: string): Promise<object>
-  getUsersByRoomID(roomID: ObjectId): Promise<IUser[]>
-  getUserBySocketID(socketID: string): Promise<IUser>
-  getUserByUsername(username: string): Promise<IUser>
-  setAsAdmin(socketID: string): Promise<IUser>
-  updateUser(user: IUser): Promise<IUser>
+  createUser(user: Omit<IUser, '_id'>): Promise<IUser>
+  deleteUser(id: string): Promise<object>
+  getAllUsers(roomID: ObjectId): Promise<IUser[]>
+  getUserBy(value: string): Promise<IUser>
+  setAsAdmin(id: string): Promise<IUser>
+  updateUser(user: Omit<IUser, '_id'>): Promise<IUser>
 }
 
 interface IRepositoryFactory {

@@ -25,10 +25,6 @@ export const errorMessages: IErrorMessage = {
     message: 'Too many fields',
     status: 400
   },
-  ERR_INVALID_SOCKET_ID: {
-    message: 'Invalid socket ID',
-    status: 400
-  },
   ERR_USERNAME_TAKEN: {
     message: 'Username already in use',
     status: 403

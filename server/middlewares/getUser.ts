@@ -11,16 +11,15 @@ const validateBeforeGetUser = async (
   const { username } = req.params
   const userValidator = new ValidatorFactory().createUserValidator()
   const headerValidator = new ValidatorFactory().createHeaderValidator()
-  const cookieToken = req.headers.token as string
+  const cookieToken = req.cookies.token
 
   try {
     console.log('validating before get user')
     headerValidator.checkAuthorization(cookieToken)
     validateUsername(username)
     const token = cookieToken.split(' ')[1]
-    const socketID: string = jwt.verify(token, process.env.JWT_SECRET).sub
-    await userValidator.checkIfUserExists(socketID)
-    await userValidator.checkIfMatch(username)
+    jwt.verify(token, process.env.JWT_SECRET)
+    await userValidator.checkIfUserExists(username)
 
     next()
   } catch (error) {
