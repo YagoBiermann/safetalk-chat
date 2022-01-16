@@ -5,7 +5,6 @@ export enum ROUTES {
   DELETE_ROOM = 'rooms/', //:roomCode
   DELETE_USER = 'users/', //:socketID
   GET_USERS = 'users/', //:roomCode
-  GET_ROOMS = 'rooms/',
   CREATE_USER = 'users/create',
 }
 

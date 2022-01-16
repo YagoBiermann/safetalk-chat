@@ -27,9 +27,6 @@ export const roomApi = createApi({
         body: user
       })
     }),
-    fetchRooms: builder.query<Array<string>, void>({
-      query: () => ({ url: `${ROUTES.GET_ROOMS}`, method: 'GET' })
-    }),
     fetchUsers: builder.query<FetchUsers, string>({
       query: (roomCode: string) => ({
         url: `rooms/${roomCode}/users`,
@@ -89,7 +86,6 @@ export const roomApi = createApi({
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
-  useFetchRoomsQuery,
   useLazyFetchUsersQuery,
   useJoinRoomMutation,
   useFetchCurrentUserQuery
