@@ -22,7 +22,7 @@ import { getUser } from '../controllers/apis/getUser'
 
 const router = express.Router()
 
-router.get('/api/v2/users/:username', validateBeforeGetUser, getUser)
+router.get('/api/v2/users/me', validateBeforeGetUser, getUser)
 router.get(
   '/api/v2/rooms/:roomCode/users',
   validateBeforeGetUsers,
