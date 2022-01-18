@@ -1,17 +1,14 @@
-import {
-  createSlice,
-  isAnyOf,
-  PayloadAction
-} from '@reduxjs/toolkit'
+import { FetchUsers, UsersOnRoom } from './../../../lib/interfaces/index'
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit'
 import { roomApi } from '../../../services/api'
 
 interface Room {
-  usersByRoom: string[]
+  usersOnRoom: UsersOnRoom
   pending: boolean
 }
 
 const initialState: Room = {
-  usersByRoom: [],
+  usersOnRoom: [{ username: '', id: '' }],
   pending: false
 }
 
@@ -19,8 +16,8 @@ export const roomSlice = createSlice({
   name: 'room',
   initialState,
   reducers: {
-    setUsersByRoom: (state, action: PayloadAction<string[]>) => {
-      state.usersByRoom = action.payload
+    setUsersOnRoom: (state, action: PayloadAction<UsersOnRoom>) => {
+      state.usersOnRoom = action.payload
     },
     resetPending: state => {
       state.pending = false
@@ -53,5 +50,4 @@ export const roomSlice = createSlice({
   }
 })
 
-export const { setUsersByRoom, resetPending, setPending } =
-  roomSlice.actions
+export const { setUsersOnRoom, resetPending, setPending } = roomSlice.actions
