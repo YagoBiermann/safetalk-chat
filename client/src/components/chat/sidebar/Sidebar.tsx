@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { socketContext } from '../../../lib/context/socketContext'
 import { useLazyFetchUsersQuery } from '../../../services/api'
-import { useAppSelector } from '../../../store'
+import { useAppDispatch, useAppSelector } from '../../../store'
 import { sidebarAnimation } from './Sidebar.Animations'
 import { BadgeWrapper } from './Sidebar.BadgeWrapper'
 import SidebarContent from './Sidebar.Content'
@@ -12,6 +12,7 @@ import UserSkeleton from './Sidebar.Skeleton'
 import Users from './Sidebar.Users'
 import useWindowSize from '../../../lib/hooks/useWindowSize'
 import { sidebarMobile } from './Sidebar.MediaQueries'
+import { setUsersOnRoom } from '../../../store/ducks/rooms'
 
 const Sidebar = styled.div`
   position: absolute;
@@ -38,35 +39,31 @@ const UserList = styled.div<{ error: boolean }>`
 `
 
 function Chatsidebar() {
-  const [users, setUsers] = useState<Array<{ username: string; id: string }>>([
-    { username: '', id: '' }
-  ])
+  const users = useAppSelector(state => state.room.usersOnRoom)
   const [isOpen, setOpen] = useState(false)
   const { width } = useWindowSize()
   const roomCode = useAppSelector(state => state.user.roomCode)
   const [fetchUsers, result] = useLazyFetchUsersQuery()
   const socket = useContext(socketContext)
-
-  useEffect(() => {
-    socket.emit('room:users', { roomCode })
-
-    return () => {
-      socket.off('room:users')
-    }
-  }, [roomCode, socket])
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     socket.on('room:users', () => {
       fetchUsers(roomCode)
         .unwrap()
         .then(res => {
-          setUsers(res.users)
+          dispatch(setUsersOnRoom(res.users))
+          console.log(res.users)
         })
         .catch(err => {
           console.log(err)
         })
     })
-  }, [roomCode, socket])
+
+    return () => {
+      socket.off('room:users')
+    }
+  }, [fetchUsers, roomCode, socket])
 
   const togglesidebar = () => {
     setOpen(!isOpen)
@@ -86,7 +83,9 @@ function Chatsidebar() {
           <SidebarContent key="sidebarContent">
             <UserList error={Boolean(result.error)}>
               {result.isFetching && !result.data ? <UserSkeleton /> : null}
-              {result.data ? <Users users={users} /> : null}
+              {users.length > 0 && !result.isFetching && !result.error ? (
+                <Users users={users} />
+              ) : null}
               {result.error ? <FetchError /> : null}
             </UserList>
           </SidebarContent>

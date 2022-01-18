@@ -4,8 +4,9 @@ export enum ROUTES {
   JOIN_ROOM = 'rooms/join',
   DELETE_ROOM = 'rooms/', //:roomCode
   DELETE_USER = 'users/', //:socketID
-  GET_USERS = 'users/', //:roomCode
   CREATE_USER = 'users/create',
+  GET_CURRENT_USER = 'users/me',
+  GENERATE_CODE = 'rooms/code'
 }
 
 export enum MESSAGE_TYPE {
@@ -20,7 +21,8 @@ export enum SOCKET_EVENTS {}
 
 export enum ENDPOINTS {
   BACKEND_URL = 'http://localhost:80/api/v2/',
-  FRONTEND_URL = 'http://localhost:80/'
+  FRONTEND_URL = 'http://localhost:80/',
+  NGINX_URL = 'http://safetalk_nginx:80/api/v2/'
 }
 
 //accepted file types for upload

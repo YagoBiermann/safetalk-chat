@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion'
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import type { GetServerSideProps, NextPage } from 'next'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import CenterColumn from '../../assets/styles/default.CenterColumn'
 import FilePreview from '../../components/chat/filePreview/FilePreview'
@@ -9,7 +9,8 @@ import SendMessage from '../../components/chat/sendMessage/SendMessage'
 import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
-import { DropFile } from '../../lib/interfaces'
+import { DropFile, FetchUsers, UserAPI } from '../../lib/interfaces'
+import { fetchCurrentUser, fetchUsersOnRoom } from '../../services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
   ChatBoxDesktop,
@@ -17,6 +18,10 @@ import {
   ChatContainerDesktop,
   ChatHeaderMobile
 } from './_chat.MediaQueries'
+import nookies from 'nookies'
+import { setRoomCode, setUsername } from '../../store/ducks/users'
+import { socketContext } from '../../lib/context/socketContext'
+import { setUsersOnRoom } from '../../store/ducks/rooms'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -40,13 +45,37 @@ const ChatHeader = styled.div`
   ${ChatHeaderMobile}
 `
 
-const Chat: NextPage = props => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = nookies.get(ctx)
+  const user: UserAPI = await fetchCurrentUser(cookies)
+  const usersOnRoom = await fetchUsersOnRoom(cookies, user.room.roomCode)
+
+  if (!user || !user.room) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      user,
+      usersOnRoom
+    }
+  }
+}
+
+type ChatPageProps = NextPage & { user: UserAPI; usersOnRoom: FetchUsers }
+
+const Chat = (props: ChatPageProps) => {
+  const { user } = props
   const [files, setFiles] = useState<Array<DropFile>>([])
   const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
-  const roomCode = useAppSelector(state => state.user.roomCode)
-  const username = useAppSelector(state => state.user.username)
   const error = useAppSelector(state => state.app.error)
+  const socket = useContext(socketContext)
 
   const clearPreview = () => {
     files.forEach(file => {
@@ -70,9 +99,21 @@ const Chat: NextPage = props => {
     }
   }, [files])
 
+  // Hydrate on mount
   useEffect(() => {
-    if (!username || !roomCode) {
-      window.location.href = '/'
+    socket.connect()
+    //TODO: Hydrate messages
+    dispatch(setRoomCode(user.room.roomCode))
+    dispatch(setUsername(user.username))
+    dispatch(setUsersOnRoom(props.usersOnRoom.users))
+    socket.emit('room:join', { roomCode: user.room.roomCode })
+    socket.emit('room:users', { roomCode: user.room.roomCode })
+    socket.emit('user:data', user)
+
+    return () => {
+      socket.off('room:users')
+      socket.off('room:join')
+      socket.off('user:data')
     }
   }, [])
 

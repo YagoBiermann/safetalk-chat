@@ -34,8 +34,7 @@ function UsernameForm() {
       .unwrap()
       .then(
         async response => {
-          dispatch(setUsername(username))
-          router.push('/code')
+          router.replace('/code')
         },
         error => {
           dispatch(setError(error.data.message))
