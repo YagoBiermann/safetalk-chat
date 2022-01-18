@@ -11,8 +11,8 @@ class UserValidator implements IUserValidator {
     }
   }
 
-  public async checkIfUserExists(username: string): Promise<void> {
-    const user = await this.userRepository.getUserBy(username)
+  public async checkIfUserExists(id: string): Promise<void> {
+    const user = await this.userRepository.getUserById(id)
     if (!user) {
       throw new AppError('ERR_USER_NOT_FOUND')
     }

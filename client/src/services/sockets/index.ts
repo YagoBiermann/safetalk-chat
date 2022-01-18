@@ -4,7 +4,8 @@ import { ENDPOINTS } from '../../lib/enums'
 const socket = io(`${ENDPOINTS.FRONTEND_URL}chat`, {
   transports: ['websocket', 'polling'],
   path: '/socket.io',
-  autoConnect: false
+  autoConnect: false,
+  withCredentials: true
 })
 
 export default socket

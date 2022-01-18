@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from '../../../lib/interfaces'
+import { UserRedux } from '../../../lib/interfaces'
 
-const initialState: User = {
+const initialState: UserRedux = {
   username: '',
   roomCode: ''
 }

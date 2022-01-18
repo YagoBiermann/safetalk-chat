@@ -5,7 +5,6 @@ import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
 import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import CenterRow from '../../../assets/styles/default.CenterRow'
-import { socketContext } from '../../../lib/context/socketContext'
 import { useCreateRoomMutation } from '../../../services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
@@ -32,26 +31,21 @@ function CreateRoom() {
   const [createRoom, result] = useCreateRoomMutation()
   const { anchorEl, handleClose, open, showPopover } = usePopover()
   const dispatch = useAppDispatch()
-  const socket = useContext(socketContext)
   const router = useRouter()
   const username = useAppSelector(state => state.user.username)
   const roomCode = useAppSelector(state => state.user.roomCode)
   const isPending = useAppSelector(state => state.room.pending)
-
-  useEffect(() => {
-    router.prefetch(`/chat/${roomCode}`)
-  }, [])
 
   const handleCreateRoom = () => {
     createRoom({ username, roomCode })
       .unwrap()
       .then(
         () => {
-          socket.emit('room:join', { roomCode })
           router.replace(`/chat/${roomCode}`)
         },
         error => {
-          dispatch(setError(error.data.message))
+          dispatch(setError("Session expired"))
+          router.replace('/')
         }
       )
   }

@@ -1,19 +1,16 @@
 import store from '../../store'
 import { MESSAGE_TYPE } from '../enums'
 
-// Error messages from backend
-export interface ErrorMessage {
-  message: string
-}
-
 // Success response from backend
-export interface SuccessMessage {
+export interface ApiResponse {
   message: string
 }
 
 export interface FetchUsers {
   users: Array<{ username: string; id: string }>
 }
+
+export interface UsersOnRoom extends Array<{ username: string; id: string }> {}
 
 export interface FileName {
   fileName: string
@@ -66,8 +63,26 @@ export interface DropFile extends File {
   preview: string
 }
 
-// User data
-export interface User extends Username, RoomCode {}
+// User data from redux
+export interface UserRedux {
+  username: string
+  roomCode: string
+}
+
+// User data from backend
+export interface UserAPI {
+  _id: string
+  username: string
+  room: {
+    _id: string
+    roomCode: string
+  }
+  isAdmin: boolean
+}
+
+export interface CookieProps {
+  [key: string]: string
+}
 
 // Dispatch
 export type AppDispatch = typeof store.dispatch

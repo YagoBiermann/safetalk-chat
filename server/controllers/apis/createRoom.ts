@@ -33,6 +33,8 @@ const createRoom = async (
       expires: expirationTime
     })
 
+    req.session.cookie.maxAge = 1000 * 60 * 60 * 3 // 3 hours
+
     return res.status(201).json({ message: 'Room created' })
   } catch (error) {
     next(error)

@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
 import CenterColumn from '../../../assets/styles/default.CenterColumn'
-import { socketContext } from '../../../lib/context/socketContext'
 import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
 import usePopover from '../../../lib/hooks/usePopover'
 import { RoomCode } from '../../../lib/interfaces'
@@ -30,7 +29,6 @@ function JoinRoom() {
     useForm<RoomCode>({ defaultValues: { roomCode: '' } })
   const { anchorEl, handleClose, open, showPopover } = usePopover()
   const [joinRoom, result] = useJoinRoomMutation()
-  const socket = useContext(socketContext)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')
@@ -43,11 +41,13 @@ function JoinRoom() {
       .unwrap()
       .then(
         () => {
-          dispatch(setRoomCode(roomCode))
-          socket.emit('room:join', { roomCode })
           router.replace(`/chat/${roomCode}`)
         },
         error => {
+          if (error.data.message === 'Missing token') {
+            dispatch(setError('Session expired'))
+            router.replace('/')
+          }
           dispatch(setError(error.data.message))
         }
       )

@@ -18,10 +18,12 @@ const validateBeforeCreateRoom = async (
   const roomValidator = new ValidatorFactory().createRoomValidator()
 
   try {
-    console.log('validating before create room')
+    console.log(`validating token: ${token}`)
     validateToken(token, process.env.JWT_SECRET)
     validateRequestBody(req.body)
+    console.log(`validating user: ${username}`)
     validateUsername(username)
+    console.log(`validating room: ${roomCode}`)
     validateRoomCode(roomCode)
     await roomValidator.checkIfRoomAlreadyExists(roomCode)
     next()

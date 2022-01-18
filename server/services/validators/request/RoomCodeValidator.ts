@@ -9,14 +9,15 @@ class RoomCodeValidator implements IRoomCodeValidator {
   }
 
   public checkInvalid(roomCode: string): void {
-    const invalidRoomCode = /[^a-zA-Z0-9]+/g.test(roomCode)
-    if (invalidRoomCode) {
+    // test if roomCode is valid uuidv4
+    const isValid = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
+    if (!isValid.test(roomCode)) {
       throw new AppError('ERR_INVALID_ROOM_CODE')
     }
   }
 
   public checkMaxLength(roomCode: string): void {
-    if (roomCode.length > 25) {
+    if (roomCode.length > 36) {
       throw new AppError('ERR_INVALID_ROOM_CODE')
     }
   }

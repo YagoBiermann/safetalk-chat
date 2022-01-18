@@ -2,6 +2,7 @@ import fs from 'fs'
 import { Server, Socket } from 'socket.io'
 import { RepositoryFactory } from '../../database'
 import { IRoomRepository, IUserRepository } from '../../database/interfaces'
+import { UserAPI } from '../../services/sockets/interfaces'
 import { ValidatorFactory } from '../../services/validators/index'
 import {
   IRoomValidator,
@@ -23,17 +24,25 @@ class SocketEvents {
 
   public joinRoom() {
     this.socket.on('room:join', ({ roomCode }) => {
-      console.log(`user: ${this.socket.data.username} joined room: ${roomCode}`)
+      console.log(`user: ${this.socket.id} joined room: ${roomCode}`)
       this.socket.join(roomCode)
     })
   }
 
   public fetchUsers() {
-    this.socket.on('room:users', async ({ roomCode }) => {
+    this.socket.on('room:users', ({ roomCode }) => {
       console.log(
-        `user: ${this.socket.data.username} requested users in room: ${roomCode}`
+        `user: ${this.socket.id} requested users in room: ${roomCode}`
       )
-      this.io.to(roomCode).emit('room:users')
+
+      this.socket.to(roomCode).emit('room:users')
+    })
+  }
+
+  public userData() {
+    this.socket.on('user:data', (user: UserAPI) => {
+      console.log(`user: ${this.socket.id} sent data`)
+      this.socket.data = user
     })
   }
 
@@ -56,13 +65,14 @@ class SocketEvents {
 
   public deleteUser() {
     this.socket.on('disconnecting', async () => {
-      console.log(`user: ${this.socket.data.username} disconnected`)
-      const username = this.socket.data.username
+      //TODO: set user id to socket.data
+      console.log(`user: ${this.socket.id} disconnected`)
+      const userId = this.socket.data._id
       try {
-        const user = await this.userRepository.getUserBy(username)
-        await this.userValidator.checkIfUserExists(username)
-
-        await this.userRepository.deleteUser(username)
+        const user = await this.userRepository.getUserBy(userId)
+        await this.userValidator.checkIfUserExists(userId)
+        
+        await this.userRepository.deleteUser(userId)
 
         if (user.room) {
           const roomCode = (await this.roomRepository.getRoomByID(user.room))
