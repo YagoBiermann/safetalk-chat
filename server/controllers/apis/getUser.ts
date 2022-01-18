@@ -3,17 +3,17 @@ import { RepositoryFactory } from '../../database/index'
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   const userRepository = new RepositoryFactory().createUserRepository()
-  const { username } = req.params
+  const userID = req.session.user
 
   try {
     const {
       _id,
-      username: user,
+      username,
       room,
       isAdmin
-    } = await userRepository.getUserBy(username)
+    } = await userRepository.getUserById(userID)
 
-    return res.status(200).json({ _id, user, room, isAdmin })
+    return res.status(200).json({ _id, username, room, isAdmin })
   } catch (error) {
     next(error)
   }

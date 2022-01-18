@@ -12,10 +12,11 @@ interface IRoomRepository {
 
 interface IUserRepository {
   createUser(user: Omit<IUser, '_id'>): Promise<IUser>
-  deleteUser(id: string): Promise<object>
-  getAllUsers(roomID: ObjectId): Promise<IUser[]>
+  deleteUser(id: ObjectId): Promise<object>
+  getAllUsers(room: ObjectId): Promise<IUser[]>
   getUserBy(value: string): Promise<IUser>
-  setAsAdmin(id: string): Promise<IUser>
+  getUserById(id: string): Promise<IUser>
+  setAsAdmin(id: ObjectId): Promise<IUser>
   updateUser(user: Omit<IUser, '_id'>): Promise<IUser>
 }
 

@@ -29,9 +29,7 @@ const createUser = async (
       expires: expirationTime
     })
 
-    res.cookie('username', username, {
-      path: '/'
-    })
+    req.session.user = String(user._id)
 
     return res.status(201).json({ message: 'User created' })
   } catch (error) {

@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongoose'
+import mongoose, { isValidObjectId, ObjectId } from 'mongoose'
 import { User, IUser } from '../models/users'
 import { IUserRepository } from '../interfaces'
 
@@ -10,7 +10,7 @@ class UserRepository implements IUserRepository {
     )
   }
 
-  public async setAsAdmin(id: string): Promise<IUser> {
+  public async setAsAdmin(id: ObjectId): Promise<IUser> {
     return User.findByIdAndUpdate({ id }, { isAdmin: true }).exec()
   }
 
@@ -19,13 +19,19 @@ class UserRepository implements IUserRepository {
     return User.create(user)
   }
 
-  public async deleteUser(id: string): Promise<object> {
+  public async deleteUser(id: ObjectId): Promise<object> {
     console.info(`deleting user: ${id}`)
     return User.deleteOne({ id }).exec()
   }
 
-  public async getAllUsers(roomID: ObjectId): Promise<IUser[]> {
-    return User.find({ room: roomID }).exec()
+  public async getAllUsers(room: ObjectId): Promise<IUser[]> {
+    return User.find({ room }).exec()
+  }
+
+  public async getUserById(id: string): Promise<IUser> {
+    return User.findById(id)
+      .populate([{ path: 'room', select: ['_id', 'roomCode'] }])
+      .exec()
   }
 
   public async getUserBy(value: string): Promise<IUser> {

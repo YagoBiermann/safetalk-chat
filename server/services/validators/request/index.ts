@@ -1,5 +1,6 @@
 import { ValidatorFactory } from '../index'
 import jwt from 'jsonwebtoken'
+import short from 'short-uuid'
 
 const validateRequestBody = (req: Object) => {
   const validator = new ValidatorFactory().createBodyValidator()
@@ -8,9 +9,11 @@ const validateRequestBody = (req: Object) => {
 }
 
 const validateRoomCode = (roomCode: string) => {
+  const translatedRoomCode = short().toUUID(roomCode)
   const validator = new ValidatorFactory().createRoomCodeValidator()
-  validator.checkEmptyField(roomCode)
-  validator.checkInvalid(roomCode)
+  validator.checkEmptyField(translatedRoomCode)
+  validator.checkInvalid(translatedRoomCode)
+  validator.checkMaxLength(translatedRoomCode)
 }
 
 const validateUsername = (username: string) => {

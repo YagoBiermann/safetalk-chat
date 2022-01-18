@@ -34,7 +34,7 @@ interface IRoomValidator {
 
 interface IUserValidator {
   checkIfUsernameIsTaken(username: string): Promise<void>
-  checkIfUserExists(username: string): Promise<void>
+  checkIfUserExists(id: string): Promise<void>
 }
 
 interface IValidatorFactory {

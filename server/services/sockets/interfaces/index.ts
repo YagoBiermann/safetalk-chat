@@ -13,3 +13,13 @@ export enum MESSAGE_TYPE {
   FILE = 'FILE',
   AUDIO = 'AUDIO'
 }
+
+export interface UserAPI {
+  _id: string
+  username: string
+  room: {
+    _id: string
+    roomCode: string
+  }
+  isAdmin: boolean
+}
