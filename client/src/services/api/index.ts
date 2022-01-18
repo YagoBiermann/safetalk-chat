@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import axios, { AxiosResponse } from 'axios'
+import { ENDPOINTS, ROUTES } from '../../lib/enums'
 import {
-  SuccessMessage,
-  User,
-  RoomCode,
+  ApiResponse,
+  CookieProps,
+  FetchUsers,
   FileName,
-  FetchUsers
+  RoomCode,
+  UserRedux
 } from '../../lib/interfaces'
-import { ROUTES, ENDPOINTS } from '../../lib/enums'
 
 export const roomApi = createApi({
   reducerPath: 'roomApi',
@@ -20,8 +22,8 @@ export const roomApi = createApi({
     }
   }),
   endpoints: builder => ({
-    createUser: builder.mutation({
-      query: (user: User) => ({
+    createUser: builder.mutation<ApiResponse, UserRedux>({
+      query: user => ({
         method: 'POST',
         url: `${ROUTES.CREATE_USER}`,
         body: user
@@ -33,21 +35,15 @@ export const roomApi = createApi({
         method: 'GET'
       })
     }),
-    fetchCurrentUser: builder.query<User & { isAdmin: boolean }, string>({
-      query: (username: string) => ({
-        url: `users/${username}`,
-        method: 'GET'
-      })
-    }),
-    createRoom: builder.mutation<SuccessMessage, User>({
-      query: (user: User) => ({
+    createRoom: builder.mutation<ApiResponse, UserRedux>({
+      query: user => ({
         method: 'POST',
         url: ROUTES.CREATE_ROOM,
         body: user
       })
     }),
-    joinRoom: builder.mutation<SuccessMessage, User>({
-      query: (user: User) => ({
+    joinRoom: builder.mutation<ApiResponse, UserRedux>({
+      query: user => ({
         method: 'POST',
         url: ROUTES.JOIN_ROOM,
         body: user
@@ -83,10 +79,69 @@ export const roomApi = createApi({
     })
   })
 })
+
+const api = axios.create({
+  baseURL: ENDPOINTS.NGINX_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  }
+})
+
+const fetchUsersOnRoom = async (
+  cookies: CookieProps,
+  roomCode: string = ''
+) => {
+  try {
+    const result: AxiosResponse<FetchUsers> = await api.get(
+      `rooms/${roomCode}/users`,
+      {
+        headers: {
+          Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+        }
+      }
+    )
+    return result.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const fetchCurrentUser = async (cookies: CookieProps) => {
+  try {
+    const result = await api.get(ROUTES.GET_CURRENT_USER, {
+      headers: {
+        Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+      }
+    })
+    return result.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const generateCode = async (cookies: CookieProps) => {
+  try {
+    const result: AxiosResponse<{ code: string }, any> = await api.get(
+      ROUTES.GENERATE_CODE,
+      {
+        headers: {
+          Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+        }
+      }
+    )
+
+    return result.data.code
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { fetchCurrentUser, fetchUsersOnRoom, generateCode }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
   useLazyFetchUsersQuery,
-  useJoinRoomMutation,
-  useFetchCurrentUserQuery
+  useJoinRoomMutation
 } = roomApi
