@@ -19,9 +19,12 @@ import { upload } from '../middlewares/uploadFile'
 import { errorHandler } from '../services/errors/errorHandler'
 import { validateBeforeGetUser } from '../middlewares/getUser'
 import { getUser } from '../controllers/apis/getUser'
+import { validateBeforeGenerateCode } from '../middlewares/generateCode'
+import { generateCode } from '../controllers/apis/generateCode'
 
 const router = express.Router()
 
+router.get('/api/v2/rooms/code', validateBeforeGenerateCode, generateCode)
 router.get('/api/v2/users/me', validateBeforeGetUser, getUser)
 router.get(
   '/api/v2/rooms/:roomCode/users',
