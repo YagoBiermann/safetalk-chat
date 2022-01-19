@@ -44,7 +44,7 @@ function CreateRoom() {
           router.replace(`/chat/${roomCode}`)
         },
         error => {
-          dispatch(setError("Session expired"))
+          dispatch(setError('Session expired'))
           router.replace('/')
         }
       )
@@ -57,7 +57,7 @@ function CreateRoom() {
       onMouseEnter={showPopover}
       onMouseLeave={handleClose}
     >
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence>
         {open && (
           <CodePopper
             anchorEl={anchorEl}

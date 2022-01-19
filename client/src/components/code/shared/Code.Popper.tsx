@@ -1,5 +1,4 @@
 import { Paper, Popper } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import { motion } from 'framer-motion'
 
 type CodePopperProps = {

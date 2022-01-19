@@ -6,11 +6,11 @@ export interface ApiResponse {
   message: string
 }
 
-export interface FetchUsers {
+export interface OnlineUsersDTO {
   users: Array<{ username: string; id: string }>
 }
 
-export interface UsersOnRoom extends Array<{ username: string; id: string }> {}
+export interface OnlineUsersRedux extends Array<{ username: string; id: string }> {}
 
 export interface FileName {
   fileName: string
@@ -70,7 +70,7 @@ export interface UserRedux {
 }
 
 // User data from backend
-export interface UserAPI {
+export interface UserDTO {
   _id: string
   username: string
   room: {
@@ -78,6 +78,7 @@ export interface UserAPI {
     roomCode: string
   }
   isAdmin: boolean
+  isOnline: boolean
 }
 
 export interface CookieProps {

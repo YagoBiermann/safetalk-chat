@@ -9,7 +9,7 @@ import SendMessage from '../../components/chat/sendMessage/SendMessage'
 import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
-import { DropFile, FetchUsers, UserAPI } from '../../lib/interfaces'
+import { DropFile, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
 import { fetchCurrentUser, fetchUsersOnRoom } from '../../services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
@@ -47,8 +47,10 @@ const ChatHeader = styled.div`
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
-  const user: UserAPI = await fetchCurrentUser(cookies)
-  const usersOnRoom = await fetchUsersOnRoom(cookies, user.room.roomCode)
+  const user: UserDTO = await fetchCurrentUser(cookies)
+  const usersOnRoom = user
+    ? await fetchUsersOnRoom(cookies, user.room.roomCode)
+    : null
 
   if (!user || !user.room) {
     return {
@@ -67,7 +69,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   }
 }
 
-type ChatPageProps = NextPage & { user: UserAPI; usersOnRoom: FetchUsers }
+type ChatPageProps = NextPage & { user: UserDTO; usersOnRoom: OnlineUsersDTO }
 
 const Chat = (props: ChatPageProps) => {
   const { user } = props
@@ -103,12 +105,12 @@ const Chat = (props: ChatPageProps) => {
   useEffect(() => {
     socket.connect()
     //TODO: Hydrate messages
-    dispatch(setRoomCode(user.room.roomCode))
-    dispatch(setUsername(user.username))
-    dispatch(setUsersOnRoom(props.usersOnRoom.users))
     socket.emit('room:join', { roomCode: user.room.roomCode })
     socket.emit('room:users', { roomCode: user.room.roomCode })
     socket.emit('user:data', user)
+    dispatch(setRoomCode(user.room.roomCode))
+    dispatch(setUsername(user.username))
+    dispatch(setUsersOnRoom(props.usersOnRoom.users))
 
     return () => {
       socket.off('room:users')
