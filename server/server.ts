@@ -14,6 +14,7 @@ import MongoStore from 'connect-mongo'
 declare module 'express-session' {
   interface SessionData {
     user: string
+    token: string
   }
 }
 class AppServer {
@@ -52,12 +53,11 @@ class AppServer {
       session({
         secret: process.env.SESSION_SECRET,
         saveUninitialized: false,
-        cookie: { maxAge: 606000, httpOnly: true, path: '/' }, // 10 minutes + 10 seconds
+        cookie: { maxAge: 600000, httpOnly: true, path: '/' }, // 10 minutes
         resave: true,
         store: MongoStore.create({
           mongoUrl: process.env.MONGO_URI,
-          collectionName: 'sessions',
-          ttl: 10800 // 3 hours
+          collectionName: 'sessions'
         })
       })
     )
