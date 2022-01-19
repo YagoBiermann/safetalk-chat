@@ -1,12 +1,11 @@
 import { IRoomBody } from '../routes/interfaces'
 import { Request, Response, NextFunction } from 'express'
-import { ValidatorFactory } from '../services/validators'
+import { ValidatorFactory } from '../services/validations'
 import {
   validateRequestBody,
   validateRoomCode,
-  validateUsername,
-  validateToken
-} from '../services/validators/request/'
+  validateUsername
+} from '../services/validations/request'
 
 const validateBeforeCreateRoom = async (
   req: Request<IRoomBody>,
@@ -14,12 +13,9 @@ const validateBeforeCreateRoom = async (
   next: NextFunction
 ) => {
   const { username, roomCode } = req.body
-  const token = req.cookies.token
   const roomValidator = new ValidatorFactory().createRoomValidator()
 
   try {
-    console.log(`validating token: ${token}`)
-    validateToken(token, process.env.JWT_SECRET)
     validateRequestBody(req.body)
     console.log(`validating user: ${username}`)
     validateUsername(username)

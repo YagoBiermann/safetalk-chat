@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { IMediaStream } from '../routes/interfaces'
-import { ValidatorFactory } from '../services/validators'
-import { validateRoomCode, validateToken } from '../services/validators/request'
+import { ValidatorFactory } from '../services/validations'
+import { validateRoomCode } from '../services/validations/request'
 
 const validateStream = async (
   req: Request<IMediaStream>,
@@ -17,7 +17,6 @@ const validateStream = async (
 
   try {
     console.log('validating before stream media')
-    validateToken(token, process.env.JWT_ROOM_SECRET)
     validateRoomCode(roomCode)
     headerValidator.checkContentType(req.headers['content-type'])
     headerValidator.checkRange(range, media, roomCode)
