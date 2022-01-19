@@ -1,4 +1,4 @@
-import mongoose, { isValidObjectId, ObjectId } from 'mongoose'
+import { ObjectId } from 'mongoose'
 import { User, IUser } from '../models/users'
 import { IUserRepository } from '../interfaces'
 
@@ -6,8 +6,22 @@ class UserRepository implements IUserRepository {
   public async updateUser(user: IUser): Promise<IUser> {
     return User.findOneAndUpdate(
       { username: user.username },
-      { username: user.username, room: user.room, isAdmin: user.isAdmin }
+      {
+        username: user.username,
+        room: user.room,
+        isAdmin: user.isAdmin,
+        isOnline: user.isOnline
+      }
     )
+  }
+
+  public async setStatus(status: {
+    id: ObjectId
+    isOnline: boolean
+  }): Promise<IUser> {
+    return User.findByIdAndUpdate(status.id, {
+      isOnline: status.isOnline
+    }).exec()
   }
 
   public async setAsAdmin(id: ObjectId): Promise<IUser> {
