@@ -1,34 +1,38 @@
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../store'
+import { AnimatePresence } from 'framer-motion'
+import type { GetServerSideProps, NextPage } from 'next'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import CenterColumn from '../../assets/styles/default.CenterColumn'
+import FilePreview from '../../components/chat/filePreview/FilePreview'
 import MessagesBox from '../../components/chat/messages/Messages'
 import SendMessage from '../../components/chat/sendMessage/SendMessage'
-import Box from '../../components/global/Box'
+import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
-import { DropFile } from '../../lib/interfaces'
-import FilePreview from '../../components/chat/filePreview/FilePreview'
-import DarkenBackground from '../../components/global/DarkenBackground'
-import ChatSidebar from '../../components/chat/sidebar/Sidebar'
-import { AnimatePresence } from 'framer-motion'
+import { DropFile, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
+import { fetchCurrentUser, fetchUsersOnRoom } from '../../services/api'
+import { useAppDispatch, useAppSelector } from '../../store'
 import {
   ChatBoxDesktop,
   ChatBoxMobile,
   ChatContainerDesktop,
   ChatHeaderMobile
 } from './_chat.MediaQueries'
+import nookies from 'nookies'
+import { setRoomCode, setUsername } from '../../store/ducks/users'
+import { socketContext } from '../../lib/context/socketContext'
+import { setUsersOnRoom } from '../../store/ducks/rooms'
 
 const ChatContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  ${CenterColumn}
+  justify-content: flex-start;
   width: 100vw;
   height: 100vh;
   ${ChatContainerDesktop}
 `
 
-const ChatBox = styled(Box)`
+const ChatBox = styled.div`
+  ${CenterColumn}
   width: 70%;
   height: 90%;
   margin-top: 30px;
@@ -41,14 +45,39 @@ const ChatHeader = styled.div`
   ${ChatHeaderMobile}
 `
 
-const Chat: NextPage = props => {
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = nookies.get(ctx)
+  const user: UserDTO = await fetchCurrentUser(cookies)
+  const usersOnRoom = user
+    ? await fetchUsersOnRoom(cookies, user.room.roomCode)
+    : null
+
+  if (!user || !user.room) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      user,
+      usersOnRoom
+    }
+  }
+}
+
+type ChatPageProps = NextPage & { user: UserDTO; usersOnRoom: OnlineUsersDTO }
+
+const Chat = (props: ChatPageProps) => {
+  const { user } = props
   const [files, setFiles] = useState<Array<DropFile>>([])
   const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
-  const roomCode = useAppSelector(state => state.user.roomCode)
-  const socketID = useAppSelector(state => state.user.socketID)
-  const username = useAppSelector(state => state.user.username)
   const error = useAppSelector(state => state.app.error)
+  const socket = useContext(socketContext)
 
   const clearPreview = () => {
     files.forEach(file => {
@@ -72,9 +101,21 @@ const Chat: NextPage = props => {
     }
   }, [files])
 
+  // Hydrate on mount
   useEffect(() => {
-    if (!username || !socketID || !roomCode) {
-      window.location.href = '/'
+    socket.connect()
+    //TODO: Hydrate messages
+    socket.emit('room:join', { roomCode: user.room.roomCode })
+    socket.emit('room:users', { roomCode: user.room.roomCode })
+    socket.emit('user:data', user)
+    dispatch(setRoomCode(user.room.roomCode))
+    dispatch(setUsername(user.username))
+    dispatch(setUsersOnRoom(props.usersOnRoom.users))
+
+    return () => {
+      socket.off('room:users')
+      socket.off('room:join')
+      socket.off('user:data')
     }
   }, [])
 

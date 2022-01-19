@@ -13,3 +13,14 @@ export enum MESSAGE_TYPE {
   FILE = 'FILE',
   AUDIO = 'AUDIO'
 }
+
+export interface UserDTO {
+  _id: string
+  username: string
+  room: {
+    _id: string
+    roomCode: string
+  }
+  isAdmin: boolean
+  isOnline: boolean
+}

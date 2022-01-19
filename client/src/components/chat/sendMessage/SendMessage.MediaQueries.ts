@@ -2,7 +2,7 @@ import { css } from 'styled-components'
 
 const MessageFormMobile = css`
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     flex-direction: column-reverse;
     width: 100vw;
     margin-top: 15px;
@@ -14,7 +14,7 @@ const MessageFormMobile = css`
 
 const RecorderMobile = css`
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     margin: 0 0 15px 0;
     justify-content: center;
     & #recordTimerBox {
@@ -25,7 +25,7 @@ const RecorderMobile = css`
 
 const SendMessageButtonsMobile = css`
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     margin: 0 0 15px 0;
     width: 100%;
     justify-content: center;

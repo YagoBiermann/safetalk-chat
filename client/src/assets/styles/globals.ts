@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import { Palette } from './theme'
+import { appTheme } from './theme'
 
 const GlobalStyle = createGlobalStyle`
   body, html {
@@ -11,8 +11,12 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     background-color: #0f0912;
     font-family: 'Roboto', 'Helvetica', sans-serif;
-    color: ${Palette.fontColor.secondary};
+    color: ${appTheme.fontColor.secondary};
     overflow: hidden;
+  }
+
+  span {
+    font-family: 'Roboto', 'Helvetica', sans-serif;
   }
 
   h1 {
@@ -21,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 600;
     letter-spacing: -0.5px;
 
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 48px;
     }
   }
@@ -31,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 10px 0 10px 0;
     font-weight: 500;
 
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 36px;
     }
   }
@@ -41,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 400;
 
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 26px;
     }
   }
@@ -50,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 26px;
     margin: 5px 0 5px 0;
     font-weight: 400;
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 22px;
     }
   }
@@ -60,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 300;
 
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 18px;
     }
   }
@@ -70,7 +74,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 5px 0 5px 0;
     font-weight: 300;
 
-    @media (max-width: ${Palette.mediaWidthSizes.small}) {
+    @media (max-width: ${appTheme.appBreakpoints.mobile}) {
       font-size: 16px;
     }
   }
@@ -78,7 +82,7 @@ const GlobalStyle = createGlobalStyle`
   *::-webkit-scrollbar {
   width: 10px;
 
-  @media (max-width: ${Palette.mediaWidthSizes.medium}) {
+  @media (max-width: ${appTheme.appBreakpoints.tablet}) {
     width: 0px;
   }
   }
@@ -88,16 +92,16 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${Palette.colors.dark.elevation_4};
+    background: ${appTheme.colors.dark.elevation_4};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${Palette.colors.primary.main.elevation_4};
+    background-color: ${appTheme.colors.primary.main.elevation_4};
     border-radius: 20px;
   }
 
   * {
-    scrollbar-color: ${Palette.colors.secondary.main.elevation_4} ${Palette.colors.primary.main.elevation_4};
+    scrollbar-color: ${appTheme.colors.secondary.main.elevation_4} ${appTheme.colors.primary.main.elevation_4};
     scrollbar-width: thin;
   }
 

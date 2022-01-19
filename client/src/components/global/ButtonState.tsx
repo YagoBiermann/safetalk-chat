@@ -6,7 +6,7 @@ function ButtonState(props: { text: string; loading: boolean }) {
   return props.loading ? (
     <CircularProgress size={18} thickness={8} color="inherit" />
   ) : (
-    <RegularText bold>{props.text}</RegularText>
+    <RegularText fontSize='medium' bold>{props.text}</RegularText>
   )
 }
 

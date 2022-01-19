@@ -5,14 +5,12 @@ import { BodyValidator } from './request/BodyValidator'
 import { FileValidator } from './request/FileValidator'
 import { HeaderValidator } from './request/HeaderValidator'
 import { RoomCodeValidator } from './request/RoomCodeValidator'
-import { SocketIDValidator } from './request/SocketIDValidator'
 import { UsernameValidator } from './request/UsernameValidator'
 import { RoomValidator } from './room/RoomValidator'
 import { UserValidator } from './user/UserValidator'
 import {
   IBodyValidator,
   IRoomCodeValidator,
-  ISocketIDValidator,
   IUsernameValidator,
   IValidatorFactory
 } from './interfaces'
@@ -48,10 +46,6 @@ class ValidatorFactory implements IValidatorFactory {
 
   public createRoomCodeValidator(): IRoomCodeValidator {
     return new RoomCodeValidator()
-  }
-
-  public createSocketIDValidator(): ISocketIDValidator {
-    return new SocketIDValidator()
   }
 
   public createUsernameValidator(): IUsernameValidator {

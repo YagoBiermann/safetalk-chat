@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
+import RegularText from '../../global/RegularText'
 import { MediaPlayerRenderProps } from '../mediaPlayer/MediaPlayer'
-import { AudioPlayerContentTablet, AudioPlayerTimeTablet } from './MediaPlayer.MediaQueries'
+import {
+  AudioPlayerContentTablet,
+  AudioPlayerTimeTablet
+} from './MediaPlayer.MediaQueries'
 
 const Content = styled.div`
   display: flex;
@@ -30,10 +33,6 @@ const TimeWrapper = styled.div`
   ${AudioPlayerTimeTablet}
 `
 
-const Text = styled.p`
-  ${TextMessageStyle};
-`
-
 type AudioPlayerProps = MediaPlayerRenderProps & {
   mediaRef?: React.RefObject<HTMLAudioElement | null>
 }
@@ -51,7 +50,7 @@ function AudioPlayer(props: AudioPlayerProps) {
       <Content>
         {PlayerButton}
         <TimeWrapper>
-          {MediaCurrentTime} <Text bold> / </Text> {MediaDuration}
+          {MediaCurrentTime} <RegularText bold> / </RegularText> {MediaDuration}
         </TimeWrapper>
         <VolumeWrapper>{PlayerVolume}</VolumeWrapper>
       </Content>

@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
     if (!fileExt) {
       cb(new AppError('ERR_FILE_NOT_ALLOWED'), null)
     }
-    
+
     cb(null, randomUUID() + fileExt)
   }
 })
@@ -35,6 +35,7 @@ const upload = multer({
   storage,
   fileFilter: function (req, file, cb) {
     const fileSize = Number(req.headers['content-length'])
+
     if (file.mimetype.includes('image') && fileSize > 16777216) {
       cb(new MulterError('LIMIT_FILE_SIZE'))
     }

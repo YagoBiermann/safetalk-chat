@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { ImageMessageMobile } from './Message.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import DarkenBackground from '../../global/DarkenBackground'
+import RegularText, { RegularTextProps } from '../../global/RegularText'
 
 const ImageTemplate = styled(motion.img)`
   align-self: center;
@@ -12,7 +12,6 @@ const ImageTemplate = styled(motion.img)`
   max-height: 400px;
   object-fit: cover;
   cursor: pointer;
-
   ${ImageMessageMobile}
 `
 
@@ -37,8 +36,7 @@ const ExpandedImage = styled(motion.img)`
   }
 `
 
-const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle};
+const Text = styled(RegularText)<RegularTextProps>`
   margin: 10px 10px 0 10px;
 `
 

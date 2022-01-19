@@ -1,4 +1,5 @@
 import { ValidatorFactory } from '../index'
+import short from 'short-uuid'
 
 const validateRequestBody = (req: Object) => {
   const validator = new ValidatorFactory().createBodyValidator()
@@ -7,9 +8,11 @@ const validateRequestBody = (req: Object) => {
 }
 
 const validateRoomCode = (roomCode: string) => {
+  const translatedRoomCode = short().toUUID(roomCode)
   const validator = new ValidatorFactory().createRoomCodeValidator()
-  validator.checkEmptyField(roomCode)
-  validator.checkInvalid(roomCode)
+  validator.checkEmptyField(translatedRoomCode)
+  validator.checkInvalid(translatedRoomCode)
+  validator.checkMaxLength(translatedRoomCode)
 }
 
 const validateUsername = (username: string) => {
@@ -19,15 +22,4 @@ const validateUsername = (username: string) => {
   validator.checkMaxLength(username)
 }
 
-const validateSocketID = (socketID: string) => {
-  const validator = new ValidatorFactory().createSocketIDValidator()
-  validator.checkEmptyField(socketID)
-  validator.checkMaxLength(socketID)
-}
-
-export {
-  validateRequestBody,
-  validateRoomCode,
-  validateUsername,
-  validateSocketID
-}
+export { validateRequestBody, validateRoomCode, validateUsername }

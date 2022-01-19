@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import RegularText from '../../global/RegularText'
 
 const ErrorBox = styled.div`
   display: flex;
@@ -9,20 +9,14 @@ const ErrorBox = styled.div`
   align-items: center;
 `
 
-const ErrorMessage = styled.p`
-  ${TextMessageStyle}
+const ErrorMessage = styled(RegularText)`
   margin-top: 10px;
-`
-
-const ErrorIcon = styled(ErrorOutlineIcon)`
-  font-size: 32px;
-  color: #990000dd;
 `
 
 function FetchError() {
   return (
     <ErrorBox>
-      <ErrorIcon />
+      <ErrorOutlineIcon sx={{ fontSize: 32, color: 'error.main' }} />
       <ErrorMessage bold>Unable to fetch users list</ErrorMessage>
     </ErrorBox>
   )

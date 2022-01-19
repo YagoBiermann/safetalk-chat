@@ -2,19 +2,20 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import defaultBox from '../../../assets/styles/default.Box'
+import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLetters from '../../../lib/helpers/allowOnlyLetters'
 import { Username } from '../../../lib/interfaces'
 import { useCreateUserMutation } from '../../../services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { setUsername } from '../../../store/ducks/users'
-import Box from '../../global/Box'
 import ButtonState from '../../global/ButtonState'
 import UsernameButton from './Username.Button'
 import UsernameInput from './Username.Input'
 import { FormBoxMobile } from './Username.MediaQueries'
 
-const FormBox = styled(Box)`
+const FormBox = styled.div`
+  ${CenterColumn}
   ${defaultBox}
   ${FormBoxMobile}
 `
@@ -25,17 +26,15 @@ function UsernameForm() {
   const [createUser, result] = useCreateUserMutation()
   const sanitizedUsername = watch('username', '')
   const dispatch = useAppDispatch()
-  const socketID = useAppSelector(state => state.user.socketID)
   const router = useRouter()
 
   const handleValidation = async (username: string) => {
     resetField('username')
-    createUser({ username, socketID, roomCode: '' })
+    createUser({ username, roomCode: '' })
       .unwrap()
       .then(
         async response => {
-          dispatch(setUsername(username))
-          router.push('/code')
+          router.replace('/code')
         },
         error => {
           dispatch(setError(error.data.message))

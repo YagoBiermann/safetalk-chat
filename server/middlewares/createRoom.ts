@@ -1,26 +1,25 @@
 import { IRoomBody } from '../routes/interfaces'
 import { Request, Response, NextFunction } from 'express'
-import { ValidatorFactory } from '../services/validators'
+import { ValidatorFactory } from '../services/validations'
 import {
   validateRequestBody,
   validateRoomCode,
-  validateUsername,
-  validateSocketID
-} from '../services/validators/request/'
+  validateUsername
+} from '../services/validations/request'
 
 const validateBeforeCreateRoom = async (
   req: Request<IRoomBody>,
   res: Response,
   next: NextFunction
 ) => {
-  const { socketID, username, roomCode } = req.body
+  const { username, roomCode } = req.body
   const roomValidator = new ValidatorFactory().createRoomValidator()
-  
+
   try {
-    console.log('validating before create room')
     validateRequestBody(req.body)
-    validateSocketID(socketID)
+    console.log(`validating user: ${username}`)
     validateUsername(username)
+    console.log(`validating room: ${roomCode}`)
     validateRoomCode(roomCode)
     await roomValidator.checkIfRoomAlreadyExists(roomCode)
     next()

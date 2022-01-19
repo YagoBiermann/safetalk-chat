@@ -1,14 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 import { IFileUpload } from '../routes/interfaces'
-import { ValidatorFactory } from '../services/validators'
-import { validateRoomCode } from '../services/validators/request'
+import { ValidatorFactory } from '../services/validations'
+import { validateRoomCode } from '../services/validations/request'
 
 const validateBeforeGetFile = async (
   req: Request<IFileUpload>,
   res: Response,
   next: NextFunction
 ) => {
-
   const { roomCode, file } = req.params
   const fileValidator = new ValidatorFactory().createFileValidator()
   const roomValidator = new ValidatorFactory().createRoomValidator()

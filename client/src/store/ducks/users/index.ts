@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { User } from '../../../lib/interfaces'
+import { UserRedux } from '../../../lib/interfaces'
 
-const initialState: User = {
+const initialState: UserRedux = {
   username: '',
-  roomCode: '',
-  socketID: ''
+  roomCode: ''
 }
 
 export const userSlice = createSlice({
@@ -16,11 +15,8 @@ export const userSlice = createSlice({
     },
     setRoomCode: (state, action: PayloadAction<string>) => {
       state.roomCode = action.payload
-    },
-    setSocketID: (state, action: PayloadAction<string>) => {
-      state.socketID = action.payload
     }
   }
 })
 
-export const { setUsername, setRoomCode, setSocketID } = userSlice.actions
+export const { setUsername, setRoomCode } = userSlice.actions

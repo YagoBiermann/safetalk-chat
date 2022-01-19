@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { RepositoryFactory } from '../../database/index'
 import { IRoomCode } from '../../routes/interfaces'
-import shortid from 'shortid'
 
 const getUsersByRoom = async (
   req: Request<IRoomCode>,
@@ -14,9 +13,10 @@ const getUsersByRoom = async (
 
   try {
     const room = await roomRepository.getRoomByCode(roomCode)
-    const users = await userRepository.getUsersByRoomID(room.id)
-    const usernames: Array<{ username: string; id: string }> = users.map(user =>
-      Object.assign({ username: user.username, id: user.socketID })
+    const users = await userRepository.getAllUsers(room._id)
+    const onlineUsers = users.filter(user => user.isOnline)
+    const usernames: Array<{ username: string; id: string }> = onlineUsers.map(
+      user => Object.assign({ username: user.username, id: user._id })
     )
 
     return res.status(200).json({ users: usernames })

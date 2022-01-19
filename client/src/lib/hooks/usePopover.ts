@@ -1,9 +1,9 @@
 import React from 'react'
 
 const usePopover = () => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null)
 
-  const showPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const showPopover = (event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -12,8 +12,7 @@ const usePopover = () => {
   }
 
   const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
 
-  return { showPopover, handleClose, id, open, anchorEl }
+  return { showPopover, handleClose, open, anchorEl }
 }
 export default usePopover

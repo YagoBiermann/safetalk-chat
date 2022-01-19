@@ -2,10 +2,10 @@ import { Avatar } from '@mui/material'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { styled as muiStyled } from '@mui/material/styles'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import PersonIcon from '@mui/icons-material/Person'
 import { motion } from 'framer-motion'
 import { userAnimation } from './Sidebar.Animations'
+import RegularText from '../../global/RegularText'
 
 const User = styled(motion.div)`
   display: flex;
@@ -13,10 +13,6 @@ const User = styled(motion.div)`
   align-items: center;
   justify-content: center;
   margin: 10px 0 10px 0;
-`
-
-const Username = styled.p`
-  ${TextMessageStyle}
 `
 
 const UserAvatar = muiStyled(Avatar)`
@@ -39,7 +35,7 @@ function Users(props: userListProps) {
             <UserAvatar>
               <PersonIcon fontSize="small" />
             </UserAvatar>
-            <Username bold>{user.username}</Username>
+            <RegularText bold>{user.username}</RegularText>
           </User>
         ))
       }, [users])}

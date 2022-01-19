@@ -1,45 +1,60 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import { useEffect } from 'react'
 import { useAppSelector } from '../../store'
-import { setRoomCode } from '../../store/ducks/users'
+import { setRoomCode, setUsername } from '../../store/ducks/users'
 import { useAppDispatch } from '../../store'
 import styled from 'styled-components'
 import CreateRoom from '../../components/code/createRoom/CreateRoom'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import JoinRoom from '../../components/code/joinRoom/JoinRoom'
 import Container from '../../components/global/Container'
-import { ENDPOINTS } from '../../lib/enums'
 import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../_Animations'
+import nookies from 'nookies'
+import { fetchCurrentUser, generateCode } from '../../services/api'
+import { UserDTO } from '../../lib/interfaces'
 
 const CodeContainer = styled(Container)`
   justify-content: space-around;
   ${CodeContainerDesktop}
   ${CodeContainerMobile}
 `
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const cookies = nookies.get(ctx)
+  const user = await fetchCurrentUser(cookies)
+  const roomCode = await generateCode(cookies)
 
-const Code: NextPage = () => {
-  const dispatch = useAppDispatch()
-  const username = useAppSelector(state => state.user.username)
-  const socketID = useAppSelector(state => state.user.socketID)
-  const error = useAppSelector(state => state.app.error)
-
-  // Redirect to home if username or socketID is not set
-  useEffect(() => {
-    if (!username || !socketID) {
-      window.location.href = '/'
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
     }
-  }, [])
+  }
+
+  return {
+    props: {
+      user,
+      roomCode
+    }
+  }
+}
+
+type CodePageProps = NextPage & {
+  user: UserDTO
+  roomCode: string
+}
+
+const Code = (props: CodePageProps) => {
+  const dispatch = useAppDispatch()
+  const error = useAppSelector(state => state.app.error)
 
   // Set room code
   useEffect(() => {
-    async function getRoomCode() {
-      const response = await fetch(`${ENDPOINTS.FRONTEND_URL}api/generateCode`)
-      const roomCode = await response.json().then(data => data.code)
-      dispatch(setRoomCode(roomCode))
-    }
-    getRoomCode()
+    dispatch(setRoomCode(props.roomCode))
+    dispatch(setUsername(props.user.username))
   }, [])
 
   return (

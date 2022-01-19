@@ -59,17 +59,17 @@ declare module 'styled-components' {
       secondary: string
       tertiary: string
     }
-    mediaWidthSizes: {
-      xsmall: string
-      small: string
-      medium: string
-      large: string
-      xlarge: string
+    appBreakpoints: {
+      xsMobile: string
+      mobile: string
+      tablet: string
+      desktop: string
+      xlDesktop: string
     }
   }
 }
 
-const Palette: DefaultTheme = {
+const appTheme: DefaultTheme = {
   colors: {
     primary: {
       main: {
@@ -122,13 +122,13 @@ const Palette: DefaultTheme = {
     large: '18px',
     xLarge: '20px'
   },
-  mediaWidthSizes: {
-    xsmall: '360px',
-    small: '400px',
-    medium: '600px',
-    large: '900px',
-    xlarge: '1366px'
+  appBreakpoints: {
+    xsMobile: '360px',
+    mobile: '400px',
+    tablet: '600px',
+    desktop: '900px',
+    xlDesktop: '1366px'
   }
 }
 
-export { Palette }
+export { appTheme }

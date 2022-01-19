@@ -3,7 +3,7 @@ import { css as mcss, Theme } from '@mui/material/styles'
 
 const sidebarMobile = css`
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     transform: translateX(-50%);
     top: 0;
     left: 50%;
@@ -14,7 +14,7 @@ const sidebarMobile = css`
 
 const badgeBoxMobile = css`
   @media screen and (max-width: ${props =>
-      props.theme.mediaWidthSizes.medium}) {
+      props.theme.appBreakpoints.tablet}) {
     margin: 0;
     display: flex;
     justify-content: center;

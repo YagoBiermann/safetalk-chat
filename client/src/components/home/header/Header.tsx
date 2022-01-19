@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import Box from '../../global/Box'
+import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import Logo from '../header/Header.Logo'
 import SubTitle from './Header.SubTitle'
 import Title from './Header.Title'
 
-const HeaderBox = styled(Box)`
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
+const HeaderBox = styled.div`
+  ${CenterColumn}
+  @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;

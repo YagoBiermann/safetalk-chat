@@ -7,7 +7,16 @@ import * as http from 'http'
 import { Database } from './database/connection/index'
 import { Server } from 'socket.io'
 import { SocketService } from './services/sockets/index'
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 
+declare module 'express-session' {
+  interface SessionData {
+    user: string
+    token: string
+  }
+}
 class AppServer {
   public app: Application
   public port: number | string
@@ -35,15 +44,28 @@ class AppServer {
   }
 
   public initRoutes(): void {
-    this.app.use('/', router)
     console.log('Routes loaded')
+    this.app.use('/', router)
   }
 
   public initMiddlewares(): void {
+    this.app.use(
+      session({
+        secret: process.env.SESSION_SECRET,
+        saveUninitialized: false,
+        cookie: { maxAge: 600000, httpOnly: true, path: '/' }, // 10 minutes
+        resave: true,
+        store: MongoStore.create({
+          mongoUrl: process.env.MONGO_URI,
+          collectionName: 'sessions'
+        })
+      })
+    )
     this.app.use(cors({ origin: '*', optionsSuccessStatus: 200 }))
     this.app.set('trust proxy', 'loopback')
     this.app.use(helmet())
     this.app.use(json())
+    this.app.use(cookieParser())
     this.app.use(urlencoded({ extended: false }))
   }
 

@@ -1,6 +1,6 @@
 import { green, red } from '@mui/material/colors'
 import { alpha, createTheme } from '@mui/material/styles'
-import { Palette } from './theme'
+import { appTheme } from './theme'
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -58,14 +58,14 @@ const muiTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: Palette.colors.primary.main.elevation_4,
-      light: Palette.colors.primary.light.elevation_4,
-      dark: Palette.colors.primary.dark.elevation_4
+      main: appTheme.colors.primary.main.elevation_4,
+      light: appTheme.colors.primary.light.elevation_4,
+      dark: appTheme.colors.primary.dark.elevation_4
     },
     secondary: {
-      main: Palette.colors.secondary.main.elevation_4,
-      light: Palette.colors.secondary.light.elevation_4,
-      dark: Palette.colors.secondary.dark.elevation_4
+      main: appTheme.colors.secondary.main.elevation_4,
+      light: appTheme.colors.secondary.light.elevation_4,
+      dark: appTheme.colors.secondary.dark.elevation_4
     },
     error: {
       main: red[500]
@@ -95,26 +95,26 @@ const muiTheme = createTheme({
     MuiSlider: {
       styleOverrides: {
         thumb: {
-          backgroundColor: Palette.fontColor.secondary,
+          backgroundColor: appTheme.fontColor.secondary,
           ':hover': {
             boxShadow: 'none'
           },
           ':active': {
             boxShadow: `0px 0px 0px 8px ${alpha(
-              Palette.colors.primary.light.elevation_4,
+              appTheme.colors.primary.light.elevation_4,
               0.12
             )}`
           }
         },
         rail: {
-          backgroundColor: Palette.colors.primary.main.elevation_4
+          backgroundColor: appTheme.colors.primary.main.elevation_4
         }
       }
     },
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          color: Palette.fontColor.secondary
+          color: appTheme.fontColor.secondary
         }
       }
     },
@@ -127,14 +127,14 @@ const muiTheme = createTheme({
           height: 48,
           transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            backgroundColor: Palette.colors.primary.main.elevation_4
+            backgroundColor: appTheme.colors.primary.main.elevation_4
           }
         },
         containedPrimary: {
-          backgroundColor: Palette.colors.primary.main.elevation_4,
-          color: alpha(Palette.colors.dark.elevation_2, 1),
+          backgroundColor: appTheme.colors.primary.main.elevation_4,
+          color: alpha(appTheme.colors.dark.elevation_2, 1),
           '&:hover': {
-            backgroundColor: Palette.colors.primary.light.elevation_4
+            backgroundColor: appTheme.colors.primary.light.elevation_4
           }
         }
       },
@@ -168,10 +168,10 @@ const muiTheme = createTheme({
         {
           props: { variant: 'outlined' },
           style: {
-            border: `1px solid ${Palette.colors.primary.main.elevation_0}`,
+            border: `1px solid ${appTheme.colors.primary.main.elevation_0}`,
             transition: 'ease-in-out 0.2s',
             ':hover': {
-              backgroundColor: Palette.colors.primary.light.elevation_0,
+              backgroundColor: appTheme.colors.primary.light.elevation_0,
               transform: 'scale(1.2)'
             }
           }
@@ -181,10 +181,10 @@ const muiTheme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         colorPrimary: {
-          color: alpha(Palette.colors.primary.main.elevation_4, 1),
+          color: alpha(appTheme.colors.primary.main.elevation_4, 1),
           transition: 'ease-in-out 0.2s',
           ':hover': {
-            backgroundColor: Palette.colors.primary.main.elevation_0
+            backgroundColor: appTheme.colors.primary.main.elevation_0
           }
         }
       }
@@ -196,6 +196,18 @@ const muiTheme = createTheme({
         },
         standardError: {
           backgroundColor: red[200]
+        }
+      }
+    },
+    MuiPopover: {
+      styleOverrides: {
+        paper: {
+          padding: '10px',
+          borderRadius: '5px',
+          border: 'none',
+          color: appTheme.fontColor.secondary,
+          fontSize: appTheme.fontSizes.medium,
+          fontWeight: 500
         }
       }
     }

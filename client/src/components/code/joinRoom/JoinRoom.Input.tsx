@@ -15,7 +15,7 @@ const JoinRoomInput = React.forwardRef(
         {...props}
         placeholder="Enter your code"
         required
-        maxLength={12}
+        maxLength={25}
         onInput={e => {
           ;(e.target as HTMLInputElement).setCustomValidity('')
         }}

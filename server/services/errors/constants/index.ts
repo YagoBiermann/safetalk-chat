@@ -25,10 +25,6 @@ export const errorMessages: IErrorMessage = {
     message: 'Too many fields',
     status: 400
   },
-  ERR_INVALID_SOCKET_ID: {
-    message: 'Invalid socket ID',
-    status: 400
-  },
   ERR_USERNAME_TAKEN: {
     message: 'Username already in use',
     status: 403
@@ -76,6 +72,18 @@ export const errorMessages: IErrorMessage = {
   ERR_FILE_NOT_ALLOWED: {
     message: 'File not allowed',
     status: 406
+  },
+  ERR_MISSING_TOKEN: {
+    message: 'Missing token',
+    status: 400
+  },
+  ERR_INVALID_TOKEN: {
+    message: 'Invalid token',
+    status: 401
+  },
+  ERR_MALFORMED_TOKEN: {
+    message: 'Malformed token',
+    status: 401
   },
   ERR_DEFAULT: {
     message: 'something went wrong',

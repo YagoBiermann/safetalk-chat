@@ -1,23 +1,25 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
-import { socketContext } from '../../../lib/context/socketContext'
+import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
+import usePopover from '../../../lib/hooks/usePopover'
 import { RoomCode } from '../../../lib/interfaces'
 import { useJoinRoomMutation } from '../../../services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { setRoomCode } from '../../../store/ducks/users'
-import Box from '../../global/Box'
 import ButtonState from '../../global/ButtonState'
 import CodeButton from '../shared/Code.Button'
-import CodeTitle from '../shared/Code.Title'
+import CodePopper from '../shared/Code.Popper'
 import JoinRoomInput from './JoinRoom.Input'
 
-const JoinRoomForm = styled(Box)`
+const JoinRoomForm = styled.div`
+  ${CenterColumn}
   ${BoxStyle}
   ${CodeBoxStyle}
 `
@@ -25,26 +27,27 @@ const JoinRoomForm = styled(Box)`
 function JoinRoom() {
   const { register, handleSubmit, setValue, resetField, watch } =
     useForm<RoomCode>({ defaultValues: { roomCode: '' } })
+  const { anchorEl, handleClose, open, showPopover } = usePopover()
   const [joinRoom, result] = useJoinRoomMutation()
-  const socket = useContext(socketContext)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')
   const username = useAppSelector(state => state.user.username)
-  const socketID = useAppSelector(state => state.user.socketID)
   const isPending = useAppSelector(state => state.room.pending)
 
   const handleJoinRoom = (roomCode: string) => {
     resetField('roomCode')
-    joinRoom({ socketID, username, roomCode })
+    joinRoom({ username, roomCode })
       .unwrap()
       .then(
         () => {
-          dispatch(setRoomCode(roomCode))
-          socket.emit('room:join', { roomCode })
           router.replace(`/chat/${roomCode}`)
         },
         error => {
+          if (error.data.message === 'Missing token') {
+            dispatch(setError('Session expired'))
+            router.replace('/')
+          }
           dispatch(setError(error.data.message))
         }
       )
@@ -57,10 +60,21 @@ function JoinRoom() {
       onSubmit={handleSubmit(data => {
         handleJoinRoom(data.roomCode)
       })}
+      onPointerDown={showPopover}
+      onPointerLeave={handleClose}
+      onMouseEnter={showPopover}
+      onMouseLeave={handleClose}
     >
-      <Box>
-        <CodeTitle text={'type the code that someone sent to you'} />
-      </Box>
+      <AnimatePresence>
+        {open && (
+          <CodePopper
+            anchorEl={anchorEl}
+            message="enter your code to join a room"
+            open={open}
+            key="joinRoomPopper"
+          />
+        )}
+      </AnimatePresence>
       <JoinRoomInput
         {...register('roomCode')}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

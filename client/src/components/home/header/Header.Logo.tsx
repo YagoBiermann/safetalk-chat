@@ -4,18 +4,18 @@ import styled from 'styled-components'
 const StyledLogo = styled.img`
   width: auto;
   height: 180px;
-  @media (max-width: ${props => props.theme.mediaWidthSizes.medium}) {
+  @media (max-width: ${props => props.theme.appBreakpoints.tablet}) {
     height: 140px;
   }
-  @media (max-width: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-width: ${props => props.theme.appBreakpoints.mobile}) {
     height: 100px;
   }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.medium}) {
+  @media (max-height: ${props => props.theme.appBreakpoints.tablet}) {
     height: 120px;
   }
 
-  @media (max-height: ${props => props.theme.mediaWidthSizes.small}) {
+  @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
     height: 64px;
     order: 1;
   }

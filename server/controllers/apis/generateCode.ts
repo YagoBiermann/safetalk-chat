@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from 'express'
+import short from 'short-uuid'
 
-const validateBeforeGetRooms = async (
+const generateCode = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const code = short.generate()
+
   try {
-    next()
+    return res.status(201).json({ code })
   } catch (error) {
     next(error)
   }
 }
 
-export { validateBeforeGetRooms }
+export { generateCode }

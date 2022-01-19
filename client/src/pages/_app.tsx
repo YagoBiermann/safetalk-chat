@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
 import { GlobalStyle } from '../assets/styles/globals'
 import muiTheme from '../assets/styles/muiTheme'
-import { Palette } from '../assets/styles/theme'
+import { appTheme } from '../assets/styles/theme'
 import { socketContext } from '../lib/context/socketContext'
 import socket from '../services/sockets'
 import store from '../store'
@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyle />
       <MuiThemeProvider theme={muiTheme}>
-        <ThemeProvider theme={Palette}>
+        <ThemeProvider theme={appTheme}>
           <Provider store={store}>
             <socketContext.Provider value={socket}>
               <AnimatePresence exitBeforeEnter>

@@ -3,9 +3,8 @@ import { usePlayer } from '../../../lib/hooks/usePlayer'
 import MediaPlayerVolume from './MediaPlayer.Volume'
 import PlayerSlider from './MediaPlayer.Slider'
 import PlayerButton from './MediaPlayer.Button'
-import styled from 'styled-components'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { calculateTime } from '../../../lib/helpers/calculateTime'
+import RegularText from '../../global/RegularText'
 
 export type MediaPlayerRenderProps = {
   PlayerVolume: JSX.Element
@@ -22,13 +21,9 @@ type MediaPlayerProps = {
     PlayerSlider: JSX.Element,
     PlayerButton: JSX.Element,
     MediaCurrentTime: JSX.Element,
-    MediaDuration: JSX.Element,
+    MediaDuration: JSX.Element
   ) => JSX.Element
 }
-
-const Text = styled.p`
-  ${TextMessageStyle}
-`
 
 function MediaPlayer(props: MediaPlayerProps) {
   const {
@@ -60,8 +55,8 @@ function MediaPlayer(props: MediaPlayerProps) {
           handleSeekMouseUp={handleSeekMouseUp}
         />,
         <PlayerButton onClick={handlePlay} mediaState={mediaState} />,
-        <Text bold>{calculateTime(currentTime)}</Text>,
-        <Text bold>{calculateTime(duration)}</Text>
+        <RegularText bold>{calculateTime(currentTime)}</RegularText>,
+        <RegularText bold>{calculateTime(duration)}</RegularText>
       )}
     </>
   )

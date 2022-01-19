@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import TimeAgo, { TDate } from 'timeago-react'
-import TextMessageStyle from '../../../assets/styles/default.ChatMessage'
 import { motion } from 'framer-motion'
 import { messageCardAnimation } from './Message.Animations'
-import { Palette } from '../../../assets/styles/theme'
+import { appTheme } from '../../../assets/styles/theme'
 import {
   MessageCardDesktop,
   MessageCardMobile,
   MessageCardTablet
 } from './Message.MediaQueries'
+import RegularText from '../../global/RegularText'
 
 const MessageContainer = styled.div<{ myMessage?: boolean }>`
   display: flex;
@@ -33,15 +33,8 @@ const Message = styled(motion.div)<{ maxWidth?: string; myMessage?: boolean }>`
   ${MessageCardMobile}
 `
 
-const Text = styled.p<{ bold?: boolean; fontSize?: string }>`
-  ${TextMessageStyle};
-`
-
-const Header = styled.div<{ myMessage?: boolean }>`
+const Header = styled.div`
   margin: 15px;
-  & ${Text} {
-    color: ${props => (props.myMessage ? '#b294c5' : null)};
-  }
 `
 
 const Footer = styled.div`
@@ -66,17 +59,21 @@ function MessageCard(props: MessageProps) {
 
   return (
     <MessageContainer myMessage={myMessage}>
-      <Message animate={messageCardAnimation} >
-        <Header myMessage={myMessage}>
-          <Text bold fontSize={Palette.fontSizes.medium}>
+      <Message animate={messageCardAnimation}>
+        <Header>
+          <RegularText
+            color={props.myMessage ? '#b294c5' : undefined}
+            bold
+            fontSize={appTheme.fontSizes.medium}
+          >
             {myMessage ? 'You' : username}
-          </Text>
+          </RegularText>
         </Header>
         {children}
         <Footer>
-          <Text bold fontSize={Palette.fontSizes.xsmall}>
+          <RegularText bold fontSize={appTheme.fontSizes.xsmall}>
             <TimeAgo datetime={time} opts={timeAgoOpts} />
-          </Text>
+          </RegularText>
         </Footer>
       </Message>
     </MessageContainer>

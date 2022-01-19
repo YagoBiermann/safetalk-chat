@@ -2,11 +2,12 @@ import fs from 'fs'
 import { Server, Socket } from 'socket.io'
 import { RepositoryFactory } from '../../database'
 import { IRoomRepository, IUserRepository } from '../../database/interfaces'
-import { ValidatorFactory } from '../../services/validators/index'
+import { UserDTO } from '../../services/sockets/interfaces'
+import { ValidatorFactory } from '../../services/validations/index'
 import {
   IRoomValidator,
   IUserValidator
-} from '../../services/validators/interfaces'
+} from '../../services/validations/interfaces'
 
 class SocketEvents {
   private userRepository: IUserRepository
@@ -29,50 +30,33 @@ class SocketEvents {
   }
 
   public fetchUsers() {
-    this.socket.on('room:users', async ({ roomCode }) => {
+    this.socket.on('room:users', ({ roomCode }) => {
       console.log(
         `user: ${this.socket.id} requested users in room: ${roomCode}`
       )
-      this.io.to(roomCode).emit('room:users')
+
+      this.socket.to(roomCode).emit('room:users')
     })
   }
 
-  private async deleteRoom(roomCode: string) {
-    if (!roomCode) return
-
-    try {
-      await this.roomValidator.checkIfRoomExists(roomCode)
-      await this.roomValidator.checkIfRoomIsNotEmpty(roomCode)
-      await this.roomRepository.deleteRoom(roomCode)
-
-      if (fs.existsSync(`./temp/${roomCode}`)) {
-        console.log('deleting room temp folder')
-        fs.rmdirSync(`./temp/${roomCode}/`, { recursive: true })
-      }
-    } catch (error) {
-      console.error(error.message)
-    }
+  public userData() {
+    this.socket.on('user:data', (user: UserDTO) => {
+      console.log(`user: ${this.socket.id} sent data`)
+      this.socket.data.user = user
+    })
   }
 
-  public deleteUser() {
+  public onDisconnect() {
     this.socket.on('disconnecting', async () => {
-      console.log(`user: ${this.socket.id} disconnected`)
-
-      try {
-        const user = await this.userRepository.getUserBySocketID(this.socket.id)
-        await this.userValidator.checkIfUserExists(this.socket.id)
-
-        await this.userRepository.deleteUser(this.socket.id)
-
-        if (user.room) {
-          const roomCode = (await this.roomRepository.getRoomByID(user.room))
-            .roomCode
-          this.socket.to(roomCode).emit('room:users')
-          this.deleteRoom(roomCode)
-        }
-      } catch (error) {
-        console.error(error)
-      }
+      const roomCode = this.socket.data.user.room.roomCode
+      this.socket.to(roomCode).emit('room:users')
+      this.userRepository.setStatus({
+        id: this.socket.data.user._id,
+        isOnline: false
+      })
+      console.log(
+        `user: ${this.socket.id} on room: ${roomCode} has been disconnected`
+      )
     })
   }
 }
