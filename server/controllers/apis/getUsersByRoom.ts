@@ -14,8 +14,9 @@ const getUsersByRoom = async (
   try {
     const room = await roomRepository.getRoomByCode(roomCode)
     const users = await userRepository.getAllUsers(room._id)
-    const usernames: Array<{ username: string; id: string }> = users.map(user =>
-      Object.assign({ username: user.username, id: user._id })
+    const onlineUsers = users.filter(user => user.isOnline)
+    const usernames: Array<{ username: string; id: string }> = onlineUsers.map(
+      user => Object.assign({ username: user.username, id: user._id })
     )
 
     return res.status(200).json({ users: usernames })

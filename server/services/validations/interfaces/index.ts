@@ -11,7 +11,7 @@ interface IFileValidator {
 interface IHeaderValidator {
   checkRange(n: string, media: string, roomCode: string): void
   checkContentType(contentType: string): void
-  checkAuthorization(authorization: string): void
+  checkCookie(authorization: string): void
 }
 
 interface IRoomCodeValidator {

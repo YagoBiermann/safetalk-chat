@@ -7,7 +7,10 @@ import { joinRoom } from '../controllers/apis/joinRoom'
 import { uploadFile } from '../controllers/apis/uploadFile'
 import { getFile } from '../controllers/apis/getFile'
 import { streamMedia } from '../controllers/apis/streamMedia'
+import { getUser } from '../controllers/apis/getUser'
+import { generateCode } from '../controllers/apis/generateCode'
 
+import { validateBeforeGetUser } from '../middlewares/getUser'
 import { validateBeforeGetUsers } from '../middlewares/getUsersByRoom'
 import { validateBeforeCreateRoom } from '../middlewares/createRoom'
 import { validateBeforeJoinRoom } from '../middlewares/joinRoom'
@@ -15,16 +18,14 @@ import { validateBeforeCreateUser } from '../middlewares/createUser'
 import { validateStream } from '../middlewares/streamMedia'
 import { validateBeforeGetFile } from '../middlewares/getFile'
 import { upload } from '../middlewares/uploadFile'
+import { authenticate } from '../middlewares/authenticate'
 
 import { errorHandler } from '../services/errors/errorHandler'
-import { validateBeforeGetUser } from '../middlewares/getUser'
-import { getUser } from '../controllers/apis/getUser'
-import { validateBeforeGenerateCode } from '../middlewares/generateCode'
-import { generateCode } from '../controllers/apis/generateCode'
 
 const router = express.Router()
+router.use(authenticate)
 
-router.get('/api/v2/rooms/code', validateBeforeGenerateCode, generateCode)
+router.get('/api/v2/rooms/code', generateCode)
 router.get('/api/v2/users/me', validateBeforeGetUser, getUser)
 router.get(
   '/api/v2/rooms/:roomCode/users',

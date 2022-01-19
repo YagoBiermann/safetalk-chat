@@ -5,15 +5,17 @@ interface IUser {
   username: string
   room: Schema.Types.ObjectId
   isAdmin: boolean
+  isOnline: boolean
 }
 
 const userSchema = new Schema<IUser>({
   username: { type: String, required: true },
   room: { type: Schema.Types.ObjectId, ref: 'Room', required: false },
-  isAdmin: { type: Boolean, required: true }
+  isAdmin: { type: Boolean, required: true },
+  isOnline: { type: Boolean, required: true }
 })
 userSchema.index({ username: 'text', room: 'text' }, { unique: true })
-userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 3 })
+userSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 72 })
 
 const User = model<IUser>('User', userSchema)
 

@@ -53,16 +53,11 @@ function Chatsidebar() {
         .unwrap()
         .then(res => {
           dispatch(setUsersOnRoom(res.users))
-          console.log(res.users)
         })
         .catch(err => {
           console.log(err)
         })
     })
-
-    return () => {
-      socket.off('room:users')
-    }
   }, [fetchUsers, roomCode, socket])
 
   const togglesidebar = () => {

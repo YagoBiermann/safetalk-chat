@@ -13,7 +13,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../_Animations'
 import nookies from 'nookies'
 import { fetchCurrentUser, generateCode } from '../../services/api'
-import { UserAPI } from '../../lib/interfaces'
+import { UserDTO } from '../../lib/interfaces'
 
 const CodeContainer = styled(Container)`
   justify-content: space-around;
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 }
 
 type CodePageProps = NextPage & {
-  user: UserAPI
+  user: UserDTO
   roomCode: string
 }
 

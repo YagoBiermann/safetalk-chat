@@ -8,7 +8,7 @@ interface IRoom {
 const roomSchema = new Schema<IRoom>({
   roomCode: { type: String, required: true }
 })
-roomSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 3 })
+roomSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 72 })
 
 const Room = model<IRoom>('Room', roomSchema)
 

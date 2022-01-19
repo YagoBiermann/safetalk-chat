@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { RepositoryFactory } from '../database'
 import { IUsername } from '../routes/interfaces'
-import mongoose from 'mongoose'
-import { ValidatorFactory } from '../services/validators/index'
+import { ValidatorFactory } from '../services/validations/index'
 import {
   validateUsername,
   validateRequestBody
-} from '../services/validators/request'
+} from '../services/validations/request'
 
 const validateBeforeCreateUser = async (
   req: Request<IUsername>,

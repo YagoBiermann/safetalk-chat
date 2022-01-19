@@ -11,8 +11,8 @@ class SocketService {
       this.handleEvents = new SocketEvents(socket, this.io)
       this.handleEvents.userData()
       this.handleEvents.joinRoom()
-      this.handleEvents.deleteUser()
       this.handleEvents.fetchUsers()
+      this.handleEvents.onDisconnect()
     })
   }
 }

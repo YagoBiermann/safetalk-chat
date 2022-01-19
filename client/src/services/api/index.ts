@@ -4,7 +4,7 @@ import { ENDPOINTS, ROUTES } from '../../lib/enums'
 import {
   ApiResponse,
   CookieProps,
-  FetchUsers,
+  OnlineUsersDTO,
   FileName,
   RoomCode,
   UserRedux
@@ -29,7 +29,7 @@ export const roomApi = createApi({
         body: user
       })
     }),
-    fetchUsers: builder.query<FetchUsers, string>({
+    fetchUsers: builder.query<OnlineUsersDTO, string>({
       query: (roomCode: string) => ({
         url: `rooms/${roomCode}/users`,
         method: 'GET'
@@ -94,7 +94,7 @@ const fetchUsersOnRoom = async (
   roomCode: string = ''
 ) => {
   try {
-    const result: AxiosResponse<FetchUsers> = await api.get(
+    const result: AxiosResponse<OnlineUsersDTO> = await api.get(
       `rooms/${roomCode}/users`,
       {
         headers: {

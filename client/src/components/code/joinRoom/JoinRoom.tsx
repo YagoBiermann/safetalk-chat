@@ -1,6 +1,6 @@
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
@@ -65,7 +65,7 @@ function JoinRoom() {
       onMouseEnter={showPopover}
       onMouseLeave={handleClose}
     >
-      <AnimatePresence exitBeforeEnter>
+      <AnimatePresence>
         {open && (
           <CodePopper
             anchorEl={anchorEl}

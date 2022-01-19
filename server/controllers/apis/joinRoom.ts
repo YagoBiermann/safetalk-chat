@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { RepositoryFactory } from '../../database/index'
 import { IRoomBody } from '../../routes/interfaces'
 import jwt from 'jsonwebtoken'
+import AuthFactory from '../../services/authentication'
 
 const joinRoom = async (
   req: Request<IRoomBody>,
@@ -11,7 +12,7 @@ const joinRoom = async (
   const { username, roomCode } = req.body
   const roomRepository = new RepositoryFactory().createRoomRepository()
   const userRepository = new RepositoryFactory().createUserRepository()
-
+  const auth = new AuthFactory().createAuthenticationService()
   try {
     const room = await roomRepository
       .getRoomByCode(roomCode)
@@ -19,22 +20,18 @@ const joinRoom = async (
         await userRepository.updateUser({
           username,
           room: room._id,
-          isAdmin: false
+          isAdmin: false,
+          isOnline: true
         })
         return room._id
       })
 
-    const token = jwt.sign({}, process.env.JWT_ROOM_SECRET, {
-      algorithm: 'HS256',
-      expiresIn: '3h',
-      subject: String(room)
-    })
-    const expirationTime = new Date(Date.now() + 1000 * 60 * 60 * 3) // 3 hours
-    res.cookie('token', `Bearer ${token}`, {
-      httpOnly: true,
-      expires: expirationTime
-    })
-
+    const token = auth.generateToken(
+      String(room),
+      process.env.JWT_ROOM_SECRET,
+      '3h'
+    )
+    req.session.token = token
     req.session.cookie.maxAge = 1000 * 60 * 60 * 3 // 3 hours
 
     return res.status(201).json({ message: 'User joined room' })
