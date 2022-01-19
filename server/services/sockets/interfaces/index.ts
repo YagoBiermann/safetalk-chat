@@ -14,7 +14,7 @@ export enum MESSAGE_TYPE {
   AUDIO = 'AUDIO'
 }
 
-export interface UserAPI {
+export interface UserDTO {
   _id: string
   username: string
   room: {
@@ -22,4 +22,5 @@ export interface UserAPI {
     roomCode: string
   }
   isAdmin: boolean
+  isOnline: boolean
 }
