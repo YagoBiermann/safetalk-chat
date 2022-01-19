@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { RepositoryFactory } from '../../database/index'
 import { IRoomBody } from '../../routes/interfaces'
-import jwt from 'jsonwebtoken'
+import AuthFactory from '../../services/authentication'
 
 const createUser = async (
   req: Request<IRoomBody>,
@@ -10,25 +10,22 @@ const createUser = async (
 ): Promise<Response> => {
   const { username } = req.body
   const userRepository = new RepositoryFactory().createUserRepository()
+  const auth = new AuthFactory().createAuthenticationService()
 
   try {
     const user = await userRepository.createUser({
       username,
       isAdmin: false,
-      room: null
-    })
-    const token = jwt.sign({}, process.env.JWT_SECRET, {
-      algorithm: 'HS256',
-      expiresIn: 600,
-      subject: String(user._id)
-    })
-    const expirationTime = new Date(Date.now() + 1000 * 60 * 10) // 10 minutes
-
-    res.cookie('token', `Bearer ${token}`, {
-      httpOnly: true,
-      expires: expirationTime
+      room: null,
+      isOnline: false
     })
 
+    const token = auth.generateToken(
+      String(user._id),
+      process.env.JWT_SECRET,
+      600
+    )
+    req.session.token = token
     req.session.user = String(user._id)
 
     return res.status(201).json({ message: 'User created' })
