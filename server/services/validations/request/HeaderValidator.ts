@@ -37,11 +37,11 @@ class HeaderValidator implements IHeaderValidator {
     }
   }
 
-  checkAuthorization(authorization: string | undefined) {
-    if (!authorization) {
+  checkCookie(cookie: string | undefined) {
+    if (!cookie) {
       throw new AppError('ERR_MISSING_TOKEN')
     }
-    const [header, token] = authorization.split(' ')
+    const [header, token] = cookie.split(' ')
     const validToken =
       /^([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_=]+)\.([a-zA-Z0-9_\-\+\/=]*)/.test(token)
       
