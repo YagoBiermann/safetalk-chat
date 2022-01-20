@@ -106,7 +106,7 @@ const appTheme: DefaultTheme = {
       }
     },
     dark: {
-      elevation_0: '#121212',
+      elevation_0: '#171717',
       elevation_2: '#222222',
       elevation_4: '#272727',
       elevation_6: '#323232',

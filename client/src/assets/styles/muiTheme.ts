@@ -52,9 +52,6 @@ declare module '@mui/material/Badge' {
 }
 
 const muiTheme = createTheme({
-  shape: {
-    borderRadius: 25
-  },
   palette: {
     mode: 'dark',
     primary: {
@@ -126,6 +123,7 @@ const muiTheme = createTheme({
           width: 48,
           height: 48,
           transition: 'all 0.2s ease-in-out',
+          borderRadius: 25,
           '&:hover': {
             backgroundColor: appTheme.colors.primary.main.elevation_4
           }
@@ -208,6 +206,24 @@ const muiTheme = createTheme({
           color: appTheme.fontColor.secondary,
           fontSize: appTheme.fontSizes.medium,
           fontWeight: 500
+        }
+      }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '15px'
+          }
+        }
+      }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        outlined: {
+          '&.Mui-focused': {
+            color: appTheme.fontColor.secondary
+          }
         }
       }
     }
