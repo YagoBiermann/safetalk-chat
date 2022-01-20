@@ -1,20 +1,28 @@
 import React, { ForwardedRef } from 'react'
-import styled from 'styled-components'
-import PrimaryInput from '../../global/Input.Primary'
-
-const StyledPrimaryInput = styled(PrimaryInput)`
-  text-align: center;
-`
+import TextField from '@mui/material/TextField'
+import { inputTablet } from './Username.MediaQueries'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 const UsernameInput = React.forwardRef(
   (props: any, ref: ForwardedRef<HTMLInputElement>) => {
+    const theme = useTheme()
+    const isTablet = useMediaQuery(theme.breakpoints.down('tablet'))
     return (
-      <StyledPrimaryInput
-        ref={ref}
+      <TextField
+        inputRef={ref}
         {...props}
-        placeholder="enter your username"
+        sx={({ breakpoints }) => ({
+          width: '400px',
+          [breakpoints.down('tablet')]: inputTablet
+        })}
         required
-        maxLength={25}
+        id="outlined-username-input"
+        label="enter your username"
+        variant="outlined"
+        size={isTablet ? 'small' : 'medium'}
+        InputLabelProps={{ required: false }}
+        inputProps={{ maxLength: 25 }}
         onInput={e => {
           ;(e.target as HTMLInputElement).setCustomValidity('')
         }}
