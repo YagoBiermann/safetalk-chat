@@ -6,7 +6,7 @@ import { ButtonAnimation } from './SendMessage.Animations'
 
 const RecordButton = (props: ButtonProps) => {
   return (
-    <Button variant="contained" color="primary" {...props}>
+    <Button variant="send-message-button" color="primary" {...props}>
       <KeyboardVoice
         component={motion.svg}
         fontSize="medium"

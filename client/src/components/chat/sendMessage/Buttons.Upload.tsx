@@ -6,7 +6,7 @@ import { ButtonAnimation } from './SendMessage.Animations'
 
 const UploadButton = (props: ButtonProps) => {
   return (
-    <Button variant="contained" color="primary" {...props}>
+    <Button variant="send-message-button" color="primary" {...props}>
       <AttachFile
         component={motion.svg}
         whileHover={ButtonAnimation.animate}
