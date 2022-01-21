@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material'
 import 'styled-components'
 import { DefaultTheme } from 'styled-components'
 
@@ -5,38 +6,9 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     colors: {
       primary: {
-        main: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
-        light: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
-        dark: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
-      }
-      secondary: {
-        main: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
-        light: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
-        dark: {
-          elevation_0: string
-          elevation_2: string
-          elevation_4: string
-        }
+        main: string
+        light: string
+        dark: string
       }
       dark: {
         elevation_0: string
@@ -72,38 +44,9 @@ declare module 'styled-components' {
 const appTheme: DefaultTheme = {
   colors: {
     primary: {
-      main: {
-        elevation_0: 'rgb(100, 40, 140, 0.3)',
-        elevation_2: 'rgb(100, 40, 140, 0.4)',
-        elevation_4: 'rgb(100, 40, 140, 0.5)'
-      },
-      light: {
-        elevation_0: 'rgba(150, 60, 160, 0.3)',
-        elevation_2: 'rgba(150, 60, 160, 0.4)',
-        elevation_4: 'rgba(150, 60, 160, 0.5)'
-      },
-      dark: {
-        elevation_0: 'rgb(63, 20, 102, 0.45)',
-        elevation_2: 'rgb(63, 20, 102, 0.55)',
-        elevation_4: 'rgb(63, 20, 102, 0.65)'
-      }
-    },
-    secondary: {
-      main: {
-        elevation_0: 'rgb(130, 55, 150, 0.3)',
-        elevation_2: 'rgb(130, 55, 150, 0.4)',
-        elevation_4: 'rgb(130, 55, 150, 0.5)'
-      },
-      light: {
-        elevation_0: 'rgb(190, 90, 220, 0.3)',
-        elevation_2: 'rgb(190, 90, 220, 0.4)',
-        elevation_4: 'rgb(190, 90, 220, 0.5)'
-      },
-      dark: {
-        elevation_0: 'rgb(87, 31, 122, 0.45)',
-        elevation_2: 'rgb(87, 31, 122, 0.55)',
-        elevation_4: 'rgb(87, 31, 122, 0.65)'
-      }
+      main: alpha('rgb(100, 40, 140, 1)', 0.3),
+      light: alpha('rgba(150, 60, 160, 1)', 0.3),
+      dark: alpha('rgb(63, 20, 102, 1)', 0.3)
     },
     dark: {
       elevation_0: '#171717',
@@ -114,7 +57,11 @@ const appTheme: DefaultTheme = {
       elevation_10: '#424242'
     }
   },
-  fontColor: { primary: '#f5f5f5', secondary: '#dcdcdc', tertiary: '#939393' },
+  fontColor: {
+    primary: 'rgba(255, 255, 255, 0.9)',
+    secondary: 'rgba(255, 255, 255, 0.8)',
+    tertiary: 'rgba(255, 255, 255, 0.5)'
+  },
   fontSizes: {
     xsmall: '12px',
     small: '14px',
