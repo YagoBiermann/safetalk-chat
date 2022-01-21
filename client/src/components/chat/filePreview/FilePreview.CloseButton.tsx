@@ -10,7 +10,7 @@ const CloseButton = styled(Button)`
   border: none;
   z-index: 9999;
   &:hover {
-    background: ${({ theme }) => theme.palette.primary.dark};
+    background: ${({ theme }) => theme.palette.primary.light};
   }
 `
 
