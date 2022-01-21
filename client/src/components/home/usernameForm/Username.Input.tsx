@@ -11,7 +11,6 @@ const UsernameInput = React.forwardRef(
     return (
       <TextField
         inputRef={ref}
-        {...props}
         sx={({ breakpoints }) => ({
           width: '400px',
           [breakpoints.down('tablet')]: inputTablet
@@ -22,7 +21,7 @@ const UsernameInput = React.forwardRef(
         variant="outlined"
         size={isTablet ? 'small' : 'medium'}
         InputLabelProps={{ required: false }}
-        inputProps={{ maxLength: 25 }}
+        inputProps={{ maxLength: 25, ...props }}
         onInput={e => {
           ;(e.target as HTMLInputElement).setCustomValidity('')
         }}
