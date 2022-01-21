@@ -73,9 +73,9 @@ export const errorMessages: IErrorMessage = {
     message: 'File not allowed',
     status: 406
   },
-  ERR_MISSING_TOKEN: {
-    message: 'Missing token',
-    status: 400
+  ERR_SESSION_EXPIRED: {
+    message: 'Session expired',
+    status: 403
   },
   ERR_INVALID_TOKEN: {
     message: 'Invalid token',
