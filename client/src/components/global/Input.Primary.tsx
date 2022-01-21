@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const PrimaryInput = styled.input`
-  background-color: ${props => props.theme.colors.primary.main.elevation_2};
+  background-color: ${props => props.theme.colors.primary.main};
   border-radius: 10px;
   border: none;
   width: ${props => props.width || '400px'};
@@ -14,13 +14,13 @@ const PrimaryInput = styled.input`
   transition-property: background-color;
   transition-duration: 0.5s;
   &:hover {
-    background-color: ${props => props.theme.colors.primary.light.elevation_2};
+    background-color: ${props => props.theme.colors.primary.light};
   }
   &:focus {
     outline: none;
   }
   &::-moz-selection {
-    background: ${props => props.theme.colors.primary.main.elevation_4};
+    background: ${props => props.theme.colors.primary.main};
     color: ${props => props.theme.fontColor.secondary};
   }
   ::placeholder {

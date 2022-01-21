@@ -1,20 +1,36 @@
 import React from 'react'
 import styled from 'styled-components'
-import CodeInputStyle from '../../../assets/styles/default.CodeInput'
 import PrimaryInput from '../../global/Input.Primary'
-
-const StyledInput = styled(PrimaryInput)`
-  ${CodeInputStyle}
-`
+import TextField from '@mui/material/TextField'
+import copyToClipboard from '../../../lib/helpers/copy'
+import KeyIcon from '@mui/icons-material/Key'
+import InputAdornment from '@mui/material/InputAdornment'
 
 function CodeInput(props: { roomCode: string }) {
   return (
-    <StyledInput
+    <TextField
       value={props.roomCode}
-      onClick={e => {
-        e.currentTarget.select()
+      variant="filled"
+      label="Code"
+      sx={{
+        width: '100%'
       }}
-      readOnly
+      inputProps={{
+        style: { textAlign: 'center' },
+        onClick: e => {
+          const event = e.target as HTMLInputElement
+          event.select()
+          copyToClipboard(event.value)
+        }
+      }}
+      InputProps={{
+        readOnly: true,
+        startAdornment: (
+          <InputAdornment position="start">
+            <KeyIcon />
+          </InputAdornment>
+        )
+      }}
     />
   )
 }

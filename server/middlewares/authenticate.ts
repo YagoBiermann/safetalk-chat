@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import AuthFactory from '../services/authentication'
 import { RepositoryFactory } from '../database'
+import { ValidatorFactory } from '../services/validations'
 
 const authenticate = async (
   req: Request,
@@ -15,8 +16,10 @@ const authenticate = async (
     const token = req.session.token
     const authenticator = new AuthFactory().createAuthenticationService()
     const userRepository = new RepositoryFactory().createUserRepository()
+    const headerValidator = new ValidatorFactory().createHeaderValidator()
 
     console.log(`validating token: ${token}`)
+    headerValidator.checkCookie(token)
     const user = await userRepository.getUserById(userId)
     if (user.room) {
       authenticator.validateToken(token, process.env.JWT_ROOM_SECRET)

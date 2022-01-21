@@ -9,7 +9,9 @@ const SendButton = styled(Button)(
   height: inherit;
   width: 82px;
   box-shadow: none;
-
+  &:hover {
+    box-shadow: none;
+  };
   @media screen and (max-width: 600px) {
     & > svg {
       font-size: 1.6em;

@@ -39,7 +39,7 @@ class HeaderValidator implements IHeaderValidator {
 
   checkCookie(cookie: string | undefined) {
     if (!cookie) {
-      throw new AppError('ERR_MISSING_TOKEN')
+      throw new AppError('ERR_SESSION_EXPIRED')
     }
     const [header, token] = cookie.split(' ')
     const validToken =

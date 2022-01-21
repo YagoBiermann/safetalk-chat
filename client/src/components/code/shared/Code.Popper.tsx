@@ -17,11 +17,12 @@ const CodePopper = (props: CodePopperProps) => {
         exit={{ opacity: 0, y: 10, transition: { duration: 0.2 } }}
       >
         <Paper
-          sx={{
+          sx={({ palette }) => ({
             padding: '10px',
             borderRadius: '5px',
-            marginBottom: '10px'
-          }}
+            marginBottom: '10px',
+            backgroundColor: palette.primary.dark
+          })}
         >
           {message}
         </Paper>

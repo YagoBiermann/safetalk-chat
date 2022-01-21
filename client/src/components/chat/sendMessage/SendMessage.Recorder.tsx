@@ -18,7 +18,7 @@ const MainBox = styled(motion.div)`
   justify-content: flex-end;
   flex-direction: row;
   width: 250px;
-  height: 48px;
+  height: 52px;
   ${RecorderMobile}
 `
 

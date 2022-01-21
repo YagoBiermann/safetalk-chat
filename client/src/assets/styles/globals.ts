@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     height: 100vh;
     width: 100vw;
-    background-color: #0f0912;
+    background-color: ${appTheme.colors.dark.elevation_0};
     font-family: 'Roboto', 'Helvetica', sans-serif;
     color: ${appTheme.fontColor.secondary};
     overflow: hidden;
@@ -36,7 +36,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 500;
 
     @media (max-width: ${appTheme.appBreakpoints.mobile}) {
-      font-size: 36px;
+      font-size: 38px;
     }
   }
 
@@ -65,7 +65,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 300;
 
     @media (max-width: ${appTheme.appBreakpoints.mobile}) {
-      font-size: 18px;
+      font-size: 20px;
     }
   }
 
@@ -92,29 +92,40 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${appTheme.colors.dark.elevation_4};
+    background: ${appTheme.colors.dark.elevation_2};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${appTheme.colors.primary.main.elevation_4};
+    background-color: ${appTheme.colors.dark.elevation_6};
     border-radius: 20px;
   }
 
   * {
-    scrollbar-color: ${appTheme.colors.secondary.main.elevation_4} ${appTheme.colors.primary.main.elevation_4};
+    scrollbar-color: ${appTheme.colors.primary.main};
     scrollbar-width: thin;
   }
 
   a:link,
   a:visited,
+  a:hover,
   a:active {
-    color: rgb(188, 228, 255);
+    color: ${appTheme.fontColor.secondary};
     text-decoration: none;
   }
 
   a:hover {
     text-decoration: underline;
   }
+
+  ::-moz-selection {
+  color: ${appTheme.fontColor.secondary};
+  background: ${appTheme.colors.primary.dark};
+}
+
+::selection {
+  color: ${appTheme.fontColor.secondary};
+  background: ${appTheme.colors.primary.dark};
+}
 `
 
 export { GlobalStyle }

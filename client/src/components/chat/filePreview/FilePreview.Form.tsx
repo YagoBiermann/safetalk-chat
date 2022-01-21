@@ -6,6 +6,8 @@ import PreviewSendButton from './Form.SendButton'
 import { DropFile } from '../../../lib/interfaces'
 import { sendFileMessage } from '../../../services/messages'
 import { MESSAGE_TYPE } from '../../../lib/enums'
+import { TextField } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 
 const InputBox = styled.form`
   display: flex;
@@ -16,7 +18,6 @@ const InputBox = styled.form`
 
 const PreviewInput = styled(PrimaryInput)`
   border-radius: 0px 0px 0px 10px;
-  background-color: ${props => props.theme.colors.primary.main.elevation_4};
   height: inherit;
   width: 100%;
   text-indent: 10px;
@@ -47,10 +48,24 @@ function PreviewSend(props: PreviewSendTypes) {
 
   return (
     <InputBox onSubmit={handleSubmit(submitMessage)}>
-      <PreviewInput
-        {...register('message')}
+      <TextField
+        sx={({ palette }) => ({
+          justifyContent: 'center',
+          width: '100%',
+          padding: '0 0 0 15px',
+          backgroundColor: alpha(palette.primary.main, 0.4),
+          color: alpha(palette.primary.light, 0.5),
+          transition: 'background-color 0.2s ease-in-out',
+          '&:hover': {
+            backgroundColor: alpha(palette.primary.main, 0.6),
+            boxShadow: 1
+          }
+        })}
+        inputProps={{ ...register('message') }}
+        InputProps={{ disableUnderline: true }}
         placeholder="say something about it"
         autoComplete="off"
+        variant="standard"
       />
       <PreviewSendButton type="submit" />
     </InputBox>

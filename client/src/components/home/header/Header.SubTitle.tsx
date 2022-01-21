@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledSubTitle = styled.h4`
-  margin-top: 15px;
+const StyledSubTitle = styled.h5`
+  margin-top: 20px;
 
   @media (max-height: ${props => props.theme.appBreakpoints.mobile}) {
     order: 3;

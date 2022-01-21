@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 const StyledLogo = styled.img`
   width: auto;
-  height: 180px;
+  height: 160px;
   @media (max-width: ${props => props.theme.appBreakpoints.tablet}) {
     height: 140px;
   }
   @media (max-width: ${props => props.theme.appBreakpoints.mobile}) {
-    height: 100px;
+    height: 120px;
   }
 
   @media (max-height: ${props => props.theme.appBreakpoints.tablet}) {

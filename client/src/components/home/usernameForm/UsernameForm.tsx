@@ -6,9 +6,8 @@ import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLetters from '../../../lib/helpers/allowOnlyLetters'
 import { Username } from '../../../lib/interfaces'
 import { useCreateUserMutation } from '../../../services/api'
-import { useAppDispatch, useAppSelector } from '../../../store'
+import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import { setUsername } from '../../../store/ducks/users'
 import ButtonState from '../../global/ButtonState'
 import UsernameButton from './Username.Button'
 import UsernameInput from './Username.Input'
@@ -43,22 +42,24 @@ function UsernameForm() {
   }
 
   return (
-    <FormBox
-      as="form"
-      autoComplete="off"
-      onSubmit={handleSubmit(data => handleValidation(data.username))}
-    >
-      <UsernameInput
-        {...register('username')}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setValue('username', allowOnlyLetters(e))
-        }
-        value={sanitizedUsername}
-      />
-      <UsernameButton type="submit">
-        <ButtonState loading={result.isLoading} text="Join" />
-      </UsernameButton>
-    </FormBox>
+    <>
+      <FormBox
+        as="form"
+        autoComplete="off"
+        onSubmit={handleSubmit(data => handleValidation(data.username))}
+      >
+        <UsernameInput
+          {...register('username')}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setValue('username', allowOnlyLetters(e))
+          }
+          value={sanitizedUsername}
+        />
+        <UsernameButton type="submit">
+          <ButtonState loading={result.isLoading} text="Join" />
+        </UsernameButton>
+      </FormBox>
+    </>
   )
 }
 

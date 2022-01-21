@@ -1,3 +1,4 @@
+import { UserDTO } from './../../lib/interfaces/index'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
 import { ENDPOINTS, ROUTES } from '../../lib/enums'
@@ -32,6 +33,12 @@ export const roomApi = createApi({
     fetchUsers: builder.query<OnlineUsersDTO, string>({
       query: (roomCode: string) => ({
         url: `rooms/${roomCode}/users`,
+        method: 'GET'
+      })
+    }),
+    fetchCurrentUser: builder.query<UserDTO, undefined>({
+      query: () => ({
+        url: ROUTES.GET_CURRENT_USER,
         method: 'GET'
       })
     }),
@@ -142,6 +149,7 @@ export { fetchCurrentUser, fetchUsersOnRoom, generateCode }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
+  useFetchCurrentUserQuery,
   useLazyFetchUsersQuery,
   useJoinRoomMutation
 } = roomApi

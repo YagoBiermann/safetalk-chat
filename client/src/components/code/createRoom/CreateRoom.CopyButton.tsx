@@ -1,25 +1,22 @@
 import Popover from '@material-ui/core/Popover'
 import React from 'react'
-import styled from 'styled-components'
+import { styled } from '@mui/material/styles'
 import copyToClipboard from '../../../lib/helpers/copy'
 import usePopover from '../../../lib/hooks/usePopover'
 import { ContentCopy } from '@mui/icons-material'
+import { Button } from '@mui/material'
+import { alpha } from '@mui/material'
 
-const StyledButton = styled.button`
-  background-color: ${props => props.theme.colors.primary.main.elevation_4};
-  border: none;
-  width: 45px;
-  height: 45px;
+const StyledButton = styled(Button)`
+  width: 52px;
+  height: 52px;
   border-radius: 5px 25px 25px 5px;
   margin-left: 10px;
-  transition: background-color 0.5s;
+  background-color: none;
+  border: 1px solid ${({ theme }) => theme.fontColor.tertiary};
   &:hover {
-    background-color: ${props => props.theme.colors.primary.light.elevation_4};
-    cursor: pointer;
-  }
-  &:active {
-    background-color: ${props =>
-      props.theme.colors.secondary.light.elevation_4};
+    border: 1px solid ${({ theme }) => theme.palette.primary.main};
+    background-color: ${({ theme }) => alpha(theme.palette.primary.main, 0.3)};
   }
 `
 
