@@ -25,7 +25,7 @@ const OuterBox = styled(motion.div)`
   display: flex;
   position: absolute;
   background-color: ${props => props.theme.colors.dark.elevation_2};
-  border: 2px solid ${props => props.theme.colors.primary.main.elevation_4};
+  border: 2px solid ${props => props.theme.colors.primary.main};
   justify-content: center;
   align-items: center;
   border-radius: 15px;
@@ -50,7 +50,7 @@ const InnerBox = styled.div`
 `
 
 const activeStyle = {
-  borderColor: 'rgb(101, 41, 138, 0.65)'
+  borderColor: 'rgb(100, 40, 140, 0.5)'
 }
 
 const DropText = styled.h4`
