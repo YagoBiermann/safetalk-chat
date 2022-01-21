@@ -1,21 +1,21 @@
 import styled from 'styled-components'
 import React, { ForwardedRef } from 'react'
-import PrimaryInput from '../../global/Input.Primary'
-import CodeInputStyle from '../../../assets/styles/default.CodeInput'
-
-const StyledInput = styled(PrimaryInput)`
-  ${CodeInputStyle}
-`
+import TextField from '@mui/material/TextField'
 
 const JoinRoomInput = React.forwardRef(
   (props: any, ref: ForwardedRef<HTMLInputElement>) => {
     return (
-      <StyledInput
-        ref={ref}
-        {...props}
-        placeholder="Enter your code"
+      <TextField
+        inputRef={ref}
+        sx={({ breakpoints }) => ({
+          width: '100%'
+        })}
         required
-        maxLength={25}
+        id="outlined-join-room-input"
+        label="enter your code"
+        variant="outlined"
+        InputLabelProps={{ required: false }}
+        inputProps={{ maxLength: 32, ...props }}
         onInput={e => {
           ;(e.target as HTMLInputElement).setCustomValidity('')
         }}
