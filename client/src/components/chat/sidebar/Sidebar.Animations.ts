@@ -1,3 +1,4 @@
+import { alpha } from '@mui/material'
 import { appTheme } from '../../../assets/styles/theme'
 
 const sidebarAnimation = {
@@ -18,7 +19,7 @@ const sidebarAnimation = {
   closed: (screenWidth: number) => ({
     width: screenWidth <= 600 ? '64px' : '70px',
     height: screenWidth <= 600 ? '48px' : '85px',
-    backgroundColor: appTheme.colors.secondary.dark.elevation_4,
+    backgroundColor: alpha(appTheme.colors.primary.main, 0.4),
     transition: {
       width: { delay: 0.6 },
       height: { delay: 0.3 },
