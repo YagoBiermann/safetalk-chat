@@ -22,6 +22,8 @@ import nookies from 'nookies'
 import { setRoomCode, setUsername } from '../../store/ducks/users'
 import { socketContext } from '../../lib/context/socketContext'
 import { setUsersOnRoom } from '../../store/ducks/rooms'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import Link from 'next/link'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -125,7 +127,11 @@ const Chat = (props: ChatPageProps) => {
         <>
           <ChatContainer id="chatContainer">
             <ChatBox>
-              <ChatHeader />
+              <ChatHeader>
+                <Link href="/">
+                  <ArrowBackIosIcon sx={{ margin: '0 0 0 10px' }} />
+                </Link>
+              </ChatHeader>
               <MessagesBox />
               <SendMessage />
             </ChatBox>
