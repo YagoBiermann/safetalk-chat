@@ -92,18 +92,16 @@ const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: ${appTheme.colors.dark.elevation_4};
+    background: ${appTheme.colors.dark.elevation_2};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${appTheme.colors.primary.main.elevation_4};
+    background-color: ${appTheme.colors.dark.elevation_6};
     border-radius: 20px;
   }
 
   * {
-    scrollbar-color: ${appTheme.colors.secondary.main.elevation_4} ${
-  appTheme.colors.primary.main.elevation_4
-};
+    scrollbar-color: ${appTheme.colors.primary.main};
     scrollbar-width: thin;
   }
 
@@ -118,6 +116,16 @@ const GlobalStyle = createGlobalStyle`
   a:hover {
     text-decoration: underline;
   }
+
+  ::-moz-selection {
+  color: ${appTheme.fontColor.secondary};
+  background: ${appTheme.colors.primary.dark};
+}
+
+::selection {
+  color: ${appTheme.fontColor.secondary};
+  background: ${appTheme.colors.primary.dark};
+}
 `
 
 export { GlobalStyle }
