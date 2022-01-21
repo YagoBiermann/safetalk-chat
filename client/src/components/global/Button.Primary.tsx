@@ -36,7 +36,7 @@ const PrimaryButton = styled.button<{ width?: string }>`
     left: 0;
     width: ${props => props.width || '200px'};
     height: 200px;
-    background-color: ${props => props.theme.colors.secondary.main.elevation_0};
+    background-color: ${props => props.theme.colors.primary.main.elevation_0};
     border-radius: 100px;
     opacity: 0;
     z-index: -1;
@@ -54,7 +54,7 @@ const PrimaryButton = styled.button<{ width?: string }>`
     &::after {
       transition: background-color 0.5s;
       background-color: ${props =>
-        props.theme.colors.secondary.light.elevation_2};
+        props.theme.colors.primary.light.elevation_2};
     }
   }
 `
