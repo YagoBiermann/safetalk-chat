@@ -11,7 +11,7 @@ const VolumeBox = styled.div`
   align-items: center;
   justify-content: flex-start;
   border-radius: 15px;
-  background-color: ${props => props.theme.colors.dark.elevation_2};
+  background-color: ${props => props.theme.colors.dark.elevation_4};
   flex-direction: row;
   width: 0px;
   height: max-content;
