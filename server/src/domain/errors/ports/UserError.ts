@@ -1,0 +1,9 @@
+type IUserErrorMessages =
+  | 'ERR_USERNAME_MAX_LENGTH'
+  | 'ERR_USERNAME_MIN_LENGTH'
+  | 'ERR_INVALID_CHARACTERS'
+  | 'ERR_USERNAME_TAKEN'
+  | 'ERR_USER_NOT_FOUND'
+  | 'ERR_USERNAME_NOT_PROVIDED'
+
+export { IUserErrorMessages }
