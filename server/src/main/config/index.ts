@@ -1,0 +1,20 @@
+export const validMimeTypes = [
+  'image/jpeg',
+  'image/png',
+  'video/mp4',
+  'video/webm',
+  'video/ogg',
+  'video/wmv',
+  'video/avi',
+  'video/mov',
+  'video/quicktime',
+  'audio/mp3',
+  'audio/mp4',
+  'text/plain',
+  'application/pdf',
+  'application/zip',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/vnd.ms-powerpoint'
+]
