@@ -30,6 +30,10 @@ export const errorMessages: IAppErrorMessageModel = {
     message: 'Username not provided',
     code: 10
   },
+  ERR_USER_ALREADY_IN_ROOM: {
+    message: 'User is already in some room',
+    code: 10
+  },
   ERR_INVALID_ROOM_CODE: {
     message: 'Invalid room code',
     code: 10

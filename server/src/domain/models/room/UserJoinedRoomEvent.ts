@@ -1,8 +1,8 @@
 import IDomainEvent from '../common/DomainEvent'
 import Room from './Room'
 
-class RoomCreatedEvent implements IDomainEvent {
-  private _eventName: string = RoomCreatedEvent.name
+class UserJoinedRoomEvent implements IDomainEvent {
+  private _eventName: string = UserJoinedRoomEvent.name
   constructor(
     private readonly _room: Room,
     private readonly _userId: string,
@@ -25,4 +25,4 @@ class RoomCreatedEvent implements IDomainEvent {
   }
 }
 
-export default RoomCreatedEvent
+export default UserJoinedRoomEvent

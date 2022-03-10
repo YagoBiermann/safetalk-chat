@@ -7,10 +7,13 @@ import RoomApplicationService from '../../application/services/RoomApplicationSe
 import GenerateRoomCodeController from './GenerateRoomCode'
 import UserApplicationService from '../../application/services/UserApplicationService'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
-import OnRoomCreatedSubscriber from '../../domain/models/services/subscribers/OnRoomCreated'
+import OnUserJoinedRoomSubscriber from '../../domain/models/services/subscribers/OnUserJoinedRoom'
 import CreateRoomController from './CreateRoom'
 import RoomAlreadyExistsValidation from '../../application/validations/leaf/RoomAlreadyExistsValidation'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
+import RoomNotExistsValidation from '../../application/validations/leaf/RoomNotExistsValidation'
+import JoinRoomController from './joinRoom'
+import UserAlreadyInRoomValidation from '../../application/validations/leaf/UserAlreadyInRoomValidation'
 class ControllerFactory {
   private constructor() {}
 
@@ -41,18 +44,29 @@ class ControllerFactory {
     const roomAlreadyExistsValidation = new RoomAlreadyExistsValidation(
       this.roomRepository()
     )
-    
+
+    const roomNotExistsValidation = new RoomNotExistsValidation(
+      this.roomRepository()
+    )
+
+    const userAlreadyInRoomValidation = new UserAlreadyInRoomValidation(
+      this.userRepository()
+    )
+
     const singleTransaction = new SingleTransaction(
       this.roomRepository(),
       this.userRepository()
     )
-    const subscriber = new OnRoomCreatedSubscriber(
+    const subscriber = new OnUserJoinedRoomSubscriber(
       this.userRepository(),
       singleTransaction
     )
     return new RoomApplicationService(
       this.authentication(),
       roomAlreadyExistsValidation,
+      roomNotExistsValidation,
+      userAlreadyInRoomValidation,
+      this.roomRepository(),
       subscriber
     )
   }
@@ -83,6 +97,13 @@ class ControllerFactory {
     )
 
     return createRoomController
+  }
+
+  public static makeJoinRoomController(): IController {
+    const roomApplicationService = ControllerFactory._roomApplicationService()
+    const joinRoomController = new JoinRoomController(roomApplicationService)
+
+    return joinRoomController
   }
 }
 

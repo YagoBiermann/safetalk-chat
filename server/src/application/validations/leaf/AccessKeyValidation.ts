@@ -1,5 +1,5 @@
 import AuthError from '../../../domain/errors/models/AuthError'
-import { IAuthenticationInputDTO } from '../../../domain/models/auth/AuthenticationService'
+import { IAuthenticationInputDTO } from '../../ports/services/AuthenticationService'
 import ArgumentAssertion from '../../../domain/models/common/ArgumentAssertion'
 import IValidation from '../../ports/validations/Validation'
 
@@ -10,7 +10,10 @@ class AccessKeyValidation
   constructor() {
     super()
   }
-  validate({ accessKey, userId }: IAuthenticationInputDTO): AuthError | null {
+  public validate({
+    accessKey,
+    userId
+  }: IAuthenticationInputDTO): AuthError | null {
     this.assertArgumentNotNull(userId, new AuthError('ERR_NOT_AUTHORIZED'))
     this.assertArgumentNotNull(
       accessKey,

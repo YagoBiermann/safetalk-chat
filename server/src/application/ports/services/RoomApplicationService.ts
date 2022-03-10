@@ -1,6 +1,11 @@
-import { IAuthenticationInputDTO } from '../../../domain/models/auth/AuthenticationService'
+import { IAuthenticationInputDTO } from './AuthenticationService'
 
 interface ICreateRoomInputDTO {
+  roomCode: string
+  auth: IAuthenticationInputDTO
+}
+
+interface IJoinRoomInputDTO {
   roomCode: string
   auth: IAuthenticationInputDTO
 }
@@ -11,6 +16,7 @@ interface IGenerateRoomCodeOutputDTO {
 
 interface IRoomApplicationService {
   createRoom(data: ICreateRoomInputDTO): Promise<void>
+  joinRoom(data: IJoinRoomInputDTO): Promise<void>
   generateRoomCode(
     auth: IAuthenticationInputDTO
   ): Promise<IGenerateRoomCodeOutputDTO>
@@ -19,5 +25,6 @@ interface IRoomApplicationService {
 export {
   IRoomApplicationService,
   ICreateRoomInputDTO,
+  IJoinRoomInputDTO,
   IGenerateRoomCodeOutputDTO
 }

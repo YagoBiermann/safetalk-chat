@@ -1,8 +1,8 @@
-import { IRoomRepository } from './../../../domain/models/room/RoomRepository'
+import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 import RoomError from '../../../domain/errors/models/RoomError'
 import IValidation from '../../ports/validations/Validation'
 
-class RoomNotCreatedValidation implements IValidation {
+class RoomNotExistsValidation implements IValidation {
   constructor(private room: IRoomRepository) {}
 
   public async validate(roomCode: string): Promise<RoomError> | null {
@@ -15,4 +15,4 @@ class RoomNotCreatedValidation implements IValidation {
   }
 }
 
-export default RoomNotCreatedValidation
+export default RoomNotExistsValidation
