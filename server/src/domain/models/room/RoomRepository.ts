@@ -1,16 +1,28 @@
-interface IRoomRepositoryModel<MessageId = string, UserId = string> {
+import { ClientSession } from 'mongoose'
+import Room from './Room'
+
+interface IRoomRepositoryModel<UserId = string> {
   _id: string
   roomCode: string
-  messages: Array<MessageId>
+  messages: Array<IMessageRepositoryModel>
   users: Array<UserId>
 }
 
-interface IRoomRepository {
-  createRoom(roomCode: string): Promise<IRoomRepositoryModel | null>
-  deleteRoom(roomCode: string): Promise<object>
-  getRoomByCode(code: string): Promise<IRoomRepositoryModel | null>
-  getRoomById(id: string): Promise<IRoomRepositoryModel | null>
+interface IMessageRepositoryModel {
+  _id?: string
+  username: string
+  roomCode: string
+  message: string
+  messageType: string
+  createdAt: number
+  fileURL?: string
 }
 
-export default IRoomRepositoryModel
-export { IRoomRepository }
+interface IRoomRepository {
+  save(room: Room, session?: ClientSession): Promise<void>
+  delete(roomId: string): Promise<void>
+  getRoomByCode(roomCode: string): Promise<Room | null>
+  getRoomById(roomId: string): Promise<Room | null>
+}
+
+export { IRoomRepository, IMessageRepositoryModel, IRoomRepositoryModel }
