@@ -1,5 +1,5 @@
 type IMessageErrorMessages =
-  | 'ERR_MESSAGE_MAX_LENGTH'
-  | 'ERR_MESSAGE_MIN_LENGTH'
+  | 'ERR_MESSAGE_EMPTY'
+  | 'ERR_MESSAGE_LENGTH'
 
 export { IMessageErrorMessages }

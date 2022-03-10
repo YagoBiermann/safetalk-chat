@@ -1,20 +1,17 @@
 import { IAppErrorMessageModel } from '../ports/AppError'
 
 export const errorMessages: IAppErrorMessageModel = {
-  ERR_MESSAGE_MAX_LENGTH: {
-    message: 'text message too long',
+  ERR_MESSAGE_EMPTY: {
+    message: 'message cannot be empty',
     code: 10
   },
-  ERR_MESSAGE_MIN_LENGHT: {
-    message: 'text message too short',
+  ERR_MESSAGE_LENGHT: {
+    message: 'text message cannot be more than 400 characters',
     code: 10
   },
-  ERR_USERNAME_MAX_LENGTH: {
-    message: 'username length must be less than 25 characters',
-    code: 10
-  },
-  ERR_USERNAME_MIN_LENGTH: {
-    message: 'username length must be greater than 3 characters',
+  ERR_USERNAME_LENGTH: {
+    message:
+      'username length must be less than 25 characters and more than 3 characters',
     code: 10
   },
   ERR_INVALID_CHARACTERS: {
@@ -45,12 +42,24 @@ export const errorMessages: IAppErrorMessageModel = {
     message: 'Room code already in use',
     code: 30
   },
+  ERR_ROOM_CODE_NOT_PROVIDED: {
+    message: 'Room code not provided',
+    code: 10
+  },
   ERR_ROOM_NOT_EMPTY: {
     message: 'Room is not empty',
     code: 30
   },
+  ERR_ROOM_FULL: {
+    message: 'Room is full, try again later',
+    code: 30
+  },
   ERR_SESSION_EXPIRED: {
     message: 'Session expired',
+    code: 20
+  },
+  ERR_NOT_AUTHORIZED: {
+    message: 'Not authorized to perform this action',
     code: 20
   },
   ERR_INVALID_ACCESS_KEY: {
