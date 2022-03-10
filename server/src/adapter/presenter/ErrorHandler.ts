@@ -1,10 +1,12 @@
+import { Response } from 'express'
 import AppError from '../../domain/errors/ports/AppError'
 import IErrorHandler from '../ports/presenter/ErrorHandler'
+import IErrorPresenter from '../ports/presenter/ErrorPresenter'
 
 class ErrorHandler implements IErrorHandler {
   constructor(private errorPresenter: IErrorPresenter) {}
 
-  public handle(error: AppError): HttpResponseDTO<IErrorMessage> {
+  public handle(error: AppError): Response {
     switch (error.code) {
       case 10:
         return this.errorPresenter.badRequest(error)

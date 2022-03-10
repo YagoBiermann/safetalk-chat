@@ -1,55 +1,39 @@
+import { Response } from 'express'
+import IErrorPresenter from '../ports/presenter/ErrorPresenter'
+
 class ErrorPresenter implements IErrorPresenter {
+  constructor(private res: Response) {}
   public forbidden(error: Error) {
-    return {
-      status: 403,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(403).json({
+      message: error.message
+    })
   }
 
   public notFound(error: Error) {
-    return {
-      status: 404,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(404).json({
+      message: error.message
+    })
   }
 
   public internalServerError(error: Error) {
-    return {
-      status: 500,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(500).json({
+      message: error.message
+    })
   }
 
   public badRequest(error: Error) {
-    return {
-      status: 400,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(400).json({ message: error.message })
   }
   public unauthorized(error: Error) {
-    return {
-      status: 401,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(401).json({
+      message: error.message
+    })
   }
 
   public notAcceptable(error: Error) {
-    return {
-      status: 406,
-      body: {
-        message: error.message
-      }
-    }
+    return this.res.status(406).json({
+      message: error.message
+    })
   }
 }
 
