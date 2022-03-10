@@ -57,6 +57,10 @@ flags()
 
 flags "$@"
 
+if [ -z "$@" ]; then
+    help
+fi
+
 docker-compose -f docker-compose.dev.yml --env-file .docker.dev.env -p safetalk up -d
 sleep 5
 docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
