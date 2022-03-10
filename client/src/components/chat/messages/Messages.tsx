@@ -11,15 +11,15 @@ import { AnimatePresence } from 'framer-motion'
 const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
   flex-direction: column;
-  background-color: ${props => props.theme.colors.secondary.dark.elevation_0};
+  background-color: ${props => props.theme.colors.dark.elevation_0};
+  border: 1px solid ${props => props.theme.fontColor.tertiary};
   border-radius: 25px 5px 5px 5px;
   width: 100%;
   height: 100%;
   overflow-y: ${props => (props.isDragOver ? 'hidden' : 'scroll')};
   position: relative;
 
-  @media screen and (max-width: ${props =>
-      props.theme.appBreakpoints.tablet}) {
+  @media screen and (max-width: ${props => props.theme.appBreakpoints.tablet}) {
     border-radius: 0;
   }
 `

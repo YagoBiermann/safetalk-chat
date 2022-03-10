@@ -11,7 +11,7 @@ const Background = styled.div`
   height: 100vh;
   width: 100vw;
   z-index: 999;
-  background: rgba(13, 13, 13, 0.4);
+  background: rgba(0, 0, 0, 0.5);
 `
 type DarkenBackgroundProps = React.HTMLAttributes<HTMLDivElement> & {
   children: JSX.Element | JSX.Element[]

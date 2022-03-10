@@ -82,7 +82,7 @@ function JoinRoom() {
         }
         value={sanitizedRoomCode}
       />
-      <CodeButton disabled={isPending}>
+      <CodeButton type="submit" disabled={isPending}>
         <ButtonState loading={result.isLoading} text="Join Room" />
       </CodeButton>
     </JoinRoomForm>

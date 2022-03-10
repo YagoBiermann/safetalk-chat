@@ -6,7 +6,7 @@ import { ButtonAnimation } from './SendMessage.Animations'
 
 const SendButton = (props: ButtonProps) => {
   return (
-    <Button variant="contained" color="primary" {...props}>
+    <Button variant="send-message-button" color="primary" {...props}>
       <Send
         fontSize="medium"
         component={motion.svg}

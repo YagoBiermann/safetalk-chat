@@ -10,13 +10,13 @@ const MessageCardMobile = css<{ myMessage?: boolean }>`
   @media (max-width: ${props => props.theme.appBreakpoints.tablet}) {
     max-width: 100%;
     border-radius: 10px;
-    background-color: #161616;
+    background-color: ${props => props.theme.colors.dark.elevation_2};
     border: ${props =>
       props.myMessage
-        ? `1px solid ${props.theme.colors.primary.light.elevation_0}`
+        ? `1px solid ${props.theme.colors.primary.light}`
         : null};
     box-shadow: none;
-    margin: 10px;
+    margin: 15px;
   }
 `
 

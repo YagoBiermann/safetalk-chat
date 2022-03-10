@@ -34,6 +34,7 @@ const ChatHeaderMobile = css`
   @media screen and (max-width: ${props =>
       props.theme.appBreakpoints.tablet}) {
     display: flex;
+    align-items: center;
     width: 100vw;
     height: 74px;
   }

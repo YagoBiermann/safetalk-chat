@@ -9,16 +9,29 @@ import UsernameForm from '../components/home/usernameForm/UsernameForm'
 import { useAppSelector } from '../store'
 import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
 import { PageAnimation } from './_Animations'
+import Link from 'next/link'
+import { useFetchCurrentUserQuery } from '../services/api'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
   ${HomeContainerDesktop}
   ${HomeContainerMobile}
 `
+const BottomText = styled(motion.div)`
+  margin-top: 25px;
+  text-align: center;
+  & a:hover {
+    color: #ecbaff;
+    text-decoration: none;
+  }
+  & b {
+    color: #ecbaff;
+  }
+`
 
 const Home: NextPage = () => {
   const error = useAppSelector(state => state.app.error)
-
+  const { isSuccess, data } = useFetchCurrentUserQuery(undefined, {})
 
   return (
     <>
@@ -30,7 +43,18 @@ const Home: NextPage = () => {
         exit="exit"
       >
         <Header />
-        <UsernameForm />
+        <div>
+          <UsernameForm />
+          {isSuccess && data?.room.roomCode ? (
+            <BottomText animate={{ opacity: [0, 1] }}>
+              <Link replace href={`/chat/${data?.room.roomCode}`}>
+                <a draggable="false">
+                  Or continue as <b>{data?.username}</b> on previous room
+                </a>
+              </Link>
+            </BottomText>
+          ) : null}
+        </div>
         <Footer />
       </HomeContainer>
       <AnimatePresence>

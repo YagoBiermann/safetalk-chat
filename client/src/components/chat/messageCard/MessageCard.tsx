@@ -27,7 +27,7 @@ const Message = styled(motion.div)<{ maxWidth?: string; myMessage?: boolean }>`
   margin: 15px 30px 15px 30px;
   min-width: 20%;
   max-height: auto;
-  background-color: #212121;
+  background-color: ${props => props.theme.colors.dark.elevation_2};
   ${MessageCardDesktop}
   ${MessageCardTablet}
   ${MessageCardMobile}

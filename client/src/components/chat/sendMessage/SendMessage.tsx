@@ -17,11 +17,6 @@ const MessageForm = styled.form`
   align-items: center;
   width: 100%;
   margin-top: 30px;
-  & > input {
-    padding: 0;
-    text-indent: 10px;
-  }
-
   ${MessageFormMobile}
 `
 
@@ -50,7 +45,7 @@ function SendMessage() {
 
   return (
     <MessageForm id="messageForm" onSubmit={handleSubmit(handleSubmitMessage)}>
-      <InputMessage width="100%" height="48px" {...register('message')} />
+      <InputMessage width="100%" {...register('message')} />
       <LayoutGroup>
         {recorder.isRecording ? (
           <RecordAudio layout finish={finishRecord} cancel={cancelRecord} />
