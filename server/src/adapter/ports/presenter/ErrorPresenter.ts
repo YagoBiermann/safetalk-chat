@@ -1,12 +1,12 @@
-interface IErrorMessage {
-  message: string
-}
+import { Response } from 'express'
 
 interface IErrorPresenter {
-  forbidden(error: Error): HttpResponseDTO<IErrorMessage>
-  notFound(error: Error): HttpResponseDTO<IErrorMessage>
-  internalServerError(error: Error): HttpResponseDTO<IErrorMessage>
-  badRequest(error: Error): HttpResponseDTO<IErrorMessage>
-  unauthorized(error: Error): HttpResponseDTO<IErrorMessage>
-  notAcceptable(error: Error): HttpResponseDTO<IErrorMessage>
+  forbidden(error: Error): Response
+  notFound(error: Error): Response
+  internalServerError(error: Error): Response
+  badRequest(error: Error): Response
+  unauthorized(error: Error): Response
+  notAcceptable(error: Error): Response
 }
+
+export default IErrorPresenter

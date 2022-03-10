@@ -1,3 +1,5 @@
+import { Response } from 'express'
+
 export default interface IErrorHandler {
-  handle(error: Error): HttpResponseDTO<IErrorMessage>
+  handle(error: Error): Response
 }
