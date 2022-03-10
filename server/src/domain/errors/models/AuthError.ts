@@ -1,4 +1,5 @@
 import AppError from '../ports/AppError'
+import IAuthErrorMessages from '../ports/AuthError'
 
 class AuthError extends AppError {
   constructor(error: IAuthErrorMessages) {

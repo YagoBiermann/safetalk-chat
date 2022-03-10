@@ -4,3 +4,5 @@ type IAuthErrorMessages =
   | 'ERR_MALFORMED_KEY'
   | 'ERR_ACCESS_KEY_NOT_PROVIDED'
   | 'ERR_NOT_AUTHORIZED'
+
+export default IAuthErrorMessages
