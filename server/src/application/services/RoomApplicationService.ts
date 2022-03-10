@@ -7,7 +7,7 @@ import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
 import DomainEventPublisher from '../../domain/models/common/DomainEventPublisher'
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
 import Room from '../../domain/models/room/Room'
-import RoomCreatedEvent from '../../domain/models/room/RoomCreatedEvent'
+import UserJoinedRoomEvent from '../../domain/models/room/UserJoinedRoomEvent'
 import {
   IRoomApplicationService,
   ICreateRoomInputDTO,
@@ -22,7 +22,7 @@ class RoomApplicationService
   constructor(
     private authenticationService: IAuthenticationService,
     private roomAlreadyExistsValidation: IValidation,
-    private onRoomCreatedSubscriber: IDomainEventSubscriber<RoomCreatedEvent>
+    private onUserJoinedRoomSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
     super()
   }
@@ -39,9 +39,9 @@ class RoomApplicationService
       await this.authenticate({ accessKey, userId })
       await this.roomAlreadyExistsValidation.validate(roomCode)
       DomainEventPublisher.instance().removeAllSubscribers()
-      DomainEventPublisher.instance().addSubscriber(this.onRoomCreatedSubscriber)
+      DomainEventPublisher.instance().addSubscriber(this.onUserJoinedRoomSubscriber)
       const room = new Room({ roomCode })
-      room.addUser(userId)
+      room.join(userId)
     } catch (error) {
       throw error
     }

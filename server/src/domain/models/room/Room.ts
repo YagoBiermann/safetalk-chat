@@ -8,7 +8,7 @@ import Entity from '../common/Entity'
 import IMessageDTO from './message/MessageDTO'
 import UserError from '../../errors/models/UserError'
 import DomainEventPublisher from '../common/DomainEventPublisher'
-import RoomCreatedEvent from './RoomCreatedEvent'
+import UserJoinedRoomEvent from './UserJoinedRoomEvent'
 
 class Room extends Entity {
   private _id: RoomId
@@ -27,7 +27,7 @@ class Room extends Entity {
       return
     }
 
-    room.users.forEach(userId => this.addUser(new UserId(userId).value))
+    room.users.forEach(userId => this.join(new UserId(userId).value))
   }
 
   public get id(): string {
@@ -46,21 +46,21 @@ class Room extends Entity {
     return Array.from(this._users)
   }
 
-  public addUser(userId: string) {
+  public join(userId: string) {
     const fullRoom = this._users.size > 20
 
     if (fullRoom) {
       throw new RoomError('ERR_ROOM_FULL')
     }
     this._users.add(new UserId(userId).value)
-    DomainEventPublisher.instance().publish(new RoomCreatedEvent(this, userId))
+    DomainEventPublisher.instance().publish(new UserJoinedRoomEvent(this, userId))
   }
 
   public static generateRoomCode(): RoomCode {
     return new RoomCode()
   }
 
-  public removeUser(userId: UserId) {
+  public leave(userId: UserId) {
     const user = this._users.has(userId.value)
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
     this.assertStateTrue(user, new UserError('ERR_USER_NOT_FOUND'))

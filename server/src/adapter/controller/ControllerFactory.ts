@@ -7,7 +7,7 @@ import RoomApplicationService from '../../application/services/RoomApplicationSe
 import GenerateRoomCodeController from './GenerateRoomCode'
 import UserApplicationService from '../../application/services/UserApplicationService'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
-import OnRoomCreatedSubscriber from '../../domain/models/services/subscribers/OnRoomCreated'
+import OnUserJoinedRoomSubscriber from '../../domain/models/services/subscribers/OnUserJoinedRoom'
 import CreateRoomController from './CreateRoom'
 import RoomAlreadyExistsValidation from '../../application/validations/leaf/RoomAlreadyExistsValidation'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
@@ -46,7 +46,7 @@ class ControllerFactory {
       this.roomRepository(),
       this.userRepository()
     )
-    const subscriber = new OnRoomCreatedSubscriber(
+    const subscriber = new OnUserJoinedRoomSubscriber(
       this.userRepository(),
       singleTransaction
     )
