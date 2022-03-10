@@ -2,19 +2,26 @@ import IUserRepository from '../../../domain/models/user/UserRepository'
 import { default as UserEntity } from '../../../domain/models/user/User'
 import { User } from '../models/users'
 import IUserMapper from '../../../domain/models/user/UserMapper'
+import { ClientSession } from 'mongoose'
 
 class UserRepository implements IUserRepository {
   constructor(private userMapper: IUserMapper) {}
 
-  public async save(user: UserEntity): Promise<void> {
+  public async save(user: UserEntity, session?: ClientSession): Promise<void> {
     const userModel = this.userMapper.toUserModel(user)
-    await User.findOneAndUpdate({ _id: userModel._id }, userModel).exec()
-  }
+    const userExists = await this.getUserById(user.id)
+    console.info(`saving user: ${user.username}`)
 
-  public async create(user: UserEntity): Promise<void> {
-    console.info(`creating user: ${user.username}`)
-    const userModel = this.userMapper.toUserModel(user)
-    await User.create(userModel)
+    if (userExists) {
+      await User.findByIdAndUpdate(
+        userModel._id,
+        { ...userModel },
+        { session }
+      ).exec()
+
+      return
+    }
+    await new User(userModel).save({ session })
   }
 
   public async delete(userId: string): Promise<void> {
