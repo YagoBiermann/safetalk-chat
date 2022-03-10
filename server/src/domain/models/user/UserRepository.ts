@@ -1,3 +1,4 @@
+import { ClientSession } from 'mongoose'
 import User from './User'
 
 interface IUserRepositoryModel {
@@ -8,12 +9,11 @@ interface IUserRepositoryModel {
 }
 
 interface IUserRepository {
-  save(user: User): Promise<void>
+  save(user: User, session?: ClientSession): Promise<void>
   getUserById(userId: string): Promise<User>
   getUserBy(username: string): Promise<User>
   getAllUsernamesFrom(roomId: string): Promise<string[]>
   delete(userId: string): Promise<void>
-  create(user: User): Promise<void>
 }
 
 export default IUserRepository
