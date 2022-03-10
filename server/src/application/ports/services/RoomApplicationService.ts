@@ -1,4 +1,4 @@
-import { IAuthenticationInputDTO } from '../../../domain/models/auth/AuthenticationService'
+import { IAuthenticationInputDTO } from './AuthenticationService'
 
 interface ICreateRoomInputDTO {
   roomCode: string

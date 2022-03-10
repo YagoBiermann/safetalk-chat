@@ -1,6 +1,7 @@
 import express from 'express'
 import { Request, Response } from 'express'
 import IController from '../../../adapter/ports/controllers/Controller'
+import DomainEventPublisher from '../../../domain/models/common/DomainEventPublisher'
 
 class AppRoutes {
   private _router = express.Router()
@@ -27,6 +28,7 @@ class AppRoutes {
   }
 
   public exec() {
+    DomainEventPublisher.instance().removeAllSubscribers()
     this.controllers.forEach(controllers => controllers.handle(this._router))
   }
 }

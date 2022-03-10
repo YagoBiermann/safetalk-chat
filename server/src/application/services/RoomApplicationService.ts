@@ -2,7 +2,7 @@ import RoomError from '../../domain/errors/models/RoomError'
 import {
   IAuthenticationInputDTO,
   IAuthenticationService
-} from '../../domain/models/auth/AuthenticationService'
+} from '../ports/services/AuthenticationService'
 import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
 import DomainEventPublisher from '../../domain/models/common/DomainEventPublisher'
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
