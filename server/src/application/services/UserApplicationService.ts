@@ -1,11 +1,15 @@
 import IUserRepository from '../../domain/models/user/UserRepository'
-import { IAuthenticationService } from '../ports/services/AuthenticationService'
+import {
+  IAuthenticationInputDTO,
+  IAuthenticationService
+} from '../ports/services/AuthenticationService'
 import User from '../../domain/models/user/User'
 import IValidation from '../ports/validations/Validation'
 import {
   ICreateUserInputDTO,
   ICreateUserOutputDTO,
-  IUserApplicationService
+  IUserApplicationService,
+  IUserInfoOutputDTO
 } from '../ports/services/UserApplicationService'
 import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
 import UserError from '../../domain/errors/models/UserError'
@@ -17,7 +21,8 @@ class UserApplicationService
   constructor(
     private userRepository: IUserRepository,
     private authentication: IAuthenticationService,
-    private userValidation: IValidation
+    private usernameTakenValidation: IValidation,
+    private userNotExistsValidation: IValidation
   ) {
     super()
   }
@@ -29,7 +34,7 @@ class UserApplicationService
       username,
       new UserError('ERR_USERNAME_NOT_PROVIDED')
     )
-    await this.userValidation.validate(username)
+    await this.usernameTakenValidation.validate(username)
 
     if (userId) {
       await this.userRepository.delete(userId)
@@ -51,6 +56,24 @@ class UserApplicationService
     )
 
     return { userId: user.id, accessKey }
+  }
+
+  public async userInfo({
+    userId,
+    accessKey
+  }: IAuthenticationInputDTO): Promise<IUserInfoOutputDTO> {
+    this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
+    this.authentication.authenticate({ userId, accessKey })
+    await this.userNotExistsValidation.validate(userId)
+    const user = await this.userRepository.getUserById(userId)
+
+    const userInfo = {
+      userId: user.id,
+      username: user.username,
+      isOnline: user.isOnline,
+      room: user.room
+    }
+    return userInfo
   }
 }
 

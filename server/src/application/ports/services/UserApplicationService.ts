@@ -1,3 +1,5 @@
+import { IAuthenticationInputDTO } from './AuthenticationService'
+
 interface ICreateUserInputDTO {
   username: string
   userId: string
@@ -8,8 +10,21 @@ interface ICreateUserOutputDTO {
   userId: string
 }
 
-interface IUserApplicationService {
-  createUser(data: ICreateUserInputDTO): Promise<ICreateUserOutputDTO>
+interface IUserInfoOutputDTO {
+  userId: string
+  username: string
+  isOnline: boolean
+  room: string
 }
 
-export { ICreateUserOutputDTO, ICreateUserInputDTO, IUserApplicationService }
+interface IUserApplicationService {
+  createUser(data: ICreateUserInputDTO): Promise<ICreateUserOutputDTO>
+  userInfo(data: IAuthenticationInputDTO): Promise<IUserInfoOutputDTO>
+}
+
+export {
+  ICreateUserOutputDTO,
+  ICreateUserInputDTO,
+  IUserApplicationService,
+  IUserInfoOutputDTO
+}
