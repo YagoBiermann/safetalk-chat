@@ -1,8 +1,7 @@
-interface IRoomDTO<MessageId = string, UserId = string> {
+interface IRoomDTO {
   id?: string
   roomCode: string
-  messages: Array<MessageId>
-  users: Array<UserId>
+  users?: Array<string>
 }
 
 export default IRoomDTO
