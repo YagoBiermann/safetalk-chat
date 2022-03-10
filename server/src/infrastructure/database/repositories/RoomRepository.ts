@@ -1,28 +1,41 @@
-import IRoomRepositoryModel from '../../../domain/models/room/RoomRepository'
+import { ClientSession } from 'mongoose'
+import { default as RoomEntity } from '../../../domain/models/room/Room'
+import IRoomMapper from '../../../domain/models/room/RoomMapper'
 import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 import { Room } from '../models/rooms'
 
 class RoomRepository implements IRoomRepository {
-  public async createRoom(roomCode: string): Promise<IRoomRepositoryModel> {
-    console.log(`Creating room ${roomCode}`)
-    return Room.create({ roomCode })
+  constructor(private roomMapper: IRoomMapper) {}
+  public async save(room: RoomEntity, session?: ClientSession): Promise<void> {
+    console.log(`Creating room ${room.roomCode}`)
+
+    const roomModel = this.roomMapper.toRoomModel(room)
+    const roomExists = await this.getRoomById(room.id)
+
+    if (roomExists) {
+      await Room.findByIdAndUpdate(
+        roomModel._id,
+        { ...roomModel },
+        { session }
+      ).exec()
+      return
+    }
+    await new Room(roomModel).save({ session })
   }
 
-  public async deleteRoom(roomCode: string): Promise<object> {
-    console.log(`Deleting room ${roomCode}`)
-    return Room.deleteOne({ roomCode }).exec()
+  public async delete(roomId: string): Promise<void> {
+    console.log(`Deleting room ${roomId}`)
+    await Room.deleteOne({ roomId }).exec()
   }
 
-  public async getRoomByCode(roomCode: string): Promise<IRoomRepositoryModel> {
-    return Room.findOne({ roomCode }).exec()
+  public async getRoomByCode(roomCode: string): Promise<RoomEntity> {
+    const room = await Room.findOne({ roomCode }).exec()
+    return room ? this.roomMapper.toRoomEntity(room) : null
   }
 
-  public async getRoomById(id: string): Promise<IRoomRepositoryModel> {
-    return Room.findById({ id }).exec()
-  }
-
-  public async getAllUsers(roomId: string): Promise<IRoomRepositoryModel> {
-    return Room.findById(roomId, 'users').exec()
+  public async getRoomById(roomId: string): Promise<RoomEntity> {
+    const room = await Room.findById(roomId).exec()
+    return room ? this.roomMapper.toRoomEntity(room) : null
   }
 }
 
