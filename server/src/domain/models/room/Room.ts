@@ -8,7 +8,7 @@ import Entity from '../common/Entity'
 import IMessageDTO from './message/MessageDTO'
 import UserError from '../../errors/models/UserError'
 import DomainEventPublisher from '../common/DomainEventPublisher'
-import RoomCreatedEvent from './UserAddedEvent'
+import RoomCreatedEvent from './RoomCreatedEvent'
 
 class Room extends Entity {
   private _id: RoomId

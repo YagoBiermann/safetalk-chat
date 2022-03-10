@@ -1,4 +1,5 @@
 # Join room
+
 | Use case name            | Join room                                                      |
 | ------------------------ | -------------------------------------------------------------- |
 | Related Requirements     | [SR-JOIN-ROOM]                                                 |

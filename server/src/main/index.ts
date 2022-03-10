@@ -2,16 +2,14 @@ import AppServer from '../infrastructure/express/Server'
 import AppMiddlewares from '../infrastructure/express/middlewares'
 import AppRoutes from '../infrastructure/express/routes/AppRoutes'
 import AppSession from '../infrastructure/express/session'
-import CreateUserFactory from './factories/CreateUser'
-import GenerateRoomCodeFactory from './factories/GenerateRoomCode'
+import ControllerFactory from '../adapter/controller/ControllerFactory'
 import { Database } from '../infrastructure/database/connection'
 import env from 'dotenv'
 import MongoStore from 'connect-mongo'
 
 env.config({ path: __dirname + '/config/.dev.env' })
 
-const mongodb = new Database(process.env.MONGO_URI)
-mongodb.connect()
+Database.instance().connect(process.env.MONGO_URI)
 
 const server = new AppServer()
 const middlewares = new AppMiddlewares(server.app)
@@ -27,13 +25,19 @@ const session = new AppSession(server.app, {
   })
 })
 
-const endpoints = []
-const generateRoomCodeEndpoint = new GenerateRoomCodeFactory().make()
-const createUserEndpoint = new CreateUserFactory().make()
+const controllers = []
+const generateRoomCodeController =
+  ControllerFactory.makeGenerateRoomCodeController()
+const createUserController = ControllerFactory.makeCreateUserController()
+const createRoomController = ControllerFactory.makeCreateRoomController()
 
-endpoints.push(createUserEndpoint, generateRoomCodeEndpoint)
+controllers.push(
+  createUserController,
+  generateRoomCodeController,
+  createRoomController
+)
 
-const appRoutes = new AppRoutes(endpoints)
+const appRoutes = new AppRoutes(controllers)
 
 session.exec()
 middlewares.exec()
