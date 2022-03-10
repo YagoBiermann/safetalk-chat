@@ -12,8 +12,10 @@ import CreateRoomController from './CreateRoom'
 import RoomAlreadyExistsValidation from '../../application/validations/leaf/RoomAlreadyExistsValidation'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
 import RoomNotExistsValidation from '../../application/validations/leaf/RoomNotExistsValidation'
-import JoinRoomController from './joinRoom'
+import JoinRoomController from './JoinRoom'
 import UserAlreadyInRoomValidation from '../../application/validations/leaf/UserAlreadyInRoomValidation'
+import UserNotExistsValidation from '../../application/validations/leaf/UserNotExistsValidation'
+import UserInfoController from './UserInfo'
 class ControllerFactory {
   private constructor() {}
 
@@ -30,13 +32,18 @@ class ControllerFactory {
   }
 
   private static _userApplicationService() {
-    const createUserValidation = new UsernameTakenValidation(
+    const usernameTakenValidation = new UsernameTakenValidation(
       this.userRepository()
     )
+    const userNotExistsValidation = new UserNotExistsValidation(
+      this.userRepository()
+    )
+
     return new UserApplicationService(
       this.userRepository(),
       this.authentication(),
-      createUserValidation
+      usernameTakenValidation,
+      userNotExistsValidation
     )
   }
 
@@ -104,6 +111,13 @@ class ControllerFactory {
     const joinRoomController = new JoinRoomController(roomApplicationService)
 
     return joinRoomController
+  }
+
+  public static makeUserInfoController(): IController {
+    const userApplicationService = ControllerFactory._userApplicationService()
+
+    const userInfoController = new UserInfoController(userApplicationService)
+    return userInfoController
   }
 }
 

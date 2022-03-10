@@ -31,12 +31,14 @@ const generateRoomCodeController =
 const createUserController = ControllerFactory.makeCreateUserController()
 const createRoomController = ControllerFactory.makeCreateRoomController()
 const joinRoomController = ControllerFactory.makeJoinRoomController()
+const userInfoController = ControllerFactory.makeUserInfoController()
 
 controllers.push(
   createUserController,
   generateRoomCodeController,
   createRoomController,
-  joinRoomController
+  joinRoomController,
+  userInfoController
 )
 
 const appRoutes = new AppRoutes(controllers)

@@ -9,8 +9,6 @@ class AppRoutes {
   constructor(private controllers: Array<IController>) {}
 
   private endpoint() {
-    this._router.get('rooms/code')
-    this._router.get('users/me')
     this._router.get('rooms/:roomCode/users')
     this._router.get('rooms/:roomCode/files/stream/:media')
     this._router.get('rooms/:roomCode/files/:file')
