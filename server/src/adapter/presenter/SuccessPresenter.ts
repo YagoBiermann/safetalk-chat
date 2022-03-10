@@ -1,23 +1,18 @@
+import { Response } from 'express'
+import ISuccessPresenter from '../ports/presenter/SuccessPresenter'
+
 class SuccessPresenter implements ISuccessPresenter {
-  public success(data: any): HttpResponseDTO<any> {
-    return {
-      status: 200,
-      body: data
-    }
+  constructor(private res: Response) {}
+  public success(data: any): Response {
+    return this.res.status(200).json(data)
   }
 
-  public created(data: any): HttpResponseDTO<any> {
-    return {
-      status: 201,
-      body: data
-    }
+  public created(data: any): Response {
+    return this.res.status(201).json(data)
   }
 
-  public noContent(): HttpResponseDTO {
-    return {
-      status: 204,
-      body: {}
-    }
+  public noContent(): Response {
+    return this.res.status(204).json({})
   }
 }
 
