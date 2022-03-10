@@ -1,9 +1,9 @@
 import IUserRepository from '../../../domain/models/user/UserRepository'
 import { IRoomRepository } from './../../../domain/models/room/RoomRepository'
 import RoomError from '../../../domain/errors/models/RoomError'
-import IValidator from '../../ports/validations/Validator'
+import IValidation from '../../ports/validations/Validation'
 
-class RoomEmptyValidator implements IValidator {
+class RoomEmptyValidation implements IValidation {
   constructor(
     private room: IRoomRepository,
     private users: IUserRepository
@@ -11,13 +11,13 @@ class RoomEmptyValidator implements IValidator {
 
   public async validate(roomCode: string): Promise<RoomError> | null {
     const room = await this.room.getRoomByCode(roomCode)
-    const usersInRoom = await this.users.getAllUsers(room._id)
+    const usersInRoom = await this.users.getAllUsernamesFrom(room.id)
 
     if (usersInRoom.length > 0) {
-      return new RoomError('ERR_ROOM_NOT_EMPTY')
+      throw new RoomError('ERR_ROOM_NOT_EMPTY')
     }
     return null
   }
 }
 
-export default RoomEmptyValidator
+export default RoomEmptyValidation

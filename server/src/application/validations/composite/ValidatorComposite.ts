@@ -1,9 +1,9 @@
 import AppError from '../../../domain/errors/models/AppError'
-import IValidatorComposite from '../../ports/validations/composite/ValidatorComposite'
-import IValidator from '../../ports/validations/Validator'
+import IValidatorComposite from '../../ports/validations/composite/ValidationComposite'
+import IValidation from '../../ports/validations/Validation'
 
 class ValidatorComposite implements IValidatorComposite {
-  protected composedValidation: IValidator[] = []
+  protected composedValidation: IValidation[] = []
 
   public async validate(input: any): Promise<AppError> | null {
     for (const validator of this.composedValidation) {
@@ -15,7 +15,7 @@ class ValidatorComposite implements IValidatorComposite {
     return null
   }
 
-  public add(...validators: IValidator[]) {
+  public add(...validators: IValidation[]) {
     validators.forEach(validation => {
       this.composedValidation.push(validation)
     })

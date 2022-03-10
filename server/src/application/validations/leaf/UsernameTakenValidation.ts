@@ -1,8 +1,8 @@
 import UserError from '../../../domain/errors/models/UserError'
 import IUserRepository from '../../../domain/models/user/UserRepository'
-import IValidator from '../../ports/validations/Validator'
+import IValidation from '../../ports/validations/Validation'
 
-class UsernameTakenValidator implements IValidator {
+class UsernameTakenValidation implements IValidation {
   constructor(private user: IUserRepository) {}
 
   public async validate(username: string): Promise<UserError> | null {
@@ -14,4 +14,4 @@ class UsernameTakenValidator implements IValidator {
   }
 }
 
-export default UsernameTakenValidator
+export default UsernameTakenValidation

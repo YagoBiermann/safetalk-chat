@@ -1,17 +1,17 @@
 import UserError from '../../../domain/errors/models/UserError'
 import IUserRepository from '../../../domain/models/user/UserRepository'
-import IValidator from '../../ports/validations/Validator'
+import IValidation from '../../ports/validations/Validation'
 
-class UserAlreadyExistsValidator implements IValidator {
+class UserAlreadyExistsValidation implements IValidation {
   constructor(private user: IUserRepository) {}
 
   public async validate(userId: string): Promise<UserError> | null {
     const user = await this.user.getUserById(userId)
     if (user) {
-      return new UserError('ERR_USERNAME_TAKEN')
+      throw new UserError('ERR_USERNAME_TAKEN')
     }
     return null
   }
 }
 
-export default UserAlreadyExistsValidator
+export default UserAlreadyExistsValidation
