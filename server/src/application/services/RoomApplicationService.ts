@@ -25,6 +25,7 @@ class RoomApplicationService
     private authenticationService: IAuthenticationService,
     private roomAlreadyExistsValidation: IValidation,
     private roomNotExistsValidation: IValidation,
+    private userAlreadyInRoomValidation: IValidation,
     private roomRepository: IRoomRepository,
     private onUserJoinedRoomSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
@@ -60,6 +61,7 @@ class RoomApplicationService
     try {
       await this.authenticate({ accessKey, userId })
       await this.roomNotExistsValidation.validate(roomCode)
+      await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
         this.onUserJoinedRoomSubscriber
       )
