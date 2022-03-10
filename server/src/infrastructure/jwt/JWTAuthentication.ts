@@ -4,8 +4,7 @@ import AuthError from '../../domain/errors/models/AuthError'
 import {
   IAuthenticationInputDTO,
   IAuthenticationService
-} from '../../domain/models/auth/AuthenticationService'
-import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
+} from '../../application/ports/services/AuthenticationService'
 import IUserRepository from '../../domain/models/user/UserRepository'
 
 class Authentication implements IAuthenticationService {

@@ -1,5 +1,5 @@
 import IUserRepository from '../../domain/models/user/UserRepository'
-import { IAuthenticationService } from '../../domain/models/auth/AuthenticationService'
+import { IAuthenticationService } from '../ports/services/AuthenticationService'
 import User from '../../domain/models/user/User'
 import IValidation from '../ports/validations/Validation'
 import {

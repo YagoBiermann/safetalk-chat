@@ -1,5 +1,5 @@
 import AccessKeyValidation from '../../application/validations/leaf/AccessKeyValidation'
-import { IAuthenticationService } from '../../domain/models/auth/AuthenticationService'
+import { IAuthenticationService } from '../../application/ports/services/AuthenticationService'
 import UserRepositoryFactory from '../database/repositories/factories/UserRepository'
 import Authentication from './JWTAuthentication'
 

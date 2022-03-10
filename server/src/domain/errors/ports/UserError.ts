@@ -4,5 +4,6 @@ type IUserErrorMessages =
   | 'ERR_USERNAME_TAKEN'
   | 'ERR_USER_NOT_FOUND'
   | 'ERR_USERNAME_NOT_PROVIDED'
+  | 'ERR_USER_ALREADY_IN_ROOM'
 
 export { IUserErrorMessages }

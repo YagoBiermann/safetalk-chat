@@ -1,4 +1,4 @@
-import AuthError from '../../errors/models/AuthError'
+import AuthError from '../../../domain/errors/models/AuthError'
 
 interface IAuthenticationInputDTO {
   userId: string

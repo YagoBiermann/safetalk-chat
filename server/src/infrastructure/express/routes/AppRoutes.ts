@@ -1,6 +1,7 @@
 import express from 'express'
 import { Request, Response } from 'express'
 import IController from '../../../adapter/ports/controllers/Controller'
+import DomainEventPublisher from '../../../domain/models/common/DomainEventPublisher'
 
 class AppRoutes {
   private _router = express.Router()
@@ -14,8 +15,6 @@ class AppRoutes {
     this._router.get('rooms/:roomCode/files/stream/:media')
     this._router.get('rooms/:roomCode/files/:file')
     this._router.post('rooms/:roomCode/files')
-    this._router.post('rooms/create')
-    this._router.post('rooms/join')
 
     this._router.get('*', (req: Request, res: Response) => {
       res.redirect(302, 'http://safetalk_client:3000')
@@ -27,6 +26,7 @@ class AppRoutes {
   }
 
   public exec() {
+    DomainEventPublisher.instance().removeAllSubscribers()
     this.controllers.forEach(controllers => controllers.handle(this._router))
   }
 }
