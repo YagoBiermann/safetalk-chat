@@ -1,11 +1,11 @@
 import express from 'express'
 import { Request, Response } from 'express'
-import Endpoint from '../../ports/Endpoint'
+import IController from '../../../adapter/ports/controllers/Controller'
 
 class AppRoutes {
   private _router = express.Router()
 
-  constructor(private endpoints: Array<Endpoint>) {}
+  constructor(private controllers: Array<IController>) {}
 
   private endpoint() {
     this._router.get('rooms/code')
@@ -27,7 +27,7 @@ class AppRoutes {
   }
 
   public exec() {
-    this.endpoints.forEach(endpoint => endpoint.exec(this._router))
+    this.controllers.forEach(controllers => controllers.handle(this._router))
   }
 }
 
