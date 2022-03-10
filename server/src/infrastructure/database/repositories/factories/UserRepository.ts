@@ -2,7 +2,8 @@ import UserMapper from '../../mapper/UserMapper'
 import UserRepository from '../UserRepository'
 
 class UserRepositoryFactory {
-  make() {
+  private constructor() {}
+  public static make(): UserRepository {
     const userMapper = new UserMapper()
     return new UserRepository(userMapper)
   }
