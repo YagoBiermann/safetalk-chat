@@ -13,10 +13,11 @@ class JoinRoomController implements IController {
       const userId = req.session.user
       const accessKey = req.session.accessKey
       try {
-        await this.roomApplicationService.joinRoom({
+        const { roomId } = await this.roomApplicationService.joinRoom({
           auth: { accessKey, userId },
           roomCode
         })
+        req.session.room = roomId
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
         return successPresenter.success({})
       } catch (error) {
