@@ -5,9 +5,17 @@ interface ICreateRoomInputDTO {
   auth: IAuthenticationInputDTO
 }
 
+interface ICreateRoomOutputDTO {
+  roomId: string
+}
+
 interface IJoinRoomInputDTO {
   roomCode: string
   auth: IAuthenticationInputDTO
+}
+
+interface IJoinRoomOutputDTO {
+  roomId: string
 }
 
 interface IGenerateRoomCodeOutputDTO {
@@ -27,8 +35,8 @@ interface IGetAllUsersFromRoomOutputDTO
   }> {}
 
 interface IRoomApplicationService {
-  createRoom(data: ICreateRoomInputDTO): Promise<void>
-  joinRoom(data: IJoinRoomInputDTO): Promise<void>
+  createRoom(data: ICreateRoomInputDTO): Promise<ICreateRoomOutputDTO>
+  joinRoom(data: IJoinRoomInputDTO): Promise<IJoinRoomOutputDTO>
   generateRoomCode(
     auth: IAuthenticationInputDTO
   ): Promise<IGenerateRoomCodeOutputDTO>
@@ -43,5 +51,7 @@ export {
   IJoinRoomInputDTO,
   IGenerateRoomCodeOutputDTO,
   IGetAllUsersFromRoomInputDTO,
-  IGetAllUsersFromRoomOutputDTO
+  IGetAllUsersFromRoomOutputDTO,
+  ICreateRoomOutputDTO,
+  IJoinRoomOutputDTO
 }
