@@ -5,6 +5,7 @@ import CreateRoomController from './CreateRoom'
 import JoinRoomController from './JoinRoom'
 import UserInfoController from './UserInfo'
 import ApplicationServiceFactory from '../../application/services/ApplicationServiceFactory'
+import GetAllUsersFromRoomController from './GetAllUsersFromRoom'
 class ControllerFactory {
   private constructor() {}
 
@@ -56,6 +57,15 @@ class ControllerFactory {
 
     const userInfoController = new UserInfoController(userApplicationService)
     return userInfoController
+  }
+
+  public static makeGetAllUsersFromRoomController(): IController {
+    const roomApplicationService = this._roomApplicationService()
+    const getAllUsersFromRoomController = new GetAllUsersFromRoomController(
+      roomApplicationService
+    )
+    
+    return getAllUsersFromRoomController
   }
 }
 
