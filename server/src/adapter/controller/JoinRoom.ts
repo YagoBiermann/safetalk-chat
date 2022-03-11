@@ -17,7 +17,7 @@ class JoinRoomController implements IController {
           auth: { accessKey, userId },
           roomCode
         })
-
+        req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
         return successPresenter.success({})
       } catch (error) {
         return errorHandler.handle(error)

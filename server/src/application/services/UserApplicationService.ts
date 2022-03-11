@@ -52,7 +52,7 @@ class UserApplicationService
     const accessKey = this.authentication.generateAccessKey(
       user.id,
       process.env.JWT_SECRET,
-      600
+      600 // 10 minutes
     )
 
     return { userId: user.id, accessKey }
