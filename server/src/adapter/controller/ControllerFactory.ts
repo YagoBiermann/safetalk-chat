@@ -1,81 +1,19 @@
 import CreateUserController from './CreateUser'
 import IController from '../ports/controllers/Controller'
-import UserRepositoryFactory from '../../infrastructure/database/repositories/factories/UserRepository'
-import AuthenticationFactory from '../../infrastructure/jwt/AuthenticationFactory'
-import UsernameTakenValidation from '../../application/validations/leaf/UsernameTakenValidation'
-import RoomApplicationService from '../../application/services/RoomApplicationService'
 import GenerateRoomCodeController from './GenerateRoomCode'
-import UserApplicationService from '../../application/services/UserApplicationService'
-import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
-import OnUserJoinedRoomSubscriber from '../../domain/models/services/subscribers/OnUserJoinedRoom'
 import CreateRoomController from './CreateRoom'
-import RoomAlreadyExistsValidation from '../../application/validations/leaf/RoomAlreadyExistsValidation'
-import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
-import RoomNotExistsValidation from '../../application/validations/leaf/RoomNotExistsValidation'
 import JoinRoomController from './JoinRoom'
-import UserAlreadyInRoomValidation from '../../application/validations/leaf/UserAlreadyInRoomValidation'
-import UserNotExistsValidation from '../../application/validations/leaf/UserNotExistsValidation'
 import UserInfoController from './UserInfo'
+import ApplicationServiceFactory from '../../application/services/ApplicationServiceFactory'
 class ControllerFactory {
   private constructor() {}
 
-  private static userRepository() {
-    return UserRepositoryFactory.make()
-  }
-
-  private static roomRepository() {
-    return RoomRepositoryFactory.make()
-  }
-
-  private static authentication() {
-    return AuthenticationFactory.make()
-  }
-
   private static _userApplicationService() {
-    const usernameTakenValidation = new UsernameTakenValidation(
-      this.userRepository()
-    )
-    const userNotExistsValidation = new UserNotExistsValidation(
-      this.userRepository()
-    )
-
-    return new UserApplicationService(
-      this.userRepository(),
-      this.authentication(),
-      usernameTakenValidation,
-      userNotExistsValidation
-    )
+    return ApplicationServiceFactory.makeUserApplicationService()
   }
 
   private static _roomApplicationService() {
-    const roomAlreadyExistsValidation = new RoomAlreadyExistsValidation(
-      this.roomRepository()
-    )
-
-    const roomNotExistsValidation = new RoomNotExistsValidation(
-      this.roomRepository()
-    )
-
-    const userAlreadyInRoomValidation = new UserAlreadyInRoomValidation(
-      this.userRepository()
-    )
-
-    const singleTransaction = new SingleTransaction(
-      this.roomRepository(),
-      this.userRepository()
-    )
-    const subscriber = new OnUserJoinedRoomSubscriber(
-      this.userRepository(),
-      singleTransaction
-    )
-    return new RoomApplicationService(
-      this.authentication(),
-      roomAlreadyExistsValidation,
-      roomNotExistsValidation,
-      userAlreadyInRoomValidation,
-      this.roomRepository(),
-      subscriber
-    )
+    return ApplicationServiceFactory.makeRoomApplicationService()
   }
 
   public static makeCreateUserController(): IController {
