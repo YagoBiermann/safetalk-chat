@@ -3,7 +3,7 @@ import IController from '../ports/controllers/Controller'
 import PresenterFactory from '../presenter/PresenterFactory'
 import { IRoomApplicationService } from '../../application/ports/services/RoomApplicationService'
 
-class GetAllUsersFromRoom implements IController {
+class GetAllUsersFromRoomController implements IController {
   constructor(private roomApplicationService: IRoomApplicationService) {}
 
   async handle(router: express.Router): Promise<express.Router> {
@@ -26,4 +26,4 @@ class GetAllUsersFromRoom implements IController {
   }
 }
 
-export default GetAllUsersFromRoom
+export default GetAllUsersFromRoomController
