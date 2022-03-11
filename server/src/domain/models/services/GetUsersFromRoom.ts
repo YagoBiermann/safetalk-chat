@@ -2,7 +2,7 @@ import { IRoomRepository } from '../room/RoomRepository'
 import User from '../user/User'
 import IUserRepository from '../user/UserRepository'
 
-class AllUsersFromRoomDomainService {
+class GetUsersFromRoomDomainService {
   constructor(
     private roomRepository: IRoomRepository,
     private userRepository: IUserRepository
@@ -16,4 +16,4 @@ class AllUsersFromRoomDomainService {
   }
 }
 
-export default AllUsersFromRoomDomainService
+export default GetUsersFromRoomDomainService
