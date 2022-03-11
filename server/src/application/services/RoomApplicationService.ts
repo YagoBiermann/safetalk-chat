@@ -15,7 +15,9 @@ import {
   IGenerateRoomCodeOutputDTO,
   IJoinRoomInputDTO,
   IGetAllUsersFromRoomInputDTO,
-  IGetAllUsersFromRoomOutputDTO
+  IGetAllUsersFromRoomOutputDTO,
+  IJoinRoomOutputDTO,
+  ICreateRoomOutputDTO
 } from '../ports/services/RoomApplicationService'
 import IValidation from '../ports/validations/Validation'
 import { IRoomNotExistsValidationInput } from '../validations/leaf/RoomNotExistsValidation'
@@ -40,7 +42,7 @@ class RoomApplicationService
   public async createRoom({
     roomCode,
     auth: { accessKey, userId }
-  }: ICreateRoomInputDTO): Promise<void> {
+  }: ICreateRoomInputDTO): Promise<ICreateRoomOutputDTO> {
     this.assertArgumentNotNull(
       roomCode,
       new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
@@ -53,6 +55,8 @@ class RoomApplicationService
       )
       const room = new Room({ roomCode })
       room.join(userId)
+
+      return { roomId: room.id }
     } catch (error) {
       throw error
     }
@@ -61,7 +65,7 @@ class RoomApplicationService
   public async joinRoom({
     roomCode,
     auth: { accessKey, userId }
-  }: IJoinRoomInputDTO) {
+  }: IJoinRoomInputDTO): Promise<IJoinRoomOutputDTO> {
     this.assertArgumentNotNull(
       roomCode,
       new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
@@ -75,6 +79,8 @@ class RoomApplicationService
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.join(userId)
+
+      return { roomId: room.id }
     } catch (error) {
       throw error
     }
