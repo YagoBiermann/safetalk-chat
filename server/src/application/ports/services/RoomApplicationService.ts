@@ -14,13 +14,17 @@ interface IGenerateRoomCodeOutputDTO {
   roomCode: string
 }
 
-interface IAllUsersFromRoomInputDTO {
+interface IGetAllUsersFromRoomInputDTO {
   roomId: string
   auth: IAuthenticationInputDTO
 }
-interface IAllUsersFromRoomOutputDTO {
-  users: string[]
-}
+interface IGetAllUsersFromRoomOutputDTO
+  extends Array<{
+    userId: string
+    username: string
+    room: string
+    isOnline: boolean
+  }> {}
 
 interface IRoomApplicationService {
   createRoom(data: ICreateRoomInputDTO): Promise<void>
@@ -28,9 +32,9 @@ interface IRoomApplicationService {
   generateRoomCode(
     auth: IAuthenticationInputDTO
   ): Promise<IGenerateRoomCodeOutputDTO>
-  allUsersFromRoom(
-    data: IAllUsersFromRoomInputDTO
-  ): Promise<IAllUsersFromRoomOutputDTO>
+  getAllUsersFromRoom(
+    data: IGetAllUsersFromRoomInputDTO
+  ): Promise<IGetAllUsersFromRoomOutputDTO>
 }
 
 export {
@@ -38,6 +42,6 @@ export {
   ICreateRoomInputDTO,
   IJoinRoomInputDTO,
   IGenerateRoomCodeOutputDTO,
-  IAllUsersFromRoomInputDTO as allUsersFromRoomInputDTO,
-  IAllUsersFromRoomOutputDTO as allUsersFromRoomOutputDTO
+  IGetAllUsersFromRoomInputDTO,
+  IGetAllUsersFromRoomOutputDTO
 }
