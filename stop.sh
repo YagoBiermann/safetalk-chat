@@ -1,1 +1,1 @@
-docker-compose -f docker-compose.dev.yml --env-file .docker.dev.env -p safetalk down
+docker-compose -f docker-compose.db.dev.yml -f docker-compose.server.dev.yml --env-file .docker.dev.env -p safetalk down
