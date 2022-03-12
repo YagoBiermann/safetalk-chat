@@ -8,7 +8,8 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts",
+    "dev:debug": "ts-node-dev --respawn --inspect=4000 --transpile-only -r dotenv/config ./src/main/index.ts"
   },
   "dependencies": {
     "connect-mongo": "^4.6.0",
