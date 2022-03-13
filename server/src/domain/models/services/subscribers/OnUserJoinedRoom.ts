@@ -3,7 +3,9 @@ import ISingleTransaction from '../../common/SingleTransaction'
 import UserJoinedRoomEvent from '../../room/UserJoinedRoomEvent'
 import IUserRepository from '../../user/UserRepository'
 
-class OnUserJoinedRoomSubscriber implements IDomainEventSubscriber<UserJoinedRoomEvent> {
+class OnUserJoinedRoomSubscriber
+  implements IDomainEventSubscriber<UserJoinedRoomEvent>
+{
   constructor(
     private _userRepository: IUserRepository,
     private _singleTransaction: ISingleTransaction

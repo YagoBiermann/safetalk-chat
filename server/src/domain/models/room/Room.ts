@@ -22,12 +22,6 @@ class Room extends Entity {
     this._roomCode = room.roomCode
       ? new RoomCode(room.roomCode)
       : Room.generateRoomCode()
-
-    if (!room.users) {
-      return
-    }
-
-    room.users.forEach(userId => this.join(new UserId(userId).value))
   }
 
   public get id(): string {
@@ -48,12 +42,11 @@ class Room extends Entity {
 
   public join(userId: string) {
     const fullRoom = this._users.size > 20
-
+    const _userId = new UserId(userId).value
     if (fullRoom) {
       throw new RoomError('ERR_ROOM_FULL')
     }
-    this._users.add(new UserId(userId).value)
-    DomainEventPublisher.instance().publish(new UserJoinedRoomEvent(this, userId))
+    this._users.add(_userId)
   }
 
   public static generateRoomCode(): RoomCode {
