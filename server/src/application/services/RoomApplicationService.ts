@@ -56,6 +56,9 @@ class RoomApplicationService
       )
       const room = new Room({ roomCode })
       room.join(userId)
+      DomainEventPublisher.instance().publish(
+        new UserJoinedRoomEvent(room, userId)
+      )
       DomainEventPublisher.instance().removeAllSubscribers()
       return { roomId: room.id }
     } catch (error) {
@@ -80,6 +83,9 @@ class RoomApplicationService
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.join(userId)
+      DomainEventPublisher.instance().publish(
+        new UserJoinedRoomEvent(room, userId)
+      )
       DomainEventPublisher.instance().removeAllSubscribers()
       return { roomId: room.id }
     } catch (error) {
