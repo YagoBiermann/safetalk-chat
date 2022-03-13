@@ -31,9 +31,9 @@ class RoomMapper implements IRoomMapper {
 
     const room = new Room({
       roomCode,
-      id: _id,
-      users: users
+      id: _id
     })
+    users.forEach(user => room.join(user))
     messages.forEach(message =>
       room.addMessage({
         id: message._id,
