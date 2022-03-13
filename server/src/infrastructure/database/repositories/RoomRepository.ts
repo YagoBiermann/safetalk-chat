@@ -7,8 +7,6 @@ import { Room } from '../models/rooms'
 class RoomRepository implements IRoomRepository {
   constructor(private roomMapper: IRoomMapper) {}
   public async save(room: RoomEntity, session?: ClientSession): Promise<void> {
-    console.log(`Creating room ${room.roomCode}`)
-
     const roomModel = this.roomMapper.toRoomModel(room)
     const roomExists = await this.getRoomById(room.id)
 
@@ -18,8 +16,10 @@ class RoomRepository implements IRoomRepository {
         { ...roomModel },
         { session }
       ).exec()
+      console.log(`saving room ${room.roomCode}`)
       return
     }
+    console.log(`Creating room ${room.roomCode}`)
     await new Room(roomModel).save({ session })
   }
 
