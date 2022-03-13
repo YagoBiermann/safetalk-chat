@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2017",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "commonjs",
     "rootDir": "./",
     "outDir": "./build",
     "resolveJsonModule": true,
     "lib": ["ESNext"],
+    "allowJs": true,
     "sourceMap": true
-  }
+  },
+  "include": ["./src/**/*.ts", "./src/main/config/.dev.env"]
 }

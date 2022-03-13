@@ -3,7 +3,7 @@ import User from '../../../domain/models/user/User'
 import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 import IUserRepository from '../../../domain/models/user/UserRepository'
 import ISingleTransaction from '../../../domain/models/common/SingleTransaction'
-import { User as UserModel } from '../../../infrastructure/database/models/users'
+import { Database } from '../connection'
 
 class SingleTransaction implements ISingleTransaction {
   public constructor(
@@ -12,16 +12,14 @@ class SingleTransaction implements ISingleTransaction {
   ) {}
 
   public async saveAll(user: User, room: Room): Promise<void> {
-    const session = await UserModel.startSession()
-    session.startTransaction()
     try {
-      await this._roomRepository.save(room, session)
-      await this._userRepository.save(user, session)
-      await session.commitTransaction()
-      session.endSession()
+      await Database.instance().session()
+      Database.instance().startTransaction()
+      await this._roomRepository.save(room, await Database.instance().session())
+      await this._userRepository.save(user, await Database.instance().session())
+      await Database.instance().commitTransaction()
     } catch (error) {
-      await session.abortTransaction()
-      session.endSession()
+      await Database.instance().abortTransaction()
       throw error
     }
   }

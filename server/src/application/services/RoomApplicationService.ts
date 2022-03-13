@@ -13,9 +13,15 @@ import {
   IRoomApplicationService,
   ICreateRoomInputDTO,
   IGenerateRoomCodeOutputDTO,
-  IJoinRoomInputDTO
+  IJoinRoomInputDTO,
+  IGetAllUsersFromRoomInputDTO,
+  IGetAllUsersFromRoomOutputDTO,
+  IJoinRoomOutputDTO,
+  ICreateRoomOutputDTO
 } from '../ports/services/RoomApplicationService'
 import IValidation from '../ports/validations/Validation'
+import { IRoomNotExistsValidationInput } from '../validations/leaf/RoomNotExistsValidation'
+import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 
 class RoomApplicationService
   extends ArgumentAssertion
@@ -24,18 +30,19 @@ class RoomApplicationService
   constructor(
     private authenticationService: IAuthenticationService,
     private roomAlreadyExistsValidation: IValidation,
-    private roomNotExistsValidation: IValidation,
+    private roomNotExistsValidation: IValidation<IRoomNotExistsValidationInput>,
     private userAlreadyInRoomValidation: IValidation,
     private roomRepository: IRoomRepository,
+    private usersFromRoom: GetUsersFromRoomDomainService,
     private onUserJoinedRoomSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
     super()
   }
 
-  async createRoom({
+  public async createRoom({
     roomCode,
     auth: { accessKey, userId }
-  }: ICreateRoomInputDTO): Promise<void> {
+  }: ICreateRoomInputDTO): Promise<ICreateRoomOutputDTO> {
     this.assertArgumentNotNull(
       roomCode,
       new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
@@ -43,33 +50,68 @@ class RoomApplicationService
     try {
       await this.authenticate({ accessKey, userId })
       await this.roomAlreadyExistsValidation.validate(roomCode)
+      await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
         this.onUserJoinedRoomSubscriber
       )
       const room = new Room({ roomCode })
       room.join(userId)
+      DomainEventPublisher.instance().publish(
+        new UserJoinedRoomEvent(room, userId)
+      )
+      DomainEventPublisher.instance().removeAllSubscribers()
+      return { roomId: room.id }
     } catch (error) {
       throw error
     }
   }
 
-  async joinRoom({ roomCode, auth: { accessKey, userId } }: IJoinRoomInputDTO) {
+  public async joinRoom({
+    roomCode,
+    auth: { accessKey, userId }
+  }: IJoinRoomInputDTO): Promise<IJoinRoomOutputDTO> {
     this.assertArgumentNotNull(
       roomCode,
       new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
     )
     try {
       await this.authenticate({ accessKey, userId })
-      await this.roomNotExistsValidation.validate(roomCode)
+      await this.roomNotExistsValidation.validate({ roomCode })
       await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
         this.onUserJoinedRoomSubscriber
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.join(userId)
+      DomainEventPublisher.instance().publish(
+        new UserJoinedRoomEvent(room, userId)
+      )
+      DomainEventPublisher.instance().removeAllSubscribers()
+      return { roomId: room.id }
     } catch (error) {
       throw error
     }
+  }
+
+  public async getAllUsersFromRoom({
+    roomId,
+    auth: { accessKey, userId }
+  }: IGetAllUsersFromRoomInputDTO): Promise<IGetAllUsersFromRoomOutputDTO> {
+    this.assertArgumentNotNull(
+      roomId,
+      new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
+    )
+    await this.authenticate({ userId, accessKey })
+    await this.roomNotExistsValidation.validate({ roomId })
+    const users = await this.usersFromRoom.exec(roomId)
+    const allUsersFromRoom = users.map(user => ({
+      userId: user.id,
+      username: user.username,
+      room: user.room,
+      isOnline: user.isOnline
+    }))
+
+    return allUsersFromRoom
   }
 
   public async generateRoomCode({

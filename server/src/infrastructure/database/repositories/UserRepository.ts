@@ -10,7 +10,6 @@ class UserRepository implements IUserRepository {
   public async save(user: UserEntity, session?: ClientSession): Promise<void> {
     const userModel = this.userMapper.toUserModel(user)
     const userExists = await this.getUserById(user.id)
-    console.info(`saving user: ${user.username}`)
 
     if (userExists) {
       await User.findByIdAndUpdate(
@@ -18,9 +17,10 @@ class UserRepository implements IUserRepository {
         { ...userModel },
         { session }
       ).exec()
-
+      console.info(`saving user: ${user.username}`)
       return
     }
+    console.info(`creating user: ${user.username}`)
     await new User(userModel).save({ session })
   }
 

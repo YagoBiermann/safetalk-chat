@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  server:
+    expose:
+      - "9222"
+    ports:
+      - "9222:9222"
+    command: yarn run dev:debug
