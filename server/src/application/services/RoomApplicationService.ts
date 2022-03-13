@@ -50,12 +50,13 @@ class RoomApplicationService
     try {
       await this.authenticate({ accessKey, userId })
       await this.roomAlreadyExistsValidation.validate(roomCode)
+      await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
         this.onUserJoinedRoomSubscriber
       )
       const room = new Room({ roomCode })
       room.join(userId)
-
+      DomainEventPublisher.instance().removeAllSubscribers()
       return { roomId: room.id }
     } catch (error) {
       throw error
@@ -79,7 +80,7 @@ class RoomApplicationService
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.join(userId)
-
+      DomainEventPublisher.instance().removeAllSubscribers()
       return { roomId: room.id }
     } catch (error) {
       throw error
