@@ -4,3 +4,4 @@ src/main/config/.dev.env
 yarn.lock
 yarn-error.log
 src/infrastructure/database/config/keyfile.pem
+build

@@ -1,6 +1,5 @@
 version: '3.8'
 services:
-
   mongodb:
     container_name: safetalk_db
     hostname: safetalk_db
@@ -22,6 +21,7 @@ services:
       - ./server/src/infrastructure/database/config/scripts/create-db.js:/docker-entrypoint-initdb.d/create-db.js
       - ./server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
     command: --port ${DB_PORT} --bind_ip_all --replSet dbrs --dbpath /data/db --oplogSize 128 --keyFile /data/keyfile.pem
+  
   mongodb_replica_1:
     container_name: safetalk_db_replica_1
     hostname: safetalk_db_replica_1
@@ -48,47 +48,6 @@ services:
       - ./server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
     command: --port ${DB_PORT_REPLICA_2} --bind_ip_all --replSet dbrs --dbpath /data/db --keyFile /data/keyfile.pem
 
-
-  server:
-    container_name: safetalk_server
-    restart: always
-    command: yarn run dev
-    build: ./server
-    networks:
-      - server
-      - client
-    depends_on:
-      - mongodb
-    volumes:
-      - ./server:/usr/src/app
-
-  client:
-    container_name: safetalk_client
-    restart: always
-    command: yarn run dev
-    depends_on: 
-      - server
-    build: ./client
-    networks:
-      - client
-    volumes:
-      - ./client:/usr/src/app
-
-  nginx:
-    container_name: safetalk_nginx
-    restart: always
-    build: ./nginx
-    networks:
-      - client
-      - server
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - client
-           
 networks:
   server:
-    driver: bridge
-  client:
     driver: bridge

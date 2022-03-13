@@ -6,9 +6,10 @@
   "author": "Yago Biermann T.",
   "license": "GPL-3.0-or-later",
   "private": false,
-  "type": "module",
+
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts"
+    "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts",
+    "dev:debug": "ts-node-dev --transpile-only --respawn --inspect=0.0.0.0:9222 --project tsconfig.json -r dotenv/config ./src/main/index.ts"
   },
   "dependencies": {
     "connect-mongo": "^4.6.0",
@@ -45,6 +46,6 @@
     "nodemon": "^2.0.13",
     "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.4.3"
+    "typescript": "^4.6.2"
   }
 }

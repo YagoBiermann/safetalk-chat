@@ -15,13 +15,33 @@ class Database {
   }
 
   public async session() {
-    this._session = await this._mongoose.startSession()
+    if (!this._session) {
+      this._session = await this._mongoose.startSession()
+    }
     return this._session
+  }
+
+  public startTransaction() {
+    this._session.startTransaction()
+  }
+
+  public async commitTransaction() {
+    await this._session.commitTransaction()
+    await this._session.endSession()
+    this._session = null
+  }
+
+  public async abortTransaction() {
+    await this._session.abortTransaction()
+    await this._session.endSession()
+    this._session = null
   }
 
   public async connect(URI: string): Promise<void> {
     await this._mongoose.connect(URI, {
-      readConcern: { level: 'majority' }
+      readPreference: 'primary',
+      readConcern: { level: 'local' },
+      w: 'majority'
     })
     this._mongoose.connection.on('error', () => {
       process.exit(1)

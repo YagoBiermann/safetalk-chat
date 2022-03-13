@@ -24,7 +24,6 @@ class AppRoutes {
   }
 
   public exec() {
-    DomainEventPublisher.instance().removeAllSubscribers()
     this.controllers.forEach(controllers => controllers.handle(this._router))
   }
 }
