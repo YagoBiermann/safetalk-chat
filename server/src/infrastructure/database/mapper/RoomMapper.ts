@@ -33,7 +33,7 @@ class RoomMapper implements IRoomMapper {
       roomCode,
       id: _id
     })
-    users.forEach(user => room.join(user))
+    users.forEach(user => room.connect(user))
     messages.forEach(message =>
       room.addMessage({
         id: message._id,

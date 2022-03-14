@@ -7,8 +7,6 @@ import RoomError from '../../errors/models/RoomError'
 import Entity from '../common/Entity'
 import IMessageDTO from './message/MessageDTO'
 import UserError from '../../errors/models/UserError'
-import DomainEventPublisher from '../common/DomainEventPublisher'
-import UserJoinedRoomEvent from './UserJoinedRoomEvent'
 
 class Room extends Entity {
   private _id: RoomId
@@ -40,10 +38,10 @@ class Room extends Entity {
     return Array.from(this._users)
   }
 
-  public join(userId: string) {
-    const fullRoom = this._users.size > 20
+  public connect(userId: string) {
+    const isFull = this._users.size > 20
     const _userId = new UserId(userId).value
-    if (fullRoom) {
+    if (isFull) {
       throw new RoomError('ERR_ROOM_FULL')
     }
     this._users.add(_userId)
@@ -53,11 +51,12 @@ class Room extends Entity {
     return new RoomCode()
   }
 
-  public leave(userId: UserId) {
-    const user = this._users.has(userId.value)
+  public disconnect(userId: string) {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
-    this.assertStateTrue(user, new UserError('ERR_USER_NOT_FOUND'))
-    this._users.delete(userId.value)
+    const user = new UserId(userId).value
+    const userInRoom = this._users.has(user)
+    this.assertStateTrue(userInRoom, new UserError('ERR_USER_NOT_FOUND'))
+    this._users.delete(user)
   }
 
   public addMessage(message: IMessageDTO) {
