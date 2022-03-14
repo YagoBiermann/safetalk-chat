@@ -8,11 +8,15 @@ import IValidation from '../ports/validations/Validation'
 import {
   ICreateUserInputDTO,
   ICreateUserOutputDTO,
+  IDeleteUserInputDTO,
   IUserApplicationService,
   IUserInfoOutputDTO
 } from '../ports/services/UserApplicationService'
 import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
 import UserError from '../../domain/errors/models/UserError'
+import DomainEventPublisher from '../../domain/models/common/DomainEventPublisher'
+import UserDeletedEvent from '../../domain/domainEvents/UserDeletedEvent'
+import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
 
 class UserApplicationService
   extends ArgumentAssertion
@@ -22,7 +26,8 @@ class UserApplicationService
     private userRepository: IUserRepository,
     private authentication: IAuthenticationService,
     private usernameTakenValidation: IValidation,
-    private userNotExistsValidation: IValidation
+    private userNotExistsValidation: IValidation,
+    private onUserDeletedSubscriber: IDomainEventSubscriber<UserDeletedEvent>
   ) {
     super()
   }
@@ -56,6 +61,18 @@ class UserApplicationService
     )
 
     return { userId: user.id, accessKey }
+  }
+
+  public async deleteUser({ accessKey, userId, roomId }: IDeleteUserInputDTO) {
+    this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
+    this.authentication.authenticate({ userId, accessKey })
+    await this.userNotExistsValidation.validate(userId)
+    DomainEventPublisher.instance().addSubscriber(this.onUserDeletedSubscriber)
+    await this.userRepository.delete(userId)
+    DomainEventPublisher.instance().publish(
+      new UserDeletedEvent(userId, roomId)
+    )
+    DomainEventPublisher.instance().removeAllSubscribers()
   }
 
   public async userInfo({
