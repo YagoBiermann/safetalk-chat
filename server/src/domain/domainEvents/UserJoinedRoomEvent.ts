@@ -1,5 +1,5 @@
-import IDomainEvent from '../common/DomainEvent'
-import Room from './Room'
+import IDomainEvent from '../models/common/DomainEvent'
+import Room from '../models/room/Room'
 
 class UserJoinedRoomEvent implements IDomainEvent {
   private _eventName: string = UserJoinedRoomEvent.name
