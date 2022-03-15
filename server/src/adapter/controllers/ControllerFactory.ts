@@ -1,5 +1,5 @@
 import CreateUserController from './CreateUser'
-import IController from '../ports/controllers/Controller'
+import IRouteController from '../ports/controllers/RouteController'
 import GenerateRoomCodeController from './GenerateRoomCode'
 import CreateRoomController from './CreateRoom'
 import JoinRoomController from './JoinRoom'
@@ -17,7 +17,7 @@ class ControllerFactory {
     return ApplicationServiceFactory.makeRoomApplicationService()
   }
 
-  public static makeCreateUserController(): IController {
+  public static makeCreateUserController(): IRouteController {
     const userApplicationService = ControllerFactory._userApplicationService()
 
     const createUserController = new CreateUserController(
@@ -27,7 +27,7 @@ class ControllerFactory {
     return createUserController
   }
 
-  public static makeGenerateRoomCodeController(): IController {
+  public static makeGenerateRoomCodeController(): IRouteController {
     const generateRoomCodeController = new GenerateRoomCodeController(
       ControllerFactory._roomApplicationService()
     )
@@ -35,7 +35,7 @@ class ControllerFactory {
     return generateRoomCodeController
   }
 
-  public static makeCreateRoomController(): IController {
+  public static makeCreateRoomController(): IRouteController {
     const roomApplicationService = ControllerFactory._roomApplicationService()
 
     const createRoomController = new CreateRoomController(
@@ -45,21 +45,21 @@ class ControllerFactory {
     return createRoomController
   }
 
-  public static makeJoinRoomController(): IController {
+  public static makeJoinRoomController(): IRouteController {
     const roomApplicationService = ControllerFactory._roomApplicationService()
     const joinRoomController = new JoinRoomController(roomApplicationService)
 
     return joinRoomController
   }
 
-  public static makeUserInfoController(): IController {
+  public static makeUserInfoController(): IRouteController {
     const userApplicationService = ControllerFactory._userApplicationService()
 
     const userInfoController = new UserInfoController(userApplicationService)
     return userInfoController
   }
 
-  public static makeGetAllUsersFromRoomController(): IController {
+  public static makeGetAllUsersFromRoomController(): IRouteController {
     const roomApplicationService = this._roomApplicationService()
     const getAllUsersFromRoomController = new GetAllUsersFromRoomController(
       roomApplicationService

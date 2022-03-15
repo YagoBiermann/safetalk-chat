@@ -1,10 +1,10 @@
 import express from 'express'
 import UserError from '../../domain/errors/models/UserError'
 import { IUserApplicationService } from '../../application/ports/services/UserApplicationService'
-import IController from '../ports/controllers/Controller'
+import IRouteController from '../ports/controllers/RouteController'
 import PresenterFactory from '../presenter/PresenterFactory'
 
-class CreateUserController implements IController {
+class CreateUserController implements IRouteController {
   constructor(private userApplicationService: IUserApplicationService) {}
 
   async handle(router: express.Router): Promise<express.Router> {

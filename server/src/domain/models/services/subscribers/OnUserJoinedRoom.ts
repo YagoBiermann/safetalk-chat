@@ -1,6 +1,6 @@
 import IDomainEventSubscriber from '../../common/DomainEventSubscriber'
 import ISingleTransaction from '../../common/SingleTransaction'
-import UserJoinedRoomEvent from '../../room/UserJoinedRoomEvent'
+import UserJoinedRoomEvent from '../../../events/UserJoinedRoomEvent'
 import IUserRepository from '../../user/UserRepository'
 
 class OnUserJoinedRoomSubscriber

@@ -1,25 +1,24 @@
 import express from 'express'
-import IController from '../ports/controllers/Controller'
+import IRouteController from '../ports/controllers/RouteController'
 import PresenterFactory from '../presenter/PresenterFactory'
 import { IRoomApplicationService } from '../../application/ports/services/RoomApplicationService'
 
-class CreateRoomController implements IController {
+class GetAllUsersFromRoomController implements IRouteController {
   constructor(private roomApplicationService: IRoomApplicationService) {}
 
   async handle(router: express.Router): Promise<express.Router> {
-    return router.post('/rooms/create', async (req, res) => {
+    return router.get('/rooms/current/users', async (req, res) => {
       const { successPresenter, errorHandler } = PresenterFactory.make(res)
-      const { roomCode } = req.body
       const userId = req.session.user
       const accessKey = req.session.accessKey
+      const roomId = req.session.room
       try {
-        const { roomId } = await this.roomApplicationService.createRoom({
-          auth: { accessKey, userId },
-          roomCode
+        const users = await this.roomApplicationService.getAllUsersFromRoom({
+          roomId,
+          auth: { accessKey, userId }
         })
-        req.session.room = roomId
-        req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
-        return successPresenter.created({})
+
+        return successPresenter.success({ users })
       } catch (error) {
         return errorHandler.handle(error)
       }
@@ -27,4 +26,4 @@ class CreateRoomController implements IController {
   }
 }
 
-export default CreateRoomController
+export default GetAllUsersFromRoomController

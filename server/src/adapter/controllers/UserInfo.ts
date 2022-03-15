@@ -1,9 +1,9 @@
 import express from 'express'
-import IController from '../ports/controllers/Controller'
+import IRouteController from '../ports/controllers/RouteController'
 import PresenterFactory from '../presenter/PresenterFactory'
 import { IUserApplicationService } from '../../application/ports/services/UserApplicationService'
 
-class UserInfoController implements IController {
+class UserInfoController implements IRouteController {
   constructor(private userApplicationService: IUserApplicationService) {}
 
   async handle(router: express.Router): Promise<express.Router> {

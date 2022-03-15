@@ -17,14 +17,22 @@ interface IUserInfoOutputDTO {
   room: string
 }
 
+interface IDeleteUserInputDTO {
+  userId: string
+  roomId: string
+  accessKey: string
+}
+
 interface IUserApplicationService {
   createUser(data: ICreateUserInputDTO): Promise<ICreateUserOutputDTO>
   userInfo(data: IAuthenticationInputDTO): Promise<IUserInfoOutputDTO>
+  deleteUser(data: IDeleteUserInputDTO): Promise<void>
 }
 
 export {
   ICreateUserOutputDTO,
   ICreateUserInputDTO,
   IUserApplicationService,
-  IUserInfoOutputDTO
+  IUserInfoOutputDTO,
+  IDeleteUserInputDTO
 }

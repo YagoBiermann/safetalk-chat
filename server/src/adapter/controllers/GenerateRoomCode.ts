@@ -1,9 +1,9 @@
 import express from 'express'
 import { IRoomApplicationService } from '../../application/ports/services/RoomApplicationService'
-import IController from '../ports/controllers/Controller'
+import IRouteController from '../ports/controllers/RouteController'
 import PresenterFactory from '../presenter/PresenterFactory'
 
-class GenerateRoomCodeController implements IController {
+class GenerateRoomCodeController implements IRouteController {
   constructor(private roomApplicationService: IRoomApplicationService) {}
 
   public async handle(router: express.Router): Promise<express.Router> {

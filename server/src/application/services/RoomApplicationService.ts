@@ -8,7 +8,7 @@ import DomainEventPublisher from '../../domain/models/common/DomainEventPublishe
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
 import Room from '../../domain/models/room/Room'
 import { IRoomRepository } from '../../domain/models/room/RoomRepository'
-import UserJoinedRoomEvent from '../../domain/models/room/UserJoinedRoomEvent'
+import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import {
   IRoomApplicationService,
   ICreateRoomInputDTO,
@@ -55,7 +55,7 @@ class RoomApplicationService
         this.onUserJoinedRoomSubscriber
       )
       const room = new Room({ roomCode })
-      room.join(userId)
+      room.connect(userId)
       DomainEventPublisher.instance().publish(
         new UserJoinedRoomEvent(room, userId)
       )
@@ -82,7 +82,7 @@ class RoomApplicationService
         this.onUserJoinedRoomSubscriber
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
-      room.join(userId)
+      room.connect(userId)
       DomainEventPublisher.instance().publish(
         new UserJoinedRoomEvent(room, userId)
       )
