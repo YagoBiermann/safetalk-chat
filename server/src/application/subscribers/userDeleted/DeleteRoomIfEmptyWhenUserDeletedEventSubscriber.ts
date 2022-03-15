@@ -1,8 +1,8 @@
-import IDomainEventSubscriber from '../../common/DomainEventSubscriber'
-import UserDeletedEvent from '../../../events/UserDeletedEvent'
-import { IRoomRepository } from '../../room/RoomRepository'
+import IDomainEventSubscriber from '../../../domain/models/common/DomainEventSubscriber'
+import UserDeletedEvent from '../../../domain/events/UserDeletedEvent'
+import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 
-class OnUserDeletedSubscriber
+class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber
   implements IDomainEventSubscriber<UserDeletedEvent>
 {
   constructor(private _roomRepository: IRoomRepository) {}
@@ -30,4 +30,4 @@ class OnUserDeletedSubscriber
   }
 }
 
-export default OnUserDeletedSubscriber
+export default DeleteRoomIfEmptyWhenUserDeletedEventSubscriber

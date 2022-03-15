@@ -1,14 +1,9 @@
-import RoomError from '../../domain/errors/models/RoomError'
 import {
   IAuthenticationInputDTO,
   IAuthenticationService
 } from '../ports/services/AuthenticationService'
-import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
-import DomainEventPublisher from '../../domain/models/common/DomainEventPublisher'
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
-import Room from '../../domain/models/room/Room'
 import { IRoomRepository } from '../../domain/models/room/RoomRepository'
-import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import {
   IRoomApplicationService,
   ICreateRoomInputDTO,
@@ -21,6 +16,11 @@ import {
 } from '../ports/services/RoomApplicationService'
 import IValidation from '../ports/validations/Validation'
 import { IRoomNotExistsValidationInput } from '../validations/leaf/RoomNotExistsValidation'
+import RoomError from '../../domain/errors/models/RoomError'
+import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
+import DomainEventPublisher from '../../domain/models/common/DomainEventPublisher'
+import Room from '../../domain/models/room/Room'
+import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 
 class RoomApplicationService
@@ -34,7 +34,7 @@ class RoomApplicationService
     private userAlreadyInRoomValidation: IValidation,
     private roomRepository: IRoomRepository,
     private usersFromRoom: GetUsersFromRoomDomainService,
-    private onUserJoinedRoomSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
+    private changeUserStatusWhenJoinedRoomEventSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
     super()
   }
@@ -52,7 +52,7 @@ class RoomApplicationService
       await this.roomAlreadyExistsValidation.validate(roomCode)
       await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
-        this.onUserJoinedRoomSubscriber
+        this.changeUserStatusWhenJoinedRoomEventSubscriber
       )
       const room = new Room({ roomCode })
       room.connect(userId)
@@ -79,7 +79,7 @@ class RoomApplicationService
       await this.roomNotExistsValidation.validate({ roomCode })
       await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
-        this.onUserJoinedRoomSubscriber
+        this.changeUserStatusWhenJoinedRoomEventSubscriber
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.connect(userId)

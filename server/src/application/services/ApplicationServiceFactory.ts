@@ -1,6 +1,6 @@
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
-import OnUserDeletedSubscriber from '../../domain/models/services/subscribers/OnUserDeleted'
-import OnUserJoinedRoomSubscriber from '../../domain/models/services/subscribers/OnUserJoinedRoom'
+import DeleteRoomIfEmptyWhenUserDeletedEventSubscriber from '../subscribers/userDeleted/DeleteRoomIfEmptyWhenUserDeletedEventSubscriber'
+import ChangeUserStatusWhenJoinedRoomEventSubscriber from '../subscribers/userJoinedRoom/ChangeUserStatusWhenJoinedRoomEventSubscriber'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
 import UserRepositoryFactory from '../../infrastructure/database/repositories/factories/UserRepository'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
@@ -47,7 +47,7 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
-    const onUserJoinedRoomSubscriber = new OnUserJoinedRoomSubscriber(
+    const changeUserStatusWhenJoinedRoomSubscriber = new ChangeUserStatusWhenJoinedRoomEventSubscriber(
       this.userRepository(),
       this.singleTransaction()
     )
@@ -64,7 +64,7 @@ class ApplicationServiceFactory {
       userAlreadyInRoomValidation,
       this.roomRepository(),
       getUsersFromRoomDomainService,
-      onUserJoinedRoomSubscriber
+      changeUserStatusWhenJoinedRoomSubscriber
     )
   }
   public static makeUserApplicationService(): IUserApplicationService {
@@ -79,7 +79,7 @@ class ApplicationServiceFactory {
       this.roomRepository()
     )
 
-    const onUserDeletedSubscriber = new OnUserDeletedSubscriber(
+    const deleteRoomIfEmptyWhenUserDeletedSubscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
       this.roomRepository()
     )
 
@@ -89,7 +89,7 @@ class ApplicationServiceFactory {
       usernameTakenValidation,
       userNotExistsValidation,
       roomNotExistsValidation,
-      onUserDeletedSubscriber
+      deleteRoomIfEmptyWhenUserDeletedSubscriber
     )
   }
 }

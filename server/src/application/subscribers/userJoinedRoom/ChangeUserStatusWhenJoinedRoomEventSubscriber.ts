@@ -1,9 +1,9 @@
-import IDomainEventSubscriber from '../../common/DomainEventSubscriber'
-import ISingleTransaction from '../../common/SingleTransaction'
-import UserJoinedRoomEvent from '../../../events/UserJoinedRoomEvent'
-import IUserRepository from '../../user/UserRepository'
+import IDomainEventSubscriber from '../../../domain/models/common/DomainEventSubscriber'
+import ISingleTransaction from '../../../domain/models/common/SingleTransaction'
+import UserJoinedRoomEvent from '../../../domain/events/UserJoinedRoomEvent'
+import IUserRepository from '../../../domain/models/user/UserRepository'
 
-class OnUserJoinedRoomSubscriber
+class ChangeUserStatusWhenJoinedRoomEventSubscriber
   implements IDomainEventSubscriber<UserJoinedRoomEvent>
 {
   constructor(
@@ -30,4 +30,4 @@ class OnUserJoinedRoomSubscriber
   }
 }
 
-export default OnUserJoinedRoomSubscriber
+export default ChangeUserStatusWhenJoinedRoomEventSubscriber

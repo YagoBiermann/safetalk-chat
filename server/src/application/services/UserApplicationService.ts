@@ -29,7 +29,7 @@ class UserApplicationService
     private usernameTakenValidation: IValidation,
     private userNotExistsValidation: IValidation,
     private roomNotExistsValidation: IValidation,
-    private onUserDeletedSubscriber: IDomainEventSubscriber<UserDeletedEvent>
+    private deleteRoomIfEmptyWhenUserDeletedEventSubscriber: IDomainEventSubscriber<UserDeletedEvent>
   ) {
     super()
   }
@@ -71,7 +71,7 @@ class UserApplicationService
     this.authentication.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
     await this.roomNotExistsValidation.validate(roomId)
-    DomainEventPublisher.instance().addSubscriber(this.onUserDeletedSubscriber)
+    DomainEventPublisher.instance().addSubscriber(this.deleteRoomIfEmptyWhenUserDeletedEventSubscriber)
     await this.userRepository.delete(userId)
     DomainEventPublisher.instance().publish(
       new UserDeletedEvent(userId, roomId)
