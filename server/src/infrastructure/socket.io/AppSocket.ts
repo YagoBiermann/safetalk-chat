@@ -1,14 +1,20 @@
-import * as http from 'http'
 import { Server } from 'socket.io'
+import ISocketController from '../../adapter/ports/controllers/SocketController'
 
 class AppSocket {
-  private io: Server
-  constructor(httpServer: http.Server) {
-    this.io = new Server(httpServer, { path: '/socket.io' })
+  private _io: Server
+  constructor(private controllers: Array<ISocketController>) {
+    this._io = new Server({ path: '/socket.io' })
+  }
+
+  public exec() {
+    this._io.on('connection', socket => {
+      this.controllers.forEach(controller => controller.handle(socket))
+    })
   }
 
   public run() {
-    //TODO: implement socket events
+    this._io.listen(5500)
   }
 }
 
