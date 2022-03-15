@@ -21,8 +21,7 @@ class ChangeUserStatusWhenJoinedRoomEventSubscriber
     try {
       const room = anEvent.room
       const user = await this._userRepository.getUserById(anEvent.userId)
-      user.joinRoom(room.id)
-      user.connect()
+      user.connect(room.id)
       await this._singleTransaction.saveAll(user, room)
     } catch (error) {
       throw error

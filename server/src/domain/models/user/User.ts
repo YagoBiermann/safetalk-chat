@@ -13,7 +13,7 @@ class User extends Entity {
     this._userId = new UserId(user.id)
     this._username = new Username(user.username)
     this._isOnline = user.isOnline
-    user.room ? this.joinRoom(user.room) : undefined
+    user.room ? this.connect(user.room) : undefined
   }
 
   public get id(): string {
@@ -32,15 +32,13 @@ class User extends Entity {
     return this._room || null
   }
 
-  public joinRoom(roomId: string) {
-    this._room = roomId
-  }
-
   public disconnect() {
+    this._room = undefined
     this._isOnline = false
   }
 
-  public connect() {
+  public connect(roomId: string) {
+    this._room = roomId
     this._isOnline = true
   }
 }
