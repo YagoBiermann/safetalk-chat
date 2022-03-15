@@ -34,7 +34,7 @@ class RoomApplicationService
     private userAlreadyInRoomValidation: IValidation,
     private roomRepository: IRoomRepository,
     private usersFromRoom: GetUsersFromRoomDomainService,
-    private changeUserStatusWhenJoinedRoomEventSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
+    private changeStatusWhenUserJoinedRoomEventSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
     super()
   }
@@ -52,7 +52,7 @@ class RoomApplicationService
       await this.roomAlreadyExistsValidation.validate(roomCode)
       await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
-        this.changeUserStatusWhenJoinedRoomEventSubscriber
+        this.changeStatusWhenUserJoinedRoomEventSubscriber
       )
       const room = new Room({ roomCode })
       room.connect(userId)
@@ -79,7 +79,7 @@ class RoomApplicationService
       await this.roomNotExistsValidation.validate({ roomCode })
       await this.userAlreadyInRoomValidation.validate(userId)
       DomainEventPublisher.instance().addSubscriber(
-        this.changeUserStatusWhenJoinedRoomEventSubscriber
+        this.changeStatusWhenUserJoinedRoomEventSubscriber
       )
       const room = await this.roomRepository.getRoomByCode(roomCode)
       room.connect(userId)

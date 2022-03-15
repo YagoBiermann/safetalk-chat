@@ -2,19 +2,22 @@ import AppServer from '../infrastructure/express/Server'
 import AppMiddlewares from '../infrastructure/express/middlewares/AppMiddlewares'
 import AppRoutes from '../infrastructure/express/routes/AppRoutes'
 import AppSession from '../infrastructure/express/session/AppSession'
-import ControllerFactory from '../adapter/controllers/ControllerFactory'
+import ExpressControllerFactory from '../adapter/controllers/ExpressControllerFactory'
 import { Database } from '../infrastructure/database/connection'
 import env from 'dotenv'
 import MongoStore from 'connect-mongo'
+import SocketControllerFactory from '../adapter/controllers/SocketControllerFactory'
+import AppSocket from '../infrastructure/socket.io/AppSocket'
 
 env.config({ path: __dirname + '/config/.dev.env' })
 
 Database.instance().connect(process.env.MONGO_URI)
 
-const server = new AppServer()
-const middlewares = new AppMiddlewares(server.app)
+const socketServer = new AppSocket()
+const expressServer = new AppServer()
+const middlewares = new AppMiddlewares(expressServer.app)
 
-const session = new AppSession(server.app, {
+const session = new AppSession(expressServer.app, {
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
   cookie: { maxAge: 600000, httpOnly: true, path: '/' }, // 10 minutes
@@ -25,28 +28,34 @@ const session = new AppSession(server.app, {
   })
 })
 
-const controllers = []
+// Express route controllers
 const generateRoomCodeController =
-  ControllerFactory.makeGenerateRoomCodeController()
-const createUserController = ControllerFactory.makeCreateUserController()
-const createRoomController = ControllerFactory.makeCreateRoomController()
-const joinRoomController = ControllerFactory.makeJoinRoomController()
-const userInfoController = ControllerFactory.makeUserInfoController()
+  ExpressControllerFactory.makeGenerateRoomCodeController()
+const createUserController = ExpressControllerFactory.makeCreateUserController()
+const createRoomController = ExpressControllerFactory.makeCreateRoomController()
+const joinRoomController = ExpressControllerFactory.makeJoinRoomController()
+const userInfoController = ExpressControllerFactory.makeUserInfoController()
 const getAllUsersFromRoomController =
-  ControllerFactory.makeGetAllUsersFromRoomController()
+  ExpressControllerFactory.makeGetAllUsersFromRoomController()
 
-controllers.push(
-  createUserController,
-  generateRoomCodeController,
-  createRoomController,
-  joinRoomController,
-  userInfoController,
-  getAllUsersFromRoomController
-)
+const routes = new AppRoutes()
+routes.addController(createUserController)
+routes.addController(generateRoomCodeController)
+routes.addController(createRoomController)
+routes.addController(joinRoomController)
+routes.addController(userInfoController)
+routes.addController(getAllUsersFromRoomController)
 
-const appRoutes = new AppRoutes(controllers)
+// Socket Events Controller
+const joinRoomEventController =
+  SocketControllerFactory.makeJoinRoomEventController()
 
+socketServer.addController(joinRoomEventController)
+
+// App execution
 session.exec()
 middlewares.exec()
-appRoutes.exec()
-server.run(appRoutes.router)
+routes.exec()
+expressServer.run(routes.router)
+socketServer.exec()
+socketServer.run()

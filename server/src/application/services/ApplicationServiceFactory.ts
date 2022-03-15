@@ -1,6 +1,6 @@
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 import DeleteRoomIfEmptyWhenUserDeletedEventSubscriber from '../subscribers/userDeleted/DeleteRoomIfEmptyWhenUserDeletedEventSubscriber'
-import ChangeUserStatusWhenJoinedRoomEventSubscriber from '../subscribers/userJoinedRoom/ChangeUserStatusWhenJoinedRoomEventSubscriber'
+import ChangeStatusWhenUserJoinedRoomEventSubscriber from '../subscribers/userJoinedRoom/ChangeStatusWhenUserJoinedRoomEventSubscriber'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
 import UserRepositoryFactory from '../../infrastructure/database/repositories/factories/UserRepository'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
@@ -47,7 +47,7 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
-    const changeUserStatusWhenJoinedRoomSubscriber = new ChangeUserStatusWhenJoinedRoomEventSubscriber(
+    const changeStatusWhenUserJoinedRoomSubscriber = new ChangeStatusWhenUserJoinedRoomEventSubscriber(
       this.userRepository(),
       this.singleTransaction()
     )
@@ -64,7 +64,7 @@ class ApplicationServiceFactory {
       userAlreadyInRoomValidation,
       this.roomRepository(),
       getUsersFromRoomDomainService,
-      changeUserStatusWhenJoinedRoomSubscriber
+      changeStatusWhenUserJoinedRoomSubscriber
     )
   }
   public static makeUserApplicationService(): IUserApplicationService {
