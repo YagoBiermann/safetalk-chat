@@ -1,4 +1,5 @@
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
+import OnUserDeletedSubscriber from '../../domain/models/services/subscribers/OnUserDeleted'
 import OnUserJoinedRoomSubscriber from '../../domain/models/services/subscribers/OnUserJoinedRoom'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
 import UserRepositoryFactory from '../../infrastructure/database/repositories/factories/UserRepository'
@@ -29,6 +30,10 @@ class ApplicationServiceFactory {
     return AuthenticationFactory.make()
   }
 
+  private static singleTransaction() {
+    return new SingleTransaction(this.roomRepository(), this.userRepository())
+  }
+
   public static makeRoomApplicationService(): IRoomApplicationService {
     const roomAlreadyExistsValidation = new RoomAlreadyExistsValidation(
       this.roomRepository()
@@ -42,13 +47,9 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
-    const singleTransaction = new SingleTransaction(
-      this.roomRepository(),
-      this.userRepository()
-    )
-    const subscriber = new OnUserJoinedRoomSubscriber(
+    const onUserJoinedRoomSubscriber = new OnUserJoinedRoomSubscriber(
       this.userRepository(),
-      singleTransaction
+      this.singleTransaction()
     )
 
     const getUsersFromRoomDomainService = new GetUsersFromRoomDomainService(
@@ -63,7 +64,7 @@ class ApplicationServiceFactory {
       userAlreadyInRoomValidation,
       this.roomRepository(),
       getUsersFromRoomDomainService,
-      subscriber
+      onUserJoinedRoomSubscriber
     )
   }
   public static makeUserApplicationService(): IUserApplicationService {
@@ -74,11 +75,21 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
+    const roomNotExistsValidation = new RoomNotExistsValidation(
+      this.roomRepository()
+    )
+
+    const onUserDeletedSubscriber = new OnUserDeletedSubscriber(
+      this.roomRepository()
+    )
+
     return new UserApplicationService(
       this.userRepository(),
       this.authentication(),
       usernameTakenValidation,
-      userNotExistsValidation
+      userNotExistsValidation,
+      roomNotExistsValidation,
+      onUserDeletedSubscriber
     )
   }
 }
