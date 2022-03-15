@@ -1,7 +1,7 @@
 import express from 'express'
-import { IRoomApplicationService } from '../../application/ports/services/RoomApplicationService'
-import IRouteController from '../ports/controllers/RouteController'
-import PresenterFactory from '../presenter/PresenterFactory'
+import { IRoomApplicationService } from '../../../application/ports/services/RoomApplicationService'
+import IRouteController from '../../ports/controllers/RouteController'
+import PresenterFactory from '../../presenter/PresenterFactory'
 
 class GenerateRoomCodeController implements IRouteController {
   constructor(private roomApplicationService: IRoomApplicationService) {}

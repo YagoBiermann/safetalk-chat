@@ -1,12 +1,12 @@
-import CreateUserController from './CreateUser'
+import CreateUserController from './express/CreateUser'
 import IRouteController from '../ports/controllers/RouteController'
-import GenerateRoomCodeController from './GenerateRoomCode'
-import CreateRoomController from './CreateRoom'
-import JoinRoomController from './JoinRoom'
-import UserInfoController from './UserInfo'
+import GenerateRoomCodeController from './express/GenerateRoomCode'
+import CreateRoomController from './express/CreateRoom'
+import JoinRoomController from './express/JoinRoom'
+import UserInfoController from './express/UserInfo'
 import ApplicationServiceFactory from '../../application/services/ApplicationServiceFactory'
-import GetAllUsersFromRoomController from './GetAllUsersFromRoom'
-class ControllerFactory {
+import GetAllUsersFromRoomController from './express/GetAllUsersFromRoom'
+class ExpressControllerFactory {
   private constructor() {}
 
   private static _userApplicationService() {
@@ -18,7 +18,7 @@ class ControllerFactory {
   }
 
   public static makeCreateUserController(): IRouteController {
-    const userApplicationService = ControllerFactory._userApplicationService()
+    const userApplicationService = ExpressControllerFactory._userApplicationService()
 
     const createUserController = new CreateUserController(
       userApplicationService
@@ -29,14 +29,14 @@ class ControllerFactory {
 
   public static makeGenerateRoomCodeController(): IRouteController {
     const generateRoomCodeController = new GenerateRoomCodeController(
-      ControllerFactory._roomApplicationService()
+      ExpressControllerFactory._roomApplicationService()
     )
 
     return generateRoomCodeController
   }
 
   public static makeCreateRoomController(): IRouteController {
-    const roomApplicationService = ControllerFactory._roomApplicationService()
+    const roomApplicationService = ExpressControllerFactory._roomApplicationService()
 
     const createRoomController = new CreateRoomController(
       roomApplicationService
@@ -46,14 +46,14 @@ class ControllerFactory {
   }
 
   public static makeJoinRoomController(): IRouteController {
-    const roomApplicationService = ControllerFactory._roomApplicationService()
+    const roomApplicationService = ExpressControllerFactory._roomApplicationService()
     const joinRoomController = new JoinRoomController(roomApplicationService)
 
     return joinRoomController
   }
 
   public static makeUserInfoController(): IRouteController {
-    const userApplicationService = ControllerFactory._userApplicationService()
+    const userApplicationService = ExpressControllerFactory._userApplicationService()
 
     const userInfoController = new UserInfoController(userApplicationService)
     return userInfoController
@@ -64,9 +64,9 @@ class ControllerFactory {
     const getAllUsersFromRoomController = new GetAllUsersFromRoomController(
       roomApplicationService
     )
-    
+
     return getAllUsersFromRoomController
   }
 }
 
-export default ControllerFactory
+export default ExpressControllerFactory
