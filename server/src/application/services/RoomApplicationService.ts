@@ -8,7 +8,7 @@ import DomainEventPublisher from '../../domain/models/common/DomainEventPublishe
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
 import Room from '../../domain/models/room/Room'
 import { IRoomRepository } from '../../domain/models/room/RoomRepository'
-import UserJoinedRoomEvent from '../../domain/domainEvents/UserJoinedRoomEvent'
+import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import {
   IRoomApplicationService,
   ICreateRoomInputDTO,

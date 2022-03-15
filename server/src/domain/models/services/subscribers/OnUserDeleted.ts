@@ -1,5 +1,5 @@
 import IDomainEventSubscriber from '../../common/DomainEventSubscriber'
-import UserDeletedEvent from '../../../domainEvents/UserDeletedEvent'
+import UserDeletedEvent from '../../../events/UserDeletedEvent'
 import { IRoomRepository } from '../../room/RoomRepository'
 
 class OnUserDeletedSubscriber
