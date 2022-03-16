@@ -49,8 +49,11 @@ routes.addController(getAllUsersFromRoomController)
 // Socket Events Controller
 const joinRoomEventController =
   SocketControllerFactory.makeJoinRoomEventController()
+const GetAllUsersFromRoomEventController =
+  SocketControllerFactory.makeGetAllUsersFromRoomEventController()
 
 socketServer.addController(joinRoomEventController)
+socketServer.addController(GetAllUsersFromRoomEventController)
 
 // App execution
 session.exec()
