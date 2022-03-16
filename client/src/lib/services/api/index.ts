@@ -7,8 +7,7 @@ import {
   CookieProps,
   OnlineUsersDTO,
   FileName,
-  RoomCode,
-  UserRedux
+  RoomCode
 } from '../../interfaces'
 
 export const roomApi = createApi({
@@ -30,9 +29,9 @@ export const roomApi = createApi({
         body: user
       })
     }),
-    fetchUsers: builder.query<OnlineUsersDTO, string>({
-      query: (roomCode: string) => ({
-        url: `rooms/${roomCode}/users`,
+    fetchUsers: builder.query<OnlineUsersDTO, undefined>({
+      query: () => ({
+        url: `rooms/current/users`,
         method: 'GET'
       })
     }),
@@ -96,10 +95,7 @@ const api = axios.create({
   }
 })
 
-const fetchUsersInRoom = async (
-  cookies: CookieProps,
-  roomCode: string = ''
-) => {
+const fetchUsersInRoom = async (cookies: CookieProps) => {
   try {
     const result: AxiosResponse<OnlineUsersDTO> = await api.get(
       `rooms/current/users`,
@@ -117,7 +113,7 @@ const fetchUsersInRoom = async (
 
 const fetchCurrentUser = async (cookies: CookieProps) => {
   try {
-    const result = await api.get(ROUTES.GET_CURRENT_USER, {
+    const result = await api.get<UserDTO>(ROUTES.GET_CURRENT_USER, {
       headers: {
         Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
       }
@@ -145,7 +141,7 @@ const generateCode = async (cookies: CookieProps) => {
   }
 }
 
-export { fetchCurrentUser, fetchUsersInRoom as fetchUsersOnRoom, generateCode }
+export { fetchCurrentUser, fetchUsersInRoom, generateCode }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
