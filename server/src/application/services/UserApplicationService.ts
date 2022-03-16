@@ -73,7 +73,9 @@ class UserApplicationService
     this.authentication.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
     await this.roomNotExistsValidation.validate(roomId)
-    DomainEventPublisher.instance().addSubscriber(this.deleteRoomIfEmptyWhenUserDeletedEventSubscriber)
+    DomainEventPublisher.instance().addSubscriber(
+      this.deleteRoomIfEmptyWhenUserDeletedEventSubscriber
+    )
     await this.userRepository.delete(userId)
     DomainEventPublisher.instance().publish(
       new UserDeletedEvent(userId, roomId)
@@ -90,13 +92,13 @@ class UserApplicationService
     await this.userNotExistsValidation.validate(userId)
     const user = await this.userRepository.getUserById(userId)
     const room = await this.roomRepository.getRoomById(user.room)
-    
+
     const userInfo = {
       userId: user.id,
       username: user.username,
       isOnline: user.isOnline,
-      room: user.room,
-      roomCode: room.roomCode
+      room: room ? room.id : null,
+      roomCode: room ? room.roomCode : null
     }
     return userInfo
   }
