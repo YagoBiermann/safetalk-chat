@@ -13,9 +13,9 @@ env.config({ path: __dirname + '/config/.dev.env' })
 
 Database.instance().connect(process.env.MONGO_URI)
 
-const socketServer = new AppSocket()
 const expressServer = new AppServer()
 const middlewares = new AppMiddlewares(expressServer.app)
+const socketServer = new AppSocket(expressServer.server)
 
 const session = new AppSession(expressServer.app, {
   secret: process.env.SESSION_SECRET,
@@ -59,6 +59,5 @@ socketServer.addController(GetAllUsersFromRoomEventController)
 session.exec()
 middlewares.exec()
 routes.exec()
-expressServer.run(routes.router)
 socketServer.exec()
-socketServer.run()
+expressServer.run(routes.router)
