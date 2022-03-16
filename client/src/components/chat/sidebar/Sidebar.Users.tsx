@@ -21,7 +21,7 @@ const UserAvatar = muiStyled(Avatar)`
   height: 24px;
 `
 type userListProps = {
-  users: Array<{ username: string; id: string }>
+  users: Array<{ username: string; userId: string }>
 }
 
 function Users(props: userListProps) {
@@ -31,7 +31,7 @@ function Users(props: userListProps) {
     <>
       {useMemo(() => {
         return users.map((user, index) => (
-          <User key={user.id} animate={userAnimation(index)}>
+          <User key={user.userId} animate={userAnimation(index)}>
             <UserAvatar>
               <PersonIcon fontSize="small" />
             </UserAvatar>
