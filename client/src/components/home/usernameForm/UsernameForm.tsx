@@ -5,7 +5,7 @@ import defaultBox from '../../../assets/styles/default.Box'
 import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLetters from '../../../lib/helpers/allowOnlyLetters'
 import { Username } from '../../../lib/interfaces'
-import { useCreateUserMutation } from '../../../services/api'
+import { useCreateUserMutation } from '../../../lib/services/api'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import ButtonState from '../../global/ButtonState'
@@ -29,7 +29,7 @@ function UsernameForm() {
 
   const handleValidation = async (username: string) => {
     resetField('username')
-    createUser({ username, roomCode: '' })
+    createUser({ username })
       .unwrap()
       .then(
         async response => {

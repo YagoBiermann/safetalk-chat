@@ -7,10 +7,17 @@ export interface ApiResponse {
 }
 
 export interface OnlineUsersDTO {
-  users: Array<{ username: string; id: string }>
+  users: Array<{
+    userId: string
+    username: string
+    roomCode: string
+    roomId: string
+    isOnline: boolean
+  }>
 }
 
-export interface OnlineUsersRedux extends Array<{ username: string; id: string }> {}
+export interface OnlineUsersRedux
+  extends Array<{ username: string; userId: string }> {}
 
 export interface FileName {
   fileName: string
@@ -71,13 +78,10 @@ export interface UserRedux {
 
 // User data from backend
 export interface UserDTO {
-  _id: string
+  userId: string
   username: string
-  room: {
-    _id: string
-    roomCode: string
-  }
-  isAdmin: boolean
+  room: string
+  roomCode: string
   isOnline: boolean
 }
 

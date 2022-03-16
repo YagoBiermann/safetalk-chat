@@ -9,7 +9,7 @@ import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
 import usePopover from '../../../lib/hooks/usePopover'
 import { RoomCode } from '../../../lib/interfaces'
-import { useJoinRoomMutation } from '../../../services/api'
+import { useJoinRoomMutation } from '../../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import { setRoomCode } from '../../../store/ducks/users'
@@ -32,12 +32,11 @@ function JoinRoom() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')
-  const username = useAppSelector(state => state.user.username)
   const isPending = useAppSelector(state => state.room.pending)
 
   const handleJoinRoom = (roomCode: string) => {
     resetField('roomCode')
-    joinRoom({ username, roomCode })
+    joinRoom({ roomCode })
       .unwrap()
       .then(
         () => {

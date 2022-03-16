@@ -10,7 +10,7 @@ import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
 import { DropFile, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
-import { fetchCurrentUser, fetchUsersOnRoom } from '../../services/api'
+import { fetchCurrentUser, fetchUsersOnRoom } from '../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
   ChatBoxDesktop,
@@ -21,7 +21,7 @@ import {
 import nookies from 'nookies'
 import { setRoomCode, setUsername } from '../../store/ducks/users'
 import { socketContext } from '../../lib/context/socketContext'
-import { setUsersOnRoom } from '../../store/ducks/rooms'
+import { setUsersInRoom } from '../../store/ducks/rooms'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Link from 'next/link'
 
@@ -50,7 +50,7 @@ const ChatHeader = styled.div`
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
   const user: UserDTO = await fetchCurrentUser(cookies)
-  const usersOnRoom = user
+  const usersInRoom = user
     ? await fetchUsersOnRoom(cookies, user.room.roomCode)
     : null
 
@@ -66,12 +66,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   return {
     props: {
       user,
-      usersOnRoom
+      usersInRoom: usersInRoom
     }
   }
 }
 
-type ChatPageProps = NextPage & { user: UserDTO; usersOnRoom: OnlineUsersDTO }
+type ChatPageProps = NextPage & { user: UserDTO; usersInRoom: OnlineUsersDTO }
 
 const Chat = (props: ChatPageProps) => {
   const { user } = props
@@ -80,7 +80,9 @@ const Chat = (props: ChatPageProps) => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(state => state.app.error)
   const socket = useContext(socketContext)
-
+  const usersInRoom = props.usersInRoom.users.filter(user =>
+    user.isOnline ? { username: user.username, userId: user.userId } : null
+  )
   const clearPreview = () => {
     files.forEach(file => {
       URL.revokeObjectURL(file.preview)
@@ -112,7 +114,7 @@ const Chat = (props: ChatPageProps) => {
     socket.emit('user:data', user)
     dispatch(setRoomCode(user.room.roomCode))
     dispatch(setUsername(user.username))
-    dispatch(setUsersOnRoom(props.usersOnRoom.users))
+    dispatch(setUsersInRoom(usersInRoom))
 
     return () => {
       socket.off('room:users')

@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import { userSlice } from './users'
 import { roomSlice } from './rooms'
-import { roomApi } from '../../services/api'
+import { roomApi } from '../../lib/services/api'
 import { messagesSlice } from './messages'
 import { appSlice } from './app'
 

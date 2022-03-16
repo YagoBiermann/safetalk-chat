@@ -12,7 +12,7 @@ import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../_Animations'
 import nookies from 'nookies'
-import { fetchCurrentUser, generateCode } from '../../services/api'
+import { fetchCurrentUser, generateCode } from '../../lib/services/api'
 import { UserDTO } from '../../lib/interfaces'
 
 const CodeContainer = styled(Container)`
@@ -24,7 +24,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
   const user = await fetchCurrentUser(cookies)
   const roomCode = await generateCode(cookies)
-
   if (!user) {
     return {
       redirect: {

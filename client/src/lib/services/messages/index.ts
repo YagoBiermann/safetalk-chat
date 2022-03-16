@@ -1,13 +1,13 @@
 import socket from '../sockets'
 import { v4 as uuidv4 } from 'uuid'
-import { Message, AudioMessage, FileMessage } from '../../lib/interfaces'
-import { MESSAGE_TYPE } from '../../lib/enums'
+import { Message, AudioMessage, FileMessage } from '../../interfaces'
+import { MESSAGE_TYPE } from '../../enums'
 import {
   addAudioMessage,
   addFileMessage,
   addTextMessage
-} from '../../store/ducks/messages'
-import store from '../../store'
+} from '../../../store/ducks/messages'
+import store from '../../../store'
 
 socket.on('message:text', (message: Message) => {
   store.dispatch(addTextMessage(message))

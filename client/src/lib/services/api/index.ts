@@ -1,7 +1,7 @@
-import { UserDTO } from './../../lib/interfaces/index'
+import { UserDTO, Username } from '../../interfaces/index'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
-import { ENDPOINTS, ROUTES } from '../../lib/enums'
+import { ENDPOINTS, ROUTES } from '../../enums'
 import {
   ApiResponse,
   CookieProps,
@@ -9,7 +9,7 @@ import {
   FileName,
   RoomCode,
   UserRedux
-} from '../../lib/interfaces'
+} from '../../interfaces'
 
 export const roomApi = createApi({
   reducerPath: 'roomApi',
@@ -23,7 +23,7 @@ export const roomApi = createApi({
     }
   }),
   endpoints: builder => ({
-    createUser: builder.mutation<ApiResponse, UserRedux>({
+    createUser: builder.mutation<ApiResponse, Username>({
       query: user => ({
         method: 'POST',
         url: `${ROUTES.CREATE_USER}`,
@@ -42,18 +42,18 @@ export const roomApi = createApi({
         method: 'GET'
       })
     }),
-    createRoom: builder.mutation<ApiResponse, UserRedux>({
-      query: user => ({
+    createRoom: builder.mutation<ApiResponse, RoomCode>({
+      query: room => ({
         method: 'POST',
         url: ROUTES.CREATE_ROOM,
-        body: user
+        body: room
       })
     }),
-    joinRoom: builder.mutation<ApiResponse, UserRedux>({
-      query: user => ({
+    joinRoom: builder.mutation<ApiResponse, RoomCode>({
+      query: room => ({
         method: 'POST',
         url: ROUTES.JOIN_ROOM,
-        body: user
+        body: room
       })
     }),
     uploadFile: builder.mutation<FileName, { file: File; roomCode: RoomCode }>({
@@ -96,13 +96,13 @@ const api = axios.create({
   }
 })
 
-const fetchUsersOnRoom = async (
+const fetchUsersInRoom = async (
   cookies: CookieProps,
   roomCode: string = ''
 ) => {
   try {
     const result: AxiosResponse<OnlineUsersDTO> = await api.get(
-      `rooms/${roomCode}/users`,
+      `rooms/current/users`,
       {
         headers: {
           Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
@@ -130,7 +130,7 @@ const fetchCurrentUser = async (cookies: CookieProps) => {
 
 const generateCode = async (cookies: CookieProps) => {
   try {
-    const result: AxiosResponse<{ code: string }, any> = await api.get(
+    const result: AxiosResponse<{ roomCode: string }, any> = await api.get(
       ROUTES.GENERATE_CODE,
       {
         headers: {
@@ -139,13 +139,13 @@ const generateCode = async (cookies: CookieProps) => {
       }
     )
 
-    return result.data.code
+    return result.data.roomCode
   } catch (error) {
     console.log(error)
   }
 }
 
-export { fetchCurrentUser, fetchUsersOnRoom, generateCode }
+export { fetchCurrentUser, fetchUsersInRoom as fetchUsersOnRoom, generateCode }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,

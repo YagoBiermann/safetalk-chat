@@ -10,7 +10,7 @@ import { useAppSelector } from '../store'
 import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
 import { PageAnimation } from './_Animations'
 import Link from 'next/link'
-import { useFetchCurrentUserQuery } from '../services/api'
+import { useFetchCurrentUserQuery } from '../lib/services/api'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
