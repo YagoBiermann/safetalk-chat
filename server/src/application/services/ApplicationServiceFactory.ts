@@ -47,10 +47,11 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
-    const changeStatusWhenUserJoinedRoomSubscriber = new ChangeStatusWhenUserJoinedRoomEventSubscriber(
-      this.userRepository(),
-      this.singleTransaction()
-    )
+    const changeStatusWhenUserJoinedRoomSubscriber =
+      new ChangeStatusWhenUserJoinedRoomEventSubscriber(
+        this.userRepository(),
+        this.singleTransaction()
+      )
 
     const getUsersFromRoomDomainService = new GetUsersFromRoomDomainService(
       this.roomRepository(),
@@ -79,12 +80,12 @@ class ApplicationServiceFactory {
       this.roomRepository()
     )
 
-    const deleteRoomIfEmptyWhenUserDeletedSubscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
-      this.roomRepository()
-    )
+    const deleteRoomIfEmptyWhenUserDeletedSubscriber =
+      new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(this.roomRepository())
 
     return new UserApplicationService(
       this.userRepository(),
+      this.roomRepository(),
       this.authentication(),
       usernameTakenValidation,
       userNotExistsValidation,

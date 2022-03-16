@@ -18,6 +18,7 @@ import DomainEventPublisher from '../../domain/models/common/DomainEventPublishe
 import UserDeletedEvent from '../../domain/events/UserDeletedEvent'
 import IDomainEventSubscriber from '../../domain/models/common/DomainEventSubscriber'
 import RoomError from '../../domain/errors/models/RoomError'
+import { IRoomRepository } from '../../domain/models/room/RoomRepository'
 
 class UserApplicationService
   extends ArgumentAssertion
@@ -25,6 +26,7 @@ class UserApplicationService
 {
   constructor(
     private userRepository: IUserRepository,
+    private roomRepository: IRoomRepository,
     private authentication: IAuthenticationService,
     private usernameTakenValidation: IValidation,
     private userNotExistsValidation: IValidation,
@@ -87,12 +89,14 @@ class UserApplicationService
     this.authentication.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
     const user = await this.userRepository.getUserById(userId)
-
+    const room = await this.roomRepository.getRoomById(user.room)
+    
     const userInfo = {
       userId: user.id,
       username: user.username,
       isOnline: user.isOnline,
-      room: user.room
+      room: user.room,
+      roomCode: room.roomCode
     }
     return userInfo
   }

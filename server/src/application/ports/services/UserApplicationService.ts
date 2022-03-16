@@ -14,7 +14,8 @@ interface IUserInfoOutputDTO {
   userId: string
   username: string
   isOnline: boolean
-  room: string
+  roomCode: string | null
+  room: string | null
 }
 
 interface IDeleteUserInputDTO {
