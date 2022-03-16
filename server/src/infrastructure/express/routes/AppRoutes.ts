@@ -4,7 +4,7 @@ import IRouteController from '../../../adapter/ports/controllers/RouteController
 
 class AppRoutes {
   private _router = express.Router()
-  private controllers: Array<IRouteController>
+  private controllers: Array<IRouteController> = []
 
   constructor() {}
 
