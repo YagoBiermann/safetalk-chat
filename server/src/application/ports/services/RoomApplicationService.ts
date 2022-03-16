@@ -30,7 +30,8 @@ interface IGetAllUsersFromRoomOutputDTO
   extends Array<{
     userId: string
     username: string
-    room: string
+    roomId: string
+    roomCode: string
     isOnline: boolean
   }> {}
 

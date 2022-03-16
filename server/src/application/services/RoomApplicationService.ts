@@ -104,10 +104,12 @@ class RoomApplicationService
     await this.authenticate({ userId, accessKey })
     await this.roomNotExistsValidation.validate({ roomId })
     const users = await this.usersFromRoom.exec(roomId)
+    const room = await this.roomRepository.getRoomById(roomId)
     const allUsersFromRoom = users.map(user => ({
       userId: user.id,
       username: user.username,
-      room: user.room,
+      roomId: room.id,
+      roomCode: room.roomCode,
       isOnline: user.isOnline
     }))
 
