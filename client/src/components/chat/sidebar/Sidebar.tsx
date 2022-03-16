@@ -48,8 +48,8 @@ function Chatsidebar() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    socket.on('room:users', () => {
-      fetchUsers(roomCode)
+    socket.on('room:allUsers', () => {
+      fetchUsers(undefined)
         .unwrap()
         .then(res => {
           dispatch(setUsersInRoom(res.users))
