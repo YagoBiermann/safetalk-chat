@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import PrimaryInput from '../../global/Input.Primary'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import PreviewSendButton from './Form.SendButton'
 import { DropFile } from '../../../lib/interfaces'
@@ -16,15 +15,6 @@ const InputBox = styled.form`
   width: 100%;
 `
 
-const PreviewInput = styled(PrimaryInput)`
-  border-radius: 0px 0px 0px 10px;
-  height: inherit;
-  width: 100%;
-  text-indent: 10px;
-  &::placeholder {
-    color: ${props => props.theme.fontColor.secondary};
-  }
-`
 type FormValues = {
   message: string
 }
