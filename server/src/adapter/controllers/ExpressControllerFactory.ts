@@ -18,7 +18,8 @@ class ExpressControllerFactory {
   }
 
   public static makeCreateUserController(): IRouteController {
-    const userApplicationService = ExpressControllerFactory._userApplicationService()
+    const userApplicationService =
+      ExpressControllerFactory._userApplicationService()
 
     const createUserController = new CreateUserController(
       userApplicationService
@@ -36,7 +37,8 @@ class ExpressControllerFactory {
   }
 
   public static makeCreateRoomController(): IRouteController {
-    const roomApplicationService = ExpressControllerFactory._roomApplicationService()
+    const roomApplicationService =
+      ExpressControllerFactory._roomApplicationService()
 
     const createRoomController = new CreateRoomController(
       roomApplicationService
@@ -46,14 +48,16 @@ class ExpressControllerFactory {
   }
 
   public static makeJoinRoomController(): IRouteController {
-    const roomApplicationService = ExpressControllerFactory._roomApplicationService()
+    const roomApplicationService =
+      ExpressControllerFactory._roomApplicationService()
     const joinRoomController = new JoinRoomController(roomApplicationService)
 
     return joinRoomController
   }
 
   public static makeUserInfoController(): IRouteController {
-    const userApplicationService = ExpressControllerFactory._userApplicationService()
+    const userApplicationService =
+      ExpressControllerFactory._userApplicationService()
 
     const userInfoController = new UserInfoController(userApplicationService)
     return userInfoController

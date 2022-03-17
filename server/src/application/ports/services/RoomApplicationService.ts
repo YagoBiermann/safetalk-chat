@@ -7,6 +7,7 @@ interface ICreateRoomInputDTO {
 
 interface ICreateRoomOutputDTO {
   roomId: string
+  newAccessKey: string
 }
 
 interface IJoinRoomInputDTO {
@@ -16,6 +17,7 @@ interface IJoinRoomInputDTO {
 
 interface IJoinRoomOutputDTO {
   roomId: string
+  newAccessKey: string
 }
 
 interface IGenerateRoomCodeOutputDTO {
