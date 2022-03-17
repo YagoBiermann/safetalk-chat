@@ -1,7 +1,7 @@
 import { UserDTO, Username } from '../../interfaces/index'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
-import { ENDPOINTS, ROUTES } from '../../enums'
+import { ENDPOINTS } from '../../enums'
 import {
   ApiResponse,
   CookieProps,
@@ -25,7 +25,7 @@ export const roomApi = createApi({
     createUser: builder.mutation<ApiResponse, Username>({
       query: user => ({
         method: 'POST',
-        url: `${ROUTES.CREATE_USER}`,
+        url: `users/create`,
         body: user
       })
     }),
@@ -37,21 +37,21 @@ export const roomApi = createApi({
     }),
     fetchCurrentUser: builder.query<UserDTO, undefined>({
       query: () => ({
-        url: ROUTES.GET_CURRENT_USER,
+        url: 'users/create',
         method: 'GET'
       })
     }),
     createRoom: builder.mutation<ApiResponse, RoomCode>({
       query: room => ({
         method: 'POST',
-        url: ROUTES.CREATE_ROOM,
+        url: 'rooms/create',
         body: room
       })
     }),
     joinRoom: builder.mutation<ApiResponse, RoomCode>({
       query: room => ({
         method: 'POST',
-        url: ROUTES.JOIN_ROOM,
+        url: 'rooms/join',
         body: room
       })
     }),
@@ -113,7 +113,7 @@ const fetchUsersInRoom = async (cookies: CookieProps) => {
 
 const fetchCurrentUser = async (cookies: CookieProps) => {
   try {
-    const result = await api.get<UserDTO>(ROUTES.GET_CURRENT_USER, {
+    const result = await api.get<UserDTO>('users/me', {
       headers: {
         Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
       }
@@ -127,7 +127,7 @@ const fetchCurrentUser = async (cookies: CookieProps) => {
 const generateCode = async (cookies: CookieProps) => {
   try {
     const result: AxiosResponse<{ roomCode: string }, any> = await api.get(
-      ROUTES.GENERATE_CODE,
+      'rooms/code',
       {
         headers: {
           Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`

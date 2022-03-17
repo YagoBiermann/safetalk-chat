@@ -1,14 +1,3 @@
-//Enums related to API calls
-export enum ROUTES {
-  CREATE_ROOM = 'rooms/create',
-  JOIN_ROOM = 'rooms/join',
-  DELETE_ROOM = 'rooms/', //:roomCode
-  DELETE_USER = 'users/', //:socketID
-  CREATE_USER = 'users/create',
-  GET_CURRENT_USER = 'users/me',
-  GENERATE_CODE = 'rooms/code'
-}
-
 export enum MESSAGE_TYPE {
   TEXT = 'TEXT',
   IMAGE = 'IMAGE',
