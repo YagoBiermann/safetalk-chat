@@ -23,7 +23,7 @@ class Authentication implements IAuthenticationService {
   private verify(accessKey: string, secret: string): AuthError | null {
     jwt.verify(accessKey, secret, err => {
       if (err) {
-        return new AuthError('ERR_INVALID_ACCESS_KEY')
+        throw new AuthError('ERR_INVALID_ACCESS_KEY')
       }
     })
     return null
@@ -33,7 +33,7 @@ class Authentication implements IAuthenticationService {
     accessKey,
     userId
   }: IAuthenticationInputDTO): Promise<AuthError | null> {
-    this.accessKeyValidation.validate({ accessKey, userId })
+    await this.accessKeyValidation.validate({ accessKey, userId })
     const user = await this.userRepository.getUserById(userId)
     if (!user) {
       throw new AuthError('ERR_NOT_AUTHORIZED')
@@ -41,6 +41,7 @@ class Authentication implements IAuthenticationService {
 
     if (user.room) {
       this.verify(accessKey, process.env.JWT_ROOM_SECRET)
+      return null
     }
     this.verify(accessKey, process.env.JWT_SECRET)
     return null
