@@ -22,6 +22,7 @@ import DomainEventPublisher from '../../domain/models/common/DomainEventPublishe
 import Room from '../../domain/models/room/Room'
 import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
+import AuthError from '../../domain/errors/models/AuthError'
 
 class RoomApplicationService
   extends ArgumentAssertion
@@ -60,7 +61,12 @@ class RoomApplicationService
         new UserJoinedRoomEvent(room, userId)
       )
       DomainEventPublisher.instance().removeAllSubscribers()
-      return { roomId: room.id }
+      const newAccessKey = this.generateAccessKey(
+        userId,
+        process.env.JWT_ROOM_SECRET,
+        '3d' // 3 days
+      )
+      return { roomId: room.id, newAccessKey }
     } catch (error) {
       throw error
     }
@@ -87,7 +93,12 @@ class RoomApplicationService
         new UserJoinedRoomEvent(room, userId)
       )
       DomainEventPublisher.instance().removeAllSubscribers()
-      return { roomId: room.id }
+      const newAccessKey = this.generateAccessKey(
+        userId,
+        process.env.JWT_ROOM_SECRET,
+        '3d' // 3 days
+      )
+      return { roomId: room.id, newAccessKey }
     } catch (error) {
       throw error
     }
@@ -97,11 +108,8 @@ class RoomApplicationService
     roomId,
     auth: { accessKey, userId }
   }: IGetAllUsersFromRoomInputDTO): Promise<IGetAllUsersFromRoomOutputDTO> {
-    this.assertArgumentNotNull(
-      roomId,
-      new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
-    )
-    await this.authenticate({ userId, accessKey })
+    this.assertArgumentNotNull(roomId, new AuthError('ERR_NOT_AUTHORIZED'))
+    await this.authenticate({ accessKey, userId })
     await this.roomNotExistsValidation.validate({ roomId })
     const users = await this.usersFromRoom.exec(roomId)
     const room = await this.roomRepository.getRoomById(roomId)
@@ -128,6 +136,14 @@ class RoomApplicationService
 
   private authenticate({ accessKey, userId }: IAuthenticationInputDTO) {
     return this.authenticationService.authenticate({ userId, accessKey })
+  }
+
+  private generateAccessKey(
+    data: string,
+    secret: string,
+    expiresIn: string | number
+  ) {
+    return this.authenticationService.generateAccessKey(data, secret, expiresIn)
   }
 }
 

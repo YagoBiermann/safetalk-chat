@@ -27,7 +27,7 @@ class UserApplicationService
   constructor(
     private userRepository: IUserRepository,
     private roomRepository: IRoomRepository,
-    private authentication: IAuthenticationService,
+    private authenticationService: IAuthenticationService,
     private usernameTakenValidation: IValidation,
     private userNotExistsValidation: IValidation,
     private roomNotExistsValidation: IValidation,
@@ -58,7 +58,7 @@ class UserApplicationService
 
     await this.userRepository.save(user)
 
-    const accessKey = this.authentication.generateAccessKey(
+    const accessKey = this.authenticationService.generateAccessKey(
       user.id,
       process.env.JWT_SECRET,
       600 // 10 minutes
@@ -70,7 +70,7 @@ class UserApplicationService
   public async deleteUser({ accessKey, userId, roomId }: IDeleteUserInputDTO) {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
     this.assertArgumentNotNull(roomId, new RoomError('ERR_ROOM_NOT_FOUND'))
-    this.authentication.authenticate({ userId, accessKey })
+    await this.authenticationService.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
     await this.roomNotExistsValidation.validate(roomId)
     DomainEventPublisher.instance().addSubscriber(
@@ -88,7 +88,7 @@ class UserApplicationService
     accessKey
   }: IAuthenticationInputDTO): Promise<IUserInfoOutputDTO> {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
-    this.authentication.authenticate({ userId, accessKey })
+    await this.authenticationService.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
     const user = await this.userRepository.getUserById(userId)
     const room = await this.roomRepository.getRoomById(user.room)
