@@ -12,16 +12,16 @@ class CreateUserController implements IRouteController {
       const { username } = req.body
       const userId = req.session.user
       try {
-        const createUserDTO = await this.userApplicationService.createUser({
+        const response = await this.userApplicationService.createUser({
           username,
           userId
         })
 
-        req.session.destroy
-        req.session.user = createUserDTO.userId
-        req.session.accessKey = createUserDTO.accessKey
+        req.session.regenerate
+        req.session.user = response.userId
+        req.session.accessKey = response.accessKey
 
-        return successPresenter.created(createUserDTO)
+        return successPresenter.created({})
       } catch (error) {
         return errorHandler.handle(error)
       }
