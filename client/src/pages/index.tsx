@@ -45,9 +45,9 @@ const Home: NextPage = () => {
         <Header />
         <div>
           <UsernameForm />
-          {isSuccess && data?.room.roomCode ? (
+          {isSuccess && data?.roomCode ? (
             <BottomText animate={{ opacity: [0, 1] }}>
-              <Link replace href={`/chat/${data?.room.roomCode}`}>
+              <Link replace href={`/chat/${data?.roomCode}`}>
                 <a draggable="false">
                   Or continue as <b>{data?.username}</b> on previous room
                 </a>

@@ -10,7 +10,7 @@ import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
 import { DropFile, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
-import { fetchCurrentUser, fetchUsersOnRoom } from '../../lib/services/api'
+import { fetchCurrentUser, fetchUsersInRoom } from '../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
   ChatBoxDesktop,
@@ -49,11 +49,8 @@ const ChatHeader = styled.div`
 
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
-  const user: UserDTO = await fetchCurrentUser(cookies)
-  const usersInRoom = user
-    ? await fetchUsersOnRoom(cookies, user.room.roomCode)
-    : null
-
+  const user = await fetchCurrentUser(cookies)
+  const usersInRoom = user ? await fetchUsersInRoom(cookies) : undefined
   if (!user || !user.room) {
     return {
       redirect: {
@@ -66,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   return {
     props: {
       user,
-      usersInRoom: usersInRoom
+      usersInRoom
     }
   }
 }
@@ -80,9 +77,10 @@ const Chat = (props: ChatPageProps) => {
   const dispatch = useAppDispatch()
   const error = useAppSelector(state => state.app.error)
   const socket = useContext(socketContext)
-  const usersInRoom = props.usersInRoom.users.filter(user =>
-    user.isOnline ? { username: user.username, userId: user.userId } : null
-  )
+  const usersInRoom = props.usersInRoom.users
+    .filter(user => (user.isOnline ? user : null))
+    .map(user => ({ username: user.username, userId: user.userId }))
+
   const clearPreview = () => {
     files.forEach(file => {
       URL.revokeObjectURL(file.preview)
@@ -109,15 +107,15 @@ const Chat = (props: ChatPageProps) => {
   useEffect(() => {
     socket.connect()
     //TODO: Hydrate messages
-    socket.emit('room:join', { roomCode: user.room.roomCode })
-    socket.emit('room:users', { roomCode: user.room.roomCode })
-    socket.emit('user:data', user)
-    dispatch(setRoomCode(user.room.roomCode))
+    socket.emit('room:join', { roomCode: user.roomCode })
+    socket.emit('room:allUsers', { roomCode: user.roomCode })
+    // socket.emit('user:data', user)
+    dispatch(setRoomCode(user.roomCode))
     dispatch(setUsername(user.username))
     dispatch(setUsersInRoom(usersInRoom))
 
     return () => {
-      socket.off('room:users')
+      socket.off('room:allUsers')
       socket.off('room:join')
       socket.off('user:data')
     }
