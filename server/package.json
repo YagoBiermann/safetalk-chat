@@ -6,7 +6,6 @@
   "author": "Yago Biermann T.",
   "license": "GPL-3.0-or-later",
   "private": false,
-
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts",
     "dev:debug": "ts-node-dev --transpile-only --respawn --inspect=0.0.0.0:9222 --project tsconfig.json -r dotenv/config ./src/main/index.ts"
