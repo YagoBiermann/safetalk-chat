@@ -20,7 +20,7 @@ const socketServer = new AppSocket(expressServer.server)
 const session = new AppSession(expressServer.app, {
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
-  cookie: { maxAge: 600000, httpOnly: true, path: '/' }, // 10 minutes
+  cookie: { maxAge: 600000, httpOnly: true, path: '/', sameSite: 'strict' }, // 10 minutes
   resave: true,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
@@ -52,12 +52,17 @@ const joinRoomEventController =
 const GetAllUsersFromRoomEventController =
   SocketControllerFactory.makeGetAllUsersFromRoomEventController()
 
+const userDisconnectEventController =
+  SocketControllerFactory.makeUserDisconnectEventController()
+
 socketServer.addController(joinRoomEventController)
 socketServer.addController(GetAllUsersFromRoomEventController)
+socketServer.addController(userDisconnectEventController)
 
 // App execution
 session.exec()
 middlewares.exec()
 routes.exec()
+socketServer.socketSession(session.session)
 socketServer.exec()
 expressServer.run(routes.router)
