@@ -6,8 +6,8 @@ class AppServer {
   public port: number | string = process.env.SERVER_PORT || 5000
   constructor() {}
 
-  private setupConfig() {
-    this._express.set('trust proxy', 'loopback')
+  public setConfig(key: string, value: any) {
+    this._express.set(key, value)
   }
 
   public get app(): Application {
@@ -19,7 +19,7 @@ class AppServer {
   }
 
   public run(router: express.Router) {
-    this.setupConfig()
+    this.setConfig('trust proxy', 'loopback')
     this.app.use('/api/v2', router)
     this._server.listen(this.port)
   }
