@@ -17,7 +17,7 @@ class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber
     try {
       const user = anEvent.userId
       const room = await this._roomRepository.getRoomById(anEvent.roomId)
-      const hasUsers = room.users.length !== 0
+      const hasUsers = room.users.length > 1 // 1 represents the last user who left the room
       if (hasUsers) {
         room.disconnect(user)
         await this._roomRepository.save(room)
