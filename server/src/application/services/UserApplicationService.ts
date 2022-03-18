@@ -9,6 +9,7 @@ import {
   ICreateUserInputDTO,
   ICreateUserOutputDTO,
   IDeleteUserInputDTO,
+  IDeleteUserOutputDTO,
   IUserApplicationService,
   IUserInfoOutputDTO
 } from '../ports/services/UserApplicationService'
@@ -67,20 +68,28 @@ class UserApplicationService
     return { userId: user.id, accessKey }
   }
 
-  public async deleteUser({ accessKey, userId, roomId }: IDeleteUserInputDTO) {
+  public async deleteUser({
+    accessKey,
+    userId,
+    roomId
+  }: IDeleteUserInputDTO): Promise<IDeleteUserOutputDTO> {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
     this.assertArgumentNotNull(roomId, new RoomError('ERR_ROOM_NOT_FOUND'))
     await this.authenticationService.authenticate({ userId, accessKey })
     await this.userNotExistsValidation.validate(userId)
-    await this.roomNotExistsValidation.validate(roomId)
+    await this.roomNotExistsValidation.validate({ roomId })
+    const room = await this.roomRepository.getRoomById(roomId)
+    const roomCode = room.roomCode
     DomainEventPublisher.instance().addSubscriber(
       this.deleteRoomIfEmptyWhenUserDeletedEventSubscriber
     )
     await this.userRepository.delete(userId)
     DomainEventPublisher.instance().publish(
-      new UserDeletedEvent(userId, roomId)
+      new UserDeletedEvent(roomId, userId)
     )
     DomainEventPublisher.instance().removeAllSubscribers()
+
+    return { roomCode }
   }
 
   public async userInfo({
