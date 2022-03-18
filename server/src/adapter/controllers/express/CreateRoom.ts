@@ -22,7 +22,7 @@ class CreateRoomController implements IRouteController {
         req.session.room = roomId
         req.session.accessKey = newAccessKey
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
-        
+
         return successPresenter.created({})
       } catch (error) {
         return errorHandler.handle(error)
