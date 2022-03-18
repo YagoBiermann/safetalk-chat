@@ -12,11 +12,11 @@ import { RoomCode } from '../../../lib/interfaces'
 import { useJoinRoomMutation } from '../../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import { setRoomCode } from '../../../store/ducks/users'
 import ButtonState from '../../global/ButtonState'
 import CodeButton from '../shared/Code.Button'
 import CodePopper from '../shared/Code.Popper'
 import JoinRoomInput from './JoinRoom.Input'
+import sleep from '../../../lib/helpers/sleep'
 
 const JoinRoomForm = styled.div`
   ${CenterColumn}
@@ -42,12 +42,10 @@ function JoinRoom() {
         () => {
           router.replace(`/chat/${roomCode}`)
         },
-        error => {
-          if (error.data.message === 'Missing token') {
-            dispatch(setError('Session expired'))
-            router.replace('/')
-          }
+        async error => {
           dispatch(setError(error.data.message))
+          await sleep(2000)
+          router.replace('/')
         }
       )
   }

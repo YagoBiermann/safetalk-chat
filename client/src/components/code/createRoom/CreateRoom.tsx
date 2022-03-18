@@ -15,6 +15,7 @@ import CopyButton from './CreateRoom.CopyButton'
 import usePopover from '../../../lib/hooks/usePopover'
 import { AnimatePresence } from 'framer-motion'
 import CodePopper from '../shared/Code.Popper'
+import sleep from '../../../lib/helpers/sleep'
 
 const MainBox = styled.div`
   ${CenterColumn}
@@ -42,8 +43,9 @@ function CreateRoom() {
         () => {
           router.replace(`/chat/${roomCode}`)
         },
-        error => {
-          dispatch(setError('Session expired'))
+        async error => {
+          dispatch(setError(error.data.message))
+          await sleep(2000)
           router.replace('/')
         }
       )
