@@ -13,7 +13,7 @@ class JoinRoomController implements IRouteController {
       const userId = req.session.user
       const accessKey = req.session.accessKey
       try {
-        const { roomId, newAccessKey } =
+        const { roomId, newAccessKey, cloudAccessKeys } =
           await this.roomApplicationService.joinRoom({
             auth: { accessKey, userId },
             roomCode
@@ -22,6 +22,19 @@ class JoinRoomController implements IRouteController {
         req.session.room = roomId
         req.session.accessKey = newAccessKey
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
+
+        const cookieOptions = {
+          httpOnly: true,
+          domain: process.env.AWS_CLOUDFRONT_DOMAIN
+        }
+
+        for (const cloudAccessKey in cloudAccessKeys) {
+          res.cookie(
+            cloudAccessKey,
+            cloudAccessKeys[cloudAccessKey],
+            cookieOptions
+          )
+        }
 
         return successPresenter.success({})
       } catch (error) {

@@ -13,7 +13,7 @@ class CreateRoomController implements IRouteController {
       const userId = req.session.user
       const accessKey = req.session.accessKey
       try {
-        const { roomId, newAccessKey } =
+        const { roomId, newAccessKey, cloudAccessKeys } =
           await this.roomApplicationService.createRoom({
             auth: { accessKey, userId },
             roomCode
@@ -22,6 +22,16 @@ class CreateRoomController implements IRouteController {
         req.session.room = roomId
         req.session.accessKey = newAccessKey
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
+
+        const cookieOptions = { httpOnly: true }
+
+        for (const cloudAccessKey in cloudAccessKeys) {
+          res.cookie(
+            cloudAccessKey,
+            cloudAccessKeys[cloudAccessKey],
+            cookieOptions
+          )
+        }
 
         return successPresenter.created({})
       } catch (error) {
