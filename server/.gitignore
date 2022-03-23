@@ -4,4 +4,5 @@ src/main/config/.dev.env
 yarn.lock
 yarn-error.log
 src/infrastructure/database/config/keyfile.pem
+src/infrastructure/aws/private_aws_key.pem
 build
