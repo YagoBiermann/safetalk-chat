@@ -8,10 +8,10 @@ class AWSManager implements ICloudService {
   private _S3Storage: AWS.S3
 
   constructor() {
-    this._S3Storage = this.setS3Storage()
+    this._S3Storage = this.setStorage()
   }
 
-  private setS3Storage() {
+  private setStorage() {
     return new AWS.S3({
       apiVersion: '2006-03-01',
       region: process.env.AWS_REGION,
@@ -20,6 +20,10 @@ class AWSManager implements ICloudService {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
       })
     })
+  }
+
+  get storage() {
+    return this._S3Storage
   }
 
   public getSignedCookie(roomCode: string) {
