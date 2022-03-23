@@ -14,6 +14,7 @@ import UsernameTakenValidation from '../validations/leaf/UsernameTakenValidation
 import UserNotExistsValidation from '../validations/leaf/UserNotExistsValidation'
 import RoomApplicationService from './RoomApplicationService'
 import UserApplicationService from './UserApplicationService'
+import AWSManager from '../../infrastructure/aws/AWSManager'
 
 class ApplicationServiceFactory {
   private constructor() {}
@@ -58,8 +59,11 @@ class ApplicationServiceFactory {
       this.userRepository()
     )
 
+    const cloudService = new AWSManager()
+
     return new RoomApplicationService(
       this.authentication(),
+      cloudService,
       roomAlreadyExistsValidation,
       roomNotExistsValidation,
       userAlreadyInRoomValidation,
