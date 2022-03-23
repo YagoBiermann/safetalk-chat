@@ -1,3 +1,4 @@
+import { Signer } from 'aws-sdk/clients/cloudfront'
 import { IAuthenticationInputDTO } from './AuthenticationService'
 
 interface ICreateRoomInputDTO {
@@ -8,6 +9,7 @@ interface ICreateRoomInputDTO {
 interface ICreateRoomOutputDTO {
   roomId: string
   newAccessKey: string
+  cloudAccessKeys: Signer.CustomPolicy
 }
 
 interface IJoinRoomInputDTO {
@@ -18,6 +20,7 @@ interface IJoinRoomInputDTO {
 interface IJoinRoomOutputDTO {
   roomId: string
   newAccessKey: string
+  cloudAccessKeys: Signer.CustomPolicy
 }
 
 interface IGenerateRoomCodeOutputDTO {
