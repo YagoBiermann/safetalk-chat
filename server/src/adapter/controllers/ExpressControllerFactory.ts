@@ -6,6 +6,9 @@ import JoinRoomController from './express/JoinRoom'
 import UserInfoController from './express/UserInfo'
 import ApplicationServiceFactory from '../../application/services/ApplicationServiceFactory'
 import GetAllUsersFromRoomController from './express/GetAllUsersFromRoom'
+import UploadFileController from './express/UploadFile'
+import AWSManager from '../../infrastructure/aws/AWSManager'
+import AuthenticationFactory from '../../infrastructure/jwt/AuthenticationFactory'
 class ExpressControllerFactory {
   private constructor() {}
 
@@ -70,6 +73,17 @@ class ExpressControllerFactory {
     )
 
     return getAllUsersFromRoomController
+  }
+
+  public static makeUploadFileController(): IRouteController {
+    const cloudService = new AWSManager()
+    const authenticationService = AuthenticationFactory.make()
+    const uploadFileController = new UploadFileController(
+      cloudService,
+      authenticationService
+    )
+
+    return uploadFileController
   }
 }
 

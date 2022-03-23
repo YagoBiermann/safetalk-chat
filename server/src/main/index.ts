@@ -37,6 +37,7 @@ const joinRoomController = ExpressControllerFactory.makeJoinRoomController()
 const userInfoController = ExpressControllerFactory.makeUserInfoController()
 const getAllUsersFromRoomController =
   ExpressControllerFactory.makeGetAllUsersFromRoomController()
+const uploadFileController = ExpressControllerFactory.makeUploadFileController()
 
 const routes = new AppRoutes()
 routes.addController(createUserController)
@@ -45,6 +46,7 @@ routes.addController(createRoomController)
 routes.addController(joinRoomController)
 routes.addController(userInfoController)
 routes.addController(getAllUsersFromRoomController)
+routes.addController(uploadFileController)
 
 // Socket Events Controller
 const joinRoomEventController =
