@@ -23,6 +23,7 @@ import Room from '../../domain/models/room/Room'
 import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 import AuthError from '../../domain/errors/models/AuthError'
+import ICloudService from '../ports/services/CloudService'
 
 class RoomApplicationService
   extends ArgumentAssertion
@@ -30,6 +31,7 @@ class RoomApplicationService
 {
   constructor(
     private authenticationService: IAuthenticationService,
+    private cloudService: ICloudService,
     private roomAlreadyExistsValidation: IValidation,
     private roomNotExistsValidation: IValidation<IRoomNotExistsValidationInput>,
     private userAlreadyInRoomValidation: IValidation,
@@ -66,7 +68,8 @@ class RoomApplicationService
         process.env.JWT_ROOM_SECRET,
         '3d' // 3 days
       )
-      return { roomId: room.id, newAccessKey }
+      const cloudAccessKeys = this.cloudService.getSignedCookie(roomCode)
+      return { roomId: room.id, newAccessKey, cloudAccessKeys }
     } catch (error) {
       throw error
     }
@@ -98,7 +101,8 @@ class RoomApplicationService
         process.env.JWT_ROOM_SECRET,
         '3d' // 3 days
       )
-      return { roomId: room.id, newAccessKey }
+      const cloudAccessKeys = this.cloudService.getSignedCookie(roomCode)
+      return { roomId: room.id, newAccessKey, cloudAccessKeys }
     } catch (error) {
       throw error
     }
