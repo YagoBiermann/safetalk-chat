@@ -6,6 +6,7 @@ declare module 'express-session' {
     user: string
     accessKey: string
     room: string
+    roomCode: string
   }
 }
 
