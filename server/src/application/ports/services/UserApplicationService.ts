@@ -1,3 +1,4 @@
+import IMessageDTO from '../../../domain/models/room/message/MessageDTO'
 import { IAuthenticationInputDTO } from './AuthenticationService'
 
 interface ICreateUserInputDTO {
@@ -16,6 +17,7 @@ interface IUserInfoOutputDTO {
   isOnline: boolean
   roomCode: string | null
   room: string | null
+  messages: Array<IMessageDTO>
 }
 
 interface IDeleteUserInputDTO {
