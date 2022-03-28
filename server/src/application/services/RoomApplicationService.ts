@@ -12,7 +12,9 @@ import {
   IGetAllUsersFromRoomInputDTO,
   IGetAllUsersFromRoomOutputDTO,
   IJoinRoomOutputDTO,
-  ICreateRoomOutputDTO
+  ICreateRoomOutputDTO,
+  ISaveMessageInputDTO,
+  ISaveMessageOutputDTO
 } from '../ports/services/RoomApplicationService'
 import IValidation from '../ports/validations/Validation'
 import { IRoomNotExistsValidationInput } from '../validations/leaf/RoomNotExistsValidation'
@@ -24,6 +26,9 @@ import UserJoinedRoomEvent from '../../domain/events/UserJoinedRoomEvent'
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 import AuthError from '../../domain/errors/models/AuthError'
 import ICloudService from '../ports/services/CloudService'
+import UserError from '../../domain/errors/models/UserError'
+import MessageError from '../../domain/errors/models/MessageError'
+import IUserRepository from '../../domain/models/user/UserRepository'
 
 class RoomApplicationService
   extends ArgumentAssertion
@@ -36,6 +41,7 @@ class RoomApplicationService
     private roomNotExistsValidation: IValidation<IRoomNotExistsValidationInput>,
     private userAlreadyInRoomValidation: IValidation,
     private roomRepository: IRoomRepository,
+    private userRepository: IUserRepository,
     private usersFromRoom: GetUsersFromRoomDomainService,
     private changeStatusWhenUserJoinedRoomEventSubscriber: IDomainEventSubscriber<UserJoinedRoomEvent>
   ) {
@@ -105,6 +111,43 @@ class RoomApplicationService
       return { roomId: room.id, newAccessKey, cloudAccessKeys }
     } catch (error) {
       throw error
+    }
+  }
+
+  public async saveMessage({
+    auth: { accessKey, userId },
+    message: { roomCode, message, messageType, fileUrl, createdAt }
+  }: ISaveMessageInputDTO): Promise<ISaveMessageOutputDTO> {
+    this.assertArgumentNotNull(
+      roomCode,
+      new RoomError('ERR_ROOM_CODE_NOT_PROVIDED')
+    )
+    this.assertArgumentNotNull(
+      messageType,
+      new MessageError('ERR_MESSAGE_EMPTY')
+    )
+    await this.authenticate({ userId, accessKey })
+    const user = await this.userRepository.getUserById(userId)
+    const room = await this.roomRepository.getRoomByCode(roomCode)
+    room.addMessage({
+      username: user.username,
+      roomCode,
+      message,
+      messageType,
+      fileUrl,
+      createdAt
+    })
+
+    await this.roomRepository.save(room)
+    const savedMessage = room.lastMessage()
+    return {
+      messageId: savedMessage.id,
+      username: savedMessage.username,
+      roomCode: savedMessage.roomCode,
+      messageType: savedMessage.type,
+      fileUrl: savedMessage.fileUrl,
+      message: savedMessage.content,
+      createdAt: savedMessage.creationTime
     }
   }
 
