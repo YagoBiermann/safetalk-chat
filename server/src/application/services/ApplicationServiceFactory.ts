@@ -68,6 +68,7 @@ class ApplicationServiceFactory {
       roomNotExistsValidation,
       userAlreadyInRoomValidation,
       this.roomRepository(),
+      this.userRepository(),
       getUsersFromRoomDomainService,
       changeStatusWhenUserJoinedRoomSubscriber
     )

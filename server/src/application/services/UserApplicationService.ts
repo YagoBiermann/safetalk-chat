@@ -107,7 +107,8 @@ class UserApplicationService
       username: user.username,
       isOnline: user.isOnline,
       room: room ? room.id : null,
-      roomCode: room ? room.roomCode : null
+      roomCode: room ? room.roomCode : null,
+      messages: room ? room.messages : []
     }
     return userInfo
   }
