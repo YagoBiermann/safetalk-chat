@@ -36,12 +36,15 @@ const useRecorder = () => {
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/MP4; codecs=FLAC' })
         chunks = []
+        const file = new File([blob], 'audio.mp4', {
+          type: 'audio/MP4; codecs=FLAC'
+        })
 
         setRecorder((prevState: Recorder) => {
           if (prevState.mediaRecorder)
             return {
               ...initialState,
-              audio: blob
+              audio: file
             }
           else return initialState
         })
@@ -76,12 +79,17 @@ const useRecorder = () => {
     }
   }
 
+  const clearRecord = () => {
+    setRecorder(initialState)
+  }
+
   const cancelRecord = () => {
     setRecorder(initialState)
   }
 
   return {
     recorder,
+    clearRecord,
     startRecord,
     finishRecord,
     cancelRecord
