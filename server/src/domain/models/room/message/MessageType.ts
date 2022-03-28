@@ -1,4 +1,4 @@
-enum MessageType {
+enum MESSAGE_TYPE {
   TEXT = 'TEXT',
   IMAGE = 'IMAGE',
   VIDEO = 'VIDEO',
@@ -6,4 +6,4 @@ enum MessageType {
   AUDIO = 'AUDIO'
 }
 
-export default MessageType
+export default MESSAGE_TYPE
