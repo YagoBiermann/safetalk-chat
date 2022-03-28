@@ -19,8 +19,8 @@ export interface OnlineUsersDTO {
 export interface OnlineUsersRedux
   extends Array<{ username: string; userId: string }> {}
 
-export interface FileName {
-  fileName: string
+export interface UploadFileResponse {
+  fileUrl: string
 }
 
 export interface Username {
@@ -36,26 +36,20 @@ export interface SocketID {
 }
 
 export interface Message {
-  id: string
+  messageId: string
   username: string
   roomCode: string
+  messageType: MESSAGE_TYPE
+  fileUrl: string
   message: string
-  type: MESSAGE_TYPE
-}
-
-export interface AudioMessage extends Omit<Message, 'message'> {
-  audio: string
-}
-export interface FileMessage extends Omit<Message, 'message'> {
-  filePreview: string
-  message?: string
+  createdAt: number
 }
 
 export type Recorder = {
   isRecording: boolean
   mediaStream: MediaStream | null
   mediaRecorder: MediaRecorder | null
-  audio: Blob | null
+  audio: File | null
 }
 
 export type UseRecorder = {
@@ -83,6 +77,7 @@ export interface UserDTO {
   room: string
   roomCode: string
   isOnline: boolean
+  messages: Array<Message>
 }
 
 export interface CookieProps {
