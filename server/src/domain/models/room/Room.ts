@@ -30,8 +30,16 @@ class Room extends Entity {
     return this._roomCode.value
   }
 
-  public get messages(): Array<Message> {
-    return this._messages
+  public get messages(): Array<IMessageDTO> {
+    return this._messages.map(message => ({
+      messageId: message.id,
+      username: message.username,
+      message: message.content,
+      messageType: message.type,
+      createdAt: message.creationTime,
+      roomCode: this.roomCode,
+      fileUrl: message.fileUrl
+    }))
   }
 
   public get users(): Array<string> {
@@ -61,6 +69,10 @@ class Room extends Entity {
 
   public addMessage(message: IMessageDTO) {
     this._messages.push(new Message(message))
+  }
+
+  public lastMessage(): Message {
+    return this._messages[this._messages.length - 1]
   }
 }
 
