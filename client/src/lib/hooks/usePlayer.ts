@@ -24,7 +24,9 @@ const usePlayer = (
   useEffect(() => {
     if (media.current) {
       media.current.onloadedmetadata = () => {
-        setDuration(media.current!.duration)
+        media.current!.duration === Infinity
+          ? setDuration(0)
+          : setDuration(media.current!.duration)
       }
     }
   }, [media.current])
