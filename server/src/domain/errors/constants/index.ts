@@ -5,7 +5,7 @@ export const errorMessages: IAppErrorMessageModel = {
     message: 'message cannot be empty',
     code: 10
   },
-  ERR_MESSAGE_LENGHT: {
+  ERR_MESSAGE_LENGTH: {
     message: 'text message cannot be more than 400 characters',
     code: 10
   },
