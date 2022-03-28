@@ -44,8 +44,6 @@ function JoinRoom() {
         },
         async error => {
           dispatch(setError(error.data.message))
-          await sleep(2000)
-          router.replace('/')
         }
       )
   }
