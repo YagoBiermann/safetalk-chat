@@ -60,7 +60,7 @@ export type UseRecorder = {
 }
 
 // Dropzone file
-export interface DropFile extends File {
+export interface FileWithPreview extends File {
   preview: string
 }
 
