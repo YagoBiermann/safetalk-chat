@@ -40,7 +40,9 @@ class AppSocket {
   public exec() {
     this._io.of('chat').on('connection', (socket: SocketWithSession) => {
       console.log('Socket.io connection established')
-      this.controllers.forEach(controller => controller.handle(socket))
+      this.controllers.forEach(controller =>
+        controller.handle(socket, this._io)
+      )
     })
   }
 }
