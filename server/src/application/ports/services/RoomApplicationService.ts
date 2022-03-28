@@ -1,4 +1,5 @@
 import { Signer } from 'aws-sdk/clients/cloudfront'
+import MESSAGE_TYPE from '../../../domain/models/room/message/MessageType'
 import { IAuthenticationInputDTO } from './AuthenticationService'
 
 interface ICreateRoomInputDTO {
@@ -40,6 +41,27 @@ interface IGetAllUsersFromRoomOutputDTO
     isOnline: boolean
   }> {}
 
+interface ISaveMessageInputDTO {
+  auth: IAuthenticationInputDTO
+  message: {
+    roomCode: string
+    message: string
+    messageType: MESSAGE_TYPE
+    createdAt: number
+    fileUrl?: string
+  }
+}
+
+interface ISaveMessageOutputDTO {
+  messageId: string
+  username: string
+  roomCode: string
+  messageType: MESSAGE_TYPE
+  fileUrl: string
+  message: string
+  createdAt: number
+}
+
 interface IRoomApplicationService {
   createRoom(data: ICreateRoomInputDTO): Promise<ICreateRoomOutputDTO>
   joinRoom(data: IJoinRoomInputDTO): Promise<IJoinRoomOutputDTO>
@@ -49,6 +71,7 @@ interface IRoomApplicationService {
   getAllUsersFromRoom(
     data: IGetAllUsersFromRoomInputDTO
   ): Promise<IGetAllUsersFromRoomOutputDTO>
+  saveMessage(data: ISaveMessageInputDTO): Promise<ISaveMessageOutputDTO>
 }
 
 export {
@@ -59,5 +82,7 @@ export {
   IGetAllUsersFromRoomInputDTO,
   IGetAllUsersFromRoomOutputDTO,
   ICreateRoomOutputDTO,
-  IJoinRoomOutputDTO
+  IJoinRoomOutputDTO,
+  ISaveMessageInputDTO,
+  ISaveMessageOutputDTO
 }
