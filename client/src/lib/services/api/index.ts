@@ -1,14 +1,18 @@
-import { UserDTO, Username } from '../../interfaces/index'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
-import { ENDPOINTS } from '../../enums'
+import store from '../../../store'
+import { resetLoading, setError, setLoading } from '../../../store/ducks/app'
+import { ENDPOINTS, MESSAGE_TYPE } from '../../enums'
 import {
   ApiResponse,
   CookieProps,
   OnlineUsersDTO,
-  FileName,
-  RoomCode
+  RoomCode,
+  UploadFileResponse,
+  UserDTO,
+  Username
 } from '../../interfaces'
+import { sendMessage } from '../messages'
 
 export const roomApi = createApi({
   reducerPath: 'roomApi',
@@ -54,34 +58,6 @@ export const roomApi = createApi({
         url: 'rooms/join',
         body: room
       })
-    }),
-    uploadFile: builder.mutation<FileName, { file: File; roomCode: RoomCode }>({
-      query: ({ file, roomCode }) => ({
-        method: 'POST',
-        url: `rooms/${roomCode}/files`,
-        headers: { 'Content-Type': 'multipart/form-data' },
-        body: { file }
-      })
-    }),
-    fetchFile: builder.query<
-      File,
-      { fileName: FileName; mimeType: string; roomCode: RoomCode }
-    >({
-      query: ({ fileName, mimeType, roomCode }) => ({
-        method: 'GET',
-        url: `rooms/${roomCode}/files/${fileName}`,
-        headers: { 'Content-Type': mimeType }
-      })
-    }),
-    streamMedia: builder.query<
-      MediaStream,
-      { media: string; range: string; mimeType: string; roomCode: RoomCode }
-    >({
-      query: ({ media, range, roomCode, mimeType }) => ({
-        method: 'GET',
-        url: `rooms/${roomCode}/files/stream/${media}`,
-        headers: { Range: range, 'Content-Type': mimeType }
-      })
     })
   })
 })
@@ -94,6 +70,34 @@ const api = axios.create({
     Accept: 'application/json'
   }
 })
+
+type sendFileMessageType = {
+  file: File
+  message: string
+  messageType: MESSAGE_TYPE
+}
+
+const sendFileMessage = async (message: sendFileMessageType) => {
+  try {
+    const formData = new FormData()
+    formData.append('file', message.file)
+    store.dispatch(setLoading())
+    const result: AxiosResponse<UploadFileResponse, { fileUrl: string }> =
+      await axios.post(`${ENDPOINTS.BACKEND_URL}rooms/file`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true
+      })
+    sendMessage({
+      fileUrl: result.data.fileUrl,
+      message: message.message,
+      messageType: message.messageType
+    })
+  } catch (error) {
+    store.dispatch(setError(error as any))
+  } finally {
+    store.dispatch(resetLoading())
+  }
+}
 
 const fetchUsersInRoom = async (cookies: CookieProps) => {
   try {
@@ -134,14 +138,13 @@ const generateCode = async (cookies: CookieProps) => {
         }
       }
     )
-
     return result.data.roomCode
   } catch (error) {
     console.log(error)
   }
 }
 
-export { fetchCurrentUser, fetchUsersInRoom, generateCode }
+export { fetchCurrentUser, fetchUsersInRoom, generateCode, sendFileMessage }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
