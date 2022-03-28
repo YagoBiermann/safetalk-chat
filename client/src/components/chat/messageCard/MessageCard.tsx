@@ -45,16 +45,17 @@ const Footer = styled.div`
 type MessageProps = {
   children?: JSX.Element
   username: string
+  creationTime: number
   myMessage?: boolean
 }
 
 function MessageCard(props: MessageProps) {
   const [time, setTime] = useState<TDate>(0)
   const timeAgoOpts = { minInterval: 60 }
-  const { username, children, myMessage } = props
+  const { username, children, creationTime, myMessage } = props
 
   useEffect(() => {
-    setTime(Date.now())
+    setTime(creationTime)
   }, [])
 
   return (

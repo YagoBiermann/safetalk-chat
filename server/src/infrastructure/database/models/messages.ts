@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 import { IMessageRepositoryModel } from '../../../domain/models/room/RoomRepository'
-import MessageType from '../../../domain/models/room/message/MessageType'
+import MESSAGE_TYPE from '../../../domain/models/room/message/MessageType'
 
 const messageSchema = new Schema<IMessageRepositoryModel>({
   _id: { type: String },
@@ -10,15 +10,15 @@ const messageSchema = new Schema<IMessageRepositoryModel>({
   messageType: {
     type: String,
     enum: [
-      MessageType.AUDIO,
-      MessageType.FILE,
-      MessageType.IMAGE,
-      MessageType.TEXT,
-      MessageType.VIDEO
+      MESSAGE_TYPE.AUDIO,
+      MESSAGE_TYPE.FILE,
+      MESSAGE_TYPE.IMAGE,
+      MESSAGE_TYPE.TEXT,
+      MESSAGE_TYPE.VIDEO
     ],
     required: true
   },
-  fileURL: { type: String, required: false },
+  fileUrl: { type: String, required: false },
   createdAt: { type: Number, required: true, default: Date.now }
 })
 

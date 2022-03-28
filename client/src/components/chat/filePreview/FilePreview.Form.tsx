@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import PreviewSendButton from './Form.SendButton'
 import { DropFile } from '../../../lib/interfaces'
-import { sendFileMessage } from '../../../lib/services/messages'
-import { MESSAGE_TYPE } from '../../../lib/enums'
 import { TextField } from '@mui/material'
 import { alpha } from '@mui/material/styles'
+import { sendFileMessage } from '../../../lib/services/api'
+import getFileType from '../../../lib/helpers/getFileType'
 
 const InputBox = styled.form`
   display: flex;
@@ -31,7 +31,11 @@ function PreviewSend(props: PreviewSendTypes) {
   })
 
   const submitMessage: SubmitHandler<FormValues> = data => {
-    sendFileMessage(file.preview, MESSAGE_TYPE.FILE, data.message)
+    sendFileMessage({
+      file,
+      message: data.message,
+      messageType: getFileType(file)
+    })
     resetField('message')
     close()
   }

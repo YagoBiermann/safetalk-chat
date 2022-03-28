@@ -9,12 +9,12 @@ type AudioMessageProps = {
 
 function AudioMessage(props: AudioMessageProps) {
   const { src } = props
-  const audioRef = useRef<HTMLAudioElement>(null)
 
+  const audioRef = useRef<HTMLAudioElement>(null)
   return (
     <>
-      <audio ref={audioRef}>
-        <source src={src} type="audio/mp3" />
+      <audio ref={audioRef} preload="metadata">
+        <source src={src} type="audio/mp4" />
       </audio>
       <MediaPlayer
         media={audioRef}

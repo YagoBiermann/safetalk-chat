@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import InputMessage from './SendMessage.Input'
 import SendMessageButtons from './SendMessage.Buttons'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useAppDispatch, useAppSelector } from '../../../store'
-import { sendAudioMessage, sendTextMessage } from '../../../lib/services/messages'
-import { MESSAGE_TYPE } from '../../../lib/enums'
 import useRecorder from '../../../lib/hooks/useRecorder'
 import RecordAudio from './SendMessage.Recorder'
 import { MessageFormMobile } from './SendMessage.MediaQueries'
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import { LayoutGroup } from 'framer-motion'
+import { sendMessage } from '../../../lib/services/messages'
+import { MESSAGE_TYPE } from '../../../lib/enums'
+import { sendFileMessage } from '../../../lib/services/api'
 
 const MessageForm = styled.form`
   display: flex;
@@ -25,21 +25,32 @@ type FormValues = {
 }
 
 function SendMessage() {
-  const dispatch = useAppDispatch()
-  const { cancelRecord, finishRecord, recorder, startRecord } = useRecorder()
+  const { cancelRecord, finishRecord, recorder, clearRecord, startRecord } =
+    useRecorder()
   const { register, handleSubmit, watch, resetField } = useForm<FormValues>()
   const message = watch('message', '')
 
   // Send text message
-  const handleSubmitMessage: SubmitHandler<FormValues> = data => {
+  const handleSubmitMessage: SubmitHandler<FormValues> = async data => {
+    sendMessage({
+      message: data.message,
+      messageType: MESSAGE_TYPE.TEXT
+    })
+
     resetField('message')
-    sendTextMessage(data.message)
   }
 
   // Send audio message
   useEffect(() => {
     if (recorder.audio) {
-      console.log(recorder.audio)
+      sendFileMessage({
+        file: recorder.audio,
+        messageType: MESSAGE_TYPE.AUDIO,
+        message: ''
+      })
+    }
+    return () => {
+      clearRecord()
     }
   }, [recorder.audio])
 

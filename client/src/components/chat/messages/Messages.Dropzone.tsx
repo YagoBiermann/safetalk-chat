@@ -5,7 +5,6 @@ import { fileContext } from '../../../lib/context/fileContext'
 import createFilePreview from '../../../lib/helpers/createFilePreview'
 import { useAppDispatch } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import { acceptedTypes } from '../../../lib/enums'
 import {
   dropzoneOuterBoxMobile,
   dropzoneInnerBoxMobile
@@ -69,8 +68,8 @@ const Dropzone = (props: DropzoneProps) => {
     noDragEventsBubbling: true,
     multiple: false,
     noClick: true,
+    maxSize: 1024 ** 3, //1 Gb
     noKeyboard: true,
-    accept: acceptedTypes,
     onDropAccepted: acceptedFiles => {
       acceptedFiles.forEach(file => {
         setFiles([...files, createFilePreview(file)])
@@ -78,7 +77,7 @@ const Dropzone = (props: DropzoneProps) => {
         props.close()
     },
     onDropRejected: () => {
-      dispatch(setError('File type not supported'))
+      dispatch(setError('File not supported'))
       props.close()
     }
   })

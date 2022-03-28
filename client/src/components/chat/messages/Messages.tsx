@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Dropzone from './Messages.Dropzone'
-import { MessageCard } from '../messageCard/MessageCard'
-import { ImageMessage } from '../messageCard/Message.Image'
-import { TextMessage } from '../messageCard/Message.Text'
-import { VideoMessage } from '../messageCard/Message.Video'
-import { AudioMessage } from '../messageCard/Message.Audio'
 import { AnimatePresence } from 'framer-motion'
+import { useAppDispatch, useAppSelector } from '../../../store'
+import MappedMessages from './Messages.Mapped'
+import { socketContext } from '../../../lib/context/socketContext'
+import { Message } from '../../../lib/interfaces'
+import { addMessage } from '../../../store/ducks/messages'
 
 const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
@@ -28,10 +28,19 @@ function MessagesBox() {
   const [isDragOver, setDragOver] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const messagesRef = useRef<HTMLDivElement>(null)
+  const messages = useAppSelector(state => state.message.messages)
+  const socket = useContext(socketContext)
+  const dispatch = useAppDispatch()
 
   const closeDropzone = () => {
     setDragOver(false)
   }
+
+  useEffect(() => {
+    socket.on('room:message', (message: Message) => {
+      dispatch(addMessage(message))
+    })
+  }, [socket])
 
   // close dropzone with escape key
   useEffect(() => {
@@ -66,34 +75,7 @@ function MessagesBox() {
         }
       }}
     >
-      <MessageCard username="Yago biermann">
-        <ImageMessage
-          imageURL="https://picsum.photos/id/237/800/600"
-          message="This is a test message"
-        />
-      </MessageCard>
-
-      <MessageCard myMessage={true} username="Yago biermann">
-        <ImageMessage
-          imageURL="https://picsum.photos/id/237/800/600"
-          message="This is a test message"
-        />
-      </MessageCard>
-
-      <MessageCard myMessage={true} username="Yago biermann">
-        <TextMessage message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet " />
-      </MessageCard>
-
-      <MessageCard username="Yago biermann">
-        <VideoMessage
-          message="Lorem ipsum dolor sadssit amet Lorem isasapsum dolor sit amet assaLorem ipsussam dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet "
-          videoURL={'/static/images/video.mp4'}
-        />
-      </MessageCard>
-
-      <MessageCard myMessage={true} username="Yago biermann">
-        <AudioMessage src={'/static/images/audio.mp3'} type="audio/mp3" />
-      </MessageCard>
+      {MappedMessages({ messages })}
       <AnimatePresence>
         {isDragOver ? (
           <Dropzone

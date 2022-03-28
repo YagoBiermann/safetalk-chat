@@ -57,9 +57,13 @@ const GetAllUsersFromRoomEventController =
 const userDisconnectEventController =
   SocketControllerFactory.makeUserDisconnectEventController()
 
+const sendMessageEventController =
+  SocketControllerFactory.makeSendMessageEventController()
+
 socketServer.addController(joinRoomEventController)
 socketServer.addController(GetAllUsersFromRoomEventController)
 socketServer.addController(userDisconnectEventController)
+socketServer.addController(sendMessageEventController)
 
 // App execution
 session.exec()
