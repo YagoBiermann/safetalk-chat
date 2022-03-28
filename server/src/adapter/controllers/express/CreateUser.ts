@@ -17,7 +17,7 @@ class CreateUserController implements IRouteController {
           userId
         })
 
-        req.session.regenerate
+        req.session.destroy
         req.session.user = response.userId
         req.session.accessKey = response.accessKey
 
