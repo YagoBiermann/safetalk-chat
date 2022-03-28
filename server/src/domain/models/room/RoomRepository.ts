@@ -15,7 +15,7 @@ interface IMessageRepositoryModel {
   message: string
   messageType: string
   createdAt: number
-  fileURL?: string
+  fileUrl?: string
 }
 
 interface IRoomRepository {

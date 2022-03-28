@@ -3,25 +3,25 @@ import RoomCode from '../RoomCode'
 import TextMessage from './TextMessage'
 import Username from '../../common/valueObjects/Username'
 import MessageId from './MessageId'
-import MessageType from './MessageType'
+import MESSAGE_TYPE from './MessageType'
 
 class Message {
   private _id: MessageId
   private _username: Username
   private _roomCode: RoomCode
   private _textMessage: TextMessage
-  private _messageType: MessageType
+  private _messageType: MESSAGE_TYPE
   private _createdAt: number
-  private _fileURL?: string
+  private _fileUrl?: string
 
   public constructor(messageDTO: IMessageDTO) {
-    this._id = new MessageId(messageDTO.id) || new MessageId()
+    this._id = new MessageId(messageDTO.messageId) || new MessageId()
     this._username = new Username(messageDTO.username)
     this._roomCode = new RoomCode(messageDTO.roomCode)
     this._textMessage = new TextMessage(messageDTO.message)
     this._messageType = messageDTO.messageType
     this._createdAt = messageDTO.createdAt || Date.now()
-    this._fileURL = messageDTO.fileURL
+    this._fileUrl = messageDTO.fileUrl
   }
 
   public get id(): string {
@@ -36,11 +36,11 @@ class Message {
     return this._roomCode.value
   }
 
-  public get text(): string {
+  public get content(): string {
     return this._textMessage.content
   }
 
-  public get type(): MessageType {
+  public get type(): MESSAGE_TYPE {
     return this._messageType
   }
 
@@ -48,9 +48,9 @@ class Message {
     return this._createdAt
   }
 
-  public get pathToFile(): string | null {
-    if (this._fileURL) {
-      return this._fileURL
+  public get fileUrl(): string | null {
+    if (this._fileUrl) {
+      return this._fileUrl
     }
     return null
   }

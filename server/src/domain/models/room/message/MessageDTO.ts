@@ -1,13 +1,13 @@
-import MessageType from './MessageType'
+import MESSAGE_TYPE from './MessageType'
 
 interface IMessageDTO {
-  id?: string
+  messageId?: string
   username: string
   roomCode: string
+  messageType: MESSAGE_TYPE
+  fileUrl?: string
   message: string
-  messageType: MessageType
   createdAt: number
-  fileURL?: string
 }
 
 export default IMessageDTO
