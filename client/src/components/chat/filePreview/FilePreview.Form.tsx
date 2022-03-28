@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import PreviewSendButton from './Form.SendButton'
-import { DropFile } from '../../../lib/interfaces'
+import { FileWithPreview } from '../../../lib/interfaces'
 import { TextField } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import { sendFileMessage } from '../../../lib/services/api'
@@ -20,7 +20,7 @@ type FormValues = {
 }
 
 type PreviewSendTypes = {
-  file: DropFile
+  file: FileWithPreview
   close: () => void
 }
 

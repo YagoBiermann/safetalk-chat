@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PreviewCloseButton from './FilePreview.CloseButton'
 import PreviewSend from './FilePreview.Form'
 import PreviewItems from './FilePreview.Items'
-import { DropFile } from '../../../lib/interfaces'
+import { FileWithPreview } from '../../../lib/interfaces'
 import { motion } from 'framer-motion'
 import DarkenBackground from '../../global/DarkenBackground'
 import { filePreviewAnimations } from './FilePreview.Animations'
@@ -23,7 +23,7 @@ const PreviewBox = styled(motion.div)`
 `
 
 type PreviewTypes = {
-  files: DropFile[]
+  files: FileWithPreview[]
   close: () => void
   closeWithoutSave: () => void
 }
