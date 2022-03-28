@@ -9,7 +9,7 @@ import SendMessage from '../../components/chat/sendMessage/SendMessage'
 import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
-import { DropFile, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
+import { FileWithPreview, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
 import { fetchCurrentUser, fetchUsersInRoom } from '../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
@@ -74,7 +74,7 @@ type ChatPageProps = NextPage & { user: UserDTO; usersInRoom: OnlineUsersDTO }
 
 const Chat = (props: ChatPageProps) => {
   const { user } = props
-  const [files, setFiles] = useState<Array<DropFile>>([])
+  const [files, setFiles] = useState<Array<FileWithPreview>>([])
   const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
   const error = useAppSelector(state => state.app.error)
