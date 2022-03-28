@@ -24,7 +24,9 @@ class CreateRoomController implements IRouteController {
         req.session.accessKey = newAccessKey
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
 
-        const cookieOptions = { httpOnly: true }
+        const cookieOptions = {
+          httpOnly: true
+        }
 
         for (const cloudAccessKey in cloudAccessKeys) {
           res.cookie(

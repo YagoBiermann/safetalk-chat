@@ -25,8 +25,7 @@ class JoinRoomController implements IRouteController {
         req.session.cookie.maxAge = 60000 * 60 * 72 // 72 hours
 
         const cookieOptions = {
-          httpOnly: true,
-          domain: process.env.AWS_CLOUDFRONT_DOMAIN
+          httpOnly: true
         }
 
         for (const cloudAccessKey in cloudAccessKeys) {
