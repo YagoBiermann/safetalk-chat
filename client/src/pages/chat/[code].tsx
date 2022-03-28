@@ -24,6 +24,7 @@ import { socketContext } from '../../lib/context/socketContext'
 import { setUsersInRoom } from '../../store/ducks/rooms'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Link from 'next/link'
+import { addMessage, hydrateMessages } from '../../store/ducks/messages'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -50,7 +51,8 @@ const ChatHeader = styled.div`
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
   const user = await fetchCurrentUser(cookies)
-  const usersInRoom = user ? await fetchUsersInRoom(cookies) : undefined
+
+  const usersInRoom = user ? await fetchUsersInRoom(cookies) : null
   if (!user || !user.room) {
     return {
       redirect: {
@@ -106,18 +108,17 @@ const Chat = (props: ChatPageProps) => {
   // Hydrate on mount
   useEffect(() => {
     socket.connect()
-    //TODO: Hydrate messages
-    socket.emit('room:join', { roomCode: user.roomCode })
-    socket.emit('room:allUsers', { roomCode: user.roomCode })
-    // socket.emit('user:data', user)
+    socket.on('connect', () => {
+      socket.emit('room:join', { roomCode: user.roomCode })
+      socket.emit('room:allUsers', { roomCode: user.roomCode })
+    })
     dispatch(setRoomCode(user.roomCode))
     dispatch(setUsername(user.username))
     dispatch(setUsersInRoom(usersInRoom))
-
+    dispatch(hydrateMessages(user.messages))
     return () => {
       socket.off('room:allUsers')
       socket.off('room:join')
-      socket.off('user:data')
     }
   }, [])
 
