@@ -49,6 +49,33 @@ class AWSManager implements ICloudService {
     return signedCookie
   }
 
+  public getSignedUrl(fileName: string) {
+    const policy = JSON.stringify({
+      Statement: [
+        {
+          Resource: `https://${process.env.AWS_CLOUDFRONT_DOMAIN}/${fileName}`,
+          Condition: {
+            DateLessThan: {
+              'AWS:EpochTime': Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7 // 1 week
+            }
+          }
+        }
+      ]
+    })
+    const privateKeyPath = path.join(__dirname, 'private_aws_key.pem')
+    const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+    const cookie = new AWS.CloudFront.Signer(
+      process.env.AWS_PUBLIC_KEY,
+      privateKey
+    )
+    const expires = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7
+    const signedCookie = cookie.getSignedUrl({
+      expires,
+      url: `https://${process.env.AWS_CLOUDFRONT_DOMAIN}/${fileName}`
+    })
+    return signedCookie
+  }
+
   public async uploadFile(file: Express.Multer.File, roomCode: string) {
     const fileExt = path.extname(file.originalname)
     const fileName = `${roomCode}/${uuidv4()}.${fileExt}`
