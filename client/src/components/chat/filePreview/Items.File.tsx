@@ -50,7 +50,6 @@ const FileProps = styled.div`
 const Icon = styled(ArticleIcon)`
   color: ${props => props.theme.fontColor.primary};
   font-size: 148px;
-
   ${IconMobile}
 `
 

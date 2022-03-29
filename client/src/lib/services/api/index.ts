@@ -82,13 +82,13 @@ const sendFileMessage = async (message: sendFileMessageType) => {
     const formData = new FormData()
     formData.append('file', message.file)
     store.dispatch(setLoading())
-    const result: AxiosResponse<UploadFileResponse, { fileUrl: string }> =
+    const result: AxiosResponse<UploadFileResponse, { file: string }> =
       await axios.post(`${ENDPOINTS.BACKEND_URL}rooms/file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       })
     sendMessage({
-      fileUrl: result.data.fileUrl,
+      file: result.data.file,
       message: message.message,
       messageType: message.messageType
     })
