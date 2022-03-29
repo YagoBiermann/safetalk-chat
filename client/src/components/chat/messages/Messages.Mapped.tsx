@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { MessageCard } from '../messageCard/MessageCard'
 import { ImageMessage } from '../messageCard/Message.Image'
 import { TextMessage } from '../messageCard/Message.Text'
@@ -7,6 +7,7 @@ import { AudioMessage } from '../messageCard/Message.Audio'
 import { useAppSelector } from '../../../store'
 import { Message } from '../../../lib/interfaces'
 import { MESSAGE_TYPE } from '../../../lib/enums'
+import { FileMessage } from '../messageCard/Message.File'
 
 type MessagesProps = {
   messages: Array<Message>
@@ -40,7 +41,7 @@ function MappedMessages(props: MessagesProps) {
                 myMessage={myMessage}
               >
                 <ImageMessage
-                  imageURL={message.fileUrl}
+                  imageURL={message.file.url}
                   message={message.message}
                 />
               </MessageCard>
@@ -56,7 +57,7 @@ function MappedMessages(props: MessagesProps) {
               >
                 <VideoMessage
                   message={message.message}
-                  videoURL={message.fileUrl}
+                  videoURL={message.file.url}
                 />
               </MessageCard>
             )
@@ -69,7 +70,25 @@ function MappedMessages(props: MessagesProps) {
                 key={message.messageId}
                 myMessage={myMessage}
               >
-                <AudioMessage src={message.fileUrl} type="audio/mp4" />
+                <AudioMessage src={message.file.url} type="audio/mp4" />
+              </MessageCard>
+            )
+
+          case MESSAGE_TYPE.FILE:
+            return (
+              <MessageCard
+                username={message.username}
+                creationTime={message.createdAt}
+                key={message.messageId}
+                myMessage={myMessage}
+              >
+                <FileMessage
+                  fileName={message.file.name}
+                  fileSize={message.file.size}
+                  fileType={message.file.type}
+                  fileUrl={message.file.url}
+                  message={message.message}
+                ></FileMessage>
               </MessageCard>
             )
           default:
