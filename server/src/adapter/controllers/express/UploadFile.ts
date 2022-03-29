@@ -56,7 +56,14 @@ class UploadFileController implements IRouteController {
         try {
           const file = req.file as Express.MulterS3.File
           const fileUrl = this.cloudService.getSignedUrl(file.key)
-          return successPresenter.success({ fileUrl })
+          return successPresenter.success({
+            file: {
+              name: file.originalname,
+              url: fileUrl,
+              size: file.size,
+              type: file.mimetype
+            }
+          })
         } catch (error) {
           return errorHandler.handle(error)
         }

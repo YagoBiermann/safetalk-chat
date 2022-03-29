@@ -38,7 +38,7 @@ class Room extends Entity {
       messageType: message.type,
       createdAt: message.creationTime,
       roomCode: this.roomCode,
-      fileUrl: message.fileUrl
+      file: message.file
     }))
   }
 

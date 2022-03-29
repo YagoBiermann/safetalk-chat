@@ -116,7 +116,7 @@ class RoomApplicationService
 
   public async saveMessage({
     auth: { accessKey, userId },
-    message: { roomCode, message, messageType, fileUrl, createdAt }
+    message: { roomCode, message, messageType, file, createdAt }
   }: ISaveMessageInputDTO): Promise<ISaveMessageOutputDTO> {
     this.assertArgumentNotNull(
       roomCode,
@@ -134,7 +134,7 @@ class RoomApplicationService
       roomCode,
       message,
       messageType,
-      fileUrl,
+      file,
       createdAt
     })
 
@@ -145,7 +145,7 @@ class RoomApplicationService
       username: savedMessage.username,
       roomCode: savedMessage.roomCode,
       messageType: savedMessage.type,
-      fileUrl: savedMessage.fileUrl,
+      file: savedMessage.file,
       message: savedMessage.content,
       createdAt: savedMessage.creationTime
     }

@@ -20,7 +20,12 @@ export interface OnlineUsersRedux
   extends Array<{ username: string; userId: string }> {}
 
 export interface UploadFileResponse {
-  fileUrl: string
+  file: {
+    name: string
+    url: string
+    type: string
+    size: number
+  }
 }
 
 export interface Username {
@@ -40,7 +45,12 @@ export interface Message {
   username: string
   roomCode: string
   messageType: MESSAGE_TYPE
-  fileUrl: string
+  file: {
+    name: string
+    url: string
+    type: string
+    size: number
+  }
   message: string
   createdAt: number
 }

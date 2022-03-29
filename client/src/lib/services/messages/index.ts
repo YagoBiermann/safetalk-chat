@@ -4,12 +4,17 @@ import { MESSAGE_TYPE } from '../../enums'
 interface sendMessageInputDTO {
   message: string
   messageType: MESSAGE_TYPE
-  fileUrl?: string
+  file?: {
+    name: string
+    url: string
+    type: string
+    size: number
+  }
 }
 
-function sendMessage({ message, fileUrl, messageType }: sendMessageInputDTO) {
+function sendMessage({ message, file, messageType }: sendMessageInputDTO) {
   const createdAt = Date.now()
-  const assembledMessage = { message, messageType, fileUrl, createdAt }
+  const assembledMessage = { message, messageType, file, createdAt }
   socket.emit('room:message', assembledMessage)
 }
 

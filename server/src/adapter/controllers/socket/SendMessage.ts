@@ -8,14 +8,14 @@ class SendMessageEventController implements ISocketController {
   public async handle(socket: SocketWithSession, io: Server): Promise<Socket> {
     return socket.on(
       'room:message',
-      async ({ message, messageType, fileUrl, createdAt }) => {
+      async ({ message, messageType, file, createdAt }) => {
         try {
           const userId = socket.request.session.user
           const accessKey = socket.request.session.accessKey
           const roomCode = socket.request.session.roomCode
           const savedMessage = await this.roomApplicationService.saveMessage({
             auth: { accessKey, userId },
-            message: { roomCode, message, messageType, fileUrl, createdAt }
+            message: { roomCode, message, messageType, file, createdAt }
           })
           io.of('chat').to(roomCode).emit('room:message', savedMessage)
         } catch (error) {

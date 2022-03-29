@@ -14,7 +14,7 @@ class RoomMapper implements IRoomMapper {
           createdAt: message.createdAt,
           messageType: message.messageType,
           roomCode: message.roomCode,
-          fileUrl: message.fileUrl,
+          file: message.file,
           username: message.username
         } as IMessageRepositoryModel)
     )
@@ -42,7 +42,7 @@ class RoomMapper implements IRoomMapper {
         message: message.message,
         messageType: MESSAGE_TYPE[message.messageType],
         createdAt: message.createdAt,
-        fileUrl: message.fileUrl
+        file: message.file
       })
     )
     return room

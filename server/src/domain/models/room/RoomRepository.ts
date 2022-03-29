@@ -1,4 +1,5 @@
 import { ClientSession } from 'mongoose'
+import { IFileMetaData } from './message/MessageDTO'
 import Room from './Room'
 
 interface IRoomRepositoryModel<UserId = string> {
@@ -15,7 +16,7 @@ interface IMessageRepositoryModel {
   message: string
   messageType: string
   createdAt: number
-  fileUrl?: string
+  file?: IFileMetaData
 }
 
 interface IRoomRepository {
