@@ -17,7 +17,7 @@ class UserDisconnectEventController implements ISocketController {
           userId
         })
 
-        socket.request.session.destroy(err => console.log(err))
+        socket.request.session.destroy
         socket.to(roomCode).emit('room:allUsers')
       } catch (error) {
         console.log(error)

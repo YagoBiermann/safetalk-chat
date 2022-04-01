@@ -24,7 +24,7 @@ import { socketContext } from '../../lib/context/socketContext'
 import { setUsersInRoom } from '../../store/ducks/rooms'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Link from 'next/link'
-import { addMessage, hydrateMessages } from '../../store/ducks/messages'
+import { hydrateMessages } from '../../store/ducks/messages'
 
 const ChatContainer = styled.div`
   ${CenterColumn}

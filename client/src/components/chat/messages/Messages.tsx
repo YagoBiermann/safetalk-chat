@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Dropzone from './Messages.Dropzone'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import MappedMessages from './Messages.Mapped'
 import { socketContext } from '../../../lib/context/socketContext'
 import { Message } from '../../../lib/interfaces'
 import { addMessage } from '../../../store/ducks/messages'
+import { messageCardAnimation } from '../messageCard/Message.Animations'
 
 const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
