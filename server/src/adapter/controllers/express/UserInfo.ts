@@ -1,10 +1,19 @@
 import express from 'express'
+import IApplicationService from '../../../application/ports/services/ApplicationService'
+import {
+  IUserInfoInputDTO,
+  IUserInfoOutputDTO
+} from '../../../application/ports/services/UserInfoApplicationService'
 import IRouteController from '../../ports/controllers/RouteController'
 import PresenterFactory from '../../presenter/PresenterFactory'
-import { IUserApplicationService } from '../../../application/ports/services/UserApplicationService'
 
 class UserInfoController implements IRouteController {
-  constructor(private userApplicationService: IUserApplicationService) {}
+  constructor(
+    private userInfoApplicationService: IApplicationService<
+      IUserInfoInputDTO,
+      Promise<IUserInfoOutputDTO>
+    >
+  ) {}
 
   async handle(router: express.Router): Promise<express.Router> {
     return router.get('/users/me', async (req, res) => {
@@ -12,7 +21,7 @@ class UserInfoController implements IRouteController {
       const userId = req.session.user
       const accessKey = req.session.accessKey
       try {
-        const userInfo = await this.userApplicationService.userInfo({
+        const userInfo = await this.userInfoApplicationService.exec({
           userId,
           accessKey
         })

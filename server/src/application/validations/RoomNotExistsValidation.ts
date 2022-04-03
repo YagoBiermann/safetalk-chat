@@ -1,6 +1,6 @@
-import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
-import RoomError from '../../../domain/errors/models/RoomError'
-import IValidation from '../../ports/validations/Validation'
+import { IRoomRepository } from '../../domain/models/room/RoomRepository'
+import RoomError from '../../domain/errors/models/RoomError'
+import IValidation from '../ports/validations/Validation'
 
 interface IRoomNotExistsValidationInput {
   roomCode?: string

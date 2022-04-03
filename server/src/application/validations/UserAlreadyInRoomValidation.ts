@@ -1,6 +1,6 @@
-import UserError from '../../../domain/errors/models/UserError'
-import IUserRepository from '../../../domain/models/user/UserRepository'
-import IValidation from '../../ports/validations/Validation'
+import UserError from '../../domain/errors/models/UserError'
+import IUserRepository from '../../domain/models/user/UserRepository'
+import IValidation from '../ports/validations/Validation'
 
 class UserAlreadyInRoomValidation implements IValidation {
   constructor(private user: IUserRepository) {}

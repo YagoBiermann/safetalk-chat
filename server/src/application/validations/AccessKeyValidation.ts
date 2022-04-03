@@ -1,7 +1,7 @@
-import AuthError from '../../../domain/errors/models/AuthError'
-import { IAuthenticationInputDTO } from '../../ports/services/AuthenticationService'
-import ArgumentAssertion from '../../../domain/models/common/ArgumentAssertion'
-import IValidation from '../../ports/validations/Validation'
+import AuthError from '../../domain/errors/models/AuthError'
+import { IAuthenticationInputDTO } from '../ports/services/AuthenticationService'
+import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
+import IValidation from '../ports/validations/Validation'
 
 class AccessKeyValidation
   extends ArgumentAssertion

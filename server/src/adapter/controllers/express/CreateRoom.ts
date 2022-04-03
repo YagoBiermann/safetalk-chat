@@ -1,10 +1,19 @@
 import express from 'express'
+import IApplicationService from '../../../application/ports/services/ApplicationService'
+import {
+  ICreateRoomInputDTO,
+  ICreateRoomOutputDTO
+} from '../../../application/ports/services/CreateRoomApplicationService'
 import IRouteController from '../../ports/controllers/RouteController'
 import PresenterFactory from '../../presenter/PresenterFactory'
-import { IRoomApplicationService } from '../../../application/ports/services/RoomApplicationService'
 
 class CreateRoomController implements IRouteController {
-  constructor(private roomApplicationService: IRoomApplicationService) {}
+  constructor(
+    private createRoomApplicationService: IApplicationService<
+      ICreateRoomInputDTO,
+      Promise<ICreateRoomOutputDTO>
+    >
+  ) {}
 
   async handle(router: express.Router): Promise<express.Router> {
     return router.post('/rooms/create', async (req, res) => {
@@ -14,7 +23,7 @@ class CreateRoomController implements IRouteController {
       const accessKey = req.session.accessKey
       try {
         const { roomId, newAccessKey, cloudAccessKeys } =
-          await this.roomApplicationService.createRoom({
+          await this.createRoomApplicationService.exec({
             auth: { accessKey, userId },
             roomCode
           })

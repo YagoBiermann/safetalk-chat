@@ -1,10 +1,19 @@
 import express from 'express'
-import { IRoomApplicationService } from '../../../application/ports/services/RoomApplicationService'
+import IApplicationService from '../../../application/ports/services/ApplicationService'
+import {
+  IGenerateRoomCodeInputDTO,
+  IGenerateRoomCodeOutputDTO
+} from '../../../application/ports/services/GenerateRoomCodeApplicationService'
 import IRouteController from '../../ports/controllers/RouteController'
 import PresenterFactory from '../../presenter/PresenterFactory'
 
 class GenerateRoomCodeController implements IRouteController {
-  constructor(private roomApplicationService: IRoomApplicationService) {}
+  constructor(
+    private generateRoomCodeApplicationService: IApplicationService<
+      IGenerateRoomCodeInputDTO,
+      Promise<IGenerateRoomCodeOutputDTO>
+    >
+  ) {}
 
   public async handle(router: express.Router): Promise<express.Router> {
     return router.get('/rooms/code', async (req, res) => {
@@ -12,7 +21,7 @@ class GenerateRoomCodeController implements IRouteController {
       const userId = req.session.user
       const accessKey = req.session.accessKey
       try {
-        const roomCode = await this.roomApplicationService.generateRoomCode({
+        const roomCode = await this.generateRoomCodeApplicationService.exec({
           accessKey,
           userId
         })

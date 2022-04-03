@@ -4,86 +4,71 @@ import GenerateRoomCodeController from './express/GenerateRoomCode'
 import CreateRoomController from './express/CreateRoom'
 import JoinRoomController from './express/JoinRoom'
 import UserInfoController from './express/UserInfo'
-import ApplicationServiceFactory from '../../application/services/ApplicationServiceFactory'
+import ApplicationServiceFactory, {
+  ApplicationServices
+} from '../../application/services/ApplicationServiceFactory'
 import GetAllUsersFromRoomController from './express/GetAllUsersFromRoom'
 import UploadFileController from './express/UploadFile'
 import AWSManager from '../../infrastructure/aws/AWSManager'
 import AuthenticationFactory from '../../infrastructure/jwt/AuthenticationFactory'
+
+export enum ExpressControllers {
+  CreateUserController = 'CreateUserController',
+  GenerateRoomCodeController = 'GenerateRoomCodeController',
+  CreateRoomController = 'CreateRoomController',
+  JoinRoomController = 'JoinRoomController',
+  UserInfoController = 'UserInfoController',
+  GetAllUsersFromRoomController = 'GetAllUsersFromRoomController',
+  UploadFileController = 'UploadFileController'
+}
 class ExpressControllerFactory {
+  private static expressControllers = {
+    [ExpressControllers.CreateUserController]: new CreateUserController(
+      ApplicationServiceFactory.make(
+        ApplicationServices.CreateUserApplicationService
+      )
+    ),
+    [ExpressControllers.GenerateRoomCodeController]:
+      new GenerateRoomCodeController(
+        ApplicationServiceFactory.make(
+          ApplicationServices.GenerateRoomCodeApplicationService
+        )
+      ),
+    [ExpressControllers.CreateRoomController]: new CreateRoomController(
+      ApplicationServiceFactory.make(
+        ApplicationServices.CreateRoomApplicationService
+      )
+    ),
+    [ExpressControllers.JoinRoomController]: new JoinRoomController(
+      ApplicationServiceFactory.make(
+        ApplicationServices.JoinRoomApplicationService
+      )
+    ),
+    [ExpressControllers.UserInfoController]: new UserInfoController(
+      ApplicationServiceFactory.make(
+        ApplicationServices.UserInfoApplicationService
+      )
+    ),
+    [ExpressControllers.GetAllUsersFromRoomController]:
+      new GetAllUsersFromRoomController(
+        ApplicationServiceFactory.make(
+          ApplicationServices.GetAllUsersFromRoomApplicationService
+        )
+      ),
+    [ExpressControllers.UploadFileController]: new UploadFileController(
+      new AWSManager(),
+      AuthenticationFactory.make()
+    )
+  }
+
   private constructor() {}
 
-  private static _userApplicationService() {
-    return ApplicationServiceFactory.makeUserApplicationService()
-  }
-
-  private static _roomApplicationService() {
-    return ApplicationServiceFactory.makeRoomApplicationService()
-  }
-
-  public static makeCreateUserController(): IRouteController {
-    const userApplicationService =
-      ExpressControllerFactory._userApplicationService()
-
-    const createUserController = new CreateUserController(
-      userApplicationService
-    )
-
-    return createUserController
-  }
-
-  public static makeGenerateRoomCodeController(): IRouteController {
-    const generateRoomCodeController = new GenerateRoomCodeController(
-      ExpressControllerFactory._roomApplicationService()
-    )
-
-    return generateRoomCodeController
-  }
-
-  public static makeCreateRoomController(): IRouteController {
-    const roomApplicationService =
-      ExpressControllerFactory._roomApplicationService()
-
-    const createRoomController = new CreateRoomController(
-      roomApplicationService
-    )
-
-    return createRoomController
-  }
-
-  public static makeJoinRoomController(): IRouteController {
-    const roomApplicationService =
-      ExpressControllerFactory._roomApplicationService()
-    const joinRoomController = new JoinRoomController(roomApplicationService)
-
-    return joinRoomController
-  }
-
-  public static makeUserInfoController(): IRouteController {
-    const userApplicationService =
-      ExpressControllerFactory._userApplicationService()
-
-    const userInfoController = new UserInfoController(userApplicationService)
-    return userInfoController
-  }
-
-  public static makeGetAllUsersFromRoomController(): IRouteController {
-    const roomApplicationService = this._roomApplicationService()
-    const getAllUsersFromRoomController = new GetAllUsersFromRoomController(
-      roomApplicationService
-    )
-
-    return getAllUsersFromRoomController
-  }
-
-  public static makeUploadFileController(): IRouteController {
-    const cloudService = new AWSManager()
-    const authenticationService = AuthenticationFactory.make()
-    const uploadFileController = new UploadFileController(
-      cloudService,
-      authenticationService
-    )
-
-    return uploadFileController
+  public static make(expressController: ExpressControllers): IRouteController {
+    try {
+      return ExpressControllerFactory.expressControllers[expressController]
+    } catch (error) {
+      throw new Error(`Express controller ${expressController} not found`)
+    }
   }
 }
 

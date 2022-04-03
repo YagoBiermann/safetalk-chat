@@ -1,22 +1,103 @@
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
 import DeleteRoomIfEmptyWhenUserDeletedEventSubscriber from '../subscribers/userDeleted/DeleteRoomIfEmptyWhenUserDeletedEventSubscriber'
-import ChangeStatusWhenUserJoinedRoomEventSubscriber from '../subscribers/userJoinedRoom/ChangeStatusWhenUserJoinedRoomEventSubscriber'
 import RoomRepositoryFactory from '../../infrastructure/database/repositories/factories/RoomRepository'
 import UserRepositoryFactory from '../../infrastructure/database/repositories/factories/UserRepository'
 import SingleTransaction from '../../infrastructure/database/repositories/SingleTransaction'
 import AuthenticationFactory from '../../infrastructure/jwt/AuthenticationFactory'
-import { IRoomApplicationService } from '../ports/services/RoomApplicationService'
-import { IUserApplicationService } from '../ports/services/UserApplicationService'
-import RoomAlreadyExistsValidation from '../validations/leaf/RoomAlreadyExistsValidation'
-import RoomNotExistsValidation from '../validations/leaf/RoomNotExistsValidation'
-import UserAlreadyInRoomValidation from '../validations/leaf/UserAlreadyInRoomValidation'
-import UsernameTakenValidation from '../validations/leaf/UsernameTakenValidation'
-import UserNotExistsValidation from '../validations/leaf/UserNotExistsValidation'
-import RoomApplicationService from './RoomApplicationService'
-import UserApplicationService from './UserApplicationService'
 import AWSManager from '../../infrastructure/aws/AWSManager'
+import IApplicationService from '../ports/services/ApplicationService'
+import CreateRoomApplicationService from './CreateRoomApplicationService'
+import ValidationFactory, {
+  Validations
+} from '../validations/ValidationFactory'
+import ChangeUserStatusWhenJoinedRoomEventSubscriber from '../subscribers/userJoinedRoom/ChangeStatusWhenUserJoinedRoomEventSubscriber'
+import CreateUserApplicationService from './CreateUserApplicationService'
+import DeleteUserApplicationService from './DeleteUserApplicationService'
+import GetAllUsersFromRoomApplicationService from './GetAllUsersFromRoomApplicationService'
+import GenerateRoomCodeApplicationService from './GenerateRoomCodeApplicationService'
+import JoinRoomApplicationService from './JoinRoomApplicationService'
+import SaveMessageApplicationService from './SaveMessageApplicationService'
+import UserInfoApplicationService from './UserInfoApplicationService'
+
+export enum ApplicationServices {
+  CreateRoomApplicationService = 'CreateRoomApplicationService',
+  CreateUserApplicationService = 'CreateUserApplicationService',
+  DeleteUserApplicationService = 'DeleteUserApplicationService',
+  GetAllUsersFromRoomApplicationService = 'GetAllUsersFromRoomApplicationService',
+  GenerateRoomCodeApplicationService = 'GenerateRoomCodeApplicationService',
+  JoinRoomApplicationService = 'JoinRoomApplicationService',
+  SaveMessageApplicationService = 'SaveMessageApplicationService',
+  UserInfoApplicationService = 'UserInfoApplicationService'
+}
 
 class ApplicationServiceFactory {
+  private static applicationServices = {
+    [ApplicationServices.CreateRoomApplicationService]:
+      new CreateRoomApplicationService(
+        this.authentication(),
+        this.cloudService(),
+        ValidationFactory.make(Validations.RoomAlreadyExistsValidation),
+        ValidationFactory.make(Validations.UserAlreadyInRoomValidation),
+        new ChangeUserStatusWhenJoinedRoomEventSubscriber(
+          this.userRepository(),
+          this.singleTransaction()
+        )
+      ),
+    [ApplicationServices.CreateUserApplicationService]:
+      new CreateUserApplicationService(
+        this.userRepository(),
+        this.authentication(),
+        ValidationFactory.make(Validations.UsernameTakenValidation)
+      ),
+    [ApplicationServices.DeleteUserApplicationService]:
+      new DeleteUserApplicationService(
+        this.userRepository(),
+        this.authentication(),
+        ValidationFactory.make(Validations.UserNotExistsValidation),
+        ValidationFactory.make(Validations.RoomNotExistsValidation),
+        new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
+          this.roomRepository(),
+          this.cloudService()
+        )
+      ),
+    [ApplicationServices.GetAllUsersFromRoomApplicationService]:
+      new GetAllUsersFromRoomApplicationService(
+        this.authentication(),
+        ValidationFactory.make(Validations.RoomNotExistsValidation),
+        this.roomRepository(),
+        new GetUsersFromRoomDomainService(
+          this.roomRepository(),
+          this.userRepository()
+        )
+      ),
+    [ApplicationServices.GenerateRoomCodeApplicationService]:
+      new GenerateRoomCodeApplicationService(this.authentication()),
+    [ApplicationServices.JoinRoomApplicationService]:
+      new JoinRoomApplicationService(
+        this.roomRepository(),
+        this.authentication(),
+        this.cloudService(),
+        ValidationFactory.make(Validations.RoomNotExistsValidation),
+        ValidationFactory.make(Validations.UserAlreadyInRoomValidation),
+        new ChangeUserStatusWhenJoinedRoomEventSubscriber(
+          this.userRepository(),
+          this.singleTransaction()
+        )
+      ),
+    [ApplicationServices.SaveMessageApplicationService]:
+      new SaveMessageApplicationService(
+        this.userRepository(),
+        this.roomRepository(),
+        this.authentication()
+      ),
+    [ApplicationServices.UserInfoApplicationService]:
+      new UserInfoApplicationService(
+        this.userRepository(),
+        this.roomRepository(),
+        this.authentication(),
+        ValidationFactory.make(Validations.UserNotExistsValidation)
+      )
+  }
   private constructor() {}
 
   private static userRepository() {
@@ -35,68 +116,18 @@ class ApplicationServiceFactory {
     return new SingleTransaction(this.roomRepository(), this.userRepository())
   }
 
-  public static makeRoomApplicationService(): IRoomApplicationService {
-    const roomAlreadyExistsValidation = new RoomAlreadyExistsValidation(
-      this.roomRepository()
-    )
-
-    const roomNotExistsValidation = new RoomNotExistsValidation(
-      this.roomRepository()
-    )
-
-    const userAlreadyInRoomValidation = new UserAlreadyInRoomValidation(
-      this.userRepository()
-    )
-
-    const changeStatusWhenUserJoinedRoomSubscriber =
-      new ChangeStatusWhenUserJoinedRoomEventSubscriber(
-        this.userRepository(),
-        this.singleTransaction()
-      )
-
-    const getUsersFromRoomDomainService = new GetUsersFromRoomDomainService(
-      this.roomRepository(),
-      this.userRepository()
-    )
-
-    const cloudService = new AWSManager()
-
-    return new RoomApplicationService(
-      this.authentication(),
-      cloudService,
-      roomAlreadyExistsValidation,
-      roomNotExistsValidation,
-      userAlreadyInRoomValidation,
-      this.roomRepository(),
-      this.userRepository(),
-      getUsersFromRoomDomainService,
-      changeStatusWhenUserJoinedRoomSubscriber
-    )
+  private static cloudService() {
+    return new AWSManager()
   }
-  public static makeUserApplicationService(): IUserApplicationService {
-    const usernameTakenValidation = new UsernameTakenValidation(
-      this.userRepository()
-    )
-    const userNotExistsValidation = new UserNotExistsValidation(
-      this.userRepository()
-    )
 
-    const roomNotExistsValidation = new RoomNotExistsValidation(
-      this.roomRepository()
-    )
-
-    const deleteRoomIfEmptyWhenUserDeletedSubscriber =
-      new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(this.roomRepository())
-
-    return new UserApplicationService(
-      this.userRepository(),
-      this.roomRepository(),
-      this.authentication(),
-      usernameTakenValidation,
-      userNotExistsValidation,
-      roomNotExistsValidation,
-      deleteRoomIfEmptyWhenUserDeletedSubscriber
-    )
+  public static make(
+    applicationService: ApplicationServices
+  ): IApplicationService {
+    try {
+      return this.applicationServices[applicationService]
+    } catch (error) {
+      throw new Error(`application service ${applicationService} not found`)
+    }
   }
 }
 

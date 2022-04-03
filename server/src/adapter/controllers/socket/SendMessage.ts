@@ -1,10 +1,19 @@
 import { Server, Socket } from 'socket.io'
-import { IRoomApplicationService } from '../../../application/ports/services/RoomApplicationService'
+import IApplicationService from '../../../application/ports/services/ApplicationService'
+import {
+  ISaveMessageInputDTO,
+  ISaveMessageOutputDTO
+} from '../../../application/ports/services/SaveMessageApplicationService'
 import { SocketWithSession } from '../../../infrastructure/socket.io/AppSocket'
 import ISocketController from '../../ports/controllers/SocketController'
 
 class SendMessageEventController implements ISocketController {
-  constructor(private roomApplicationService: IRoomApplicationService) {}
+  constructor(
+    private saveMessageApplicationService: IApplicationService<
+      ISaveMessageInputDTO,
+      ISaveMessageOutputDTO
+    >
+  ) {}
   public async handle(socket: SocketWithSession, io: Server): Promise<Socket> {
     return socket.on(
       'room:message',
@@ -13,7 +22,7 @@ class SendMessageEventController implements ISocketController {
           const userId = socket.request.session.user
           const accessKey = socket.request.session.accessKey
           const roomCode = socket.request.session.roomCode
-          const savedMessage = await this.roomApplicationService.saveMessage({
+          const savedMessage = await this.saveMessageApplicationService.exec({
             auth: { accessKey, userId },
             message: { roomCode, message, messageType, file, createdAt }
           })

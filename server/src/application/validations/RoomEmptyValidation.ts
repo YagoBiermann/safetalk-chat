@@ -1,7 +1,7 @@
-import IUserRepository from '../../../domain/models/user/UserRepository'
-import { IRoomRepository } from './../../../domain/models/room/RoomRepository'
-import RoomError from '../../../domain/errors/models/RoomError'
-import IValidation from '../../ports/validations/Validation'
+import IUserRepository from '../../domain/models/user/UserRepository'
+import { IRoomRepository } from '../../domain/models/room/RoomRepository'
+import RoomError from '../../domain/errors/models/RoomError'
+import IValidation from '../ports/validations/Validation'
 
 class RoomEmptyValidation implements IValidation {
   constructor(
