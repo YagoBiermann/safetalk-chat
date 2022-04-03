@@ -11,7 +11,7 @@ export const errorMessages: IAppErrorMessageModel = {
   },
   ERR_USERNAME_LENGTH: {
     message:
-      'username length must be less than 25 characters and more than 3 characters',
+      'username must be longer than 3 characters and shorter than 25 characters',
     code: 10
   },
   ERR_INVALID_CHARACTERS: {
