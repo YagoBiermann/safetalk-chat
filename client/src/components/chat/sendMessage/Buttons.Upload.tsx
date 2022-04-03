@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import AttachFile from '@material-ui/icons/AttachFile'
 import { motion } from 'framer-motion'
 import { Button, ButtonProps } from '@mui/material'
@@ -8,12 +8,9 @@ import createFilePreview from '../../../lib/helpers/createFilePreview'
 
 const UploadButton = (props: ButtonProps) => {
   const { files, setFiles } = useContext(fileContext)
-
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const openFileDialog = () => {
-    const fileInput = document.getElementById(
-      'uploadFileButton'
-    ) as HTMLInputElement
-    fileInput.click()
+    fileInputRef.current?.click()
   }
 
   const selectedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +19,7 @@ const UploadButton = (props: ButtonProps) => {
     selectedFiles.forEach(file => {
       setFiles([...files, createFilePreview(file)])
     })
+    fileInputRef.current!.value = ''
   }
 
   return (
@@ -29,6 +27,7 @@ const UploadButton = (props: ButtonProps) => {
       <input
         hidden
         type={'file'}
+        ref={fileInputRef}
         id="uploadFileButton"
         onChange={selectedFile}
       />
