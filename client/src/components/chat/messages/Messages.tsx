@@ -7,7 +7,6 @@ import MappedMessages from './Messages.Mapped'
 import { socketContext } from '../../../lib/context/socketContext'
 import { Message } from '../../../lib/interfaces'
 import { addMessage } from '../../../store/ducks/messages'
-import { messageCardAnimation } from '../messageCard/Message.Animations'
 
 const OuterBox = styled.div<{ isDragOver: boolean }>`
   display: flex;
@@ -60,7 +59,7 @@ function MessagesBox() {
   // scroll to bottom of messages box
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+  }, [messages])
 
   return (
     <OuterBox
