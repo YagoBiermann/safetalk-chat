@@ -1,7 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
 import store from '../../../store'
-import { resetLoading, setError, setLoading } from '../../../store/ducks/app'
+import {
+  setUploadingFileAsFalse,
+  setError,
+  setUploadingFileAsTrue
+} from '../../../store/ducks/app'
 import { ENDPOINTS, MESSAGE_TYPE } from '../../enums'
 import {
   ApiResponse,
@@ -81,7 +85,7 @@ const sendFileMessage = async (message: sendFileMessageType) => {
   try {
     const formData = new FormData()
     formData.append('file', message.file)
-    store.dispatch(setLoading())
+    store.dispatch(setUploadingFileAsTrue())
     const result: AxiosResponse<UploadFileResponse, { file: string }> =
       await axios.post(`${ENDPOINTS.BACKEND_URL}rooms/file`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -92,10 +96,10 @@ const sendFileMessage = async (message: sendFileMessageType) => {
       message: message.message,
       messageType: message.messageType
     })
-  } catch (error) {
-    store.dispatch(setError(error as any))
+  } catch (error: any) {
+    store.dispatch(setError(error.message as string))
   } finally {
-    store.dispatch(resetLoading())
+    store.dispatch(setUploadingFileAsFalse())
   }
 }
 
@@ -105,7 +109,7 @@ const fetchUsersInRoom = async (cookies: CookieProps) => {
       `rooms/current/users`,
       {
         headers: {
-          Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+          Cookie: `connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
         }
       }
     )
@@ -119,7 +123,7 @@ const fetchCurrentUser = async (cookies: CookieProps) => {
   try {
     const result = await api.get<UserDTO>('users/me', {
       headers: {
-        Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+        Cookie: `connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
       }
     })
     return result.data
@@ -134,7 +138,7 @@ const generateCode = async (cookies: CookieProps) => {
       'rooms/code',
       {
         headers: {
-          Cookie: `token=${cookies.token}; connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
+          Cookie: `connect.sid=${cookies['connect.sid']}; HttpOnly; Path=/`
         }
       }
     )

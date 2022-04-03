@@ -25,6 +25,7 @@ import { setUsersInRoom } from '../../store/ducks/rooms'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Link from 'next/link'
 import { hydrateMessages } from '../../store/ducks/messages'
+import LinearProgress from '@mui/material/LinearProgress'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -51,7 +52,6 @@ const ChatHeader = styled.div`
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
   const user = await fetchCurrentUser(cookies)
-
   const usersInRoom = user ? await fetchUsersInRoom(cookies) : null
   if (!user || !user.room) {
     return {
@@ -78,6 +78,7 @@ const Chat = (props: ChatPageProps) => {
   const [showPreview, setPreview] = useState(false)
   const dispatch = useAppDispatch()
   const error = useAppSelector(state => state.app.error)
+  const isUploadingFile = useAppSelector(state => state.app.isUploadingFile)
   const socket = useContext(socketContext)
   const usersInRoom = props.usersInRoom.users
     .filter(user => (user.isOnline ? user : null))
@@ -127,6 +128,11 @@ const Chat = (props: ChatPageProps) => {
       <fileContext.Provider value={{ files, setFiles }}>
         <>
           <ChatContainer id="chatContainer">
+            {isUploadingFile && (
+              <LinearProgress
+                sx={{ backgroundColor: 'primary.light', width: '100%' }}
+              />
+            )}
             <ChatBox>
               <ChatHeader>
                 <Link href="/">
