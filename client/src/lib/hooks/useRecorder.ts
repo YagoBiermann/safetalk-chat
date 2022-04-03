@@ -34,10 +34,10 @@ const useRecorder = () => {
       }
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/MP4; codecs=FLAC' })
+        const blob = new Blob(chunks, { type: 'audio/mpeg; codecs=MPEG-1' })
         chunks = []
-        const file = new File([blob], 'audio.mp4', {
-          type: 'audio/MP4; codecs=FLAC'
+        const file = new File([blob], 'audio.mp3', {
+          type: 'audio/mpeg; codecs=MPEG-1'
         })
 
         setRecorder((prevState: Recorder) => {

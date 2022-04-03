@@ -70,7 +70,7 @@ function MappedMessages(props: MessagesProps) {
                 key={message.messageId}
                 myMessage={myMessage}
               >
-                <AudioMessage src={message.file.url} type="audio/mp4" />
+                <AudioMessage src={message.file.url} type="audio/mpeg" />
               </MessageCard>
             )
 
