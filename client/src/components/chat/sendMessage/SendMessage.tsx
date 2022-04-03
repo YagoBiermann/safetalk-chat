@@ -89,7 +89,7 @@ function SendMessage() {
       messageType: MESSAGE_TYPE.TEXT
     })
 
-    resetField('message')
+    resetField('message', { defaultValue: '', keepTouched: true })
   }
 
   // Send audio message
@@ -117,6 +117,10 @@ function SendMessage() {
       )
     }
   })
+
+  useEffect(() => {
+    console.log(message)
+  }, [message])
 
   return (
     <emojiContext.Provider value={{ isEmojiPickerOpen, setEmojiPickerOpen }}>
