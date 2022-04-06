@@ -9,7 +9,7 @@ import SendMessage from '../../components/chat/sendMessage/SendMessage'
 import ChatSidebar from '../../components/chat/sidebar/Sidebar'
 import ErrorAlert from '../../components/global/ErrorAlert'
 import { fileContext } from '../../lib/context/fileContext'
-import { FileWithPreview, OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
+import { OnlineUsersDTO, UserDTO } from '../../lib/interfaces'
 import { fetchCurrentUser, fetchUsersInRoom } from '../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../store'
 import {
@@ -26,6 +26,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import Link from 'next/link'
 import { hydrateMessages } from '../../store/ducks/messages'
 import LinearProgress from '@mui/material/LinearProgress'
+import useConfirmToLeave from '../../lib/hooks/useConfirmToLeave'
+import useFilePreview from '../../lib/hooks/useFilePreview'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -74,8 +76,8 @@ type ChatPageProps = NextPage & { user: UserDTO; usersInRoom: OnlineUsersDTO }
 
 const Chat = (props: ChatPageProps) => {
   const { user } = props
-  const [files, setFiles] = useState<Array<FileWithPreview>>([])
-  const [showPreview, setPreview] = useState(false)
+  const { closePreview, closeWithoutSave, files, setFiles, showPreview } =
+    useFilePreview()
   const dispatch = useAppDispatch()
   const error = useAppSelector(state => state.app.error)
   const isUploadingFile = useAppSelector(state => state.app.isUploadingFile)
@@ -84,28 +86,7 @@ const Chat = (props: ChatPageProps) => {
     .filter(user => (user.isOnline ? user : null))
     .map(user => ({ username: user.username, userId: user.userId }))
 
-  const clearPreview = () => {
-    files.forEach(file => {
-      URL.revokeObjectURL(file.preview)
-    })
-    setFiles([])
-  }
-
-  const closeWithoutSave = () => {
-    clearPreview()
-    setPreview(false)
-  }
-
-  const closePreview = () => {
-    setPreview(false)
-  }
-
-  useEffect(() => {
-    if (files.length > 0) {
-      setPreview(true)
-    }
-  }, [files])
-
+  useConfirmToLeave()
   // Hydrate on mount
   useEffect(() => {
     socket.connect()
