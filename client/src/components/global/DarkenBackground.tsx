@@ -17,8 +17,14 @@ type DarkenBackgroundProps = React.HTMLAttributes<HTMLDivElement> & {
   children: JSX.Element | JSX.Element[]
 }
 
-function DarkenBackground(props: DarkenBackgroundProps) {
-  return <Background {...props}>{props.children}</Background>
-}
+const DarkenBackground = React.forwardRef(
+  (props: DarkenBackgroundProps, ref?: React.Ref<HTMLDivElement>) => {
+    return (
+      <Background {...props} ref={ref}>
+        {props.children}
+      </Background>
+    )
+  }
+)
 
 export default DarkenBackground
