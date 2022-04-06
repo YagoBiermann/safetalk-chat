@@ -28,6 +28,8 @@ import { hydrateMessages } from '../../store/ducks/messages'
 import LinearProgress from '@mui/material/LinearProgress'
 import useConfirmToLeave from '../../lib/hooks/useConfirmToLeave'
 import useFilePreview from '../../lib/hooks/useFilePreview'
+import DisconnectedFromChat from '../../components/chat/messages/Messages.Disconnected'
+import useSocketStatus from '../../lib/hooks/useSocketStatus'
 
 const ChatContainer = styled.div`
   ${CenterColumn}
@@ -75,6 +77,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
 type ChatPageProps = NextPage & { user: UserDTO; usersInRoom: OnlineUsersDTO }
 
 const Chat = (props: ChatPageProps) => {
+  const { isDisconnected } = useSocketStatus()
   const { user } = props
   const { closePreview, closeWithoutSave, files, setFiles, showPreview } =
     useFilePreview()
@@ -127,6 +130,9 @@ const Chat = (props: ChatPageProps) => {
           <ChatSidebar />
         </>
       </fileContext.Provider>
+      <AnimatePresence>
+        {isDisconnected && <DisconnectedFromChat />}
+      </AnimatePresence>
       <AnimatePresence>
         {showPreview && (
           <FilePreview
