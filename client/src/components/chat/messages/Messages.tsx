@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Dropzone from './Messages.Dropzone'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import MappedMessages from './Messages.Mapped'
 import { socketContext } from '../../../lib/context/socketContext'
