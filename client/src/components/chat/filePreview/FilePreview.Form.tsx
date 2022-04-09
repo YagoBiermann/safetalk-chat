@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import PrimaryInput from '../../global/Input.Primary'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import PreviewSendButton from './Form.SendButton'
-import { DropFile } from '../../../lib/interfaces'
-import { sendFileMessage } from '../../../services/messages'
-import { MESSAGE_TYPE } from '../../../lib/enums'
+import { FileWithPreview } from '../../../lib/interfaces'
 import { TextField } from '@mui/material'
 import { alpha } from '@mui/material/styles'
+import { sendFileMessage } from '../../../lib/services/api'
+import getFileType from '../../../lib/helpers/getFileType'
 
 const InputBox = styled.form`
   display: flex;
@@ -16,21 +15,12 @@ const InputBox = styled.form`
   width: 100%;
 `
 
-const PreviewInput = styled(PrimaryInput)`
-  border-radius: 0px 0px 0px 10px;
-  height: inherit;
-  width: 100%;
-  text-indent: 10px;
-  &::placeholder {
-    color: ${props => props.theme.fontColor.secondary};
-  }
-`
 type FormValues = {
   message: string
 }
 
 type PreviewSendTypes = {
-  file: DropFile
+  file: FileWithPreview
   close: () => void
 }
 
@@ -41,7 +31,11 @@ function PreviewSend(props: PreviewSendTypes) {
   })
 
   const submitMessage: SubmitHandler<FormValues> = data => {
-    sendFileMessage(file.preview, MESSAGE_TYPE.FILE, data.message)
+    sendFileMessage({
+      file,
+      message: data.message,
+      messageType: getFileType(file)
+    })
     resetField('message')
     close()
   }

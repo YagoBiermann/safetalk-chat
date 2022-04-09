@@ -9,14 +9,14 @@ import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import allowOnlyLettersAndNumbers from '../../../lib/helpers/allowLettersAndNumbers'
 import usePopover from '../../../lib/hooks/usePopover'
 import { RoomCode } from '../../../lib/interfaces'
-import { useJoinRoomMutation } from '../../../services/api'
+import { useJoinRoomMutation } from '../../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
-import { setRoomCode } from '../../../store/ducks/users'
 import ButtonState from '../../global/ButtonState'
 import CodeButton from '../shared/Code.Button'
 import CodePopper from '../shared/Code.Popper'
 import JoinRoomInput from './JoinRoom.Input'
+import sleep from '../../../lib/helpers/sleep'
 
 const JoinRoomForm = styled.div`
   ${CenterColumn}
@@ -32,22 +32,17 @@ function JoinRoom() {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const sanitizedRoomCode = watch('roomCode', '')
-  const username = useAppSelector(state => state.user.username)
   const isPending = useAppSelector(state => state.room.pending)
 
   const handleJoinRoom = (roomCode: string) => {
     resetField('roomCode')
-    joinRoom({ username, roomCode })
+    joinRoom({ roomCode })
       .unwrap()
       .then(
         () => {
           router.replace(`/chat/${roomCode}`)
         },
-        error => {
-          if (error.data.message === 'Missing token') {
-            dispatch(setError('Session expired'))
-            router.replace('/')
-          }
+        async error => {
           dispatch(setError(error.data.message))
         }
       )

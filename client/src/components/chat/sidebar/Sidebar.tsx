@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { socketContext } from '../../../lib/context/socketContext'
-import { useLazyFetchUsersQuery } from '../../../services/api'
+import { useLazyFetchUsersQuery } from '../../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { sidebarAnimation } from './Sidebar.Animations'
 import { BadgeWrapper } from './Sidebar.BadgeWrapper'
@@ -12,7 +12,7 @@ import UserSkeleton from './Sidebar.Skeleton'
 import Users from './Sidebar.Users'
 import useWindowSize from '../../../lib/hooks/useWindowSize'
 import { sidebarMobile } from './Sidebar.MediaQueries'
-import { setUsersOnRoom } from '../../../store/ducks/rooms'
+import { setUsersInRoom } from '../../../store/ducks/rooms'
 
 const Sidebar = styled.div`
   position: absolute;
@@ -48,11 +48,11 @@ function Chatsidebar() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    socket.on('room:users', () => {
-      fetchUsers(roomCode)
+    socket.on('room:allUsers', () => {
+      fetchUsers(undefined)
         .unwrap()
         .then(res => {
-          dispatch(setUsersOnRoom(res.users))
+          dispatch(setUsersInRoom(res.users))
         })
         .catch(err => {
           console.log(err)

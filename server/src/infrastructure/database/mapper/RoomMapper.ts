@@ -1,5 +1,5 @@
 import { IMessageRepositoryModel } from '../../../domain/models/room/RoomRepository'
-import MessageType from '../../../domain/models/room/message/MessageType'
+import MESSAGE_TYPE from '../../../domain/models/room/message/MessageType'
 import Room from '../../../domain/models/room/Room'
 import IRoomMapper from '../../../domain/models/room/RoomMapper'
 import { IRoomRepositoryModel } from '../../../domain/models/room/RoomRepository'
@@ -9,12 +9,12 @@ class RoomMapper implements IRoomMapper {
     const messageToModel = room.messages.map(
       message =>
         ({
-          _id: message.id,
-          message: message.text,
-          createdAt: message.creationTime,
-          messageType: message.type,
+          _id: message.messageId,
+          message: message.message,
+          createdAt: message.createdAt,
+          messageType: message.messageType,
           roomCode: message.roomCode,
-          fileURL: message.pathToFile,
+          file: message.file,
           username: message.username
         } as IMessageRepositoryModel)
     )
@@ -33,16 +33,16 @@ class RoomMapper implements IRoomMapper {
       roomCode,
       id: _id
     })
-    users.forEach(user => room.join(user))
+    users.forEach(user => room.connect(user))
     messages.forEach(message =>
       room.addMessage({
-        id: message._id,
+        messageId: message._id,
         roomCode,
         username: message.username,
         message: message.message,
-        messageType: MessageType[message.messageType],
+        messageType: MESSAGE_TYPE[message.messageType],
         createdAt: message.createdAt,
-        fileURL: message.fileURL
+        file: message.file
       })
     )
     return room

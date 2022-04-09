@@ -1,9 +1,9 @@
 import React from 'react'
-import { DropFile } from '../interfaces'
+import { FileWithPreview } from '../interfaces'
 
 type FilesContext = {
-  files: Array<DropFile>
-  setFiles: React.Dispatch<React.SetStateAction<Array<DropFile>>>
+  files: Array<FileWithPreview>
+  setFiles: React.Dispatch<React.SetStateAction<Array<FileWithPreview>>>
 }
 
 const DEFAULT_VALUE = {

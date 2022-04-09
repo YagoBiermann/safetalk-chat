@@ -7,13 +7,25 @@ export interface ApiResponse {
 }
 
 export interface OnlineUsersDTO {
-  users: Array<{ username: string; id: string }>
+  users: Array<{
+    userId: string
+    username: string
+    roomCode: string
+    roomId: string
+    isOnline: boolean
+  }>
 }
 
-export interface OnlineUsersRedux extends Array<{ username: string; id: string }> {}
+export interface OnlineUsersRedux
+  extends Array<{ username: string; userId: string }> {}
 
-export interface FileName {
-  fileName: string
+export interface UploadFileResponse {
+  file: {
+    name: string
+    url: string
+    type: string
+    size: number
+  }
 }
 
 export interface Username {
@@ -29,26 +41,25 @@ export interface SocketID {
 }
 
 export interface Message {
-  id: string
+  messageId: string
   username: string
   roomCode: string
+  messageType: MESSAGE_TYPE
+  file: {
+    name: string
+    url: string
+    type: string
+    size: number
+  }
   message: string
-  type: MESSAGE_TYPE
-}
-
-export interface AudioMessage extends Omit<Message, 'message'> {
-  audio: string
-}
-export interface FileMessage extends Omit<Message, 'message'> {
-  filePreview: string
-  message?: string
+  createdAt: number
 }
 
 export type Recorder = {
   isRecording: boolean
   mediaStream: MediaStream | null
   mediaRecorder: MediaRecorder | null
-  audio: Blob | null
+  audio: File | null
 }
 
 export type UseRecorder = {
@@ -59,7 +70,7 @@ export type UseRecorder = {
 }
 
 // Dropzone file
-export interface DropFile extends File {
+export interface FileWithPreview extends File {
   preview: string
 }
 
@@ -71,14 +82,12 @@ export interface UserRedux {
 
 // User data from backend
 export interface UserDTO {
-  _id: string
+  userId: string
   username: string
-  room: {
-    _id: string
-    roomCode: string
-  }
-  isAdmin: boolean
+  room: string
+  roomCode: string
   isOnline: boolean
+  messages: Array<Message>
 }
 
 export interface CookieProps {

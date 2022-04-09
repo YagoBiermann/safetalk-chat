@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  server:
+    container_name: safetalk_server
+    restart: always
+    networks:
+      - server
+      - client
+
+  client:
+    container_name: safetalk_client
+    restart: always
+    depends_on: 
+      - server
+    networks:
+      - client
+
+  nginx:
+    container_name: safetalk_nginx
+    restart: always
+    build: ./nginx
+    networks:
+      - client
+      - server
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - client
+      
+networks:
+  server:
+    driver: bridge
+  client:
+    driver: bridge

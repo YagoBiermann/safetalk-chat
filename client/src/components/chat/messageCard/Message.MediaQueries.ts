@@ -12,16 +12,15 @@ const MessageCardMobile = css<{ myMessage?: boolean }>`
     border-radius: 10px;
     background-color: ${props => props.theme.colors.dark.elevation_2};
     border: ${props =>
-      props.myMessage
-        ? `1px solid ${props.theme.colors.primary.light}`
-        : null};
+      props.myMessage ? `1px solid ${props.theme.colors.primary.light}` : null};
     box-shadow: none;
     margin: 15px;
   }
 `
 
 const MessageCardTablet = css`
-  @media screen and (max-width: ${props => props.theme.appBreakpoints.desktop}) {
+  @media screen and (max-width: ${props =>
+      props.theme.appBreakpoints.desktop}) {
     margin: 20px;
     max-width: 60%;
   }
@@ -33,7 +32,6 @@ const MessageCardDesktop = css`
     max-width: 45%;
   }
 `
-
 export {
   ImageMessageMobile,
   MessageCardMobile,

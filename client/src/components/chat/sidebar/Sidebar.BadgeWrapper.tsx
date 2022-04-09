@@ -25,7 +25,7 @@ const StyledBadge = muiStyled(Badge)<BadgeProps>(({ theme }) => ({
 }))
 
 type BadgeWrapperProps = {
-  users: Array<{ username: string; id: string }>
+  users: Array<{ username: string; userId: string }>
 }
 
 function BadgeWrapper(props: BadgeWrapperProps) {

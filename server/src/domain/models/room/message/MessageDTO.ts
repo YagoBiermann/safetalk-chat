@@ -1,13 +1,21 @@
-import MessageType from './MessageType'
+import MESSAGE_TYPE from './MessageType'
 
-interface IMessageDTO {
-  id?: string
-  username: string
-  roomCode: string
-  message: string
-  messageType: MessageType
-  createdAt: number
-  fileURL?: string
+interface IFileMetaData {
+  name: string
+  url: string
+  type: string
+  size: number
 }
 
+interface IMessageDTO {
+  messageId?: string
+  username: string
+  roomCode: string
+  messageType: MESSAGE_TYPE
+  file?: IFileMetaData
+  message: string
+  createdAt: number
+}
+
+export { IFileMetaData }
 export default IMessageDTO

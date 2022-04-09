@@ -5,13 +5,13 @@ export const errorMessages: IAppErrorMessageModel = {
     message: 'message cannot be empty',
     code: 10
   },
-  ERR_MESSAGE_LENGHT: {
+  ERR_MESSAGE_LENGTH: {
     message: 'text message cannot be more than 400 characters',
     code: 10
   },
   ERR_USERNAME_LENGTH: {
     message:
-      'username length must be less than 25 characters and more than 3 characters',
+      'username must be longer than 3 characters and shorter than 25 characters',
     code: 10
   },
   ERR_INVALID_CHARACTERS: {

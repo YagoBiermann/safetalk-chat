@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import BoxStyle from '../../../assets/styles/default.Box'
 import CodeBoxStyle from '../../../assets/styles/default.CodeBox'
 import CenterColumn from '../../../assets/styles/default.CenterColumn'
 import CenterRow from '../../../assets/styles/default.CenterRow'
-import { useCreateRoomMutation } from '../../../services/api'
+import { useCreateRoomMutation } from '../../../lib/services/api'
 import { useAppDispatch, useAppSelector } from '../../../store'
 import { setError } from '../../../store/ducks/app'
 import ButtonState from '../../global/ButtonState'
@@ -15,6 +15,7 @@ import CopyButton from './CreateRoom.CopyButton'
 import usePopover from '../../../lib/hooks/usePopover'
 import { AnimatePresence } from 'framer-motion'
 import CodePopper from '../shared/Code.Popper'
+import sleep from '../../../lib/helpers/sleep'
 
 const MainBox = styled.div`
   ${CenterColumn}
@@ -32,19 +33,19 @@ function CreateRoom() {
   const { anchorEl, handleClose, open, showPopover } = usePopover()
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const username = useAppSelector(state => state.user.username)
   const roomCode = useAppSelector(state => state.user.roomCode)
   const isPending = useAppSelector(state => state.room.pending)
 
   const handleCreateRoom = () => {
-    createRoom({ username, roomCode })
+    createRoom({ roomCode })
       .unwrap()
       .then(
         () => {
           router.replace(`/chat/${roomCode}`)
         },
-        error => {
-          dispatch(setError('Session expired'))
+        async error => {
+          dispatch(setError(error.data.message))
+          await sleep(2000)
           router.replace('/')
         }
       )

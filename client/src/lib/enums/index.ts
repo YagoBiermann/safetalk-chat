@@ -1,14 +1,3 @@
-//Enums related to API calls
-export enum ROUTES {
-  CREATE_ROOM = 'rooms/create',
-  JOIN_ROOM = 'rooms/join',
-  DELETE_ROOM = 'rooms/', //:roomCode
-  DELETE_USER = 'users/', //:socketID
-  CREATE_USER = 'users/create',
-  GET_CURRENT_USER = 'users/me',
-  GENERATE_CODE = 'rooms/code'
-}
-
 export enum MESSAGE_TYPE {
   TEXT = 'TEXT',
   IMAGE = 'IMAGE',
@@ -24,24 +13,3 @@ export enum ENDPOINTS {
   FRONTEND_URL = 'http://localhost:80/',
   NGINX_URL = 'http://safetalk_nginx:80/api/v2/'
 }
-
-//accepted file types for upload
-export const acceptedTypes = `
-  image/jpeg, 
-  image/png, 
-  video/webm, 
-  video/ogg, 
-  video/quicktime,
-  video/mp4, 
-  video/wmv, 
-  video/avi, 
-  video/mov,
-  audio/mp3,
-  audio/mp4, 
-  text/plain, 
-  application/pdf, 
-  application/zip, 
-  application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
-  application/msword, application/vnd.openxmlformats-officedocument.presentationml.presentation, 
-  application/vnd.ms-powerpoint
-`

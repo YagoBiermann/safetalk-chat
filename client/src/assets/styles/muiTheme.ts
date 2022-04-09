@@ -67,6 +67,7 @@ declare module '@mui/material/Button' {
     confirm: true
     cancel: true
     'send-message-button': true
+    'download-file-button': true
   }
 }
 
@@ -199,6 +200,21 @@ const muiTheme = createTheme({
           style: {
             width: '52px',
             height: '52px',
+            border: `1px solid ${appTheme.fontColor.tertiary}`,
+            backgroundColor: appTheme.colors.dark.elevation_2,
+            color: appTheme.colors.primary.light,
+            '&:hover': {
+              transition: 'ease-in-out 0.2s',
+              backgroundColor: appTheme.colors.primary.main,
+              border: `1px solid ${appTheme.colors.primary.light}`
+            }
+          }
+        },
+        {
+          props: { variant: 'download-file-button' },
+          style: {
+            width: '42px',
+            height: '42px',
             border: `1px solid ${appTheme.fontColor.tertiary}`,
             backgroundColor: appTheme.colors.dark.elevation_2,
             color: appTheme.colors.primary.light,

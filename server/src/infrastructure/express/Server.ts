@@ -1,29 +1,27 @@
 import express, { Application } from 'express'
-import { createServer } from 'http'
-import * as http from 'http'
-
+import { createServer, Server } from 'http'
 class AppServer {
-  private express: Application = express()
+  private _express: Application = express()
+  private _server: Server = createServer(this._express)
   public port: number | string = process.env.SERVER_PORT || 5000
-  public httpServer: http.Server = createServer(this.express)
   constructor() {}
 
-  private setupConfig() {
-    this.express.set('trust proxy', 'loopback')
+  public setConfig(key: string, value: any) {
+    this._express.set(key, value)
   }
 
   public get app(): Application {
-    return this.express
+    return this._express
   }
 
-  public get server(): http.Server {
-    return this.httpServer
+  public get server(): Server {
+    return this._server
   }
 
   public run(router: express.Router) {
-    this.setupConfig()
+    this.setConfig('trust proxy', 'loopback')
     this.app.use('/api/v2', router)
-    this.httpServer.listen(this.port)
+    this._server.listen(this.port)
   }
 }
 

@@ -23,7 +23,12 @@ const usePlayer = (
 
   useEffect(() => {
     if (media.current) {
-      media.current.onloadedmetadata = () => {
+      media.current.onloadedmetadata = async () => {
+        while (media.current!.duration === Infinity) {
+          await new Promise(r => setTimeout(r, 1000))
+          media.current!.currentTime = Number.MAX_SAFE_INTEGER
+        }
+        media.current!.currentTime = 0
         setDuration(media.current!.duration)
       }
     }

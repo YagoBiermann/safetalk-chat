@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PreviewImage from './Items.Image'
 import PreviewFile from './Items.File'
 import PreviewVideo from './Items.Video'
-import { DropFile } from '../../../lib/interfaces'
+import { FileWithPreview } from '../../../lib/interfaces'
 import { PreviewThumbnailMobile } from './FilePreview.MediaQueries'
 
 const PreviewThumbnail = styled.div`
@@ -14,7 +14,7 @@ const PreviewThumbnail = styled.div`
   ${PreviewThumbnailMobile}
 `
 
-const previewItems = (type: string, file: DropFile) => {
+const previewItems = (type: string, file: FileWithPreview) => {
   switch (true) {
     case type.includes('image'):
       return <PreviewImage src={file.preview} />
@@ -31,7 +31,7 @@ const previewItems = (type: string, file: DropFile) => {
 }
 
 type PreviewTypes = {
-  file: DropFile
+  file: FileWithPreview
 }
 
 function PreviewItems(props: PreviewTypes) {

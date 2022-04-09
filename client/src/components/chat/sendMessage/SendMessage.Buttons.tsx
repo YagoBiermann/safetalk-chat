@@ -14,7 +14,7 @@ const MainBox = styled(motion.div)`
   align-items: center;
   flex-direction: row;
   justify-content: flex-end;
-  width: 250px;
+  margin-left: 15px;
   & > div {
     margin-left: 15px;
   }

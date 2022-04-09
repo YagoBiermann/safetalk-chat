@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface AppState {
   error: string | null
+  isUploadingFile: boolean
 }
 
 const initialState: AppState = {
-  error: null
+  error: null,
+  isUploadingFile: false
 }
 
 const appSlice = createSlice({
@@ -17,9 +19,20 @@ const appSlice = createSlice({
     },
     resetError: state => {
       state.error = null
+    },
+    setUploadingFileAsTrue: state => {
+      state.isUploadingFile = true
+    },
+    setUploadingFileAsFalse: state => {
+      state.isUploadingFile = false
     }
   }
 })
 
-export const { setError, resetError } = appSlice.actions
+export const {
+  setError,
+  resetError,
+  setUploadingFileAsTrue,
+  setUploadingFileAsFalse
+} = appSlice.actions
 export { appSlice }

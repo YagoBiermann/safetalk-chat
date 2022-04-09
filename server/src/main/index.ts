@@ -1,23 +1,27 @@
 import AppServer from '../infrastructure/express/Server'
-import AppMiddlewares from '../infrastructure/express/middlewares'
+import AppMiddlewares from '../infrastructure/express/middlewares/AppMiddlewares'
 import AppRoutes from '../infrastructure/express/routes/AppRoutes'
-import AppSession from '../infrastructure/express/session'
-import ControllerFactory from '../adapter/controller/ControllerFactory'
+import AppSession from '../infrastructure/express/session/AppSession'
+import ExpressControllerFactory, {
+  ExpressControllers
+} from '../adapter/controllers/ExpressControllerFactory'
 import { Database } from '../infrastructure/database/connection'
-import env from 'dotenv'
 import MongoStore from 'connect-mongo'
-
-env.config({ path: __dirname + '/config/.dev.env' })
+import SocketControllerFactory, {
+  SocketControllers
+} from '../adapter/controllers/SocketControllerFactory'
+import AppSocket from '../infrastructure/socket.io/AppSocket'
 
 Database.instance().connect(process.env.MONGO_URI)
 
-const server = new AppServer()
-const middlewares = new AppMiddlewares(server.app)
+const expressServer = new AppServer()
+const middlewares = new AppMiddlewares(expressServer.app)
+const socketServer = new AppSocket(expressServer.server)
 
-const session = new AppSession(server.app, {
+const session = new AppSession(expressServer.app, {
   secret: process.env.SESSION_SECRET,
   saveUninitialized: false,
-  cookie: { maxAge: 600000, httpOnly: true, path: '/' }, // 10 minutes
+  cookie: { maxAge: 600000, httpOnly: true, path: '/', sameSite: 'strict' }, // 10 minutes
   resave: true,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
@@ -25,28 +29,63 @@ const session = new AppSession(server.app, {
   })
 })
 
-const controllers = []
-const generateRoomCodeController =
-  ControllerFactory.makeGenerateRoomCodeController()
-const createUserController = ControllerFactory.makeCreateUserController()
-const createRoomController = ControllerFactory.makeCreateRoomController()
-const joinRoomController = ControllerFactory.makeJoinRoomController()
-const userInfoController = ControllerFactory.makeUserInfoController()
-const getAllUsersFromRoomController =
-  ControllerFactory.makeGetAllUsersFromRoomController()
-
-controllers.push(
-  createUserController,
-  generateRoomCodeController,
-  createRoomController,
-  joinRoomController,
-  userInfoController,
-  getAllUsersFromRoomController
+// Express route controllers
+const generateRoomCodeController = ExpressControllerFactory.make(
+  ExpressControllers.GenerateRoomCodeController
+)
+const createUserController = ExpressControllerFactory.make(
+  ExpressControllers.CreateUserController
+)
+const createRoomController = ExpressControllerFactory.make(
+  ExpressControllers.CreateRoomController
+)
+const joinRoomController = ExpressControllerFactory.make(
+  ExpressControllers.JoinRoomController
+)
+const userInfoController = ExpressControllerFactory.make(
+  ExpressControllers.UserInfoController
+)
+const getAllUsersFromRoomController = ExpressControllerFactory.make(
+  ExpressControllers.GetAllUsersFromRoomController
+)
+const uploadFileController = ExpressControllerFactory.make(
+  ExpressControllers.UploadFileController
 )
 
-const appRoutes = new AppRoutes(controllers)
+const routes = new AppRoutes()
+routes.addController(createUserController)
+routes.addController(generateRoomCodeController)
+routes.addController(createRoomController)
+routes.addController(joinRoomController)
+routes.addController(userInfoController)
+routes.addController(getAllUsersFromRoomController)
+routes.addController(uploadFileController)
 
+// Socket Events Controller
+const joinRoomEventController = SocketControllerFactory.make(
+  SocketControllers.JoinRoomEventController
+)
+const GetAllUsersFromRoomEventController = SocketControllerFactory.make(
+  SocketControllers.GetAllUsersFromRoomEventController
+)
+
+const userDisconnectEventController = SocketControllerFactory.make(
+  SocketControllers.UserDisconnectEventController
+)
+
+const sendMessageEventController = SocketControllerFactory.make(
+  SocketControllers.SendMessageEventController
+)
+
+socketServer.addController(joinRoomEventController)
+socketServer.addController(GetAllUsersFromRoomEventController)
+socketServer.addController(userDisconnectEventController)
+socketServer.addController(sendMessageEventController)
+
+// App execution
 session.exec()
 middlewares.exec()
-appRoutes.exec()
-server.run(appRoutes.router)
+routes.exec()
+socketServer.socketSession(session.session)
+socketServer.exec()
+expressServer.run(routes.router)

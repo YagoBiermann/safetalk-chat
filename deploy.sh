@@ -25,7 +25,7 @@ help()
     echo "  {-d|--debug}                             -- Set debug mode"
     echo "  {-p|--password} password                 -- Set password"
     echo "  {-a|--authenticationDatabase} database   -- Set database to authenticate"
-    echo "  {-h|--help}                              -- Print this help message and exit"
+    echo "  {-h|--help}                              -- Show this help message and exit"
     exit 0
 }
 
@@ -48,9 +48,17 @@ flags()
                 [ $# = 0 ] && error "No authentication database specified"
                 export DB="$1"
                 shift;;
-            -d | --debug )
+            -deb | --debug )
                 [ $# = 0 ] && export DEBUG=false
                 export DEBUG=true
+                shift;;
+            -prod | --production )
+                [ $# = 0 ] && export PRODUCTION=false
+                export PRODUCTION=true
+                shift;;
+            -dev | --development )
+                [ $# = 0 ] && export DEVELOPMENT=false
+                export DEVELOPMENT=true
                 shift;;
             -h | --help )
                 help;;
@@ -64,13 +72,22 @@ fi
 
 flags "$@"
 
-docker-compose -f docker-compose.db.dev.yml --env-file .docker.dev.env -p safetalk up -d
-sleep 5
-docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
-sleep 5
+if [ $DEVELOPMENT ]; then
+  docker-compose -f docker-compose.db.base.yml --env-file .docker.dev.env -p safetalk up -d
+  sleep 5
+  docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
+  sleep 5
+  if [ $DEBUG ]; then
+    docker-compose -f docker-compose.base.yml -f docker-compose.dev.yml -f docker-compose.server.debug.yml -p safetalk up -d
+  else
+    docker-compose -f docker-compose.base.yml -f docker-compose.dev.yml -p safetalk up -d
+  fi;
+fi;
 
-if [ $DEBUG ]; then
-    docker-compose -f docker-compose.server.dev.yml -f docker-compose.server.debug.yml -p safetalk up -d
-else
-    docker-compose -f docker-compose.server.dev.yml -p safetalk up -d
-fi
+if [ $PRODUCTION ]; then
+  docker-compose -f docker-compose.db.base.yml --env-file .docker.prod.env -p safetalk up -d --build
+  sleep 5
+  docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
+  sleep 5
+  docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml -p safetalk up -d
+fi;
