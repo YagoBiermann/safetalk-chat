@@ -1,25 +1,9 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { useEffect } from 'react'
-import { useAppSelector } from '../../store'
-import { setRoomCode, setUsername } from '../../store/ducks/users'
-import { useAppDispatch } from '../../store'
-import styled from 'styled-components'
-import CreateRoom from '../../components/code/createRoom/CreateRoom'
-import ErrorAlert from '../../components/global/ErrorAlert'
-import JoinRoom from '../../components/code/joinRoom/JoinRoom'
-import Container from '../../components/global/Container'
-import { CodeContainerDesktop, CodeContainerMobile } from './_code.MediaQueries'
-import { AnimatePresence, motion } from 'framer-motion'
-import { PageAnimation } from '../_Animations'
 import nookies from 'nookies'
 import { fetchCurrentUser, generateCode } from '../../lib/services/api'
 import { UserDTO } from '../../lib/interfaces'
+import Code from '../../components/code/main/Code'
 
-const CodeContainer = styled(Container)`
-  justify-content: space-around;
-  ${CodeContainerDesktop}
-  ${CodeContainerMobile}
-`
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const cookies = nookies.get(ctx)
   const user = await fetchCurrentUser(cookies)
@@ -46,33 +30,12 @@ type CodePageProps = NextPage & {
   roomCode: string
 }
 
-const Code = (props: CodePageProps) => {
-  const dispatch = useAppDispatch()
-  const error = useAppSelector(state => state.app.error)
-
-  // Set room code
-  useEffect(() => {
-    dispatch(setRoomCode(props.roomCode))
-    dispatch(setUsername(props.user.username))
-  }, [])
-
+const CodePage = (props: CodePageProps) => {
   return (
     <>
-      <CodeContainer
-        variants={PageAnimation}
-        initial="initial"
-        as={motion.div}
-        animate="animate"
-        exit="exit"
-      >
-        <CreateRoom />
-        <JoinRoom />
-      </CodeContainer>
-      <AnimatePresence>
-        {error && <ErrorAlert error={error} key={'codePageError'} />}
-      </AnimatePresence>
+      <Code roomCode={props.roomCode} user={props.user} />
     </>
   )
 }
 
-export default Code
+export default CodePage
