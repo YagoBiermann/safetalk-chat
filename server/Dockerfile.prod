@@ -1,0 +1,15 @@
+FROM node:16.10.0
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN yarn install
+
+COPY . .
+
+RUN yarn tsc --build
+
+RUN mkdir -p ./build/src/main/config && cp -r ./src/main/config/.prod.env ./build/src/main/config
+
+EXPOSE 5000

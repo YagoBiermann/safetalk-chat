@@ -6,14 +6,12 @@ import ExpressControllerFactory, {
   ExpressControllers
 } from '../adapter/controllers/ExpressControllerFactory'
 import { Database } from '../infrastructure/database/connection'
-import env from 'dotenv'
 import MongoStore from 'connect-mongo'
 import SocketControllerFactory, {
   SocketControllers
 } from '../adapter/controllers/SocketControllerFactory'
 import AppSocket from '../infrastructure/socket.io/AppSocket'
 
-env.config({ path: __dirname + '/config/.dev.env' })
 Database.instance().connect(process.env.MONGO_URI)
 
 const expressServer = new AppServer()

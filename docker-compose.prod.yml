@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    command: yarn run prod
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.prod
+    command: yarn run start

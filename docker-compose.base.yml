@@ -3,25 +3,17 @@ services:
   server:
     container_name: safetalk_server
     restart: always
-    command: yarn run dev
-    build: ./server
     networks:
       - server
       - client
-    volumes:
-      - ./server:/usr/src/app
 
   client:
     container_name: safetalk_client
     restart: always
-    command: yarn run dev
     depends_on: 
       - server
-    build: ./client
     networks:
       - client
-    volumes:
-      - ./client:/usr/src/app
 
   nginx:
     container_name: safetalk_nginx
