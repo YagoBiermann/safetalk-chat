@@ -33,7 +33,7 @@ type CodePageProps = NextPage & {
 const CodePage = (props: CodePageProps) => {
   return (
     <>
-      <Code roomCode={props.roomCode} user={props.user} />
+      <Code roomCode={props.roomCode} user={props.user} {...props.getInitialProps} />
     </>
   )
 }

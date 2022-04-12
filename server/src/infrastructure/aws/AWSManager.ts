@@ -40,6 +40,7 @@ class AWSManager implements ICloudService {
     })
     const privateKeyPath = path.join(__dirname, 'private_aws_key.pem')
     const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+    console.log('private key: ', privateKey)
     const cookie = new AWS.CloudFront.Signer(
       process.env.AWS_PUBLIC_KEY,
       privateKey

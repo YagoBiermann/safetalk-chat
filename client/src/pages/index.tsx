@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Home from '../components/home/main/Home'
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage = (props) => {
   return (
     <>
-      <Home />
+      <Home {...props}/>
     </>
   )
 }

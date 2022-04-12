@@ -19,13 +19,15 @@ error()
 help()
 {
     echo
-    echo "Usage example: $arg0 --user johnDoe --password STR0N5P4SS --authenticationDatabase admin"
+    echo "Usage example: $arg0 --user johnDoe --password STR0N5P4SS --authenticationDatabase admin --development"
     echo
-    echo "  {-u|--user} user                         -- Set user"
-    echo "  {-d|--debug}                             -- Set debug mode"
-    echo "  {-p|--password} password                 -- Set password"
-    echo "  {-a|--authenticationDatabase} database   -- Set database to authenticate"
-    echo "  {-h|--help}                              -- Show this help message and exit"
+    echo "  {-u|--user} user                            -- Set user"
+    echo "  {-d|--debug}                                -- Set debug mode"
+    echo "  {-p|--password} password                    -- Set password"
+    echo "  {-a|--authenticationDatabase} database      -- Set database to authenticate"
+    echo "  {-dev|--development} development            -- Set development mode"
+    echo "  {-prod|--production} production             -- Set production mode"
+    echo "  {-h|--help}                                 -- Show this help message and exit"
     exit 0
 }
 
@@ -85,8 +87,8 @@ if [ $DEVELOPMENT ]; then
 fi;
 
 if [ $PRODUCTION ]; then
-  docker-compose -f docker-compose.db.base.yml --env-file .docker.prod.env -p safetalk up -d --build
-  sleep 5
+  docker-compose -f docker-compose.db.base.yml --env-file .docker.prod.env -p safetalk up -d
+  sleep 10
   docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
   sleep 5
   docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml -p safetalk up -d

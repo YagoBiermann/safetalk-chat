@@ -7,10 +7,7 @@ import Footer from '../../../components/home/footer/Footer'
 import Header from '../../../components/home/header/Header'
 import UsernameForm from '../../../components/home/usernameForm/UsernameForm'
 import { useAppSelector } from '../../../store'
-import {
-  HomeContainerDesktop,
-  HomeContainerMobile
-} from './_home.MediaQueries'
+import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
 import { PageAnimation } from '../../global/_Animations'
 import Link from 'next/link'
 import { useFetchCurrentUserQuery } from '../../../lib/services/api'
@@ -32,7 +29,7 @@ const BottomText = styled(motion.div)`
   }
 `
 
-const Home: NextPage = () => {
+const Home = (props: any) => {
   const error = useAppSelector(state => state.app.error)
   const { isSuccess, data } = useFetchCurrentUserQuery(undefined, {})
 

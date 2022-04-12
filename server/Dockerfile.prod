@@ -10,6 +10,6 @@ COPY . .
 
 RUN yarn tsc --build
 
-RUN mkdir -p ./build/src/main/config && cp -r ./src/main/config/.prod.env ./build/src/main/config
+RUN mkdir -p ./build/src/main/config && cp -r ./src/main/config/.prod.env ./build/src/main/config && cp -r ./src/infrastructure/aws/private_aws_key.pem ./build/src/infrastructure/aws/private_aws_key.pem
 
 EXPOSE 5000

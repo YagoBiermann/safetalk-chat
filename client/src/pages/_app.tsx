@@ -1,6 +1,6 @@
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles'
 import { AnimatePresence, motion } from 'framer-motion'
-import { AppProps } from 'next/dist/shared/lib/router/router'
+import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
