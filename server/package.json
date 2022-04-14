@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts dotenv_config_path=./src/main/config/.dev.env",
     "dev:debug": "ts-node-dev --transpile-only --respawn --inspect=0.0.0.0:9222 --project tsconfig.json -r dotenv/config ./src/main/index.ts",
-    "prod": "node -r dotenv/config ./build/src/main/index.js dotenv_config_path=./build/src/main/config/.prod.env"
+    "prod": "node -r dotenv/config ./build/src/main/index.js dotenv_config_path=./build/src/main/config/.prod.env",
+    "test": "jest"
   },
   "dependencies": {
     "aws-sdk": "^2.1096.0",
