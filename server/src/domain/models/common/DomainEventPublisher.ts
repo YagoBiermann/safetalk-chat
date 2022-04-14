@@ -13,6 +13,14 @@ class DomainEventPublisher {
     return this._instance
   }
 
+  get subscribers(): IDomainEventSubscriber<any>[] {
+    return this._subscribers
+  }
+
+  public resetInstance(): void {
+    DomainEventPublisher._instance = null
+  }
+
   public addSubscriber(subscriber: IDomainEventSubscriber<any>): void {
     const alreadyAdded = this._subscribers.includes(subscriber)
     if (alreadyAdded) {
