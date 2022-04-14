@@ -63,7 +63,7 @@ class Room extends Entity {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
     const user = new UserId(userId).value
     const userInRoom = this._users.has(user)
-    this.assertStateTrue(userInRoom, new UserError('ERR_USER_NOT_FOUND'))
+    this.assertArgumentTrue(userInRoom, new UserError('ERR_USER_NOT_FOUND'))
     this._users.delete(user)
   }
 

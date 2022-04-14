@@ -68,18 +68,6 @@ abstract class ArgumentAssertion {
       throw error
     }
   }
-
-  protected assertStateTrue(value: boolean, error: Error) {
-    if (!value) {
-      throw error
-    }
-  }
-
-  protected assertStateFalse(value: boolean, error: Error) {
-    if (value) {
-      throw error
-    }
-  }
 }
 
 export default ArgumentAssertion
