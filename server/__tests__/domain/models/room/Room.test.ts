@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import Room from '../../../../src/domain/models/room/Room'
 import { describe, expect, beforeEach, test, jest } from '@jest/globals'
 import { v4 as uuidv4 } from 'uuid'

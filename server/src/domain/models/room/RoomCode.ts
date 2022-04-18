@@ -20,23 +20,26 @@ class RoomCode extends ValueObject {
   }
 
   private validate(value: string): Error | null {
-    const roomCode = short().toUUID(value)
-    this.assertArgumentSuitableWithPattern(
-      roomCode,
-      new RegExp(
-        /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
-      ),
-      new RoomError('ERR_INVALID_ROOM_CODE')
-    )
+    try {
+      const roomCode = short().toUUID(value)
+      this.assertArgumentSuitableWithPattern(
+        roomCode,
+        new RegExp(
+          /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+        ),
+        new RoomError('ERR_INVALID_ROOM_CODE')
+      )
 
-    this.assertArgumentStringLength(
-      value,
-      0,
-      36,
-      new RoomError('ERR_INVALID_ROOM_CODE')
-    )
-
-    return null
+      this.assertArgumentStringLength(
+        value,
+        0,
+        36,
+        new RoomError('ERR_INVALID_ROOM_CODE')
+      )
+      return null
+    } catch (error) {
+      throw new RoomError('ERR_INVALID_ROOM_CODE')
+    }
   }
 }
 
