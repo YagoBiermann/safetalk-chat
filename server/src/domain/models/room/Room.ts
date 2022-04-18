@@ -71,8 +71,17 @@ class Room extends Entity {
     this._messages.push(new Message(message))
   }
 
-  public lastMessage(): Message {
-    return this._messages[this._messages.length - 1]
+  public lastMessage(): Required<IMessageDTO> {
+    const message = this._messages[this._messages.length - 1]
+    return {
+      messageId: message.id,
+      username: message.username,
+      roomCode: message.roomCode,
+      messageType: message.type,
+      file: message.file,
+      message: message.content,
+      createdAt: message.creationTime
+    }
   }
 }
 

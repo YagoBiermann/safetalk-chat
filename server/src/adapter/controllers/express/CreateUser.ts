@@ -28,7 +28,6 @@ class CreateUserController implements IRouteController {
         req.session.regenerate(() => console.log('session regenerated'))
         req.session.user = response.userId
         req.session.accessKey = response.accessKey
-
         return successPresenter.created({})
       } catch (error) {
         return errorHandler.handle(error)

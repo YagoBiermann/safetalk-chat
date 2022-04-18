@@ -1,4 +1,4 @@
-import React, { ReactFragment } from 'react'
+import React from 'react'
 import Document, { DocumentContext, DocumentInitialProps } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 

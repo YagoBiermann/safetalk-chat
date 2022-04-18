@@ -48,15 +48,7 @@ class SaveMessageApplicationService
 
     await this.roomRepository.save(room)
     const savedMessage = room.lastMessage()
-    return {
-      messageId: savedMessage.id,
-      username: savedMessage.username,
-      roomCode: savedMessage.roomCode,
-      messageType: savedMessage.type,
-      file: savedMessage.file,
-      message: savedMessage.content,
-      createdAt: savedMessage.creationTime
-    }
+    return savedMessage
   }
 }
 
