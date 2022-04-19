@@ -39,7 +39,6 @@ class CreateUserApplicationService
     const user = new User({
       id: null,
       username,
-      isOnline: false,
       room: null
     })
 

@@ -7,8 +7,7 @@ class UserMapper implements IUserMapper {
     return new User({
       id: userModel._id,
       username: userModel.username,
-      room: userModel.room,
-      isOnline: userModel.isOnline
+      room: userModel.room
     })
   }
 

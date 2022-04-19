@@ -12,8 +12,7 @@ class User extends Entity {
     super()
     this._userId = new UserId(user.id)
     this._username = new Username(user.username)
-    this._isOnline = user.isOnline
-    user.room ? this.connect(user.room) : undefined
+    user.room ? this.connect(user.room) : this.disconnect()
   }
 
   public get id(): string {
@@ -28,8 +27,8 @@ class User extends Entity {
     return this._isOnline
   }
 
-  public get room(): string | null {
-    return this._room || null
+  public get room(): string | undefined {
+    return this._room || undefined
   }
 
   public disconnect() {
