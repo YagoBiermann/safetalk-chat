@@ -1,4 +1,4 @@
-import { describe, expect, beforeEach, test, jest } from '@jest/globals'
+import { describe, expect, test } from '@jest/globals'
 import UserDeletedEvent from '../../../src/domain/events/UserDeletedEvent'
 import { v4 as uuidv4 } from 'uuid'
 
