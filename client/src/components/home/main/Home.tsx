@@ -10,7 +10,6 @@ import { useAppSelector } from '../../../store'
 import { HomeContainerDesktop, HomeContainerMobile } from './_home.MediaQueries'
 import { PageAnimation } from '../../global/_Animations'
 import Link from 'next/link'
-import { useFetchCurrentUserQuery } from '../../../lib/services/api'
 
 const HomeContainer = styled(Container)`
   justify-content: space-around;
@@ -31,7 +30,6 @@ const BottomText = styled(motion.div)`
 
 const Home = (props: any) => {
   const error = useAppSelector(state => state.app.error)
-  const { isSuccess, data } = useFetchCurrentUserQuery(undefined, {})
 
   return (
     <>
@@ -45,15 +43,6 @@ const Home = (props: any) => {
         <Header />
         <div>
           <UsernameForm />
-          {isSuccess && data?.roomCode ? (
-            <BottomText animate={{ opacity: [0, 1] }}>
-              <Link replace href={`/chat/${data?.roomCode}`}>
-                <a draggable="false">
-                  Or continue as <b>{data?.username}</b> on previous room
-                </a>
-              </Link>
-            </BottomText>
-          ) : null}
         </div>
         <Footer />
       </HomeContainer>

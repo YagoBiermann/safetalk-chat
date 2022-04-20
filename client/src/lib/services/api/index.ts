@@ -43,12 +43,6 @@ export const roomApi = createApi({
         method: 'GET'
       })
     }),
-    fetchCurrentUser: builder.query<UserDTO, undefined>({
-      query: () => ({
-        url: 'users/create',
-        method: 'GET'
-      })
-    }),
     createRoom: builder.mutation<ApiResponse, RoomCode>({
       query: room => ({
         method: 'POST',
@@ -152,7 +146,6 @@ export { fetchCurrentUser, fetchUsersInRoom, generateCode, sendFileMessage }
 export const {
   useCreateUserMutation,
   useCreateRoomMutation,
-  useFetchCurrentUserQuery,
   useLazyFetchUsersQuery,
   useJoinRoomMutation
 } = roomApi

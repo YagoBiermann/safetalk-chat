@@ -91,5 +91,5 @@ if [ $PRODUCTION ]; then
   sleep 10
   docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
   sleep 5
-  docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml -p safetalk up -d
+  docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml -p safetalk up -d --build
 fi;

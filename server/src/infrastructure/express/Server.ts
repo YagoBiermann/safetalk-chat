@@ -19,7 +19,7 @@ class AppServer {
   }
 
   public run(router: express.Router) {
-    this.setConfig('trust proxy', 'loopback')
+    this.setConfig('trust proxy', 'loopback, 192.168.0.102')
     this.app.use('/api/v2', router)
     this._server.listen(this.port)
   }

@@ -9,7 +9,9 @@ class AppMiddlewares {
   public exec(): void {
     this.app.use(json())
     this.app.use(helmet())
-    this.app.use(cors({ origin: '*', optionsSuccessStatus: 200 }))
+    this.app.use(
+      cors({ origin: '*', optionsSuccessStatus: 200 })
+    )
     this.app.use(cookieParser())
     this.app.use(urlencoded({ extended: false }))
   }
