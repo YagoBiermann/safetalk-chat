@@ -53,12 +53,14 @@ class ValidationFactory {
   }
 
   public static make(aValidation: Validations): IValidation {
-    try {
-      const validation = new ValidationFactory().validations[aValidation]
-      return validation
-    } catch (error) {
+    const notInValidationEnum =
+      Object.values(Validations).indexOf(aValidation) === -1
+
+    if (notInValidationEnum) {
       throw new Error(`Validation ${aValidation} not found`)
     }
+    const validation = new ValidationFactory().validations[aValidation]
+    return validation
   }
 }
 
