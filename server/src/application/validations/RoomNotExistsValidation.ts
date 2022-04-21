@@ -9,15 +9,15 @@ interface IRoomNotExistsValidationInput {
 class RoomNotExistsValidation
   implements IValidation<IRoomNotExistsValidationInput>
 {
-  constructor(private room: IRoomRepository) {}
+  constructor(private roomRepository: IRoomRepository) {}
 
   public async validate({
     roomCode,
     roomId
   }: IRoomNotExistsValidationInput): Promise<RoomError> | null {
     const room = roomId
-      ? await this.room.getRoomById(roomId)
-      : await this.room.getRoomByCode(roomCode)
+      ? await this.roomRepository.getRoomById(roomId)
+      : await this.roomRepository.getRoomByCode(roomCode)
 
     if (!room) {
       throw new RoomError('ERR_ROOM_NOT_FOUND')
