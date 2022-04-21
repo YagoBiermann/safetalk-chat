@@ -7,6 +7,9 @@ class UserAlreadyInRoomValidation implements IValidation {
 
   public async validate(userId: string): Promise<UserError> | null {
     const user = await this.user.getUserById(userId)
+    if (!user) {
+      throw new UserError('ERR_USER_NOT_FOUND')
+    }
     if (user.room) {
       throw new UserError('ERR_USER_ALREADY_IN_ROOM')
     }
