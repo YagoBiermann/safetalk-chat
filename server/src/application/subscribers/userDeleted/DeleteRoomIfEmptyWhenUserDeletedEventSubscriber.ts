@@ -2,6 +2,7 @@ import IDomainEventSubscriber from '../../../domain/models/common/DomainEventSub
 import UserDeletedEvent from '../../../domain/events/UserDeletedEvent'
 import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 import ICloudService from '../../ports/services/CloudService'
+import RoomError from '../../../domain/errors/models/RoomError'
 
 class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber
   implements IDomainEventSubscriber<UserDeletedEvent>
@@ -18,20 +19,19 @@ class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber
   }
 
   public async handleEvent(anEvent: UserDeletedEvent): Promise<void> {
-    try {
-      const user = anEvent.userId
-      const room = await this.roomRepository.getRoomById(anEvent.roomId)
-      const hasUsers = room.users.length > 1 // 1 represents the last user who left the room
-      if (hasUsers) {
-        room.disconnect(user)
-        await this.roomRepository.save(room)
-        return
-      }
-      await this.roomRepository.delete(room.id)
-      await this.cloudService.deleteDirectory(room.roomCode)
-    } catch (error) {
-      throw error
+    const isEmpty = Object.values(anEvent).some(value => !value)
+    if (isEmpty) throw new Error(`${anEvent} is not a valid event`)
+    const user = anEvent.userId
+    const room = await this.roomRepository.getRoomById(anEvent.roomId)
+    if (!room) throw new RoomError('ERR_ROOM_NOT_FOUND')
+    const hasUsers = room.users.length > 1 // 1 represents the last user who left the room
+    if (hasUsers) {
+      room.disconnect(user)
+      await this.roomRepository.save(room)
+      return
     }
+    await this.roomRepository.delete(room.id)
+    await this.cloudService.deleteDirectory(room.roomCode)
   }
 }
 
