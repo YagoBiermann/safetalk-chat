@@ -18,14 +18,12 @@ class ChangeUserStatusWhenJoinedRoomEventSubscriber
   }
 
   public async handleEvent(anEvent: UserJoinedRoomEvent): Promise<void> {
-    try {
-      const room = anEvent.room
-      const user = await this._userRepository.getUserById(anEvent.userId)
-      user.connect(room.id)
-      await this._singleTransaction.saveAll(user, room)
-    } catch (error) {
-      throw error
-    }
+    const isEmpty = Object.values(anEvent).some(value => !value)
+    if (isEmpty) throw new Error(`${anEvent} is not a valid event`)
+    const room = anEvent.room
+    const user = await this._userRepository.getUserById(anEvent.userId)
+    user.connect(room.id)
+    await this._singleTransaction.saveAll(user, room)
   }
 }
 
