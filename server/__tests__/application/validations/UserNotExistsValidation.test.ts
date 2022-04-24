@@ -2,6 +2,7 @@ import UserNotExistsValidation from '../../../src/application/validations/UserNo
 import { describe, expect, beforeEach, test, jest } from '@jest/globals'
 import User from '../../../src/domain/models/user/User'
 import UserError from '../../../src/domain/errors/models/UserError'
+import UserRepositoryMock from '../../../__mocks__/infrastructure/Database/UserRepository.mock'
 
 describe('tests on class UserNotExistsValidation', () => {
   const userRepositoryMock = jest.fn(({ filled }: { filled: boolean }) => {
@@ -14,29 +15,33 @@ describe('tests on class UserNotExistsValidation', () => {
   })
 
   test('should throw an error if user not exists', async () => {
-    const validation = new UserNotExistsValidation(
-      userRepositoryMock({ filled: false }) as any
-    )
+    const userRepositoryMock = new UserRepositoryMock()
+    const spyOnGetUserById = jest
+      .spyOn(userRepositoryMock, 'getUserById')
+      .mockImplementation((userId: string) => {
+        return Promise.resolve(null)
+      })
+    const validation = new UserNotExistsValidation(userRepositoryMock)
 
     const result = jest.fn(async () => {
       return await validation.validate('test')
     })
     await result().catch(error => {
-      expect(userRepositoryMock).toBeCalledTimes(1)
+      expect(spyOnGetUserById).toBeCalledTimes(1)
     })
     expect(result()).rejects.toThrowError(new UserError('ERR_USER_NOT_FOUND'))
   })
 
   test('should return null if user exists', async () => {
-    const validation = new UserNotExistsValidation(
-      userRepositoryMock({ filled: true }) as any
-    )
+    const userRepositoryMock = new UserRepositoryMock()
+    const spyOnGetUserById = jest.spyOn(userRepositoryMock, 'getUserById')
+    const validation = new UserNotExistsValidation(userRepositoryMock)
 
     const result = jest.fn(async () => {
       return await validation.validate('test')
     })
     await result().then(() => {
-      expect(userRepositoryMock).toBeCalledTimes(1)
+      expect(spyOnGetUserById).toBeCalledTimes(1)
     })
     expect(result()).resolves.toBeNull()
   })

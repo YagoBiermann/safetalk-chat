@@ -3,7 +3,8 @@ import DeleteRoomIfEmptyWhenUserDeletedEventSubscriber from '../../../../src/app
 import UserDeletedEvent from '../../../../src/domain/events/UserDeletedEvent'
 import Room from '../../../../src/domain/models/room/Room'
 import { v4 as uuidv4 } from 'uuid'
-
+import RoomRepositoryMock from '../../../../__mocks__/infrastructure/Database/RoomRepository.mock'
+import AWSManagerMock from '../../../../__mocks__/infrastructure/aws/AWSManager.mock'
 describe('tests on class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -14,50 +15,6 @@ describe('tests on class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber', () =>
   const roomCode = Room.generateRoomCode().value
   const room = new Room({ roomCode })
 
-  const getRoomByIdMock = jest.fn((roomId: string) => {
-    return Promise.resolve(room)
-  })
-
-  const getRoomByIdWithUsersMock = jest.fn((roomId: string) => {
-    room.connect(userId)
-    room.connect(userId2)
-    return Promise.resolve(room)
-  })
-
-  const getRoomByIdVoidMock = jest.fn((roomId: string) => {
-    return Promise.resolve(null)
-  })
-
-  const deleteRoomMock = jest.fn((roomId: string) => {
-    return Promise.resolve()
-  })
-
-  const saveRoomMock = jest.fn((room: Room) => {
-    return Promise.resolve()
-  })
-
-  const roomRepositoryMock = jest.fn(
-    ({ filled, voidPromise }: { filled: boolean; voidPromise?: boolean }) => {
-      return {
-        getRoomById: jest.fn((roomId: string) => {
-          if (!filled && voidPromise) return getRoomByIdVoidMock(roomId)
-          return filled
-            ? getRoomByIdWithUsersMock(roomId)
-            : getRoomByIdMock(roomId)
-        }),
-        save: saveRoomMock,
-        delete: deleteRoomMock
-      }
-    }
-  )
-
-  const deleteDirectoryMock = jest.fn((roomCode: string) => {})
-  const cloudServiceMock = jest.fn(() => {
-    return {
-      deleteDirectory: deleteDirectoryMock
-    }
-  })
-
   const event = jest.fn(() => {
     return new UserDeletedEvent(room.id, userId)
   })
@@ -67,42 +24,66 @@ describe('tests on class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber', () =>
   })
 
   test('should delete the room when the last user disconnects', async () => {
+    const cloudServiceMock = new AWSManagerMock()
+    const roomRepositoryMock = new RoomRepositoryMock()
+    const spyOnDeleteDirectory = jest.spyOn(cloudServiceMock, 'deleteDirectory')
+    const spyOnGetRoomById = jest.spyOn(roomRepositoryMock, 'getRoomById')
+    const spyOnDeleteRoom = jest.spyOn(roomRepositoryMock, 'delete')
+    const spyOnSave = jest.spyOn(roomRepositoryMock, 'save')
     const subscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
-      roomRepositoryMock({ filled: false }) as any,
-      cloudServiceMock() as any
+      roomRepositoryMock,
+      cloudServiceMock
     )
     const result = jest.fn(() => {
       return subscriber.handleEvent(event())
     })
     await result()
-    expect(getRoomByIdMock).toHaveBeenCalled()
+    expect(spyOnGetRoomById).toHaveBeenCalled()
     expect(event).toHaveBeenCalled()
-    expect(deleteRoomMock).toHaveBeenCalled()
-    expect(cloudServiceMock).toHaveBeenCalled()
-    expect(saveRoomMock).not.toHaveBeenCalled()
+    expect(spyOnDeleteRoom).toHaveBeenCalled()
+    expect(spyOnDeleteDirectory).toHaveBeenCalled()
+    expect(spyOnSave).not.toHaveBeenCalled()
   })
 
   test('should disconnect the user without deleting the room', async () => {
+    const roomRepositoryMock = new RoomRepositoryMock()
+    const cloudServiceMock = new AWSManagerMock()
+    const spyOnGetRoomById = jest
+      .spyOn(roomRepositoryMock, 'getRoomById')
+      .mockImplementation(() => {
+        const room = new Room({
+          id: null,
+          roomCode: Room.generateRoomCode().value
+        })
+        room.connect(userId)
+        room.connect(userId2)
+        return Promise.resolve(room)
+      })
+    const spyOnDeleteRoom = jest.spyOn(roomRepositoryMock, 'delete')
+    const spyOnDelete = jest.spyOn(roomRepositoryMock, 'delete')
+    const spyOnSave = jest.spyOn(roomRepositoryMock, 'save')
     const subscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
-      roomRepositoryMock({ filled: true }) as any,
-      cloudServiceMock() as any
+      roomRepositoryMock,
+      cloudServiceMock
     )
     const result = jest.fn(async () => {
       return await subscriber.handleEvent(event())
     })
     await result()
     expect(result).not.toThrow()
-    expect(getRoomByIdWithUsersMock).toHaveBeenCalled()
+    expect(spyOnGetRoomById).toHaveBeenCalled()
     expect(event).toHaveBeenCalled()
-    expect(deleteRoomMock).not.toHaveBeenCalled()
-    expect(deleteDirectoryMock).not.toHaveBeenCalled()
-    expect(saveRoomMock).toHaveBeenCalled()
+    expect(spyOnDelete).not.toHaveBeenCalled()
+    expect(spyOnDeleteRoom).not.toHaveBeenCalled()
+    expect(spyOnSave).toHaveBeenCalled()
   })
 
   test('should throw an error when an invalid event is provided', async () => {
+    const cloudServiceMock = new AWSManagerMock()
+    const roomRepositoryMock = new RoomRepositoryMock()
     const subscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
-      roomRepositoryMock({ filled: false }) as any,
-      cloudServiceMock() as any
+      roomRepositoryMock,
+      cloudServiceMock
     )
     const result = jest.fn(async () => {
       return await subscriber.handleEvent(invalidEvent())
@@ -114,19 +95,29 @@ describe('tests on class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber', () =>
   })
 
   test('should throw an error when the room does not exist', async () => {
+    const cloudServiceMock = new AWSManagerMock()
+    const roomRepositoryMock = new RoomRepositoryMock()
     const subscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
-      roomRepositoryMock({ filled: false, voidPromise: true }) as any,
-      cloudServiceMock() as any
+      roomRepositoryMock,
+      cloudServiceMock
     )
+    const spyOnDeleteDirectory = jest.spyOn(cloudServiceMock, 'deleteDirectory')
+    const spyOnGetRoomById = jest
+      .spyOn(roomRepositoryMock, 'getRoomById')
+      .mockImplementation(roomId => {
+        return Promise.resolve(null)
+      })
+    const spyOnSave = jest.spyOn(roomRepositoryMock, 'save')
+    const spyOnDeleteRoom = jest.spyOn(roomRepositoryMock, 'delete')
     const result = jest.fn(async () => {
       return await subscriber.handleEvent(event())
     })
     await result().catch(error => {
       expect(event).toHaveBeenCalled()
-      expect(deleteRoomMock).not.toHaveBeenCalled()
-      expect(deleteDirectoryMock).not.toHaveBeenCalled()
-      expect(saveRoomMock).not.toHaveBeenCalled()
-      expect(getRoomByIdVoidMock).toHaveBeenCalled()
+      expect(spyOnDeleteRoom).not.toHaveBeenCalled()
+      expect(spyOnDeleteDirectory).not.toHaveBeenCalled()
+      expect(spyOnSave).not.toHaveBeenCalled()
+      expect(spyOnGetRoomById).toHaveBeenCalled()
     })
     expect(result()).rejects.toThrow()
   })
