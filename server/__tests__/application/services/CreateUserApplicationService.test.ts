@@ -12,7 +12,6 @@ import Authentication from '../../../src/infrastructure/jwt/JWTAuthentication'
 import UserRepositoryMock from '../../../__mocks__/infrastructure/Database/UserRepository.mock'
 import AccessKeyValidation from '../../../src/application/validations/AccessKeyValidation'
 import UsernameTakenValidation from '../../../src/application/validations/UsernameTakenValidation'
-import User from '../../../src/domain/models/user/User'
 import { v4 as uuidv4 } from 'uuid'
 
 describe('tests on class CreateUserApplicationService', () => {
