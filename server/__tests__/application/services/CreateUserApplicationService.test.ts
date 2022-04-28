@@ -19,7 +19,6 @@ describe('tests on class CreateUserApplicationService', () => {
     jest.clearAllMocks()
   })
   const userId = uuidv4()
-  const username = 'user'
   const accessKeyValidation = new AccessKeyValidation()
   const userRepository = new UserRepositoryMock()
   const authentication = new Authentication(userRepository, accessKeyValidation)

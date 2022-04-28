@@ -94,7 +94,7 @@ describe('tests on class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber', () =>
     expect(result()).rejects.toThrow()
   })
 
-  test('should throw an error when the room does not exist', async () => {
+  test('should throw an error if room does not exist', async () => {
     const cloudServiceMock = new AWSManagerMock()
     const roomRepositoryMock = new RoomRepositoryMock()
     const subscriber = new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
