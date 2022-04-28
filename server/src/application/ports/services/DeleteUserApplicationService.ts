@@ -1,6 +1,6 @@
 interface IDeleteUserInputDTO {
   userId: string
-  roomId: string
+  roomId?: string | null
   accessKey: string
 }
 

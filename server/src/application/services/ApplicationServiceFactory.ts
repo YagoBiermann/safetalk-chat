@@ -53,7 +53,6 @@ class ApplicationServiceFactory {
       new DeleteUserApplicationService(
         this.userRepository(),
         this.authentication(),
-        ValidationFactory.make(Validations.UserNotExistsValidation),
         ValidationFactory.make(Validations.RoomNotExistsValidation),
         new DeleteRoomIfEmptyWhenUserDeletedEventSubscriber(
           this.roomRepository(),

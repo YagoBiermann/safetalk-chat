@@ -1,4 +1,3 @@
-import RoomError from '../../domain/errors/models/RoomError'
 import UserError from '../../domain/errors/models/UserError'
 import UserDeletedEvent from '../../domain/events/UserDeletedEvent'
 import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
@@ -17,7 +16,6 @@ class DeleteUserApplicationService
   constructor(
     private userRepository: IUserRepository,
     private authenticationService: IAuthenticationService,
-    private userNotExistsValidation: IValidation,
     private roomNotExistsValidation: IValidation,
     private deleteRoomIfEmptyWhenUserDeletedEventSubscriber: IDomainEventSubscriber<UserDeletedEvent>
   ) {
@@ -30,17 +28,17 @@ class DeleteUserApplicationService
     userId
   }: IDeleteUserInputDTO): Promise<null> {
     this.assertArgumentNotNull(userId, new UserError('ERR_USER_NOT_FOUND'))
-    this.assertArgumentNotNull(roomId, new RoomError('ERR_ROOM_NOT_FOUND'))
     await this.authenticationService.authenticate({ userId, accessKey })
-    await this.userNotExistsValidation.validate(userId)
-    await this.roomNotExistsValidation.validate({ roomId })
     DomainEventPublisher.instance().addSubscriber(
       this.deleteRoomIfEmptyWhenUserDeletedEventSubscriber
     )
     await this.userRepository.delete(userId)
-    DomainEventPublisher.instance().publish(
-      new UserDeletedEvent(roomId, userId)
-    )
+    if (roomId) {
+      await this.roomNotExistsValidation.validate({ roomId })
+      DomainEventPublisher.instance().publish(
+        new UserDeletedEvent(roomId, userId)
+      )
+    }
     DomainEventPublisher.instance().removeAllSubscribers()
     return null
   }
