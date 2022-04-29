@@ -1,25 +1,16 @@
-import {
-  describe,
-  expect,
-  afterEach,
-  beforeEach,
-  test,
-  jest
-} from '@jest/globals'
+import { describe, expect, beforeEach, test, jest } from '@jest/globals'
 
 import DeleteUserApplicationService from '../../../src/application/services/DeleteUserApplicationService'
-import Authentication from '../../../src/infrastructure/jwt/JWTAuthentication'
 import UserRepositoryMock from '../../../__mocks__/infrastructure/Database/UserRepository.mock'
 import RoomRepositoryMock from '../../../__mocks__/infrastructure/Database/RoomRepository.mock'
 import RoomNotExistsValidation from '../../../src/application/validations/RoomNotExistsValidation'
 import DeleteRoomIfEmptyWhenUserDeletedEventSubscriber from '../../../src/application/subscribers/userDeleted/DeleteRoomIfEmptyWhenUserDeletedEventSubscriber'
 import AWSManager from '../../../src/infrastructure/aws/AWSManager'
-import AccessKeyValidation from '../../../src/application/validations/AccessKeyValidation'
 import { v4 as uuidv4 } from 'uuid'
-import Room from '../../../src/domain/models/room/Room'
 import DomainEventPublisher from '../../../src/domain/models/common/DomainEventPublisher'
 import AuthError from '../../../src/domain/errors/models/AuthError'
 import UserError from '../../../src/domain/errors/models/UserError'
+import AuthenticationFactoryMock from '../../../__mocks__/infrastructure/jwt/AuthenticationFactory'
 
 describe('tests on class DeleteUserApplicationService', () => {
   beforeEach(() => {
@@ -28,14 +19,9 @@ describe('tests on class DeleteUserApplicationService', () => {
 
   const userId = uuidv4()
   const roomId = uuidv4()
-  const roomCode = Room.generateRoomCode().value
   const userRepositoryMock = new UserRepositoryMock()
   const roomRepositoryMock = new RoomRepositoryMock()
-  const accessKeyValidation = new AccessKeyValidation()
-  const authentication = new Authentication(
-    userRepositoryMock,
-    accessKeyValidation
-  )
+  const authentication = AuthenticationFactoryMock.make(userRepositoryMock)
   const accessKey = authentication.generateAccessKey(
     userId,
     process.env.JWT_SECRET,
