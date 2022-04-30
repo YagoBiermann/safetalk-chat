@@ -1,4 +1,4 @@
-import { describe, expect, beforeEach, test, jest } from '@jest/globals'
+import { describe, expect, test, jest } from '@jest/globals'
 import GenerateRoomCodeApplicationService from '../../../src/application/services/GenerateRoomCodeApplicationService'
 import UserRepositoryMock from '../../../__mocks__/infrastructure/Database/UserRepository.mock'
 import { v4 as uuidv4 } from 'uuid'

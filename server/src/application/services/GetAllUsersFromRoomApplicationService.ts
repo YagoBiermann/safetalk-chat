@@ -2,10 +2,8 @@ import AuthError from '../../domain/errors/models/AuthError'
 import ArgumentAssertion from '../../domain/models/common/ArgumentAssertion'
 import { IRoomRepository } from '../../domain/models/room/RoomRepository'
 import GetUsersFromRoomDomainService from '../../domain/models/services/GetUsersFromRoom'
-import IUserRepository from '../../domain/models/user/UserRepository'
 import IApplicationService from '../ports/services/ApplicationService'
 import { IAuthenticationService } from '../ports/services/AuthenticationService'
-import ICloudService from '../ports/services/CloudService'
 import {
   IGetAllUsersFromRoomInputDTO,
   IGetAllUsersFromRoomOutputDTO
