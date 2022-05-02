@@ -1,5 +1,3 @@
-import MessageError from '../../../src/domain/errors/models/MessageError'
-import RoomError from '../../../src/domain/errors/models/RoomError'
 import RoomRepositoryMock from '../../../__mocks__/infrastructure/Database/RoomRepository.mock'
 import UserRepositoryMock from '../../../__mocks__/infrastructure/Database/UserRepository.mock'
 import AuthenticationFactoryMock from '../../../__mocks__/infrastructure/jwt/AuthenticationFactory'
