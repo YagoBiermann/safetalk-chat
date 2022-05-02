@@ -122,11 +122,11 @@ class ApplicationServiceFactory {
   public static make(
     applicationService: ApplicationServices
   ): IApplicationService {
-    try {
+    if (this.applicationServices[applicationService]) {
       return this.applicationServices[applicationService]
-    } catch (error) {
-      throw new Error(`application service ${applicationService} not found`)
     }
+
+    throw new Error(`application service ${applicationService} not found`)
   }
 }
 
