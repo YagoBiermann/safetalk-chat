@@ -12,7 +12,6 @@ import UserAlreadyInRoomValidation from '../../../src/application/validations/Us
 import DomainEventPublisher from '../../../src/domain/models/common/DomainEventPublisher'
 import ChangeStatusWhenUserJoinedRoomEventSubscriber from '../../../src/application/subscribers/userJoinedRoom/ChangeStatusWhenUserJoinedRoomEventSubscriber'
 import SingleTransactionMock from '../../../__mocks__/infrastructure/Database/SingleTransaction.mock'
-import UserJoinedRoomEvent from '../../../src/domain/events/UserJoinedRoomEvent'
 import Room from '../../../src/domain/models/room/Room'
 import UserError from '../../../src/domain/errors/models/UserError'
 
