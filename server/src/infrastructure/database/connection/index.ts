@@ -47,6 +47,10 @@ class Database {
       process.exit(1)
     })
   }
+
+  public async disconnect(): Promise<void> {
+    await this._mongoose.disconnect()
+  }
 }
 
 export { Database }
