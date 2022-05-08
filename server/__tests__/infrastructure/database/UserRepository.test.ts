@@ -16,16 +16,22 @@ import RoomMapper from '../../../src/infrastructure/database/mapper/RoomMapper'
 import User from '../../../src/domain/models/user/User'
 import Room from '../../../src/domain/models/room/Room'
 import { User as UserModel } from '../../../src/infrastructure/database/models/users'
+import { Room as RoomModel } from '../../../src/infrastructure/database/models/rooms'
 
 describe('tests on class UserRepository', () => {
   const userMapper = new UserMapper()
   const roomMapper = new RoomMapper()
   const userRepository = new UserRepository(userMapper)
-  const spyOnUserMapper = jest.spyOn(userMapper, 'toUserModel')
-  const spyOnSave = jest.spyOn(userRepository, 'save')
+  const spyOnUserMapperToModel = jest.spyOn(userMapper, 'toUserModel')
+  const spyOnUserMapperToEntity = jest.spyOn(userMapper, 'toUserEntity')
+  const spyOnRepositorySave = jest.spyOn(userRepository, 'save')
   const roomRepository = new RoomRepository(roomMapper)
+  const spyOnUpdate = jest.spyOn(UserModel, 'findByIdAndUpdate')
+  const spyOnGetUserById = jest.spyOn(userRepository, 'getUserById')
+
   beforeEach(async () => {
     await UserModel.deleteMany({})
+    await RoomModel.deleteMany({})
     jest.clearAllMocks()
   })
 
@@ -46,36 +52,23 @@ describe('tests on class UserRepository', () => {
   test('should save a new user', async () => {
     const user = new User({ id: null, username: 'test', room: null })
     await userRepository.save(user)
-    const savedUser = await userRepository.getUserById(user.id)
-    expect(savedUser).toBeDefined()
-    expect(savedUser.username).toBe('test')
-    expect(savedUser.room).toBeUndefined()
-    expect(savedUser.id).toBe(user.id)
-    expect(savedUser.isOnline).toBe(false)
-    expect(spyOnSave).toHaveBeenCalled()
-    expect(spyOnUserMapper).toHaveBeenCalledWith(user)
+    expect(spyOnGetUserById).toHaveBeenCalledWith(user.id)
+    expect(spyOnUserMapperToModel).toHaveBeenCalledWith(user)
+    expect(spyOnRepositorySave).toHaveBeenCalled()
+    expect(spyOnUpdate).not.toHaveBeenCalled()
   })
 
   test('should update an existing user', async () => {
     const user = new User({ id: null, username: 'test', room: null })
     await userRepository.save(user)
-    const savedUser = await userRepository.getUserById(user.id)
-    expect(savedUser).toBeInstanceOf(User)
-    expect(savedUser.username).toBe('test')
-    expect(savedUser.room).toBeUndefined()
     const roomId = uuidv4()
-    const updatedUser = new User({
-      id: user.id,
-      username: 'test2',
-      room: roomId
-    })
-    await userRepository.save(updatedUser)
-    const updatedSavedUser = await userRepository.getUserById(user.id)
-    expect(updatedSavedUser).toBeInstanceOf(User)
-    expect(updatedSavedUser.username).toBe('test2')
-    expect(updatedSavedUser.room).toBe(roomId)
-    expect(updatedSavedUser.id).toBe(user.id)
-    expect(updatedSavedUser.isOnline).toBe(true)
+    user.connect(roomId)
+    await userRepository.save(user)
+
+    expect(spyOnGetUserById).toHaveBeenCalledWith(user.id)
+    expect(spyOnUserMapperToModel).toHaveBeenCalledWith(user)
+    expect(spyOnRepositorySave).toHaveBeenCalled()
+    expect(spyOnUpdate).toHaveBeenCalled()
   })
 
   test('should get a user by id', async () => {
@@ -83,6 +76,7 @@ describe('tests on class UserRepository', () => {
     await userRepository.save(user)
     const savedUser = await userRepository.getUserById(user.id)
     expect(savedUser).toBeInstanceOf(User)
+    expect(spyOnUserMapperToEntity).toHaveBeenCalled()
     expect(savedUser.username).toBe('test')
     expect(savedUser.room).toBeUndefined()
     expect(savedUser.id).toBe(user.id)
@@ -94,6 +88,7 @@ describe('tests on class UserRepository', () => {
     await userRepository.save(user)
     const savedUser = await userRepository.getUserBy(user.username)
     expect(savedUser).toBeInstanceOf(User)
+    expect(spyOnUserMapperToEntity).toHaveBeenCalled()
     expect(savedUser.username).toBe('test')
     expect(savedUser.room).toBeUndefined()
     expect(savedUser.id).toBe(user.id)

@@ -22,7 +22,7 @@ class RoomRepository implements IRoomRepository {
   }
 
   public async delete(roomId: string): Promise<void> {
-    await Room.deleteOne({ _id: roomId }).exec()
+    await Room.deleteOne({ _id: roomId })
   }
 
   public async getRoomByCode(roomCode: string): Promise<RoomEntity> {

@@ -17,7 +17,7 @@ class UserRepository implements IUserRepository {
         { ...userModel },
         { session }
       ).exec()
-      return
+      return Promise.resolve()
     }
     await new User(userModel).save({ session })
   }
