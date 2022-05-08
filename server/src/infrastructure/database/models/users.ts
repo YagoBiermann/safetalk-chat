@@ -3,7 +3,7 @@ import { IUserRepositoryModel } from '../../../domain/models/user/UserRepository
 
 const userSchema = new Schema<IUserRepositoryModel>({
   _id: { type: String },
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   room: { type: String, ref: 'Room', required: false },
   isOnline: { type: Boolean, required: true }
 })

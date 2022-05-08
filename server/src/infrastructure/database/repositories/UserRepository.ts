@@ -17,20 +17,17 @@ class UserRepository implements IUserRepository {
         { ...userModel },
         { session }
       ).exec()
-      console.info(`saving user: ${user.username}`)
       return
     }
-    console.info(`creating user: ${user.username}`)
     await new User(userModel).save({ session })
   }
 
   public async delete(userId: string): Promise<void> {
-    console.info(`deleting user: ${userId}`)
-    await User.deleteOne({ userId }).exec()
+    await User.deleteOne({ _id: userId }).exec()
   }
 
-  public async getAllUsernamesFrom(roomId: string): Promise<string[]> {
-    const users = await User.find({ roomId }).exec()
+  public async getAllUsernamesFrom(room: string): Promise<string[]> {
+    const users = await User.find({ room }).exec()
     return users.map(user => user.username)
   }
 

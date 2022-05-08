@@ -16,16 +16,13 @@ class RoomRepository implements IRoomRepository {
         { ...roomModel },
         { session }
       ).exec()
-      console.log(`saving room ${room.roomCode}`)
       return
     }
-    console.log(`Creating room ${room.roomCode}`)
     await new Room(roomModel).save({ session })
   }
 
   public async delete(roomId: string): Promise<void> {
-    console.log(`Deleting room ${roomId}`)
-    await Room.deleteOne({ roomId }).exec()
+    await Room.deleteOne({ _id: roomId }).exec()
   }
 
   public async getRoomByCode(roomCode: string): Promise<RoomEntity> {

@@ -24,14 +24,15 @@ class DeleteRoomIfEmptyWhenUserDeletedEventSubscriber
     const user = anEvent.userId
     const room = await this.roomRepository.getRoomById(anEvent.roomId)
     if (!room) throw new RoomError('ERR_ROOM_NOT_FOUND')
-    const hasUsers = room.users.length > 1 // 1 represents the last user who left the room
+    const hasUsers = room.users.length > 1
     if (hasUsers) {
       room.disconnect(user)
       await this.roomRepository.save(room)
-      return
+      return Promise.resolve()
     }
     await this.roomRepository.delete(room.id)
     await this.cloudService.deleteDirectory(room.roomCode)
+    return Promise.resolve()
   }
 }
 

@@ -23,7 +23,6 @@ class UserDisconnectEventController implements ISocketController {
           roomId,
           userId
         })
-
         socket.request.session.destroy(err => {
           console.log(err)
         })
