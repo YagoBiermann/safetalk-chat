@@ -5,7 +5,8 @@ const socket = io(`${ENDPOINTS.FRONTEND_URL}chat`, {
   transports: ['websocket', 'polling'],
   path: '/socket.io',
   autoConnect: false,
-  withCredentials: true
+  withCredentials: true,
+  closeOnBeforeunload: false
 })
 
 export default socket

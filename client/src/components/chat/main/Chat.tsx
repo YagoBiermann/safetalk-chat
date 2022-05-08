@@ -77,10 +77,6 @@ const Chat = (props: ChatPageProps) => {
     dispatch(setUsername(user.username))
     dispatch(setUsersInRoom(usersInRoom))
     dispatch(hydrateMessages(user.messages))
-    return () => {
-      socket.off('room:allUsers')
-      socket.off('room:join')
-    }
   }, [])
 
   return (
