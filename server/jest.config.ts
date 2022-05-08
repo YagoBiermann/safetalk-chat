@@ -12,7 +12,7 @@ export default {
 
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/tmp/jest_rs",
-
+  testTimeout: 100000000,
   // Automatically clear mock calls, instances and results before every test
   clearMocks: true,
 
@@ -94,7 +94,6 @@ export default {
 
   // A preset that is used as a base for Jest's configuration
   preset: 'ts-jest',
-
   // Run tests from one or more projects
   // projects: undefined,
 
