@@ -10,9 +10,11 @@
     "dev": "ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts dotenv_config_path=./src/main/config/.dev.env",
     "dev:debug": "ts-node-dev --transpile-only --respawn --inspect=0.0.0.0:9222 --project tsconfig.json -r dotenv/config ./src/main/index.ts dotenv_config_path=./src/main/config/.dev.env",
     "prod": "node -r dotenv/config ./build/src/main/index.js dotenv_config_path=./build/src/main/config/.prod.env",
-    "test": "jest"
+    "dev:test":"ts-node-dev --respawn --transpile-only -r dotenv/config ./src/main/index.ts dotenv_config_path=./src/main/config/.test.env",
+    "test": "jest --detectOpenHandles"
   },
   "dependencies": {
+    "@types/supertest": "^2.0.12",
     "aws-sdk": "^2.1096.0",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
@@ -27,6 +29,7 @@
     "multer-s3": "^2.10.0",
     "short-uuid": "^4.2.0",
     "socket.io": "^4.2.0",
+    "supertest": "^6.2.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

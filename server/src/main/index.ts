@@ -11,81 +11,107 @@ import SocketControllerFactory, {
   SocketControllers
 } from '../adapter/controllers/SocketControllerFactory'
 import AppSocket from '../infrastructure/socket.io/AppSocket'
+import { Server } from 'socket.io'
 
-Database.instance().connect(process.env.MONGO_URI)
+class Program {
+  private static _server: AppServer
+  private static _sessionStore: MongoStore
+  private static _socketServer: Server
+  public static server(): AppServer {
+    return this._server
+  }
 
-const expressServer = new AppServer()
-const middlewares = new AppMiddlewares(expressServer.app)
-const socketServer = new AppSocket(expressServer.server)
+  public static async disconnect(): Promise<void> {
+    await Database.instance().disconnect()
+    this._server.close()
+    this._sessionStore.close()
+    this._socketServer.close()
+  }
 
-const session = new AppSession(expressServer.app, {
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
-  cookie: { maxAge: 600000, httpOnly: true, path: '/', sameSite: 'strict' }, // 10 minutes
-  resave: true,
-  store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-    collectionName: 'sessions'
-  })
-})
+  public static Main(mongoUri: string, serverPort: number | string): void {
+    Database.instance().connect(mongoUri)
 
-// Express route controllers
-const generateRoomCodeController = ExpressControllerFactory.make(
-  ExpressControllers.GenerateRoomCodeController
-)
-const createUserController = ExpressControllerFactory.make(
-  ExpressControllers.CreateUserController
-)
-const createRoomController = ExpressControllerFactory.make(
-  ExpressControllers.CreateRoomController
-)
-const joinRoomController = ExpressControllerFactory.make(
-  ExpressControllers.JoinRoomController
-)
-const userInfoController = ExpressControllerFactory.make(
-  ExpressControllers.UserInfoController
-)
-const getAllUsersFromRoomController = ExpressControllerFactory.make(
-  ExpressControllers.GetAllUsersFromRoomController
-)
-const uploadFileController = ExpressControllerFactory.make(
-  ExpressControllers.UploadFileController
-)
+    this._server = new AppServer(serverPort)
+    const middlewares = new AppMiddlewares(this._server.app)
+    const socketServer = new AppSocket(this._server.server)
+    this._socketServer = socketServer.server
+    this._sessionStore = MongoStore.create({
+      mongoUrl: mongoUri,
+      collectionName: 'sessions'
+    })
 
-const routes = new AppRoutes()
-routes.addController(createUserController)
-routes.addController(generateRoomCodeController)
-routes.addController(createRoomController)
-routes.addController(joinRoomController)
-routes.addController(userInfoController)
-routes.addController(getAllUsersFromRoomController)
-routes.addController(uploadFileController)
+    const session = new AppSession(this._server.app, {
+      secret: process.env.SESSION_SECRET,
+      saveUninitialized: false,
+      cookie: { maxAge: 600000, httpOnly: true, path: '/', sameSite: 'strict' }, // 10 minutes
+      resave: true,
+      store: this._sessionStore
+    })
 
-// Socket Events Controller
-const joinRoomEventController = SocketControllerFactory.make(
-  SocketControllers.JoinRoomEventController
-)
-const GetAllUsersFromRoomEventController = SocketControllerFactory.make(
-  SocketControllers.GetAllUsersFromRoomEventController
-)
+    // Express route controllers
+    const generateRoomCodeController = ExpressControllerFactory.make(
+      ExpressControllers.GenerateRoomCodeController
+    )
+    const createUserController = ExpressControllerFactory.make(
+      ExpressControllers.CreateUserController
+    )
+    const createRoomController = ExpressControllerFactory.make(
+      ExpressControllers.CreateRoomController
+    )
+    const joinRoomController = ExpressControllerFactory.make(
+      ExpressControllers.JoinRoomController
+    )
+    const userInfoController = ExpressControllerFactory.make(
+      ExpressControllers.UserInfoController
+    )
+    const getAllUsersFromRoomController = ExpressControllerFactory.make(
+      ExpressControllers.GetAllUsersFromRoomController
+    )
+    const uploadFileController = ExpressControllerFactory.make(
+      ExpressControllers.UploadFileController
+    )
 
-const userDisconnectEventController = SocketControllerFactory.make(
-  SocketControllers.UserDisconnectEventController
-)
+    const routes = new AppRoutes()
+    routes.addController(createUserController)
+    routes.addController(generateRoomCodeController)
+    routes.addController(createRoomController)
+    routes.addController(joinRoomController)
+    routes.addController(userInfoController)
+    routes.addController(getAllUsersFromRoomController)
+    routes.addController(uploadFileController)
 
-const sendMessageEventController = SocketControllerFactory.make(
-  SocketControllers.SendMessageEventController
-)
+    // Socket Events Controller
+    const joinRoomEventController = SocketControllerFactory.make(
+      SocketControllers.JoinRoomEventController
+    )
+    const GetAllUsersFromRoomEventController = SocketControllerFactory.make(
+      SocketControllers.GetAllUsersFromRoomEventController
+    )
 
-socketServer.addController(joinRoomEventController)
-socketServer.addController(GetAllUsersFromRoomEventController)
-socketServer.addController(userDisconnectEventController)
-socketServer.addController(sendMessageEventController)
+    const userDisconnectEventController = SocketControllerFactory.make(
+      SocketControllers.UserDisconnectEventController
+    )
 
-// App execution
-session.exec()
-middlewares.exec()
-routes.exec()
-socketServer.socketSession(session.session)
-socketServer.exec()
-expressServer.run(routes.router)
+    const sendMessageEventController = SocketControllerFactory.make(
+      SocketControllers.SendMessageEventController
+    )
+
+    socketServer.addController(joinRoomEventController)
+    socketServer.addController(GetAllUsersFromRoomEventController)
+    socketServer.addController(userDisconnectEventController)
+    socketServer.addController(sendMessageEventController)
+
+    // App execution
+    session.exec()
+    middlewares.exec()
+    routes.exec()
+    socketServer.socketSession(session.session)
+    socketServer.exec()
+    this._server.run(routes.router)
+  }
+}
+if (process.env.NODE_ENV !== 'test') {
+  Program.Main(process.env.MONGO_URI, process.env.SERVER_PORT)
+}
+
+export default Program
