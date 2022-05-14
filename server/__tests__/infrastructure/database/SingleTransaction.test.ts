@@ -3,6 +3,7 @@ import {
   expect,
   beforeAll,
   afterAll,
+  afterEach,
   beforeEach,
   test,
   jest
@@ -29,25 +30,26 @@ describe('tests on class SingleTransaction', () => {
     userRepository
   )
 
-  beforeEach(async () => {
-    await UserModel.deleteMany({})
-    await RoomModel.deleteMany({})
-    jest.clearAllMocks()
-  })
-
   beforeAll(async () => {
     await Database.instance()
-      .connect(process.env.MONGO_TEST_URI)
+      .connect(process.env.MONGO_URI)
       .then(() => {
         console.log('Connected to MongoDB')
       })
   })
+
   afterAll(async () => {
     await Database.instance()
       .disconnect()
       .then(() => {
         console.log('Disconnected from MongoDB')
       })
+  })
+
+  beforeEach(async () => {
+    await UserModel.deleteMany({})
+    await RoomModel.deleteMany({})
+    jest.clearAllMocks()
   })
 
   const spyOnRoomRepositorySave = jest.spyOn(roomRepository, 'save')

@@ -4,6 +4,7 @@ import {
   beforeAll,
   afterAll,
   beforeEach,
+  afterEach,
   test,
   jest
 } from '@jest/globals'
@@ -20,25 +21,26 @@ describe('tests on class RoomRepository', () => {
   const roomMapper = new RoomMapper()
   const roomRepository = new RoomRepository(roomMapper)
 
-  beforeEach(async () => {
-    await UserModel.deleteMany({})
-    await RoomModel.deleteMany({})
-    jest.clearAllMocks()
-  })
-
   beforeAll(async () => {
     await Database.instance()
-      .connect(process.env.MONGO_TEST_URI)
+      .connect(process.env.MONGO_URI)
       .then(() => {
         console.log('Connected to MongoDB')
       })
   })
+
   afterAll(async () => {
     await Database.instance()
       .disconnect()
       .then(() => {
         console.log('Disconnected from MongoDB')
       })
+  })
+
+  beforeEach(async () => {
+    await UserModel.deleteMany({})
+    await RoomModel.deleteMany({})
+    jest.clearAllMocks()
   })
 
   const roomCode = Room.generateRoomCode().value

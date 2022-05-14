@@ -4,6 +4,7 @@ import {
   beforeAll,
   afterAll,
   beforeEach,
+  afterEach,
   test,
   jest
 } from '@jest/globals'
@@ -29,19 +30,14 @@ describe('tests on class UserRepository', () => {
   const spyOnUpdate = jest.spyOn(UserModel, 'findByIdAndUpdate')
   const spyOnGetUserById = jest.spyOn(userRepository, 'getUserById')
 
-  beforeEach(async () => {
-    await UserModel.deleteMany({})
-    await RoomModel.deleteMany({})
-    jest.clearAllMocks()
-  })
-
   beforeAll(async () => {
     await Database.instance()
-      .connect(process.env.MONGO_TEST_URI)
+      .connect(process.env.MONGO_URI)
       .then(() => {
         console.log('Connected to MongoDB')
       })
   })
+
   afterAll(async () => {
     await Database.instance()
       .disconnect()
@@ -49,6 +45,13 @@ describe('tests on class UserRepository', () => {
         console.log('Disconnected from MongoDB')
       })
   })
+
+  beforeEach(async () => {
+    await UserModel.deleteMany({})
+    await RoomModel.deleteMany({})
+    jest.clearAllMocks()
+  })
+
   test('should save a new user', async () => {
     const user = new User({ id: null, username: 'test', room: null })
     await userRepository.save(user)
