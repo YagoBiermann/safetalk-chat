@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  server:
+    container_name: safetalk_test_server
+    networks:
+      - server
+    volumes:
+      - ./server:/usr/src/app
+    build:
+      context: ./server
+      dockerfile: Dockerfile.test
+    command: yarn run dev:test
+
+networks:
+  server:
+    driver: bridge

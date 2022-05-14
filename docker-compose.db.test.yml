@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: safetalk_db_test
+    hostname: safetalk_db_test
+    image: mongo:5.0
+    networks:
+      - server
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+    volumes:
+      - ./server/src/infrastructure/database/config/scripts/create-test-db.js:/docker-entrypoint-initdb.d/create-test-db.js
+
+  mongodb_replica_1:
+    container_name: safetalk_db_test_replica_1
+    hostname: safetalk_db_test_replica_1
+
+  mongodb_replica_2:
+    container_name: safetalk_db_test_replica_2
+    hostname: safetalk_db_test_replica_2

@@ -1,3 +1,4 @@
 .vscode
 .docker.dev.env
 .docker.prod.env
+.docker.test.env
