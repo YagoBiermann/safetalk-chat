@@ -4,7 +4,7 @@ import { IRoomRepository } from '../../../domain/models/room/RoomRepository'
 import IUserRepository from '../../../domain/models/user/UserRepository'
 import ISingleTransaction from '../../../domain/models/common/SingleTransaction'
 import { Database } from '../connection'
-
+import mongoose from 'mongoose'
 class SingleTransaction implements ISingleTransaction {
   public constructor(
     private _roomRepository: IRoomRepository,

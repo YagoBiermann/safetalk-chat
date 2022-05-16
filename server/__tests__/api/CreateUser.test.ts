@@ -11,11 +11,10 @@ import {
 import Program from '../../src/main/index'
 import { User as UserModel } from '../../src/infrastructure/database/models/users'
 import { Room as RoomModel } from '../../src/infrastructure/database/models/rooms'
-import { Database } from '../../src/infrastructure/database/connection'
 
 describe('integration test on create user API', () => {
   beforeAll(async () => {
-    Program.Main(process.env.MONGO_URI, process.env.SERVER_PORT)
+    await Program.Main(process.env.MONGO_URI, process.env.SERVER_PORT)
   })
 
   afterAll(async () => {
@@ -25,6 +24,7 @@ describe('integration test on create user API', () => {
   beforeEach(async () => {
     await UserModel.deleteMany({})
     await RoomModel.deleteMany({})
+    Program.clearSession()
     jest.clearAllMocks()
   })
 

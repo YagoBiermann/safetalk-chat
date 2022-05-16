@@ -4,7 +4,6 @@ import {
   beforeAll,
   afterAll,
   beforeEach,
-  afterEach,
   test,
   jest
 } from '@jest/globals'

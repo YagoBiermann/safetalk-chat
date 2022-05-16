@@ -3,12 +3,10 @@ import {
   expect,
   beforeAll,
   afterAll,
-  afterEach,
   beforeEach,
   test,
   jest
 } from '@jest/globals'
-import { v4 as uuidv4 } from 'uuid'
 import UserRepository from '../../../src/infrastructure/database/repositories/UserRepository'
 import RoomRepository from '../../../src/infrastructure/database/repositories/RoomRepository'
 import { Database } from '../../../src/infrastructure/database/connection'
@@ -82,7 +80,6 @@ describe('tests on class SingleTransaction', () => {
 
   test('should abort the transaction', async () => {
     const user = new User({ id: null, username: 'JohnDoe' })
-    const room = new Room({ id: null, roomCode: Room.generateRoomCode().value })
     const result = jest.fn(async () => {
       // @ts-ignore
       return await singleTransaction.saveAll(user, 'error')

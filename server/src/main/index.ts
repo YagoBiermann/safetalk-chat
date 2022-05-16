@@ -23,13 +23,20 @@ class Program {
 
   public static async disconnect(): Promise<void> {
     await Database.instance().disconnect()
-    this._server.close()
-    this._sessionStore.close()
+    await this._sessionStore.close()
     this._socketServer.close()
+    this._server.close()
   }
 
-  public static Main(mongoUri: string, serverPort: number | string): void {
-    Database.instance().connect(mongoUri)
+  public static clearSession(): void {
+    this._sessionStore.clear()
+  }
+
+  public static async Main(
+    mongoUri: string,
+    serverPort: number | string
+  ): Promise<void> {
+    await Database.instance().connect(mongoUri)
 
     this._server = new AppServer(serverPort)
     const middlewares = new AppMiddlewares(this._server.app)
