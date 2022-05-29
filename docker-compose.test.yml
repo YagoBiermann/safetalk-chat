@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   server:
     container_name: safetalk_test_server
@@ -10,6 +10,10 @@ services:
       context: ./server
       dockerfile: Dockerfile.test
     command: yarn run dev:test
+    expose:
+      - "6000"
+    ports:
+      - "6000:6000"
 
 networks:
   server:

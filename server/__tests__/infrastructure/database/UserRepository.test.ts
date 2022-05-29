@@ -31,19 +31,11 @@ describe('tests on class UserRepository', () => {
   const spyOnGetUserById = jest.spyOn(userRepository, 'getUserById')
 
   beforeAll(async () => {
-    await Database.instance()
-      .connect(process.env.MONGO_URI)
-      .then(() => {
-        console.log('Connected to MongoDB')
-      })
+    await Database.instance().connect(process.env.MONGO_URI)
   })
 
   afterAll(async () => {
-    await Database.instance()
-      .disconnect()
-      .then(() => {
-        console.log('Disconnected from MongoDB')
-      })
+    await Database.instance().disconnect()
   })
 
   beforeEach(async () => {

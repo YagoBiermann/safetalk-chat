@@ -21,10 +21,10 @@ help()
     echo
     echo "Usage example: $arg0 --user johnDoe --password STR0N5P4SS --authenticationDatabase admin"
     echo
-    echo "  {-u|--user} user                            -- Set user"
-    echo "  {-p|--password} password                    -- Set password"
-    echo "  {-a|--authenticationDatabase} database      -- Set database to authenticate"
-    echo "  {-h|--help}                                 -- Show this help message and exit"
+    echo "  {-u  |--user} user                            -- Set user"
+    echo "  {-p  |--password} password                    -- Set password"
+    echo "  {-adb|--authenticationDatabase} database      -- Set database to authenticate"
+    echo "  {-h  |--help}                                 -- Show this help message and exit"
     exit 0
 }
 

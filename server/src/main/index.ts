@@ -22,8 +22,8 @@ class Program {
   }
 
   public static async disconnect(): Promise<void> {
-    await Database.instance().disconnect()
-    await this._sessionStore.close()
+    Database.instance().disconnect()
+    this._sessionStore.close()
     this._socketServer.close()
     this._server.close()
   }
