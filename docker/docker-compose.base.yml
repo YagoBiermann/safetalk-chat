@@ -18,12 +18,11 @@ services:
   nginx:
     container_name: safetalk_nginx
     restart: always
-    build: ./nginx
+    build: ../nginx
     networks:
       - client
       - server
     ports:
-      - "8080:8080"
       - "443:443"
     depends_on:
       - client

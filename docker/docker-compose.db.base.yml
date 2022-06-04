@@ -16,9 +16,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
       MONGO_INITDB_DATABASE: ${DB_NAME}
     volumes:
-      - ./server/src/infrastructure/database/config/scripts/:/scripts/
-      - ./server/src/infrastructure/database/config/scripts/create-db.js:/docker-entrypoint-initdb.d/create-db.js
-      - ./server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
+      - ../server/src/infrastructure/database/config/scripts/:/scripts/
+      - ../server/src/infrastructure/database/config/scripts/create-db.js:/docker-entrypoint-initdb.d/create-db.js
+      - ../server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
     command: --port ${DB_PORT} --bind_ip_all --replSet dbrs --dbpath /data/db --oplogSize 128 --keyFile /data/keyfile.pem
   
   mongodb_replica_1:
@@ -26,7 +26,7 @@ services:
     hostname: safetalk_db_replica_1
     image: mongo:5.0
     volumes:
-      - ./server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
+      - ../server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
     networks:
       - server
     ports:
@@ -42,7 +42,7 @@ services:
     ports:
       - ${DB_PORT_REPLICA_2}:${DB_PORT_REPLICA_2}
     volumes:
-      - ./server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
+      - ../server/src/infrastructure/database/config/keyfile.pem:/data/keyfile.pem
     command: --port ${DB_PORT_REPLICA_2} --bind_ip_all --replSet dbrs --dbpath /data/db --keyFile /data/keyfile.pem
 
 networks:

@@ -2,16 +2,16 @@ version: '3.8'
 services:
   server:
     volumes:
-      - ./server:/usr/src/app
+      - ../server:/usr/src/app
     build:
-      context: ./server
+      context: ../server
       dockerfile: Dockerfile.dev
     command: yarn run dev
   
   client:
     build:
-      context: ./client
+      context: ../client
       dockerfile: Dockerfile.dev
     command: yarn run dev
     volumes:
-      - ./client:/usr/src/app
+      - ../client:/usr/src/app

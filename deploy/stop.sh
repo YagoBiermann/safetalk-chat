@@ -39,9 +39,9 @@ fi
 flags "$@"
 
 if [ $DEVELOPMENT ]; then
-  docker-compose -f docker-compose.db.base.yml -f docker-compose.dev.yml -f docker-compose.base.yml --env-file .docker.dev.env -p safetalk down
+  docker-compose -f ../docker/docker-compose.db.base.yml -f ../docker/docker-compose.dev.yml -f ../docker/docker-compose.base.yml --env-file ../docker/.docker.dev.env -p safetalk down
 fi
 
 if [ $PRODUCTION ]; then
-  docker-compose -f docker-compose.db.base.yml -f docker-compose.prod.yml -f docker-compose.base.yml --env-file .docker.prod.env -p safetalk down
+  docker-compose -f ../docker/docker-compose.db.base.yml -f ../docker/docker-compose.prod.yml -f ../docker/docker-compose.base.yml --env-file ../docker/.docker.prod.env -p safetalk down
 fi

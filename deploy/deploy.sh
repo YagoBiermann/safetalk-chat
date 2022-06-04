@@ -75,21 +75,21 @@ fi
 flags "$@"
 
 if [ $DEVELOPMENT ]; then
-  docker-compose -f docker-compose.db.base.yml --env-file .docker.dev.env -p safetalk up -d
+  docker-compose -f ../docker/docker-compose.db.base.yml --env-file ../docker/.docker.dev.env -p safetalk up -d
   sleep 5
   docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
   sleep 5
   if [ $DEBUG ]; then
-    docker-compose -f docker-compose.base.yml -f docker-compose.dev.yml -f docker-compose.server.debug.yml -p safetalk up -d
+    docker-compose -f ../docker/docker-compose.base.yml -f ../docker/docker-compose.dev.yml -f ../docker/docker-compose.server.debug.yml -p safetalk up -d
   else
-    docker-compose -f docker-compose.base.yml -f docker-compose.dev.yml -p safetalk up -d
+    docker-compose -f ../docker/docker-compose.base.yml -f ../docker/docker-compose.dev.yml -p safetalk up -d
   fi;
 fi;
 
 if [ $PRODUCTION ]; then
-  docker-compose -f docker-compose.db.base.yml --env-file .docker.prod.env -p safetalk up -d
+  docker-compose -f ../docker/docker-compose.db.base.yml --env-file ../docker/.docker.prod.env -p safetalk up -d
   sleep 10
   docker exec -d safetalk_db mongosh --port 27017 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init.js
   sleep 5
-  docker-compose -f docker-compose.base.yml -f docker-compose.prod.yml -p safetalk up -d --build
+  docker-compose -f ../docker/docker-compose.base.yml -f ../docker/docker-compose.prod.yml -p safetalk up -d --build
 fi;

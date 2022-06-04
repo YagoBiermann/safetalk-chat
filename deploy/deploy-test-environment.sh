@@ -59,8 +59,8 @@ fi
 
 flags "$@"
 
-docker-compose -f docker-compose.db.base.yml -f docker-compose.db.test.yml --env-file .docker.test.env -p safetalk_test up -d --build
+docker-compose -f ../docker/docker-compose.db.base.yml -f ../docker/docker-compose.db.test.yml --env-file ../docker/.docker.test.env -p safetalk_test up -d --build
 sleep 5
 docker exec -d safetalk_db_test mongosh --port 27030 --authenticationDatabase ${DB} -u ${USER} -p ${PWD} --file ./scripts/init-test.js
 sleep 5
-docker-compose -f docker-compose.test.yml -p safetalk_test up -d --build
+docker-compose -f ../docker/docker-compose.test.yml -p safetalk_test up -d --build

@@ -5,9 +5,9 @@ services:
     networks:
       - server
     volumes:
-      - ./server:/usr/src/app
+      - ../server:/usr/src/app
     build:
-      context: ./server
+      context: ../server
       dockerfile: Dockerfile.test
     command: yarn run dev:test
     expose:

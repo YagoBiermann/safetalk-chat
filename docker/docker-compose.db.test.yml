@@ -13,7 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
       MONGO_INITDB_DATABASE: ${DB_NAME}
     volumes:
-      - ./server/src/infrastructure/database/config/scripts/create-test-db.js:/docker-entrypoint-initdb.d/create-test-db.js
+      - ../server/src/infrastructure/database/config/scripts/create-test-db.js:/docker-entrypoint-initdb.d/create-test-db.js
 
   mongodb_replica_1:
     container_name: safetalk_db_test_replica_1
