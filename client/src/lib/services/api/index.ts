@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosResponse } from 'axios'
 import store from '../../../store'
+import https from 'https'
 import {
   setUploadingFileAsFalse,
   setError,
@@ -60,6 +61,8 @@ export const roomApi = createApi({
   })
 })
 
+
+
 const api = axios.create({
   baseURL: ENDPOINTS.NGINX_URL,
   withCredentials: true,
@@ -68,6 +71,13 @@ const api = axios.create({
     Accept: 'application/json'
   }
 })
+
+if (process.env.NODE_ENV === 'development') {
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false
+  })
+  api.defaults.httpsAgent = httpsAgent
+}
 
 type sendFileMessageType = {
   file: File

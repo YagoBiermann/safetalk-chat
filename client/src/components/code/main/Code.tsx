@@ -13,8 +13,6 @@ import {
 } from '../../../components/code/main/_code.MediaQueries'
 import { AnimatePresence, motion } from 'framer-motion'
 import { PageAnimation } from '../../global/_Animations'
-import nookies from 'nookies'
-import { fetchCurrentUser, generateCode } from '../../../lib/services/api'
 import { UserDTO } from '../../../lib/interfaces'
 
 const CodeContainer = styled(Container)`

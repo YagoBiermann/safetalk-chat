@@ -11,5 +11,5 @@ COPY . .
 RUN yarn tsc --build
 
 RUN mkdir -p ./build/src/main/config && cp -r ./src/main/config/.prod.env ./build/src/main/config && cp -r ./src/infrastructure/aws/private_aws_key.pem ./build/src/infrastructure/aws/private_aws_key.pem
-
-EXPOSE 5000
+RUN mkdir -p ./build/src/infrastructure/express/ssl && cp -r ./src/infrastructure/express/ssl/* ./build/src/infrastructure/express/ssl/
+EXPOSE 443

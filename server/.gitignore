@@ -5,6 +5,7 @@ src/main/config/.prod.env
 src/main/config/.test.env
 yarn.lock
 yarn-error.log
+src/infrastructure/express/ssl/*
 src/infrastructure/database/config/keyfile.pem
 src/infrastructure/aws/private_aws_key.pem
 build
