@@ -111,9 +111,50 @@
 ## 🚀 Features demonstration
 
 <p style="font-weight: bold"> 1. creating room and sending a message </p>
-<video width="600" height="auto" controls>
-  <source src="./docs/Project/demos/Creating-room-and-sending-message.mp4" type="video/mp4">
-</video>
+ 
+
+https://user-images.githubusercontent.com/55931376/172254590-6b8ab174-f446-4018-845d-9f48c246f89f.mp4
+
+<p style="font-weight: bold"> 2. sending a picture </p>
+  
+
+https://user-images.githubusercontent.com/55931376/172256877-31f75410-4e6d-4fc6-99d1-da7c590f4fac.mp4
+
+  
+<p style="font-weight: bold"> 3. sending a file </p>
+  
+  
+
+https://user-images.githubusercontent.com/55931376/172259009-c3559d72-5ead-4c9b-b16f-d23b57331f09.mp4
+
+
+<p style="font-weight: bold"> 4. sending an audio </p>
+  
+  
+
+https://user-images.githubusercontent.com/55931376/172259051-5bda929e-b252-4993-b25f-c1f8273f4cdb.mp4
+
+
+<p style="font-weight: bold"> 5. showing users </p>
+  
+
+https://user-images.githubusercontent.com/55931376/172259441-ff0a4a23-bb33-41e8-bc75-ae1efe123541.mp4
+
+
+<p style="font-weight: bold"> 6. mobile version </p>
+  
+  
+
+https://user-images.githubusercontent.com/55931376/172259946-40aa7d2b-8bcd-41c1-9921-4c4c4753d2c9.mp4
+
+  
+<p style="font-weight: bold"> 7. showing friendly errors </p>
+  
+  
+
+https://user-images.githubusercontent.com/55931376/172260353-9c659543-8689-488a-a0ee-d34a6620ca7a.mp4
+
+
 
 ## :books: Languages, tools, and libs
 
@@ -137,8 +178,17 @@
 
 ## :coffee: Developers/contributors
 
-| [<img src="https://avatars.githubusercontent.com/u/55931376?v=4" width=115><br><sub>YagoBiermann</sub>](https://github.com/YagoBiermann) |
-| :-: | :-: | :-: |
+  <table>
+    <tr>
+      <td>
+        <a href="https://github.com/YagoBiermann">
+          <img src="https://avatars.githubusercontent.com/u/55931376?v=4" width="150px;" alt="Yago Biermann's profile picture" />
+          <br/>
+          <sub>Yago Biermann T.</sub>
+        </a>
+      </td>
+    </tr>
+  </table>
 
 ## :bookmark_tabs: License 
 
