@@ -1,6 +1,6 @@
 <div align="center">
   <h1 align="center">Safetalk chat</h1>
-  <img src="./appLogo.png" width="150" height="auto">
+  <img src="./docs/Project/appLogo.png" width="150" height="auto">
   <p align="center"><b>Talk with confidentiality</b><p> 
 </div>
 
@@ -119,8 +119,7 @@
 | [NextJs](https://nextjs.org/)|  [NodeJs](https://nodejs.org/en/) | [MongoDb](https://www.mongodb.com/)
 | [Framer Motion](https://www.framer.com/motion) | [Express](https://expressjs.com/) | [Nginx](https://www.nginx.com/)
 | [Redux Toolkit](https://redux-toolkit.js.org/) | [JWT](https://jwt.io/) | [Docker](https://www.docker.com/)
-| [Material UI](https://mui.com/) | [Socket Io](https://socket.io/) | [Shell scripts](https://devdocs.io/bash/)
-|[Typescript](https://www.typescriptlang.org/) | [Typescript](https://www.typescriptlang.org/) | [AWS services](https://aws.amazon.com/) |
+| [Material UI](https://mui.com/) | [Socket Io](https://socket.io/) | [AWS services](https://aws.amazon.com/)
 |[Socket Io](https://socket.io/) | ... | ... |
 | [Styled components](https://styled-components.com/) | ... | ... |
 | [Emoji mart](https://github.com/missive/emoji-mart) | ... | ... |
