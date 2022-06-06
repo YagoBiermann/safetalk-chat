@@ -83,7 +83,7 @@
 
 :heavy_check_mark: Fully responsive for most kind of devices
 
-:heavy_check_mark: Drag n' drop to send files
+:heavy_check_mark: send files with Drag n' drop
 
 :heavy_check_mark: Beautiful dark design with a little touch of purple shades
 
@@ -108,9 +108,12 @@
 
 ...
 
-## 🚀 Use cases and features
+## 🚀 Features demonstration
 
-...
+<p style="font-weight: bold"> 1. creating room and sending a message </p>
+<video width="600" height="auto" controls>
+  <source src="./docs/Project/demos/Creating-room-and-sending-message.mp4" type="video/mp4">
+</video>
 
 ## :books: Languages, tools, and libs
 
