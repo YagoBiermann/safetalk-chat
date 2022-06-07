@@ -154,6 +154,11 @@ https://user-images.githubusercontent.com/55931376/172259946-40aa7d2b-8bcd-41c1-
 
 https://user-images.githubusercontent.com/55931376/172260353-9c659543-8689-488a-a0ee-d34a6620ca7a.mp4
 
+  
+<p style="font-weight: bold"> 8. drag n' drop </p>
+  
+https://user-images.githubusercontent.com/55931376/172270948-744fb872-96a1-4dc6-b8f1-27c0e22d8a90.mp4
+
 
 
 ## :books: Languages, tools, and libs
