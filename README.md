@@ -90,7 +90,7 @@
 
 <h2 id="running-app">💻 Link to the running app </h2>
 
-> Try it on: https://certificates-for-everyone-womakerscode.netlify.app/
+...
 
 <h2 id="requirements"> ⚙️ requirements</h2>
 
@@ -98,15 +98,42 @@
 
 <h2 id="run-local-machine">👨‍💻 How to run on my local machine?</h2>
 
-...
+**1° step**: clone the repository
+> git clone https://github.com/YagoBiermann/safetalk-chat.git
 
-<h2 id="run-tests">🧪 How to run the tests </h2>
+**2° step**: you must fill the environment variables in order to make the app works fine. You can find these files in the following paths:
+> `server/src/main/config/.dev.env.example`
+> `docker/.docker.dev.env.example`
 
-...
+first of all, you've to create a <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html">bucket in AWS S3</a> and setup a <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">cloudfront domain</a> in order to be able to make signed urls;
+After that, put your private key used to generate the signed url in the following folder:
+> `server/src/infrastructure/aws/private_aws_key.pem`
 
-<h2 id="design-choices"> 💡 About some design choices <h2>
+doing so, the app will be ready to work with the aws s3 bucket.
 
-...
+**3° step**: Just remove the **example** from env files, so it will looks like this: `.dev.env`
+
+**4° step**: fill the env files with your own credentials
+
+**5° step**: initiate the containers with the following command
+*note: replace the command below with your own credentials*
+> `cd deploy && sudo ./deploy.sh --user YOUR_DB_USERNAME --password YOUR_DB_PASSWORD --authenticationDatabase admin --development`
+
+**6° step**: follow [this guide](./server/src/infrastructure/database/config/note.md)
+
+**7° step**: you're done! any doubt or issue on following these steps, please, don't hesitate to contact me!
+
+<h2 id="design-choices"> 💡 About some design choices </h2>
+
+<p>
+  The backend of this app was designed with concepts of <b> <a href="https://www.freecodecamp.org/news/a-quick-introduction-to-clean-architecture-990c014448d2">clean architecture</a></b>, <b><a href="https://martinfowler.com/bliki/DomainDrivenDesign.html">domain driven design</a></b> and <b><a href="https://12factor.net">the twelve-factor</a></b> in mind.
+
+  This app implements some design patterns like: The <b><a href="https://refactoring.guru/design-patterns/factory-method">Factory </a></b> pattern to create the services of each layer; The <b><a href="https://refactoring.guru/design-patterns/observer">Observer</a></b> pattern to send <b><a href="https://docs.microsoft.com/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/domain-events-design-implementation">domain events</a></b>; The <b><a href="https://refactoring.guru/design-patterns/strategy">strategy</a></b> pattern to use interchangeable validations within the application services.
+
+  Last but not least, naturally the app fits with the <b><a href="https://www.bmc.com/blogs/solid-design-principles">SOLID</a></b> principles. For example, the dependency inversion principle is applied in the domain layer where the services of infrastructure layer implements the repositories interfaces from the domain layer, that way the domain doesn't know about other modules and other modules depends on the domain, thus making the domain independent, isolated and the source of truth.
+
+  Feel free to use this app to complement your studies about these concepts. <a href="">Here you can find the UML docs about the structure of this app.</a>
+</p>
 
 ## 🚀 Features demonstration
 
@@ -199,4 +226,4 @@ https://user-images.githubusercontent.com/55931376/172270948-744fb872-96a1-4dc6-
 
 This app is under the [GNU General Public License]() (GPLv3).
 
-Copyleft 2022 - SafeTalk Chat
+Copyleft 2022 - Safetalk Chat
